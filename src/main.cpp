@@ -4,6 +4,7 @@
 #include "vec3.h"
 #include "matrix4.h"
 #include "ray.h"
+#include "film.h"
 
 
 int main() {
