@@ -3,6 +3,8 @@
 
 #include "type.h"
 
+
 using Radiance = Real;
+
 
 #endif

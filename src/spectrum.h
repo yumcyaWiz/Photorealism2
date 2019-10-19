@@ -5,6 +5,7 @@
 #include <algorithm>
 
 #include "type.h"
+#include "rgb.h"
 
 
 //非等間隔にサンプリングされたSPDを表現する
@@ -41,6 +42,25 @@ class SPD {
       return (1 - t)*spd[lambda1_idx] + t*spd[lambda2_idx];
     }
   };
+
+
+  //XYZ色空間に変換する
+  XYZ toXYZ() const {
+    //https://www.sciencedirect.com/topics/engineering/color-matching-function
+    return XYZ();
+  };
+
+
+  //RGB色空間に変換する
+  RGB toRGB() const {
+    XYZ xyz = this->toXYZ();
+    return RGB(
+      3.240479f*xyz.x - 1.537150f*xyz.y - 0.498535f*xyz.z,
+      -0.969256f*xyz.x + 1.875991f*xyz.y + 0.041556f*xyz.z,
+      0.055648f*xyz.x - 0.204043f*xyz.y + 1.057311f*xyz.z
+    );
+  };
 };
+
 
 #endif

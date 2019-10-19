@@ -11,7 +11,7 @@ class Film {
   public:
   std::size_t width;
   std::size_t height;
-  std::vector<Spectrum> pixels;
+  std::vector<SPD> pixels;
 
   Film(const std::size_t& _width, const std::size_t& _height) : width(_width), height(_height) {
     pixels.resize(width * height);
