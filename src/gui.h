@@ -20,6 +20,9 @@ class GUI {
   GLFWwindow* render_window; //レンダリング表示用のウインドウ
   GLFWwindow* gui_window; //GUI用のウィンドウ
 
+  constexpr static char* glsl_version = "#version 130";
+
+  //GUIを初期化
   GUI() {
     //GLFWを初期化
     glfwSetErrorCallback(glfw_error_callback);
@@ -30,16 +33,27 @@ class GUI {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 
-    //ウィンドウの生成
+    //Renderウィンドウの生成
     render_window = glfwCreateWindow(512, 512, "Render", NULL, NULL);
-    if (render_window == NULL) {
+    if (render_window == nullptr) {
       std::cerr << "failed to create window" << std::endl;
       std::exit(EXIT_FAILURE);
     }
     glfwMakeContextCurrent(render_window);
     glfwSwapInterval(1);
+
+    //GUIウインドウの作成
+    gui_window = glfwCreateWindow(512, 512, "GUI", NULL, NULL);
+    if (gui_window == nullptr) {
+      std::cerr << "failed to create window" << std::endl;
+      std::exit(EXIT_FAILURE);
+    }
+    glfwMakeContextCurrent(gui_window);
+    glfwSwapInterval(1);
   };
 
+  //レンダリングループ
+  //この関数をstd::threadに渡す
   static void render() {
     while(1) {
 
