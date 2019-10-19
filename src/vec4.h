@@ -1,6 +1,8 @@
 #ifndef VEC4_H
 #define VEC4_H
 
+#include <iostream>
+
 #include "type.h"
 
 
@@ -26,15 +28,24 @@ struct alignas(16) Vec4 {
   };
 };
 
+
 inline Vec4 operator+(const Vec4& v1, const Vec4& v2) {
   return Vec4(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z, v1.w + v2.w);
 }
+
+
 inline Vec4 operator-(const Vec4& v1, const Vec4& v2) {
   return Vec4(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z, v1.w - v2.w);
 }
+
 
 Real dot(const Vec4& v1, const Vec4& v2) {
   return v1.x*v2.x + v1.y*v2.y + v1.z*v2.z + v1.w*v2.w;
 }
 
+
+std::ostream& operator<<(std::ostream& stream, const Vec4& v) {
+  stream << "(" << v.x << ", " << v.y << ", " << v.z << ", " << v.w << ")";
+  return stream;
+}
 #endif
