@@ -1,26 +1,27 @@
-#ifndef MATRIX4_H
-#define MATRIX4_H
+#ifndef MAT4_H
+#define MAT4_H
 
 #include "type.h"
+#include "vec4.h"
 
-struct alignas(64) Matrix4 {
+struct alignas(64) Mat4 {
   Real m[4][4];
 
-  Matrix4() {
+  Mat4() {
     for(int i = 0; i < 4; ++i) {
       for(int j = 0; j < 4; ++j) {
         m[i][j] = 0;
       }
     }
   };
-  Matrix4(const Real _m[4][4]) {
+  Mat4(const Real _m[4][4]) {
     for(int i = 0; i < 4; ++i) {
       for(int j = 0; j < 4; ++j) {
         m[i][j] = _m[i][j];
       }
     }
   }
-  Matrix4(const Real& m00, const Real& m01, const Real& m02, const Real& m03, 
+  Mat4(const Real& m00, const Real& m01, const Real& m02, const Real& m03, 
             const Real& m10, const Real& m11, const Real& m12, const Real& m13,
             const Real& m20, const Real& m21, const Real& m22, const Real& m23,
             const Real& m30, const Real& m31, const Real& m32, const Real& m33) {
@@ -32,8 +33,8 @@ struct alignas(64) Matrix4 {
 };
 
 
-inline Matrix4 operator+(const Matrix4& m1, const Matrix4& m2) {
-  Matrix4 ret;
+inline Mat4 operator+(const Mat4& m1, const Mat4& m2) {
+  Mat4 ret;
   for(int i = 0; i < 4; ++i) {
     for(int j = 0; j < 4; ++j) {
       ret.m[i][j] = m1.m[i][j] + m2.m[i][j];
@@ -43,8 +44,8 @@ inline Matrix4 operator+(const Matrix4& m1, const Matrix4& m2) {
 }
 
 
-inline Matrix4 operator-(const Matrix4& m1, const Matrix4& m2) {
-  Matrix4 ret;
+inline Mat4 operator-(const Mat4& m1, const Mat4& m2) {
+  Mat4 ret;
   for(int i = 0; i < 4; ++i) {
     for(int j = 0; j < 4; ++j) {
       ret.m[i][j] = m1.m[i][j] - m2.m[i][j];
@@ -54,8 +55,8 @@ inline Matrix4 operator-(const Matrix4& m1, const Matrix4& m2) {
 }
 
 
-inline Matrix4 operator*(const Matrix4& m1, const Matrix4& m2) {
-  Matrix4 ret;
+inline Mat4 operator*(const Mat4& m1, const Mat4& m2) {
+  Mat4 ret;
   for(int i = 0; i < 4; ++i) {
     for(int j = 0; j < 4; ++j) {
       for(int k = 0; k < 4; ++k) {
@@ -67,16 +68,25 @@ inline Matrix4 operator*(const Matrix4& m1, const Matrix4& m2) {
 }
 
 
-inline Matrix4 identity() {
-  return Matrix4(1, 0, 0, 0,
+inline Vec4 operator*(const Mat4& m, const Vec4& v) {
+  Vec4 ret;
+  for(int i = 0; i < 4; ++i) {
+    ret[i] = m.m[i][0] * v.x + m.m[i][1] * v.y + m.m[i][2] * v.z + m.m[i][3] * v.w;
+  }
+  return ret;
+}
+
+
+inline Mat4 identity() {
+  return Mat4(1, 0, 0, 0,
                  0, 1, 0, 0,
                  0, 0, 1, 0,
                  0, 0, 0, 1);
 }
 
 
-inline Matrix4 transpose(const Matrix4& m) {
-  return Matrix4(m.m[0][0], m.m[1][0], m.m[2][0], m.m[3][0],
+inline Mat4 transpose(const Mat4& m) {
+  return Mat4(m.m[0][0], m.m[1][0], m.m[2][0], m.m[3][0],
                  m.m[0][1], m.m[1][1], m.m[2][1], m.m[3][1],
                  m.m[0][2], m.m[1][2], m.m[2][2], m.m[3][2],
                  m.m[0][3], m.m[1][3], m.m[2][3], m.m[3][3]);
