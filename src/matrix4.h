@@ -32,6 +32,41 @@ struct alignas(64) Matrix4 {
 };
 
 
+inline Matrix4 operator+(const Matrix4& m1, const Matrix4& m2) {
+  Matrix4 ret;
+  for(int i = 0; i < 4; ++i) {
+    for(int j = 0; j < 4; ++j) {
+      ret.m[i][j] = m1.m[i][j] + m2.m[i][j];
+    }
+  }
+  return ret;
+}
+
+
+inline Matrix4 operator-(const Matrix4& m1, const Matrix4& m2) {
+  Matrix4 ret;
+  for(int i = 0; i < 4; ++i) {
+    for(int j = 0; j < 4; ++j) {
+      ret.m[i][j] = m1.m[i][j] - m2.m[i][j];
+    }
+  }
+  return ret;
+}
+
+
+inline Matrix4 operator*(const Matrix4& m1, const Matrix4& m2) {
+  Matrix4 ret;
+  for(int i = 0; i < 4; ++i) {
+    for(int j = 0; j < 4; ++j) {
+      for(int k = 0; k < 4; ++k) {
+        ret.m[i][j] += m1.m[i][k] * m2.m[k][j];
+      }
+    }
+  }
+  return ret;
+}
+
+
 inline Matrix4 identity() {
   return Matrix4(1, 0, 0, 0,
                  0, 1, 0, 0,
