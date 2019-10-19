@@ -10,5 +10,8 @@
 
 int main() {
   Mat4 m = identity();
+
+  std::cout << m << std::endl;
+
   return 0;
 }

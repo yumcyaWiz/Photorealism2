@@ -1,6 +1,8 @@
 #ifndef MAT4_H
 #define MAT4_H
 
+#include <iostream>
+
 #include "type.h"
 #include "vec4.h"
 
@@ -29,6 +31,16 @@ struct alignas(64) Mat4 {
     m[1][0] = m10; m[1][1] = m11; m[1][2] = m12; m[1][3] = m13;
     m[2][0] = m20; m[2][1] = m21; m[2][2] = m22; m[2][3] = m23;
     m[3][0] = m30; m[3][1] = m31; m[3][2] = m32; m[3][3] = m33;
+  };
+
+  Vec4 operator[](std::size_t i) const {
+    if (i >= 4) {
+      std::cerr << "invalid mat4 index" << std::endl;
+      std::exit(EXIT_FAILURE);
+    }
+    else {
+      return Vec4(m[i][0], m[i][1], m[i][2], m[i][3]);
+    }
   };
 };
 
@@ -91,4 +103,21 @@ inline Mat4 transpose(const Mat4& m) {
                  m.m[0][2], m.m[1][2], m.m[2][2], m.m[3][2],
                  m.m[0][3], m.m[1][3], m.m[2][3], m.m[3][3]);
 }
+
+
+std::ostream& operator<<(std::ostream& stream, const Mat4& m) {
+  stream << "(";
+  for(int i = 0; i < 4; ++i) {
+    if (i != 3) {
+      stream << m[i] << "," << std::endl;
+    }
+    else {
+      stream << m[i];
+    }
+  }
+  stream << ")";
+  return stream;
+}
+
+
 #endif
