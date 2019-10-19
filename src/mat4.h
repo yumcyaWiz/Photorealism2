@@ -16,6 +16,13 @@ struct alignas(64) Mat4 {
       }
     }
   };
+  Mat4(const Real& _x) {
+    for(int i = 0; i < 4; ++i) {
+      for(int j = 0; j < 4; ++j) {
+        m[i][j] = _x;
+      }
+    }
+  }
   Mat4(const Real _m[4][4]) {
     for(int i = 0; i < 4; ++i) {
       for(int j = 0; j < 4; ++j) {
