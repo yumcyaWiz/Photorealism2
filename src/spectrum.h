@@ -13,18 +13,18 @@
 class SPD {
   public:
   //SPDに格納する波長の範囲
-  constexpr static int LAMBDA_MIN = 380;
-  constexpr static int LAMBDA_MAX = 780;
+  constexpr static Real LAMBDA_MIN = 380;
+  constexpr static Real LAMBDA_MAX = 780;
 
   std::vector<Real> lambda; //波長
-  std::vector<Real> spd; //放射束
+  std::vector<Real> phi; //放射束
 
-  SPD() : lambda({LAMBDA_MIN, LAMBDA_MAX}), spd({0, 0}) {};
-  SPD(const std::vector<Real>& _lambda, const std::vector<Real>& _spd) : lambda(_lambda), spd(_spd) {};
+  SPD() : lambda({LAMBDA_MIN, LAMBDA_MAX}), phi({0, 0}) {};
+  SPD(const std::vector<Real>& _lambda, const std::vector<Real>& _phi) : lambda(_lambda), phi(_phi) {};
 
   //サンプリング数を返す
   std::size_t nSamples() const {
-    return spd.size();
+    return lambda.size();
   };
 
   //指定した波長の放射束を線形補間して返す
@@ -39,7 +39,20 @@ class SPD {
       std::size_t lambda1_idx = lambda2_idx - 1;
 
       const Real t = (l - lambda[lambda1_idx]) / (lambda[lambda2_idx] - lambda[lambda1_idx]);
-      return (1 - t)*spd[lambda1_idx] + t*spd[lambda2_idx];
+      return (1 - t)*phi[lambda1_idx] + t*phi[lambda2_idx];
+    }
+  };
+
+
+  //サンプルを追加する
+  void addSample(const Real& _l, const Real& _phi) {
+    std::size_t insert_idx = std::lower_bound(lambda.begin(), lambda.end(), _l) - lambda.begin();
+    if (lambda[insert_idx] == _l) {
+      phi[insert_idx] = _phi;
+    }
+    else {
+      lambda.insert(lambda.begin() + insert_idx - 1, _l);
+      phi.insert(phi.begin() + insert_idx - 1, _phi);
     }
   };
 
