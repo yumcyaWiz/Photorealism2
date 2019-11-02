@@ -13,7 +13,7 @@ Real SPD::sample(const Real& l) const {
         (l - lambda[lambda1_idx]) / (lambda[lambda2_idx] - lambda[lambda1_idx]);
     return (1 - t) * phi[lambda1_idx] + t * phi[lambda2_idx];
   }
-};
+}
 
 void SPD::addSample(const Real& _l, const Real& _phi) {
   std::size_t insert_idx =
@@ -25,3 +25,5 @@ void SPD::addSample(const Real& _l, const Real& _phi) {
     phi.insert(phi.begin() + insert_idx - 1, _phi);
   }
 }
+
+XYZ SPD::toXYZ() const { return XYZ(); }
