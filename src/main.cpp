@@ -21,6 +21,9 @@ static void glfw_error_callback(int error, const char* desc) {
 }
 
 int main() {
+  Film film(512, 512);
+  film.writePPM("output.ppm");
+
   // GLFWを初期化
   glfwSetErrorCallback(glfw_error_callback);
   if (!glfwInit()) {
