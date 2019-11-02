@@ -66,9 +66,9 @@ class SPD {
   // http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
   RGB toRGB() const {
     XYZ xyz = this->toXYZ();
-    return RGB(3.240479f * xyz.x - 1.537150f * xyz.y - 0.498535f * xyz.z,
-               -0.969256f * xyz.x + 1.875991f * xyz.y + 0.041556f * xyz.z,
-               0.055648f * xyz.x - 0.204043f * xyz.y + 1.057311f * xyz.z);
+    return RGB(3.2404542f * xyz.x - 1.5371385f * xyz.y - 0.4985314f * xyz.z,
+               -0.9692660f * xyz.x + 1.8760108f * xyz.y + 0.0415560f * xyz.z,
+               0.0556434f * xyz.x - 0.2040259f * xyz.y + 1.0572252f * xyz.z);
   };
 };
 
