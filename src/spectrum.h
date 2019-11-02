@@ -4,8 +4,11 @@
 #include <algorithm>
 #include <vector>
 
-#include "rgb.h"
 #include "type.h"
+#include "vec3.h"
+
+using XYZ = Vec3;
+using RGB = Vec3;
 
 //非等間隔にサンプリングされたSPDを表現する
 //波長と放射束のサンプリング列を保持する
