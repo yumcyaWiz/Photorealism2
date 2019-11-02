@@ -14,11 +14,15 @@ target_compile_options(main PRIVATE
   $<$<CONFIG:Release>: -O3 -s -DNDEBUG -march=native -mtune=native>
 )
 
-#OpenGL
-find_package(OpenGL REQUIRED)
+#glad
+add_library(glad STATIC ext/glad/src/glad.c)
+target_include_directories(glad PUBLIC ext/glad/include)
 
 #GLFW
-find_package(glfw3 3.3 REQUIRED)
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+add_subdirectory(ext/glfw)
 
 #Dear ImGui
 add_library(imgui STATIC ext/imgui/imgui.cpp ext/imgui/imgui_widgets.cpp ext/imgui/imgui_draw.cpp ext/imgui/imgui_demo.cpp)
@@ -34,9 +38,11 @@ target_link_libraries(imgui_impl PUBLIC imgui)
 find_package(Threads REQUIRED)
 
 #main include 
-target_include_directories(main PRIVATE ${OPENGL_INCLUDE_DIR})
+target_include_directories(main PRIVATE glad)
 
 #main link
+target_link_libraries(main PRIVATE glad)
+target_link_libraries(main PRIVATE dl)
 target_link_libraries(main PRIVATE glfw)
 target_link_libraries(main PRIVATE ${OPENGL_LIBRARY})
 target_link_libraries(main PRIVATE imgui)
