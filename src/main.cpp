@@ -22,6 +22,15 @@ static void glfw_error_callback(int error, const char* desc) {
 
 int main() {
   Film film(512, 512);
+  for (std::size_t i = 0; i < film.width; ++i) {
+    for (std::size_t j = 0; j < film.height; ++j) {
+      SPD spd;
+      spd.addSample(float(i - 1) / film.width * (780 - 380) + 380, 0);
+      spd.addSample(float(i) / film.width * (780 - 380) + 380, 1.0);
+      spd.addSample(float(i + 1) / film.width * (780 - 380) + 380, 0);
+      film.setPixel(i, j, spd);
+    }
+  }
   film.writePPM("output.ppm");
 
   // GLFWを初期化
