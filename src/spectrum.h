@@ -55,12 +55,12 @@ class SPD {
   };
 
   // XYZ色空間に変換する
-  XYZ toXYZ() const {
-    // https://www.sciencedirect.com/topics/engineering/color-matching-function
-    return XYZ();
-  };
+  // http://cvrl.ucl.ac.uk/cmfs.htm
+  XYZ toXYZ() const { return XYZ(); };
 
   // sRGB色空間に変換する
+  // XYZ to sRGB(D65)
+  // http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
   RGB toRGB() const {
     XYZ xyz = this->toXYZ();
     return RGB(3.240479f * xyz.x - 1.537150f * xyz.y - 0.498535f * xyz.z,
