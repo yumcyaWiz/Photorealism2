@@ -2,6 +2,8 @@
 #define SPECTRUM_H
 
 #include <algorithm>
+#include <fstream>
+#include <iostream>
 #include <vector>
 
 #include "type.h"
@@ -18,10 +20,19 @@ class SPD {
   constexpr static Real LAMBDA_MIN = 380;
   constexpr static Real LAMBDA_MAX = 780;
 
+  // 等色関数
+  static SPD color_matching_func_x;
+  static SPD color_matching_func_y;
+  static SPD color_matching_func_z;
+
   std::vector<Real> lambda;  //波長
   std::vector<Real> phi;     //放射束
 
-  SPD() : lambda({LAMBDA_MIN, LAMBDA_MAX}), phi({0, 0}){};
+  SPD() : lambda({LAMBDA_MIN, LAMBDA_MAX}), phi({0, 0}) {
+    std::ifstream color_matching_func_file("ciexyz31.csv");
+
+    color_matching_func_file.close();
+  };
   SPD(const std::vector<Real>& _lambda, const std::vector<Real>& _phi)
       : lambda(_lambda), phi(_phi){};
 
@@ -59,7 +70,7 @@ class SPD {
 
   // XYZ色空間に変換する
   // http://cvrl.ucl.ac.uk/cmfs.htm
-  XYZ toXYZ() const { return XYZ(); };
+  XYZ toXYZ() const {};
 
   // sRGB色空間に変換する
   // XYZ to sRGB(D65)
