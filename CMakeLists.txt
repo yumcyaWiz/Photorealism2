@@ -35,7 +35,6 @@ find_package(Threads REQUIRED)
 
 #main include 
 target_include_directories(main PRIVATE ${OPENGL_INCLUDE_DIR})
-target_include_directories(main PRIVATE ext)
 
 #main link
 target_link_libraries(main PRIVATE glfw)
