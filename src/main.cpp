@@ -1,15 +1,14 @@
 #include <iostream>
 #include <thread>
 
+#include "film.h"
+#include "gui.h"
+#include "mat4.h"
+#include "ray.h"
+#include "transform.h"
 #include "vec2.h"
 #include "vec3.h"
 #include "vec4.h"
-#include "mat4.h"
-#include "transform.h"
-#include "ray.h"
-#include "film.h"
-#include "gui.h"
-
 
 int main() {
   GUI gui;
