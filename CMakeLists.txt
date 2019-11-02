@@ -30,9 +30,9 @@ target_include_directories(imgui PUBLIC ext/imgui)
 
 #Dear ImGui Impl
 add_library(imgui_impl STATIC ext/imgui/imgui_impl_glfw.cpp ext/imgui/imgui_impl_opengl3.cpp)
-target_include_directories(imgui_impl PUBLIC ext/imgui)
-target_include_directories(imgui_impl PUBLIC ${OPENGL_INCLUDE_DIR})
+target_compile_definitions(imgui_impl PUBLIC IMGUI_IMPL_OPENGL_LOADER_GLAD)
 target_link_libraries(imgui_impl PUBLIC imgui)
+target_link_libraries(imgui_impl PUBLIC glad)
 
 #pthread
 find_package(Threads REQUIRED)
