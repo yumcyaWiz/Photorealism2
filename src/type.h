@@ -3,4 +3,6 @@
 
 using Real = float;
 
+using Radiance = Real;
+
 #endif
