@@ -38,7 +38,6 @@ class SPD {
   void addSample(const Real& _l, const Real& _phi);
 
   // XYZ色空間に変換する
-  // http://cvrl.ucl.ac.uk/cmfs.htm
   XYZ toXYZ() const;
 
   // sRGB色空間に変換する
@@ -52,6 +51,8 @@ class SPD {
   };
 
  private:
+  //等色関数(CIE1931)
+  // http://cvrl.ucl.ac.uk/cmfs.htm
   constexpr static int color_matching_func_samples = 85;
   constexpr static Real color_matching_func_x[color_matching_func_samples] = {
       0.001368000000, 0.002236000000, 0.004243000000, 0.007650000000,
