@@ -38,7 +38,8 @@ class SPD {
   };
 
   //任意の波長と放射束のサンプリング列から等間隔のSPDを構築
-  SPD(const std::vector<Real>& lambda, const std::vector<Real>& phi);
+  //波長と対応する放射束は昇順で並んでいると仮定している
+  SPD(const std::vector<Real>& _lambda, const std::vector<Real>& _phi);
 
   //指定した波長の放射束を線形補間して返す
   // l : 波長[nm]

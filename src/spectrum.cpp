@@ -2,7 +2,34 @@
 
 #include "spectrum.h"
 
-SPD::SPD(const std::vector<Real>& lambda, const std::vector<Real>& phi) {}
+//非等間隔なSPDから等間隔なSPDを構成する
+//非等間隔なSPDを線形補間して計算する
+SPD::SPD(const std::vector<Real>& _lambda, const std::vector<Real>& _phi) {
+  for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
+    //等間隔側の波長
+    const Real lambda_value = LAMBDA_MIN + LAMBDA_INTERVAL * i;
+
+    //指定した波長が非等間隔のSPDの範囲に含まれていない場合、放射束を0とする
+    if (lambda_value < _lambda.front() || lambda_value > _lambda.back()) {
+      phi[i] = 0;
+    } else {
+      //非等間隔のSPDを線形補間
+      const std::size_t lambda0_index =
+          std::lower_bound(_lambda.begin(), _lambda.end(), lambda_value) -
+          _lambda.begin() - 1;
+      const std::size_t lambda1_index =
+          std::upper_bound(_lambda.begin(), _lambda.end(), lambda_value) -
+          _lambda.begin();
+      assert(lambda0_index != lambda1_index);
+
+      const Real t = (lambda_value - _lambda[lambda0_index]) /
+                     (_lambda[lambda1_index] - _lambda[lambda0_index]);
+      assert(t >= 0 && t <= 1);
+
+      phi[i] = (1.0f - t) * _phi[lambda0_index] + t * _phi[lambda1_index];
+    }
+  }
+}
 
 Real SPD::sample(const Real& l) const {
   assert(l >= LAMBDA_MIN && l < LAMBDA_MAX);
