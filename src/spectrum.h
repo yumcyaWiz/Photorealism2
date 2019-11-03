@@ -17,8 +17,8 @@ using RGB = Vec3;
 class SPD {
  public:
   // SPDに格納する波長の範囲
-  constexpr static Real LAMBDA_MIN = 380;
-  constexpr static Real LAMBDA_MAX = 780;
+  static constexpr Real LAMBDA_MIN = 380;
+  static constexpr Real LAMBDA_MAX = 780;
 
   std::vector<Real> lambda;  //波長
   std::vector<Real> phi;     //放射束
@@ -53,8 +53,8 @@ class SPD {
  private:
   //等色関数(CIE1931)
   // http://cvrl.ucl.ac.uk/cmfs.htm
-  constexpr static int color_matching_func_samples = 85;
-  constexpr static Real color_matching_func_x[color_matching_func_samples] = {
+  static constexpr int color_matching_func_samples = 85;
+  static constexpr Real color_matching_func_x[color_matching_func_samples] = {
       0.001368000000, 0.002236000000, 0.004243000000, 0.007650000000,
       0.014310000000, 0.023190000000, 0.043510000000, 0.077630000000,
       0.134380000000, 0.214770000000, 0.283900000000, 0.328500000000,
@@ -76,7 +76,7 @@ class SPD {
       0.000690078600, 0.000476021300, 0.000332301100, 0.000234826100,
       0.000166150500, 0.000117413000, 0.000083075270, 0.000058706520,
       0.000041509940};
-  constexpr static Real color_matching_func_y[color_matching_func_samples] = {
+  static constexpr Real color_matching_func_y[color_matching_func_samples] = {
       0.000039000000, 0.000064000000, 0.000120000000, 0.000217000000,
       0.000396000000, 0.000640000000, 0.001210000000, 0.002180000000,
       0.004000000000, 0.007300000000, 0.011600000000, 0.016840000000,
@@ -98,7 +98,7 @@ class SPD {
       0.000249200000, 0.000171900000, 0.000120000000, 0.000084800000,
       0.000060000000, 0.000042400000, 0.000030000000, 0.000021200000,
       0.000014990000};
-  constexpr static Real color_matching_func_z[color_matching_func_samples] = {
+  static constexpr Real color_matching_func_z[color_matching_func_samples] = {
       0.006450001000, 0.010549990000, 0.020050010000, 0.036210000000,
       0.067850010000, 0.110200000000, 0.207400000000, 0.371300000000,
       0.645600000000, 1.039050100000, 1.385600000000, 1.622960000000,
