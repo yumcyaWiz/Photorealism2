@@ -1,6 +1,7 @@
 #ifndef FILM_H
 #define FILM_H
 
+#include <cassert>
 #include <fstream>
 #include <iostream>
 #include <vector>
@@ -20,19 +21,17 @@ class Film {
   };
 
   // (i, j)のSPDを入手
-  SPD getPixel(const std::size_t& i, const std::size_t& j) const {
+  SPD getPixel(int i, int j) const {
+    assert(i >= 0 && i < static_cast<int>(width));
+    assert(j >= 0 && j < static_cast<int>(height));
     return pixels[i + width * j];
   };
 
   //(i, j)にSPDをセット
-  void setPixel(const std::size_t& i, const std::size_t& j, const SPD& spd) {
-    pixels[i + width * j] = spd;
-  };
+  void setPixel(int i, int j, const SPD& spd) { pixels[i + width * j] = spd; };
 
   //(i, j)にSPDを加算
-  void addPixel(const std::size_t& i, const std::size_t& j, const SPD& spd) {
-    pixels[i + width * j] += spd;
-  };
+  void addPixel(int i, int j, const SPD& spd) { pixels[i + width * j] += spd; };
 
   // PPMを出力
   void writePPM(const std::string& filename) const;
