@@ -30,8 +30,8 @@ class Film {
   };
 
   //(i, j)にSPDを加算
-  void addPixel(const std::size_t& i, const std::size_t& j, const SPD& spd){
-      // pixels[i + width * j] += spd;
+  void addPixel(const std::size_t& i, const std::size_t& j, const SPD& spd) {
+    pixels[i + width * j] += spd;
   };
 
   // PPMを出力

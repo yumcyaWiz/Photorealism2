@@ -69,6 +69,32 @@ class SPD {
                0.0556434f * xyz.x - 0.2040259f * xyz.y + 1.0572252f * xyz.z);
   };
 
+  //演算
+  SPD& operator+=(const SPD& spd) {
+    for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
+      phi[i] += spd.phi[i];
+    }
+    return *this;
+  };
+  SPD& operator-=(const SPD& spd) {
+    for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
+      phi[i] -= spd.phi[i];
+    }
+    return *this;
+  };
+  SPD& operator*=(const SPD& spd) {
+    for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
+      phi[i] *= spd.phi[i];
+    }
+    return *this;
+  };
+  SPD& operator/=(const SPD& spd) {
+    for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
+      phi[i] /= spd.phi[i];
+    }
+    return *this;
+  };
+
  private:
   //等色関数(CIE1931)
   // http://cvrl.ucl.ac.uk/cmfs.htm

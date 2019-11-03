@@ -28,7 +28,7 @@ int main() {
       std::vector<Real> lambda{l - 5, l, l + 5};
       std::vector<Real> phi{0, 1, 0};
       SPD spd(lambda, phi);
-      film.setPixel(i, j, spd);
+      film.addPixel(i, j, spd);
     }
   }
   film.writePPM("output.ppm");
