@@ -41,6 +41,16 @@ class SPD {
   //波長と対応する放射束は昇順で並んでいると仮定している
   SPD(const std::vector<Real>& _lambda, const std::vector<Real>& _phi);
 
+  //黒色か返す
+  bool isBlack() const {
+    for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
+      if (phi[i] != 0.0f) {
+        return false;
+      }
+    }
+    return true;
+  };
+
   //指定した波長の放射束を線形補間して返す
   // l : 波長[nm]
   Real sample(const Real& l) const;

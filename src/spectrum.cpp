@@ -12,6 +12,10 @@ SPD::SPD(const std::vector<Real>& _lambda, const std::vector<Real>& _phi) {
     //指定した波長が非等間隔のSPDの範囲に含まれていない場合、放射束を0とする
     if (lambda_value < _lambda.front() || lambda_value > _lambda.back()) {
       phi[i] = 0;
+    } else if (lambda_value == _lambda.front()) {
+      phi[i] = _phi.front();
+    } else if (lambda_value == _lambda.back()) {
+      phi[i] = _phi.back();
     } else {
       //非等間隔のSPDを線形補間
       const std::size_t lambda0_index =
@@ -61,12 +65,15 @@ XYZ SPD::toXYZ() const {
 
     //対応する等色関数のインデックスを計算
     const unsigned int index = (lambda_value - 380) / 5;
+    assert(index >= 0 && index < color_matching_func_samples);
 
     //等色関数を線形補間
     Real cmf_x, cmf_y, cmf_z;
     if (index != color_matching_func_samples - 1) {
       const unsigned int cmf_lambda = 5 * index + 380;
       const Real t = static_cast<Real>(lambda_value - cmf_lambda) / 5;
+      assert(t >= 0 && t <= 1);
+
       cmf_x = (1.0f - t) * color_matching_func_x[index] +
               t * color_matching_func_x[index + 1];
       cmf_y = (1.0f - t) * color_matching_func_y[index] +
