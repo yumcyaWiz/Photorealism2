@@ -7,7 +7,7 @@ add_executable(main src/main.cpp src/spectrum.cpp src/film.cpp)
 
 #compile options
 target_compile_features(main PRIVATE cxx_std_17)
-set_target_properties(main PROPERTIES CXX_EXTENSION OFF)
+set_target_properties(main PROPERTIES CXX_EXTENSIONS OFF)
 target_compile_options(main PRIVATE 
   -Wall -Wextra -pedantic-errors
   $<$<CONFIG:Debug>: -g3 -O0 -pg>
