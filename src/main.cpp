@@ -24,10 +24,10 @@ int main() {
   Film film(512, 512);
   for (std::size_t i = 0; i < film.width; ++i) {
     for (std::size_t j = 0; j < film.height; ++j) {
-      SPD spd;
-      spd.addSample(float(i - 1) / film.width * (780 - 380) + 380, 0);
-      spd.addSample(float(i) / film.width * (780 - 380) + 380, 1.0);
-      spd.addSample(float(i + 1) / film.width * (780 - 380) + 380, 0);
+      const Real l = float(i) / film.width * (780 - 380) + 380;
+      std::vector<Real> lambda{l - 1, l, l + 1};
+      std::vector<Real> phi{0, 1, 0};
+      SPD spd(lambda, phi);
       film.setPixel(i, j, spd);
     }
   }
@@ -88,6 +88,15 @@ int main() {
 
     glfwSwapBuffers(window);
   }
+
+  // ImGuiの終了処理
+  ImGui_ImplOpenGL3_Shutdown();
+  ImGui_ImplGlfw_Shutdown();
+  ImGui::DestroyContext();
+
+  // GLFWの終了処理
+  glfwDestroyWindow(window);
+  glfwTerminate();
 
   return 0;
 }
