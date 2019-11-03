@@ -10,9 +10,9 @@
 
 class Film {
  public:
-  std::size_t width;
-  std::size_t height;
-  std::vector<SPD> pixels;
+  std::size_t width;        //横幅
+  std::size_t height;       //縦幅
+  std::vector<SPD> pixels;  //画素
 
   Film(const std::size_t& _width, const std::size_t& _height)
       : width(_width), height(_height) {
@@ -27,6 +27,11 @@ class Film {
   //(i, j)にSPDをセット
   void setPixel(const std::size_t& i, const std::size_t& j, const SPD& spd) {
     pixels[i + width * j] = spd;
+  };
+
+  //(i, j)にSPDを加算
+  void addPixel(const std::size_t& i, const std::size_t& j, const SPD& spd){
+      // pixels[i + width * j] += spd;
   };
 
   // PPMを出力

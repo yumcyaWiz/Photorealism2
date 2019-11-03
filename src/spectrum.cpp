@@ -30,7 +30,6 @@ SPD::SPD(const std::vector<Real>& _lambda, const std::vector<Real>& _phi) {
 
       const Real interpolated_phi =
           (1.0f - t) * _phi[lambda0_index] + t * _phi[lambda1_index];
-
       phi[i] = interpolated_phi;
     }
   }
@@ -65,14 +64,14 @@ XYZ SPD::toXYZ() const {
     if (phi_value == 0) continue;
 
     //対応する等色関数のインデックスを計算
-    const unsigned int index = (lambda_value - 380) / 5;
+    const int index = (lambda_value - 380) / 5;
     assert(index >= 0 && index < color_matching_func_samples);
 
     //等色関数を線形補間
     Real cmf_x, cmf_y, cmf_z;
     if (index != color_matching_func_samples - 1) {
-      const unsigned int cmf_lambda = 5 * index + 380;
-      const Real t = static_cast<Real>(lambda_value - cmf_lambda) / 5;
+      const Real cmf_lambda = 5 * index + 380;
+      const Real t = (lambda_value - cmf_lambda) / 5;
       assert(t >= 0 && t <= 1);
 
       cmf_x = (1.0f - t) * color_matching_func_x[index] +

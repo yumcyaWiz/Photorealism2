@@ -25,7 +25,7 @@ int main() {
   for (std::size_t i = 0; i < film.width; ++i) {
     for (std::size_t j = 0; j < film.height; ++j) {
       const Real l = float(i) / film.width * (780 - 380) + 380;
-      std::vector<Real> lambda{l - 1, l, l + 1};
+      std::vector<Real> lambda{l - 5, l, l + 5};
       std::vector<Real> phi{0, 1, 0};
       SPD spd(lambda, phi);
       film.setPixel(i, j, spd);
