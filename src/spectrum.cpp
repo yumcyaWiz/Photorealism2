@@ -18,19 +18,20 @@ SPD::SPD(const std::vector<Real>& _lambda, const std::vector<Real>& _phi) {
       phi[i] = _phi.back();
     } else {
       //非等間隔のSPDを線形補間
-      const std::size_t lambda0_index =
-          std::lower_bound(_lambda.begin(), _lambda.end(), lambda_value) -
-          _lambda.begin() - 1;
       const std::size_t lambda1_index =
-          std::upper_bound(_lambda.begin(), _lambda.end(), lambda_value) -
+          std::lower_bound(_lambda.begin(), _lambda.end(), lambda_value) -
           _lambda.begin();
+      const std::size_t lambda0_index = lambda1_index - 1;
       assert(lambda0_index != lambda1_index);
 
       const Real t = (lambda_value - _lambda[lambda0_index]) /
                      (_lambda[lambda1_index] - _lambda[lambda0_index]);
       assert(t >= 0 && t <= 1);
 
-      phi[i] = (1.0f - t) * _phi[lambda0_index] + t * _phi[lambda1_index];
+      const Real interpolated_phi =
+          (1.0f - t) * _phi[lambda0_index] + t * _phi[lambda1_index];
+
+      phi[i] = interpolated_phi;
     }
   }
 }
