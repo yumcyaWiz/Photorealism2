@@ -12,30 +12,37 @@
 using XYZ = Vec3;
 using RGB = Vec3;
 
-//非等間隔にサンプリングされたSPDを表現する
+//等間隔にサンプリングされたSPDを表現する
 //波長と放射束のサンプリング列を保持する
+//本当はサンプルをそのまま保持して非等間隔のSPDを表現できるようにしたかったが、データサイズが大きすぎるので諦めた
 class SPD {
  public:
   // SPDに格納する波長の範囲
   static constexpr Real LAMBDA_MIN = 380;
   static constexpr Real LAMBDA_MAX = 780;
 
-  std::vector<Real> lambda;  //波長
-  std::vector<Real> phi;     //放射束
+  //波長の分割数
+  static constexpr int LAMBDA_SAMPLES = 80;
 
-  SPD() : lambda({LAMBDA_MIN, LAMBDA_MAX}), phi({0, 0}){};
-  SPD(const std::vector<Real>& _lambda, const std::vector<Real>& _phi)
-      : lambda(_lambda), phi(_phi){};
+  //波長幅
+  static constexpr Real LAMBDA_INTERVAL =
+      (LAMBDA_MAX - LAMBDA_MIN) / LAMBDA_SAMPLES;
 
-  //サンプリング数を返す
-  std::size_t nSamples() const { return lambda.size(); };
+  Real phi[LAMBDA_SAMPLES];  //放射束
+
+  // 0で初期化
+  SPD() {
+    for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
+      phi[i] = 0;
+    }
+  };
+
+  //任意の波長と放射束のサンプリング列から等間隔のSPDを構築
+  SPD(const std::vector<Real>& lambda, const std::vector<Real>& phi);
 
   //指定した波長の放射束を線形補間して返す
   // l : 波長[nm]
   Real sample(const Real& l) const;
-
-  //サンプルを追加する
-  void addSample(const Real& _l, const Real& _phi);
 
   // XYZ色空間に変換する
   XYZ toXYZ() const;

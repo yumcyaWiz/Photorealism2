@@ -1,28 +1,23 @@
+#include <cassert>
+
 #include "spectrum.h"
 
+SPD::SPD(const std::vector<Real>& lambda, const std::vector<Real>& phi) {}
+
 Real SPD::sample(const Real& l) const {
-  if (l < LAMBDA_MIN || l > LAMBDA_MAX) {
-    std::cerr << "lambda is out of bounds" << std::endl;
-    std::exit(EXIT_FAILURE);
-  } else {
-    std::size_t lambda2_idx =
-        std::lower_bound(lambda.begin(), lambda.end(), l) - lambda.begin();
-    std::size_t lambda1_idx = lambda2_idx - 1;
+  assert(l >= LAMBDA_MIN && l < LAMBDA_MAX);
 
-    const Real t =
-        (l - lambda[lambda1_idx]) / (lambda[lambda2_idx] - lambda[lambda1_idx]);
-    return (1 - t) * phi[lambda1_idx] + t * phi[lambda2_idx];
-  }
-}
+  //対応する波長のインデックスを計算
+  const std::size_t lambda_index = (l - LAMBDA_MIN) / LAMBDA_INTERVAL;
 
-void SPD::addSample(const Real& _l, const Real& _phi) {
-  std::size_t insert_idx =
-      std::lower_bound(lambda.begin(), lambda.end(), _l) - lambda.begin();
-  if (lambda[insert_idx] == _l) {
-    phi[insert_idx] = _phi;
+  //放射束を線形補間して計算
+  if (lambda_index == 0 || lambda_index == LAMBDA_SAMPLES - 1) {
+    return phi[lambda_index];
   } else {
-    lambda.insert(lambda.begin() + insert_idx - 1, _l);
-    phi.insert(phi.begin() + insert_idx - 1, _phi);
+    const Real lambda_nearest = LAMBDA_MIN + lambda_index * LAMBDA_INTERVAL;
+    const Real t = (l - lambda_nearest) / LAMBDA_INTERVAL;
+    assert(t >= 0 && t <= 1);
+    return (1.0f - t) * phi[lambda_index] + t * phi[lambda_index + 1];
   }
 }
 
@@ -30,8 +25,8 @@ void SPD::addSample(const Real& _l, const Real& _phi) {
 XYZ SPD::toXYZ() const {
   XYZ xyz;
 
-  for (std::size_t i = 0; i < lambda.size(); ++i) {
-    const Real lambda_value = lambda[i];
+  for (std::size_t i = 0; i < LAMBDA_SAMPLES; ++i) {
+    const Real lambda_value = LAMBDA_MIN + LAMBDA_INTERVAL * i;
     const Real phi_value = phi[i];
 
     //放射束が0の場合は計算をスキップ
@@ -57,7 +52,7 @@ XYZ SPD::toXYZ() const {
       cmf_z = color_matching_func_z[index];
     }
 
-    // XYZを計算
+    // XYZを計算(短冊近似)
     xyz.x += cmf_x * phi_value;
     xyz.y += cmf_y * phi_value;
     xyz.z += cmf_z * phi_value;
