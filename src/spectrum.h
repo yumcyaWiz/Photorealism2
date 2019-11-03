@@ -140,4 +140,36 @@ class SPD {
       0.000000000000, 0.000000000000, 0.000000000000, 0.000000000000,
       0.000000000000};
 };
+
+// SPDどうしの演算
+//要素ごとに演算を行う
+inline SPD operator+(const SPD& spd1, const SPD& spd2) {
+  SPD ret;
+  for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
+    ret.phi[i] = spd1.phi[i] + spd2.phi[i];
+  }
+  return ret;
+}
+inline SPD operator-(const SPD& spd1, const SPD& spd2) {
+  SPD ret;
+  for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
+    ret.phi[i] = spd1.phi[i] - spd2.phi[i];
+  }
+  return ret;
+}
+inline SPD operator*(const SPD& spd1, const SPD& spd2) {
+  SPD ret;
+  for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
+    ret.phi[i] = spd1.phi[i] * spd2.phi[i];
+  }
+  return ret;
+}
+inline SPD operator/(const SPD& spd1, const SPD& spd2) {
+  SPD ret;
+  for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
+    ret.phi[i] = spd1.phi[i] / spd2.phi[i];
+  }
+  return ret;
+}
+
 #endif
