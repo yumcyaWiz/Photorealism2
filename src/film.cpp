@@ -5,27 +5,6 @@
 #include <fstream>
 #include <iostream>
 
-Film::Film(const std::size_t& _width, const std::size_t& _height)
-    : width(_width), height(_height) {
-  pixels.resize(width * height);
-}
-
-SPD Film::getPixel(int i, int j) const {
-  assert(i >= 0 && i < static_cast<int>(width));
-  assert(j >= 0 && j < static_cast<int>(height));
-  return pixels[i + width * j];
-}
-
-//(i, j)にSPDをセット
-void Film::setPixel(int i, int j, const SPD& spd) {
-  pixels[i + width * j] = spd;
-}
-
-//(i, j)にSPDを加算
-void Film::addPixel(int i, int j, const SPD& spd) {
-  pixels[i + width * j] += spd;
-}
-
 void Film::writePPM(const std::string& filename) const {
   std::ofstream file(filename);
 
