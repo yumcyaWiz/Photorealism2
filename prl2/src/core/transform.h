@@ -1,7 +1,9 @@
 #ifndef TRANSFORM_H
 #define TRANSFORM_H
 
+#include "core/isect.h"
 #include "core/mat4.h"
+#include "core/ray.h"
 #include "core/vec3.h"
 
 namespace Prl2 {
@@ -49,6 +51,18 @@ class Transform {
                     invmat.m[2][1] * n.z(),
                 invmat.m[0][2] * n.x() + invmat.m[1][1] * n.y() +
                     invmat.m[2][2] * n.z());
+  };
+
+  //レイに対して変換を施す
+  Ray apply(const Ray& ray) const {
+    return Ray(applyPoint(ray.origin), applyDirection(ray.direction),
+               ray.lambda);
+  };
+
+  // IntersectInfoに対して変換を施す
+  IntersectInfo apply(const IntersectInfo& isect) const {
+    return IntersectInfo(isect.t, applyPoint(isect.hitPos),
+                         applyNormal(isect.hitNormal));
   };
 };
 
