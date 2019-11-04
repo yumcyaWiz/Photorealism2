@@ -4,6 +4,7 @@
 #include "core/film.h"
 #include "core/isect.h"
 #include "core/mat4.h"
+#include "core/primitive.h"
 #include "core/ray.h"
 #include "core/spectrum.h"
 #include "core/transform.h"

@@ -11,6 +11,7 @@ add_library(prl2 STATIC
   src/core/film.h
   src/core/isect.h
   src/core/mat4.h
+  src/core/primitive.h
   src/core/ray.h
   src/core/spectrum.cpp
   src/core/spectrum.h
