@@ -1,5 +1,7 @@
 #include "shape/sphere.h"
 
+namespace Prl2 {
+
 //球のベクトル方程式にレイを代入
 //二次方程式を解く
 bool Sphere::intersect(const Ray& ray, IntersectInfo& info) const {
@@ -34,4 +36,6 @@ bool Sphere::intersect(const Ray& ray, IntersectInfo& info) const {
   info.hitPos = ray(t);
   info.hitNormal = normalize(info.hitPos);
   return true;
+}
+
 }

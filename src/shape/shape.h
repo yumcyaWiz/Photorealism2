@@ -7,6 +7,8 @@
 #include "ray.h"
 #include "transform.h"
 
+namespace Prl2 {
+
 //物体の形状を表現するクラス
 //衝突計算は物体中心を原点とするローカル座標で行われる
 //スケール変換によりローカル座標でのレイの長さは1にならないことに注意
@@ -20,5 +22,7 @@ class Shape {
   // info : ローカル座標系の衝突情報
   virtual bool intersect(const Ray& ray, IntersectInfo& info) const = 0;
 };
+
+}  // namespace Prl2
 
 #endif

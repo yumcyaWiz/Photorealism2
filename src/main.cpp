@@ -15,13 +15,13 @@ static void glfw_error_callback(int error, const char* desc) {
 }
 
 int main() {
-  Film film(512, 512);
+  Prl2::Film film(512, 512);
   for (std::size_t i = 0; i < film.width; ++i) {
     for (std::size_t j = 0; j < film.height; ++j) {
-      const Real l = float(i) / film.width * (780 - 380) + 380;
-      std::vector<Real> lambda{l - 5, l, l + 5};
-      std::vector<Real> phi{0, 1, 0};
-      SPD spd(lambda, phi);
+      const Prl2::Real l = float(i) / film.width * (780 - 380) + 380;
+      std::vector<Prl2::Real> lambda{l - 5, l, l + 5};
+      std::vector<Prl2::Real> phi{0, 1, 0};
+      Prl2::SPD spd(lambda, phi);
       film.addPixel(i, j, spd);
     }
   }

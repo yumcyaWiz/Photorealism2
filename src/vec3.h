@@ -7,6 +7,8 @@
 
 #include "type.h"
 
+namespace Prl2 {
+
 class alignas(16) Vec3 {
  public:
   Vec3() { v[0] = v[1] = v[2] = 0; };
@@ -92,4 +94,6 @@ inline std::ostream& operator<<(std::ostream& stream, const Vec3& v) {
   stream << "(" << v.x() << ", " << v.y() << ", " << v.z() << ")";
   return stream;
 }
+
+}  // namespace Prl2
 #endif

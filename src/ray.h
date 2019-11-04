@@ -4,6 +4,8 @@
 #include "type.h"
 #include "vec3.h"
 
+namespace Prl2 {
+
 struct alignas(32) Ray {
   Vec3 origin;     //始点
   Vec3 direction;  //方向
@@ -18,5 +20,7 @@ struct alignas(32) Ray {
 
   Vec3 operator()(const Real& t) const { return origin + t * direction; };
 };
+
+}  // namespace Prl2
 
 #endif

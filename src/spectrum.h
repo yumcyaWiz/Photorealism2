@@ -6,6 +6,8 @@
 #include "type.h"
 #include "vec3.h"
 
+namespace Prl2 {
+
 using XYZ = Vec3;
 using RGB = Vec3;
 
@@ -195,5 +197,7 @@ inline SPD operator/(const SPD& spd1, const SPD& spd2) {
   }
   return ret;
 }
+
+}  // namespace Prl2
 
 #endif

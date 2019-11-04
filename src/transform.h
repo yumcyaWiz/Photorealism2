@@ -4,6 +4,8 @@
 #include "mat4.h"
 #include "vec3.h"
 
+namespace Prl2 {
+
 //アフィン変換を行うクラス
 class Transform {
  public:
@@ -96,4 +98,6 @@ Transform rotate(const Vec3& r) {
 
 // 与えられたTransformの逆変換を表すTransformを返す
 Transform inverse(const Transform& t) { return Transform(t.invmat, t.mat); }
+
+}  // namespace Prl2
 #endif

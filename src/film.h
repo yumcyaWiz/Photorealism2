@@ -7,6 +7,8 @@
 
 #include "spectrum.h"
 
+namespace Prl2 {
+
 class Film {
  public:
   std::size_t width;        //横幅
@@ -42,5 +44,7 @@ class Film {
   // PPMを出力
   void writePPM(const std::string& filename) const;
 };
+
+}  // namespace Prl2
 
 #endif

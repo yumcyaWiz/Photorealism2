@@ -5,6 +5,8 @@
 #include <fstream>
 #include <iostream>
 
+namespace Prl2 {
+
 void Film::writePPM(const std::string& filename) const {
   std::ofstream file(filename);
 
@@ -35,4 +37,6 @@ void Film::writePPM(const std::string& filename) const {
   }
 
   file.close();
+}
+
 }

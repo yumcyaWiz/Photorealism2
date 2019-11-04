@@ -7,6 +7,8 @@
 
 #include "type.h"
 
+namespace Prl2 {
+
 class alignas(8) Vec2 {
  public:
   Vec2() { v[0] = v[1] = 0; };
@@ -79,4 +81,5 @@ inline Real dot(const Vec2& v1, const Vec2& v2) {
 
 inline Vec2 normalize(const Vec2& v) { return v / length(v); }
 
+}  // namespace Prl2
 #endif

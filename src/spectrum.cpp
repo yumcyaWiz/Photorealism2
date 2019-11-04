@@ -5,6 +5,8 @@
 
 #include "spectrum.h"
 
+namespace Prl2 {
+
 //非等間隔なSPDから等間隔なSPDを構成する
 //非等間隔なSPDを線形補間して計算する
 SPD::SPD(const std::vector<Real>& _lambda, const std::vector<Real>& _phi) {
@@ -96,4 +98,6 @@ XYZ SPD::toXYZ() const {
   }
 
   return xyz;
+}
+
 }

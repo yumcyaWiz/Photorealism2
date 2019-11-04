@@ -6,6 +6,8 @@
 #include "type.h"
 #include "vec4.h"
 
+namespace Prl2 {
+
 struct alignas(64) Mat4 {
   Real m[4][4];
 
@@ -125,5 +127,7 @@ std::ostream& operator<<(std::ostream& stream, const Mat4& m) {
   stream << ")";
   return stream;
 }
+
+}  // namespace Prl2
 
 #endif
