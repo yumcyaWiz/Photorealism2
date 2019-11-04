@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.12..3.15)
 
 project(photorealism2 LANGUAGES C CXX)
 
