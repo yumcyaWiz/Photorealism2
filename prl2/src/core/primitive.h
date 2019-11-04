@@ -21,7 +21,20 @@ class Primitive {
       : shape(_shape), localToWorld(_localToWorld){};
 
   //ワールド座標系のレイを受け取り、shapeとの衝突計算を行う。結果をinfoに保存する。
-  bool intersect(const Ray& ray, IntersectInfo& info) const { return false; };
+  bool intersect(const Ray& ray, IntersectInfo& info) const {
+    //レイをローカル座標系に変換
+    const Ray ray_local = localToWorld->applyInverse(ray);
+
+    // shapeとの衝突計算
+    IntersectInfo info_local;
+    if (shape->intersect(ray_local, info_local)) {
+      //ローカル座標系の衝突情報をワールド座標系に変換
+      info = localToWorld->apply(info_local);
+      return true;
+    } else {
+      return false;
+    }
+  };
 };
 
 }  // namespace Prl2
