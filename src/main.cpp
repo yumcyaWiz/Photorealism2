@@ -8,15 +8,7 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 
-#include "film.h"
-#include "isect.h"
-#include "mat4.h"
-#include "ray.h"
-#include "shape/sphere.h"
-#include "transform.h"
-#include "vec2.h"
-#include "vec3.h"
-#include "vec4.h"
+#include "prl2.h"
 
 static void glfw_error_callback(int error, const char* desc) {
   fprintf(stderr, "glfw error %d: %s\n", error, desc);

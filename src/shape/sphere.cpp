@@ -29,7 +29,9 @@ bool Sphere::intersect(const Ray& ray, IntersectInfo& info) const {
     }
   }
 
+  //衝突情報を格納
   info.t = t;
   info.hitPos = ray(t);
   info.hitNormal = normalize(info.hitPos);
+  return true;
 }
