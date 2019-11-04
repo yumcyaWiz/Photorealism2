@@ -1,9 +1,6 @@
 #ifndef SPECTRUM_H
 #define SPECTRUM_H
 
-#include <algorithm>
-#include <fstream>
-#include <iostream>
 #include <vector>
 
 #include "type.h"

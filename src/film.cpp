@@ -1,5 +1,6 @@
 #include "film.h"
 
+#include <algorithm>
 #include <cmath>
 #include <fstream>
 #include <iostream>
