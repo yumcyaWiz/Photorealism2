@@ -16,7 +16,7 @@ class alignas(8) Vec2 {
     v[1] = _y;
   };
 
-  Real operator[](int i) const {
+  Real& operator[](int i) {
     assert(i >= 0 && i < 2);
     return v[i];
   };
