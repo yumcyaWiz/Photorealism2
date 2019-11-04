@@ -32,25 +32,14 @@ class SPD {
   Real phi[LAMBDA_SAMPLES];  //放射束
 
   // 0で初期化
-  SPD() {
-    for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
-      phi[i] = 0;
-    }
-  };
+  SPD();
 
   //任意の波長と放射束のサンプリング列から等間隔のSPDを構築
   //波長と対応する放射束は昇順で並んでいると仮定している
   SPD(const std::vector<Real>& _lambda, const std::vector<Real>& _phi);
 
   //黒色か返す
-  bool isBlack() const {
-    for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
-      if (phi[i] != 0.0f) {
-        return false;
-      }
-    }
-    return true;
-  };
+  bool isBlack() const;
 
   //指定した波長の放射束を線形補間して返す
   // l : 波長[nm]
@@ -62,38 +51,13 @@ class SPD {
   // sRGB色空間に変換する
   // XYZ to sRGB(D65)
   // http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
-  RGB toRGB() const {
-    XYZ xyz = this->toXYZ();
-    return RGB(3.2404542f * xyz.x - 1.5371385f * xyz.y - 0.4985314f * xyz.z,
-               -0.9692660f * xyz.x + 1.8760108f * xyz.y + 0.0415560f * xyz.z,
-               0.0556434f * xyz.x - 0.2040259f * xyz.y + 1.0572252f * xyz.z);
-  };
+  RGB toRGB() const;
 
   //演算
-  SPD& operator+=(const SPD& spd) {
-    for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
-      phi[i] += spd.phi[i];
-    }
-    return *this;
-  };
-  SPD& operator-=(const SPD& spd) {
-    for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
-      phi[i] -= spd.phi[i];
-    }
-    return *this;
-  };
-  SPD& operator*=(const SPD& spd) {
-    for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
-      phi[i] *= spd.phi[i];
-    }
-    return *this;
-  };
-  SPD& operator/=(const SPD& spd) {
-    for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
-      phi[i] /= spd.phi[i];
-    }
-    return *this;
-  };
+  SPD& operator+=(const SPD& spd);
+  SPD& operator-=(const SPD& spd);
+  SPD& operator*=(const SPD& spd);
+  SPD& operator/=(const SPD& spd);
 
  private:
   //等色関数(CIE1931)
@@ -169,33 +133,9 @@ class SPD {
 
 // SPDどうしの演算
 //要素ごとに演算を行う
-inline SPD operator+(const SPD& spd1, const SPD& spd2) {
-  SPD ret;
-  for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
-    ret.phi[i] = spd1.phi[i] + spd2.phi[i];
-  }
-  return ret;
-}
-inline SPD operator-(const SPD& spd1, const SPD& spd2) {
-  SPD ret;
-  for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
-    ret.phi[i] = spd1.phi[i] - spd2.phi[i];
-  }
-  return ret;
-}
-inline SPD operator*(const SPD& spd1, const SPD& spd2) {
-  SPD ret;
-  for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
-    ret.phi[i] = spd1.phi[i] * spd2.phi[i];
-  }
-  return ret;
-}
-inline SPD operator/(const SPD& spd1, const SPD& spd2) {
-  SPD ret;
-  for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
-    ret.phi[i] = spd1.phi[i] / spd2.phi[i];
-  }
-  return ret;
-}
+inline SPD operator+(const SPD& spd1, const SPD& spd2);
+inline SPD operator-(const SPD& spd1, const SPD& spd2);
+inline SPD operator*(const SPD& spd1, const SPD& spd2);
+inline SPD operator/(const SPD& spd1, const SPD& spd2);
 
 #endif
