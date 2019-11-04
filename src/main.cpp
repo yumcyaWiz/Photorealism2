@@ -12,7 +12,7 @@
 #include "isect.h"
 #include "mat4.h"
 #include "ray.h"
-#include "shape/shape.h"
+#include "shape/sphere.h"
 #include "transform.h"
 #include "vec2.h"
 #include "vec3.h"
