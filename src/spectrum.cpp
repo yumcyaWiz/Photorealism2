@@ -90,9 +90,9 @@ XYZ SPD::toXYZ() const {
     }
 
     // XYZを計算(短冊近似)
-    xyz.x += cmf_x * phi_value;
-    xyz.y += cmf_y * phi_value;
-    xyz.z += cmf_z * phi_value;
+    xyz[0] += cmf_x * phi_value;
+    xyz[1] += cmf_y * phi_value;
+    xyz[2] += cmf_z * phi_value;
   }
 
   return xyz;
