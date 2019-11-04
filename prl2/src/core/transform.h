@@ -100,14 +100,14 @@ class Transform {
 };
 
 //移動変換を表す行列を返す
-Transform translate(const Vec3& v) {
+inline Transform translate(const Vec3& v) {
   return Transform(
       Mat4(1, 0, 0, v.x(), 0, 1, 0, v.y(), 0, 0, 1, v.z(), 0, 0, 0, 1),
       Mat4(1, 0, 0, -v.x(), 0, 1, 0, -v.y(), 0, 0, 1, -v.z(), 0, 0, 0, 1));
 }
 
 //スケール変換を表す行列を返す
-Transform scale(const Vec3& s) {
+inline Transform scale(const Vec3& s) {
   return Transform(
       Mat4(s.x(), 0, 0, 0, 0, s.y(), 0, 0, 0, 0, s.z(), 0, 0, 0, 0, 1),
       Mat4(1 / s.x(), 0, 0, 0, 0, 1 / s.y(), 0, 0, 0, 0, 1 / s.z(), 0, 0, 0, 0,
@@ -115,7 +115,7 @@ Transform scale(const Vec3& s) {
 }
 
 // X軸中心の回転変換を表す行列を返す
-Transform rotateX(const Real& theta) {
+inline Transform rotateX(const Real& theta) {
   const Real c = std::cos(theta);
   const Real s = std::sin(theta);
   Mat4 m(1, 0, 0, 0, 0, c, -s, 0, 0, s, c, 0, 0, 0, 0, 1);
@@ -123,7 +123,7 @@ Transform rotateX(const Real& theta) {
 }
 
 // Y軸中心の回転変換を表す行列を返す
-Transform rotateY(const Real& theta) {
+inline Transform rotateY(const Real& theta) {
   const Real c = std::cos(theta);
   const Real s = std::sin(theta);
   Mat4 m(c, 0, s, 0, 0, 1, 0, 0, -s, 0, c, 0, 0, 0, 0, 1);
@@ -131,7 +131,7 @@ Transform rotateY(const Real& theta) {
 }
 
 // Z軸中心の回転変換を表す行列を返す
-Transform rotateZ(const Real& theta) {
+inline Transform rotateZ(const Real& theta) {
   const Real c = std::cos(theta);
   const Real s = std::sin(theta);
   Mat4 m(c, -s, 0, 0, s, c, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
@@ -139,12 +139,14 @@ Transform rotateZ(const Real& theta) {
 }
 
 // それぞれの軸をr回転する変換を表す行列を返す
-Transform rotate(const Vec3& r) {
+inline Transform rotate(const Vec3& r) {
   return rotateX(r.x()) * rotateY(r.y()) * rotateZ(r.z());
 }
 
 // 与えられたTransformの逆変換を表すTransformを返す
-Transform inverse(const Transform& t) { return Transform(t.invmat, t.mat); }
+inline Transform inverse(const Transform& t) {
+  return Transform(t.invmat, t.mat);
+}
 
 }  // namespace Prl2
 #endif
