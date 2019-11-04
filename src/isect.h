@@ -10,7 +10,7 @@ struct IntersectInfo {
   Vec3 hitPos;
   Vec3 hitNormal;
 
-  IntersectInfo(){};
+  IntersectInfo() : t(0), hitPos(Vec3()), hitNormal(Vec3()){};
   IntersectInfo(const Real& _t, const Vec3& _hitPos, const Vec3& _hitNormal)
       : t(_t), hitPos(_hitPos), hitNormal(_hitNormal){};
 };

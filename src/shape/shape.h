@@ -16,6 +16,8 @@ class Shape {
   Shape(){};
 
   //受け取ったレイとの衝突計算を行い、結果をinfoに格納する
+  // ray : ローカル座標系のレイ
+  // info : ローカル座標系の衝突情報
   virtual bool intersect(const Ray& ray, IntersectInfo& info) const = 0;
 };
 
