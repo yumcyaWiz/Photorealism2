@@ -3,7 +3,7 @@
 #include <fstream>
 #include <iostream>
 
-#include "spectrum.h"
+#include "core/spectrum.h"
 
 namespace Prl2 {
 

@@ -4,7 +4,7 @@
 #include <cassert>
 #include <iostream>
 
-#include "type.h"
+#include "core/type.h"
 
 namespace Prl2 {
 

@@ -1,8 +1,8 @@
 #ifndef SPHERE_H
 #define SPHERE_H
 
+#include "core/type.h"
 #include "shape/shape.h"
-#include "type.h"
 
 namespace Prl2 {
 

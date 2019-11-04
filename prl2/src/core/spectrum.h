@@ -3,8 +3,8 @@
 
 #include <vector>
 
-#include "type.h"
-#include "vec3.h"
+#include "core/type.h"
+#include "core/vec3.h"
 
 namespace Prl2 {
 

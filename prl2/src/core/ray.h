@@ -1,8 +1,8 @@
 #ifndef RAY_H
 #define RAY_H
 
-#include "type.h"
-#include "vec3.h"
+#include "core/type.h"
+#include "core/vec3.h"
 
 namespace Prl2 {
 

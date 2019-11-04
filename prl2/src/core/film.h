@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "spectrum.h"
+#include "core/spectrum.h"
 
 namespace Prl2 {
 

@@ -1,8 +1,8 @@
 #ifndef TRANSFORM_H
 #define TRANSFORM_H
 
-#include "mat4.h"
-#include "vec3.h"
+#include "core/mat4.h"
+#include "core/vec3.h"
 
 namespace Prl2 {
 

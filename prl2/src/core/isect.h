@@ -1,9 +1,9 @@
 #ifndef ISECT_H
 #define ISECT_H
 
-#include "ray.h"
-#include "type.h"
-#include "vec3.h"
+#include "core/ray.h"
+#include "core/type.h"
+#include "core/vec3.h"
 
 namespace Prl2 {
 

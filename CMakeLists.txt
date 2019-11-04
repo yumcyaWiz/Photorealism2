@@ -1,19 +1,6 @@
 cmake_minimum_required(VERSION 3.12..3.15)
 
-project(photorealism2 LANGUAGES C CXX)
-
-#main
-add_executable(main src/main.cpp src/spectrum.cpp src/film.cpp)
-target_include_directories(main PRIVATE src/)
-
-#compile options
-target_compile_features(main PRIVATE cxx_std_17)
-set_target_properties(main PROPERTIES CXX_EXTENSIONS OFF)
-target_compile_options(main PRIVATE 
-  -Wall -Wextra -pedantic-errors
-  $<$<CONFIG:Debug>: -g3 -O0 -pg>
-  $<$<CONFIG:Release>: -O3 -s -DNDEBUG -march=native -mtune=native>
-)
+project(Photorealism2Viewer LANGUAGES C CXX)
 
 #glad
 add_library(glad STATIC ext/glad/src/glad.c)
@@ -38,14 +25,31 @@ target_link_libraries(imgui_impl PUBLIC glad)
 #pthread
 find_package(Threads REQUIRED)
 
-#main include 
-target_include_directories(main PRIVATE glad)
+#Photorealism2
+add_subdirectory(prl2)
 
-#main link
-target_link_libraries(main PRIVATE glad)
-target_link_libraries(main PRIVATE dl)
-target_link_libraries(main PRIVATE glfw)
-target_link_libraries(main PRIVATE ${OPENGL_LIBRARY})
-target_link_libraries(main PRIVATE imgui)
-target_link_libraries(main PRIVATE imgui_impl)
-target_link_libraries(main PRIVATE Threads::Threads)
+#app
+add_executable(app app/src/main.cpp)
+target_include_directories(app PRIVATE app/src/)
+
+#app compile options
+target_compile_features(app PRIVATE cxx_std_17)
+set_target_properties(app PROPERTIES CXX_EXTENSIONS OFF)
+target_compile_options(app PRIVATE 
+  -Wall -Wextra -pedantic-errors
+  $<$<CONFIG:Debug>: -g3 -O0 -pg>
+  $<$<CONFIG:Release>: -O3 -s -DNDEBUG -march=native -mtune=native>
+)
+
+#app include 
+target_include_directories(app PRIVATE glad)
+target_include_directories(app PRIVATE prl2)
+
+#app link
+target_link_libraries(app PRIVATE glad)
+target_link_libraries(app PRIVATE dl)
+target_link_libraries(app PRIVATE glfw)
+target_link_libraries(app PRIVATE imgui)
+target_link_libraries(app PRIVATE imgui_impl)
+target_link_libraries(app PRIVATE Threads::Threads)
+target_link_libraries(app PRIVATE prl2)

@@ -3,9 +3,9 @@
 
 #include <memory>
 
-#include "isect.h"
-#include "ray.h"
-#include "transform.h"
+#include "core/isect.h"
+#include "core/ray.h"
+#include "core/transform.h"
 
 namespace Prl2 {
 
