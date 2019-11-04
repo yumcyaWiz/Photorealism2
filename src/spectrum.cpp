@@ -5,21 +5,6 @@
 
 #include "spectrum.h"
 
-SPD::SPD() {
-  for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
-    phi[i] = 0;
-  }
-}
-
-bool SPD::isBlack() const {
-  for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
-    if (phi[i] != 0.0f) {
-      return false;
-    }
-  }
-  return true;
-}
-
 //非等間隔なSPDから等間隔なSPDを構成する
 //非等間隔なSPDを線形補間して計算する
 SPD::SPD(const std::vector<Real>& _lambda, const std::vector<Real>& _phi) {
@@ -111,65 +96,4 @@ XYZ SPD::toXYZ() const {
   }
 
   return xyz;
-}
-
-RGB SPD::toRGB() const {
-  XYZ xyz = this->toXYZ();
-  return RGB(3.2404542f * xyz.x - 1.5371385f * xyz.y - 0.4985314f * xyz.z,
-             -0.9692660f * xyz.x + 1.8760108f * xyz.y + 0.0415560f * xyz.z,
-             0.0556434f * xyz.x - 0.2040259f * xyz.y + 1.0572252f * xyz.z);
-}
-
-SPD& SPD::operator+=(const SPD& spd) {
-  for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
-    phi[i] += spd.phi[i];
-  }
-  return *this;
-}
-SPD& SPD::operator-=(const SPD& spd) {
-  for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
-    phi[i] -= spd.phi[i];
-  }
-  return *this;
-}
-SPD& SPD::operator*=(const SPD& spd) {
-  for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
-    phi[i] *= spd.phi[i];
-  }
-  return *this;
-}
-SPD& SPD::operator/=(const SPD& spd) {
-  for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
-    phi[i] /= spd.phi[i];
-  }
-  return *this;
-}
-
-inline SPD operator+(const SPD& spd1, const SPD& spd2) {
-  SPD ret;
-  for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
-    ret.phi[i] = spd1.phi[i] + spd2.phi[i];
-  }
-  return ret;
-}
-inline SPD operator-(const SPD& spd1, const SPD& spd2) {
-  SPD ret;
-  for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
-    ret.phi[i] = spd1.phi[i] - spd2.phi[i];
-  }
-  return ret;
-}
-inline SPD operator*(const SPD& spd1, const SPD& spd2) {
-  SPD ret;
-  for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
-    ret.phi[i] = spd1.phi[i] * spd2.phi[i];
-  }
-  return ret;
-}
-inline SPD operator/(const SPD& spd1, const SPD& spd2) {
-  SPD ret;
-  for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
-    ret.phi[i] = spd1.phi[i] / spd2.phi[i];
-  }
-  return ret;
 }
