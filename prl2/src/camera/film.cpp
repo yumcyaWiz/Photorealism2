@@ -1,4 +1,4 @@
-#include "core/film.h"
+#include "camera/film.h"
 
 #include <algorithm>
 #include <cmath>

@@ -1,7 +1,6 @@
 #ifndef PRL2_H
 #define PRL2_H
 
-#include "core/film.h"
 #include "core/isect.h"
 #include "core/mat4.h"
 #include "core/primitive.h"
@@ -14,5 +13,8 @@
 
 #include "shape/shape.h"
 #include "shape/sphere.h"
+
+#include "camera/camera.h"
+#include "camera/film.h"
 
 #endif

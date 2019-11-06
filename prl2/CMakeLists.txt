@@ -7,8 +7,9 @@ find_package(Threads REQUIRED)
 
 #prl2
 add_library(prl2 STATIC 
-  src/core/film.cpp
-  src/core/film.h
+  src/camera/film.h
+  src/camera/film.cpp
+  src/camera/camera.h
   src/core/isect.h
   src/core/mat4.h
   src/core/primitive.h
