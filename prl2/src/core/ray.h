@@ -1,6 +1,8 @@
 #ifndef RAY_H
 #define RAY_H
 
+#include <iostream>
+
 #include "core/type.h"
 #include "core/vec3.h"
 
@@ -20,6 +22,12 @@ struct alignas(32) Ray {
 
   Vec3 operator()(const Real& t) const { return origin + t * direction; };
 };
+
+inline std::ostream& operator<<(std::ostream& stream, const Ray& ray) {
+  stream << "origin: " << ray.origin << std::endl;
+  stream << "direction: " << ray.direction << std::endl;
+  return stream;
+}
 
 }  // namespace Prl2
 
