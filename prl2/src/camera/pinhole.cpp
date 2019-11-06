@@ -8,7 +8,6 @@ bool PinholeCamera::generateRay(const Real& u, const Real& v, Ray& ray) const {
 
   Vec2 pFilm_2d = film->computePosition(u, v);
   Vec3 pFilm(pFilm_2d.x(), pFilm_2d.y(), 0);
-  std::cout << pFilm << std::endl;
   Vec3 pinholePos = Vec3(0, 0, -pinhole_distance);
 
   //ローカル座標系のレイ

@@ -21,7 +21,6 @@ class Primitive {
   bool intersect(const Ray& ray, IntersectInfo& info) const {
     //レイをローカル座標系に変換
     const Ray ray_local = localToWorld->applyInverse(ray);
-    std::cout << ray_local << std::endl;
 
     // shapeとの衝突計算
     IntersectInfo info_local;

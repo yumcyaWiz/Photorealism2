@@ -15,7 +15,8 @@ int main() {
       std::make_shared<PinholeCamera>(film, camera_trans, 90.0f);
 
   const auto shape = std::make_shared<Sphere>(1.0f);
-  const auto prim_trans = std::make_shared<Transform>(translate(Vec3(0, 0, 3)));
+  const auto prim_trans =
+      std::make_shared<Transform>(translate(Vec3(0, 0, -3)));
   const auto prim = std::make_shared<Primitive>(shape, prim_trans);
 
   for (int i = 0; i < width; ++i) {
@@ -23,11 +24,18 @@ int main() {
       const Real u = (2.0f * i - width) / width;
       const Real v = (2.0f * j - height) / height;
       Ray ray;
-      if (camera->generateRay(i, j, ray)) {
-        std::cout << ray << std::endl;
+      if (camera->generateRay(u, v, ray)) {
+        IntersectInfo info;
+        if (prim->intersect(ray, info)) {
+          SPD spd;
+          spd += 1;
+          film->addPixel(i, j, spd);
+        }
       }
     }
   }
+
+  film->writePPM("output.ppm");
 
   return 0;
 }
