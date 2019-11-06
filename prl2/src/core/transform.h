@@ -30,7 +30,7 @@ class Transform {
         mat.m[2][0] * v.x() + mat.m[2][1] * v.y() + mat.m[2][2] * v.z());
   };
   Vec3 applyDirectionInverse(const Vec3& v) const {
-    return Vec3(invmat.m[0][0] + v.x() + invmat.m[0][1] * v.y() +
+    return Vec3(invmat.m[0][0] * v.x() + invmat.m[0][1] * v.y() +
                     invmat.m[0][2] * v.z(),
                 invmat.m[1][0] * v.x() + invmat.m[1][1] * v.y() +
                     invmat.m[1][2] * v.z(),
@@ -83,6 +83,7 @@ class Transform {
     return Ray(applyPoint(ray.origin), applyDirection(ray.direction),
                ray.lambda);
   };
+  //レイに対して逆変換を施す
   Ray applyInverse(const Ray& ray) const {
     return Ray(applyPointInverse(ray.origin),
                applyDirectionInverse(ray.direction), ray.lambda);
@@ -93,6 +94,7 @@ class Transform {
     return IntersectInfo(isect.t, applyPoint(isect.hitPos),
                          applyNormal(isect.hitNormal));
   };
+  // IntersectInfoに対して逆変換を施す
   IntersectInfo applyInverse(const IntersectInfo& isect) const {
     return IntersectInfo(isect.t, applyPointInverse(isect.hitPos),
                          applyNormalInverse(isect.hitNormal));
