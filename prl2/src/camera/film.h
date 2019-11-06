@@ -11,11 +11,11 @@ namespace Prl2 {
 
 class Film {
  public:
-  std::size_t width;        //横幅
-  std::size_t height;       //縦幅
+  unsigned int width;       //横幅
+  unsigned int height;      //縦幅
   std::vector<SPD> pixels;  //画素
 
-  Film(const std::size_t& _width, const std::size_t& _height)
+  Film(const unsigned int _width, const unsigned int _height)
       : width(_width), height(_height) {
     pixels.resize(width * height);
   };
