@@ -2,10 +2,12 @@
 #define FILM_H
 
 #include <cassert>
+#include <cmath>
 #include <string>
 #include <vector>
 
 #include "core/spectrum.h"
+#include "core/type.h"
 #include "core/vec2.h"
 
 namespace Prl2 {
@@ -16,10 +18,11 @@ namespace Prl2 {
 // 0.5*height_length]で表される
 class Film {
  public:
-  const unsigned int width;   //横幅
-  const unsigned int height;  //縦幅
-  const Real width_length;    //横の物理的長さ[m]
-  const Real height_length;   //縦の物理的長さ[m]
+  const unsigned int width;    //横幅
+  const unsigned int height;   //縦幅
+  const Real width_length;     //横の物理的長さ[m]
+  const Real height_length;    //縦の物理的長さ[m]
+  const Real diagonal_length;  //対角線の物理的長さ[m]
   SPD* pixels;
 
   //デフォルトでセンサーサイズはフルサイズ(36mm x 24mm)になる
@@ -28,7 +31,9 @@ class Film {
       : width(_width),
         height(_height),
         width_length(_width_length),
-        height_length(_height_length) {
+        height_length(_height_length),
+        diagonal_length(std::sqrt(width_length * width_length +
+                                  height_length * height_length)) {
     pixels = new SPD[width * height];
   };
   ~Film() { delete[] pixels; };
