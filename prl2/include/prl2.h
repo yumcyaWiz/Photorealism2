@@ -16,5 +16,6 @@
 
 #include "camera/camera.h"
 #include "camera/film.h"
+#include "camera/pinhole.h"
 
 #endif

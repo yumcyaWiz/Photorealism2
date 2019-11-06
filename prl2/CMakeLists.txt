@@ -10,6 +10,8 @@ add_library(prl2 STATIC
   src/camera/film.h
   src/camera/film.cpp
   src/camera/camera.h
+  src/camera/pinhole.h
+  src/camera/pinhole.cpp
   src/core/isect.h
   src/core/mat4.h
   src/core/primitive.h
