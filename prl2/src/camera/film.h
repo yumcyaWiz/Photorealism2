@@ -25,9 +25,9 @@ class Film {
   const Real diagonal_length;  //対角線の物理的長さ[m]
   SPD* pixels;
 
-  //デフォルトでセンサーサイズはフルサイズ(36mm x 24mm)になる
   Film(unsigned int _width, unsigned int _height,
-       const Real& _width_length = 0.036f, const Real& _height_length = 0.024f)
+       const Real& _width_length = 0.0251f,
+       const Real& _height_length = 0.0251f)
       : width(_width),
         height(_height),
         width_length(_width_length),
