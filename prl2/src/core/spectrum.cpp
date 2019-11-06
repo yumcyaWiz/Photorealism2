@@ -50,7 +50,10 @@ SPD::SPD(const std::vector<Real>& _lambda, const std::vector<Real>& _phi) {
 }
 
 void SPD::addPhi(const Real& _lambda, const Real& _phi) {
-  assert(_lambda >= LAMBDA_MIN && _lambda <= LAMBDA_MAX);
+  //範囲外の寄与は加算しない
+  if (_lambda < LAMBDA_MIN || _lambda >= LAMBDA_MAX) {
+    return;
+  }
 
   //対応する波長のインデックスを計算
   const int lambda_index = (_lambda - LAMBDA_MIN) / LAMBDA_INTERVAL;
@@ -60,6 +63,7 @@ void SPD::addPhi(const Real& _lambda, const Real& _phi) {
       LAMBDA_MIN + lambda_index * LAMBDA_INTERVAL;  //左側の波長
   const Real t =
       (_lambda - lambda0) / LAMBDA_INTERVAL;  //与えられた波長の区間中の位置
+  std::cout << lambda_index << std::endl;
   phi[lambda_index] += (1.0f - t) * _phi;
   phi[lambda_index + 1] += t * _phi;
 }
