@@ -14,6 +14,10 @@ SPD::SPD(const std::vector<Real>& _lambda, const std::vector<Real>& _phi) {
 
   //サンプル数が1つの場合
   if (_lambda.size() == 1) {
+    //他の波長を0で初期化
+    for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
+      phi[i] = 0;
+    }
     addPhi(_lambda[0], _phi[0]);
   }
   //複数のサンプルがある場合
