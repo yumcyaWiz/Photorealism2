@@ -41,6 +41,13 @@ class Film {
     pixels[i + width * j] += spd;
   };
 
+  //(i, j)に分光放射束を加算
+  void addPixel(int i, int j, const Real& _lambda, const Real& _phi) {
+    assert(i >= 0 && i < static_cast<int>(width));
+    assert(j >= 0 && j < static_cast<int>(height));
+    pixels[i + width * j].addPhi(_lambda, _phi);
+  };
+
   // PPMを出力
   void writePPM(const std::string& filename) const;
 };
