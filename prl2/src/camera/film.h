@@ -20,7 +20,7 @@ class Film {
   const unsigned int height;  //縦幅
   const Real width_length;    //横の物理的長さ[m]
   const Real height_length;   //縦の物理的長さ[m]
-  std::vector<SPD> pixels;    //画素
+  SPD* pixels;
 
   //デフォルトでセンサーサイズはフルサイズ(36mm x 24mm)になる
   Film(unsigned int _width, unsigned int _height,
@@ -29,8 +29,9 @@ class Film {
         height(_height),
         width_length(_width_length),
         height_length(_height_length) {
-    pixels.resize(width * height);
+    pixels = new SPD[width * height];
   };
+  ~Film() { delete[] pixels; };
 
   // (i, j)のSPDを入手
   SPD getPixel(int i, int j) const {
