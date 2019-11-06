@@ -93,11 +93,9 @@ class Film {
     pixels[i + width * j].addPhi(_lambda, _phi);
   };
 
-  //(i, j)の物理的な位置を計算
-  Vec2 computePosition(int i, int j) const {
-    const float u = 2.0f * i / Real(width) - 1.0f;
-    const float v = 2.0f * j / Real(height) - 1.0f;
-    return Vec2(0.5f * u * width_length, 0.5f * v * height_length);
+  //(u, v)の物理的な位置を計算
+  Vec2 computePosition(const Real& u, const Real& v) const {
+    return Vec2(u * 0.5f * width_length, v * 0.5f * height_length);
   };
 
   // PPMを出力
