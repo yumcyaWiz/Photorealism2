@@ -12,10 +12,7 @@
 namespace Prl2 {
 
 class Primitive {
-  std::shared_ptr<Shape> shape;  //形状
-  std::shared_ptr<Transform>
-      localToWorld;  //ローカル座標系からワールド座標系への変換を表すTransform
-
+ public:
   Primitive(const std::shared_ptr<Shape>& _shape,
             const std::shared_ptr<Transform>& _localToWorld)
       : shape(_shape), localToWorld(_localToWorld){};
@@ -35,6 +32,11 @@ class Primitive {
       return false;
     }
   };
+
+ private:
+  std::shared_ptr<Shape> shape;  //形状
+  std::shared_ptr<Transform>
+      localToWorld;  //ローカル座標系からワールド座標系への変換を表すTransform
 };
 
 }  // namespace Prl2
