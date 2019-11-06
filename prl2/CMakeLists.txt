@@ -28,7 +28,7 @@ target_include_directories(prl2 PUBLIC include/)
 target_include_directories(prl2 PUBLIC src/)
 
 #compile options
-target_compile_features(prl2 PRIVATE cxx_std_17)
+target_compile_features(prl2 PUBLIC cxx_std_17)
 set_target_properties(prl2 PROPERTIES CXX_EXTENSIONS OFF)
 target_compile_options(prl2 PRIVATE 
   -Wall -Wextra -pedantic-errors
@@ -37,4 +37,9 @@ target_compile_options(prl2 PRIVATE
 )
 
 #link
-target_link_libraries(prl2 PRIVATE Threads::Threads)
+target_link_libraries(prl2 PUBLIC Threads::Threads)
+
+#main
+add_executable(main main.cpp)
+target_include_directories(main PRIVATE prl2)
+target_link_libraries(main PRIVATE prl2)
