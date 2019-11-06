@@ -203,6 +203,52 @@ inline SPD operator/(const SPD& spd1, const SPD& spd2) {
   return ret;
 }
 
+// SPDとRealの演算
+inline SPD operator+(const SPD& spd, const Real& k) {
+  SPD ret;
+  for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
+    ret.phi[i] = spd.phi[i] + k;
+  }
+  return ret;
+}
+inline SPD operator+(const Real& k, const SPD& spd) { return spd + k; }
+inline SPD operator-(const SPD& spd, const Real& k) {
+  SPD ret;
+  for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
+    ret.phi[i] = spd.phi[i] - k;
+  }
+  return ret;
+}
+inline SPD operator-(const Real& k, const SPD& spd) {
+  SPD ret;
+  for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
+    ret.phi[i] = k - spd.phi[i];
+  }
+  return ret;
+}
+inline SPD operator*(const SPD& spd, const Real& k) {
+  SPD ret;
+  for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
+    ret.phi[i] = spd.phi[i] * k;
+  }
+  return ret;
+}
+inline SPD operator*(const Real& k, const SPD& spd) { return spd * k; }
+inline SPD operator/(const SPD& spd, const Real& k) {
+  SPD ret;
+  for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
+    ret.phi[i] = spd.phi[i] / k;
+  }
+  return ret;
+}
+inline SPD operator/(const Real& k, const SPD& spd) {
+  SPD ret;
+  for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
+    ret.phi[i] = k / spd.phi[i];
+  }
+  return ret;
+}
+
 inline std::ostream& operator<<(std::ostream& stream, const SPD& spd) {
   stream << std::setw(12) << "lambda" << std::setw(12) << "phi" << std::endl;
   for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
