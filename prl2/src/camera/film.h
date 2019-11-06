@@ -16,14 +16,19 @@ namespace Prl2 {
 // 0.5*height_length]で表される
 class Film {
  public:
-  unsigned int width;       //横幅
-  unsigned int height;      //縦幅
-  Real width_length;        //横の物理的長さ[m]
-  Real height_length;       //縦の物理的長さ[m]
-  std::vector<SPD> pixels;  //画素
+  const unsigned int width;   //横幅
+  const unsigned int height;  //縦幅
+  const Real width_length;    //横の物理的長さ[m]
+  const Real height_length;   //縦の物理的長さ[m]
+  std::vector<SPD> pixels;    //画素
 
-  Film(const unsigned int _width, const unsigned int _height)
-      : width(_width), height(_height) {
+  //デフォルトでセンサーサイズはフルサイズ(36mm x 24mm)になる
+  Film(unsigned int _width, unsigned int _height,
+       const Real& _width_length = 0.036f, const Real& _height_length = 0.024f)
+      : width(_width),
+        height(_height),
+        width_length(_width_length),
+        height_length(_height_length) {
     pixels.resize(width * height);
   };
 
