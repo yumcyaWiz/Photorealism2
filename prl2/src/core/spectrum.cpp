@@ -23,10 +23,10 @@ SPD::SPD(const std::vector<Real>& _lambda, const std::vector<Real>& _phi) {
       phi[i] = _phi.back();
     } else {
       //非等間隔のSPDを線形補間
-      const std::size_t lambda1_index =
+      const int lambda1_index =
           std::lower_bound(_lambda.begin(), _lambda.end(), lambda_value) -
           _lambda.begin();
-      const std::size_t lambda0_index = lambda1_index - 1;
+      const int lambda0_index = lambda1_index - 1;
       assert(lambda0_index != lambda1_index);
 
       const Real t = (lambda_value - _lambda[lambda0_index]) /
@@ -40,11 +40,26 @@ SPD::SPD(const std::vector<Real>& _lambda, const std::vector<Real>& _phi) {
   }
 }
 
+void SPD::addPhi(const Real& _lambda, const Real& _phi) {
+  assert(_lambda >= LAMBDA_MIN && _lambda <= LAMBDA_MAX);
+
+  //対応する波長のインデックスを計算
+  const int lambda_index = (_lambda - LAMBDA_MIN) / LAMBDA_INTERVAL;
+
+  //両側に寄与を分配する
+  const Real lambda0 =
+      LAMBDA_MIN + lambda_index * LAMBDA_INTERVAL;  //左側の波長
+  const Real t =
+      (_lambda - lambda0) / LAMBDA_INTERVAL;  //与えられた波長の区間中の位置
+  phi[lambda_index] += (1.0f - t) * _phi;
+  phi[lambda_index + 1] += t * _phi;
+}
+
 Real SPD::sample(const Real& l) const {
   assert(l >= LAMBDA_MIN && l < LAMBDA_MAX);
 
   //対応する波長のインデックスを計算
-  const std::size_t lambda_index = (l - LAMBDA_MIN) / LAMBDA_INTERVAL;
+  const int lambda_index = (l - LAMBDA_MIN) / LAMBDA_INTERVAL;
 
   //放射束を線形補間して計算
   if (lambda_index == 0 || lambda_index == LAMBDA_SAMPLES - 1) {
@@ -100,4 +115,4 @@ XYZ SPD::toXYZ() const {
   return xyz;
 }
 
-}
+}  // namespace Prl2
