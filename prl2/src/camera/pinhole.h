@@ -8,8 +8,10 @@ namespace Prl2 {
 
 class PinholeCamera : public Camera {
  public:
-  PinholeCamera(const std::shared_ptr<Film>& _film, const Real& _fov)
-      : Camera(_film), fov(_fov), pinhole_distance(1){};
+  PinholeCamera(const std::shared_ptr<Film>& _film,
+                const std::shared_ptr<Transform>& _localToWorld,
+                const Real& _fov)
+      : Camera(_film, _localToWorld), fov(_fov), pinhole_distance(1){};
 
   bool generateRay(const Real& u, const Real& v, Ray& ray) const override;
 

@@ -5,7 +5,7 @@ namespace Prl2 {
 bool PinholeCamera::generateRay(const Real& u, const Real& v, Ray& ray) const {
   Vec2 pFilm_2d = film->computePosition(u, v);
   Vec3 pFilm(pFilm_2d.x(), pFilm_2d.y(), 0);
-  Vec3 pinholePos = pFilm + Vec3(0, pinhole_distance, 0);
+  Vec3 pinholePos = Vec3(0, 0, -pinhole_distance);
 
   //ローカル座標系のレイ
   ray.origin = pFilm;
