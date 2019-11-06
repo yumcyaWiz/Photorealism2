@@ -1,6 +1,8 @@
 #ifndef SPECTRUM_H
 #define SPECTRUM_H
 
+#include <iomanip>
+#include <iostream>
 #include <vector>
 
 #include "core/type.h"
@@ -199,6 +201,15 @@ inline SPD operator/(const SPD& spd1, const SPD& spd2) {
     ret.phi[i] = spd1.phi[i] / spd2.phi[i];
   }
   return ret;
+}
+
+inline std::ostream& operator<<(std::ostream& stream, const SPD& spd) {
+  stream << "lambda" << std::setw(12) << "phi" << std::endl;
+  for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
+    const Real lambda = SPD::LAMBDA_MIN + i * SPD::LAMBDA_INTERVAL;
+    stream << lambda << std::setw(12) << spd.phi[i] << std::endl;
+  }
+  return stream;
 }
 
 }  // namespace Prl2

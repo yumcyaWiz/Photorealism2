@@ -63,7 +63,6 @@ void SPD::addPhi(const Real& _lambda, const Real& _phi) {
       LAMBDA_MIN + lambda_index * LAMBDA_INTERVAL;  //左側の波長
   const Real t =
       (_lambda - lambda0) / LAMBDA_INTERVAL;  //与えられた波長の区間中の位置
-  std::cout << lambda_index << std::endl;
   phi[lambda_index] += (1.0f - t) * _phi;
   phi[lambda_index + 1] += t * _phi;
 }
