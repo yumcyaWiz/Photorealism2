@@ -10,32 +10,41 @@ namespace Prl2 {
 //非等間隔なSPDから等間隔なSPDを構成する
 //非等間隔なSPDを線形補間して計算する
 SPD::SPD(const std::vector<Real>& _lambda, const std::vector<Real>& _phi) {
-  for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
-    //等間隔側の波長
-    const Real lambda_value = LAMBDA_MIN + LAMBDA_INTERVAL * i;
+  assert(_lambda.size() == _phi.size());
 
-    //指定した波長が非等間隔のSPDの範囲に含まれていない場合、放射束を0とする
-    if (lambda_value < _lambda.front() || lambda_value > _lambda.back()) {
-      phi[i] = 0;
-    } else if (lambda_value == _lambda.front()) {
-      phi[i] = _phi.front();
-    } else if (lambda_value == _lambda.back()) {
-      phi[i] = _phi.back();
-    } else {
-      //非等間隔のSPDを線形補間
-      const int lambda1_index =
-          std::lower_bound(_lambda.begin(), _lambda.end(), lambda_value) -
-          _lambda.begin();
-      const int lambda0_index = lambda1_index - 1;
-      assert(lambda0_index != lambda1_index);
+  //サンプル数が1つの場合
+  if (_lambda.size() == 1) {
+    addPhi(_lambda[0], _phi[0]);
+  }
+  //複数のサンプルがある場合
+  else {
+    for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
+      //等間隔側の波長
+      const Real lambda_value = LAMBDA_MIN + LAMBDA_INTERVAL * i;
 
-      const Real t = (lambda_value - _lambda[lambda0_index]) /
-                     (_lambda[lambda1_index] - _lambda[lambda0_index]);
-      assert(t >= 0 && t <= 1);
+      //指定した波長が非等間隔のSPDの範囲に含まれていない場合、放射束を0とする
+      if (lambda_value < _lambda.front() || lambda_value > _lambda.back()) {
+        phi[i] = 0;
+      } else if (lambda_value == _lambda.front()) {
+        phi[i] = _phi.front();
+      } else if (lambda_value == _lambda.back()) {
+        phi[i] = _phi.back();
+      } else {
+        //非等間隔のSPDを線形補間
+        const int lambda1_index =
+            std::lower_bound(_lambda.begin(), _lambda.end(), lambda_value) -
+            _lambda.begin();
+        const int lambda0_index = lambda1_index - 1;
+        assert(lambda0_index != lambda1_index);
 
-      const Real interpolated_phi =
-          (1.0f - t) * _phi[lambda0_index] + t * _phi[lambda1_index];
-      phi[i] = interpolated_phi;
+        const Real t = (lambda_value - _lambda[lambda0_index]) /
+                       (_lambda[lambda1_index] - _lambda[lambda0_index]);
+        assert(t >= 0 && t <= 1);
+
+        const Real interpolated_phi =
+            (1.0f - t) * _phi[lambda0_index] + t * _phi[lambda1_index];
+        phi[i] = interpolated_phi;
+      }
     }
   }
 }
