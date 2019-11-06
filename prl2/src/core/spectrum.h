@@ -80,25 +80,49 @@ class SPD {
       phi[i] += spd.phi[i];
     }
     return *this;
-  }
+  };
+  SPD& operator+=(const Real& k) {
+    for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
+      phi[i] += k;
+    }
+    return *this;
+  };
   SPD& operator-=(const SPD& spd) {
     for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
       phi[i] -= spd.phi[i];
     }
     return *this;
-  }
+  };
+  SPD& operator-=(const Real& k) {
+    for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
+      phi[i] -= k;
+    }
+    return *this;
+  };
   SPD& operator*=(const SPD& spd) {
     for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
       phi[i] *= spd.phi[i];
     }
     return *this;
-  }
+  };
+  SPD& operator*=(const Real& k) {
+    for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
+      phi[i] *= k;
+    }
+    return *this;
+  };
   SPD& operator/=(const SPD& spd) {
     for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
       phi[i] /= spd.phi[i];
     }
     return *this;
-  }
+  };
+  SPD& operator/=(const Real& k) {
+    for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
+      phi[i] /= k;
+    }
+    return *this;
+  };
 
  private:
   //等色関数(CIE1931)
@@ -249,6 +273,7 @@ inline SPD operator/(const Real& k, const SPD& spd) {
   return ret;
 }
 
+// SPDの出力
 inline std::ostream& operator<<(std::ostream& stream, const SPD& spd) {
   stream << std::setw(12) << "lambda" << std::setw(12) << "phi" << std::endl;
   for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
