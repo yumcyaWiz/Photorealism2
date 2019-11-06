@@ -204,10 +204,11 @@ inline SPD operator/(const SPD& spd1, const SPD& spd2) {
 }
 
 inline std::ostream& operator<<(std::ostream& stream, const SPD& spd) {
-  stream << "lambda" << std::setw(12) << "phi" << std::endl;
+  stream << std::setw(12) << "lambda" << std::setw(12) << "phi" << std::endl;
   for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
     const Real lambda = SPD::LAMBDA_MIN + i * SPD::LAMBDA_INTERVAL;
-    stream << lambda << std::setw(12) << spd.phi[i] << std::endl;
+    stream << std::setw(12) << lambda << std::setw(12) << spd.phi[i]
+           << std::endl;
   }
   return stream;
 }
