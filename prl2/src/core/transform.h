@@ -24,7 +24,7 @@ class Transform {
 
   //方向ベクトルに対して変換を施す(mutable)
   void applyDirection(Vec3& v) const {
-    v[0] = mat.m[0][0] + v.x() + mat.m[0][1] * v.y() + mat.m[0][2] * v.z();
+    v[0] = mat.m[0][0] * v.x() + mat.m[0][1] * v.y() + mat.m[0][2] * v.z();
     v[1] = mat.m[1][0] * v.x() + mat.m[1][1] * v.y() + mat.m[1][2] * v.z();
     v[2] = mat.m[2][0] * v.x() + mat.m[2][1] * v.y() + mat.m[2][2] * v.z();
   };
