@@ -27,8 +27,11 @@ int main() {
       if (camera->generateRay(u, v, ray)) {
         IntersectInfo info;
         if (prim->intersect(ray, info)) {
+          const std::vector<Real> lambda = {450, 550, 610};
           SPD spd;
-          spd += 1;
+          spd.addPhi(450, 0.25f * (info.hitNormal.z() + 1.0f));
+          spd.addPhi(550, 0.25f * (info.hitNormal.y() + 1.0f));
+          spd.addPhi(610, 0.25f * (info.hitNormal.x() + 1.0f));
           film->addPixel(i, j, spd);
         }
       }
