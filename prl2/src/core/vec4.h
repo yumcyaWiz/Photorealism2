@@ -43,11 +43,11 @@ inline Vec4 operator-(const Vec4& v1, const Vec4& v2) {
               v1.w() - v2.w());
 }
 
-Real dot(const Vec4& v1, const Vec4& v2) {
+inline Real dot(const Vec4& v1, const Vec4& v2) {
   return v1.x() * v2.x() + v1.y() * v2.y() + v1.z() * v2.z() + v1.w() * v2.w();
 }
 
-std::ostream& operator<<(std::ostream& stream, const Vec4& v) {
+inline std::ostream& operator<<(std::ostream& stream, const Vec4& v) {
   stream << "(" << v.x() << ", " << v.y() << ", " << v.z() << ", " << v.w()
          << ")";
   return stream;
