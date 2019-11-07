@@ -1,7 +1,8 @@
 #include <iostream>
 #include <memory>
 
-#include "prl2.h"
+#include "core/primitive.h"
+#include "shape/sphere.h"
 
 using namespace Prl2;
 

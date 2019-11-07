@@ -1,4 +1,5 @@
-#include "prl2.h"
+#include "camera/film.h"
+#include "core/spectrum.h"
 
 using namespace Prl2;
 

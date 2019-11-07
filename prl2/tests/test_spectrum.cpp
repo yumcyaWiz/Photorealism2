@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "prl2.h"
+#include "core/spectrum.h"
 
 using namespace Prl2;
 

@@ -1,4 +1,7 @@
-#include "prl2.h"
+#include "camera/pinhole.h"
+#include "core/primitive.h"
+#include "intersector/linear.h"
+#include "shape/sphere.h"
 
 using namespace Prl2;
 
