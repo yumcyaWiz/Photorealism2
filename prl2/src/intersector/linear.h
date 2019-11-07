@@ -14,11 +14,13 @@ class LinearIntersector : public Intersector {
     bool hit = false;
 
     float t = ray.tmax;
+    IntersectInfo info_tmp;
     for (const auto& prim : primitives) {
-      if (prim->intersect(ray, info)) {
+      if (prim->intersect(ray, info_tmp)) {
         //衝突距離が最も小さいものを選ぶ
-        if (info.t < t) {
-          t = info.t;
+        if (info_tmp.t < t) {
+          t = info_tmp.t;
+          info = info_tmp;
           hit = true;
         }
       }
