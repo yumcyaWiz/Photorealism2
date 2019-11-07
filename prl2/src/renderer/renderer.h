@@ -3,6 +3,9 @@
 
 #include <memory>
 
+#include "core/scene.h"
+#include "renderer/render_config.h"
+
 namespace Prl2 {
 
 //レンダリングを行うクラス
@@ -11,7 +14,8 @@ class Renderer {
  public:
   Renderer(){};
 
-  void render() const;
+  //与えられたシーンと設定からレンダリングを行い、結果をRenderLayerに格納する
+  void render(const Scene& scene, const RenderConfig& config) const;
 };
 
 }  // namespace Prl2
