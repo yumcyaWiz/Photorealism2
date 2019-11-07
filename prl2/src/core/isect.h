@@ -2,6 +2,7 @@
 #define ISECT_H
 
 #include <iostream>
+#include <limits>
 
 #include "core/ray.h"
 #include "core/type.h"
@@ -14,7 +15,10 @@ struct IntersectInfo {
   Vec3 hitPos;
   Vec3 hitNormal;
 
-  IntersectInfo() : t(0), hitPos(Vec3()), hitNormal(Vec3()){};
+  IntersectInfo()
+      : t(std::numeric_limits<Real>::max()),
+        hitPos(Vec3()),
+        hitNormal(Vec3()){};
   IntersectInfo(const Real& _t, const Vec3& _hitPos, const Vec3& _hitNormal)
       : t(_t), hitPos(_hitPos), hitNormal(_hitNormal){};
 };

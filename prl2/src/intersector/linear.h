@@ -23,6 +23,7 @@ class LinearIntersector : public Intersector {
         }
       }
     }
+
     return hit;
   };
 };
