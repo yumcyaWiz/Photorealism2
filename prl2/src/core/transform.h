@@ -73,14 +73,14 @@ class Transform {
            invmat.m[2][0] * n.z();
     n[1] = invmat.m[0][1] * n.x() + invmat.m[1][1] * n.y() +
            invmat.m[2][1] * n.z();
-    n[2] = invmat.m[0][2] * n.x() + invmat.m[1][1] * n.y() +
+    n[2] = invmat.m[0][2] * n.x() + invmat.m[1][2] * n.y() +
            invmat.m[2][2] * n.z();
   };
   //法線ベクトルに対して逆変換を施す(mutable)
   void applyNormalInverse(Vec3& n) const {
     n[0] = mat.m[0][0] * n.x() + mat.m[1][0] * n.y() + mat.m[2][0] * n.z();
     n[1] = mat.m[0][1] * n.x() + mat.m[1][1] * n.y() + mat.m[2][1] * n.z();
-    n[2] = mat.m[0][2] * n.x() + mat.m[1][1] * n.y() + mat.m[2][2] * n.z();
+    n[2] = mat.m[0][2] * n.x() + mat.m[1][2] * n.y() + mat.m[2][2] * n.z();
   };
 
   //レイに対して変換を施す
