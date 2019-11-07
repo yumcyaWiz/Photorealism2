@@ -21,5 +21,5 @@ struct Scene {
       : camera(_camera), intersector(_intersector){};
 };
 
-};  // namespace Prl2
+}  // namespace Prl2
 #endif
