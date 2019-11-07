@@ -1,3 +1,4 @@
+
 #include "camera/pinhole.h"
 #include "core/primitive.h"
 #include "intersector/linear.h"
@@ -8,6 +9,7 @@ using namespace Prl2;
 int main() {
   const int width = 512;
   const int height = 512;
+  const Vec3 sunDir = normalize(Vec3(1, 1, 1));
 
   const auto film = std::make_shared<Film>(width, height);
   const auto camera_trans =
@@ -36,12 +38,16 @@ int main() {
       if (camera->generateRay(u, v, ray)) {
         IntersectInfo info;
         if (intersector.intersect(ray, info)) {
-          const std::vector<Real> lambda = {450, 550, 610};
-          SPD spd;
-          spd.addPhi(450, 0.25f * (info.hitNormal.z() + 1.0f));
-          spd.addPhi(550, 0.25f * (info.hitNormal.y() + 1.0f));
-          spd.addPhi(610, 0.25f * (info.hitNormal.x() + 1.0f));
-          film->addPixel(i, j, spd);
+          Ray shadow_ray(info.hitPos, sunDir);
+          IntersectInfo shadow_ray_info;
+          if (!intersector.intersect(shadow_ray, shadow_ray_info)) {
+            SPD spd;
+            spd.addPhi(450, 0.25f * (info.hitNormal.z() + 1.0f));
+            spd.addPhi(550, 0.25f * (info.hitNormal.y() + 1.0f));
+            spd.addPhi(610, 0.25f * (info.hitNormal.x() + 1.0f));
+            spd *= std::max(dot(info.hitNormal, sunDir), Real(0));
+            film->addPixel(i, j, spd);
+          }
         }
       }
     }
