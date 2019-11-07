@@ -15,6 +15,7 @@ using RGB = Vec3;
 
 //等間隔にサンプリングされたSPDを表現する
 //波長と放射束のサンプリング列を保持する
+//波長は[nm]で保持する
 //波長の分割幅より狭いピークを持つSPDは適切に表現されない可能性がある
 //本当はサンプルをそのまま保持して非等間隔のSPDを表現できるようにしたかったが、データサイズが大きすぎるので諦めた
 class SPD {
@@ -26,7 +27,7 @@ class SPD {
   //波長の分割数
   static constexpr int LAMBDA_SAMPLES = 80;
 
-  //波長幅
+  //分割された波長幅
   static constexpr Real LAMBDA_INTERVAL =
       (LAMBDA_MAX - LAMBDA_MIN) / LAMBDA_SAMPLES;
 

@@ -8,7 +8,7 @@
 
 namespace Prl2 {
 
-struct alignas(32) Ray {
+struct Ray {
   Vec3 origin;     //始点
   Vec3 direction;  //方向
   Real lambda;     //波長[nm]
