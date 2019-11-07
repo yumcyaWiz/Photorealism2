@@ -19,12 +19,3 @@ target_compile_options(prl2 PRIVATE
   $<$<CONFIG:Debug>: -g3 -O0 -pg>
   $<$<CONFIG:Release>: -O3 -s -DNDEBUG -march=native -mtune=native>
 )
-
-#tests
-file(GLOB TEST_SOURCES tests/*.cpp)
-foreach(source_file ${TEST_SOURCES})
-  get_filename_component(source_name ${source_file} NAME_WE)
-  add_executable(${source_name} ${source_file})
-  target_include_directories(${source_name} PRIVATE prl2)
-  target_link_libraries(${source_name} PRIVATE prl2)
-endforeach(source_file ${TEST_SOURCES})
