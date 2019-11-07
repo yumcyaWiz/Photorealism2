@@ -18,10 +18,11 @@ int main() {
   const auto shape = std::make_shared<Sphere>(1.0f);
   const auto prim_trans =
       std::make_shared<Transform>(translate(Vec3(0, 0, -3)));
-  const auto prim2_trans =
-      std::make_shared<Transform>(translate(Vec3(1, 0, -3)));
   const auto prim = std::make_shared<Primitive>(shape, prim_trans);
-  const auto prim2 = std::make_shared<Primitive>(shape, prim2_trans);
+  const auto shape2 = std::make_shared<Sphere>(10000.0f);
+  const auto prim2_trans =
+      std::make_shared<Transform>(translate(Vec3(0, -10001, 0)));
+  const auto prim2 = std::make_shared<Primitive>(shape2, prim2_trans);
 
   auto intersector = LinearIntersector();
   intersector.addPrimitive(prim);
@@ -40,6 +41,7 @@ int main() {
           spd.addPhi(450, 0.25f * (info.hitNormal.z() + 1.0f));
           spd.addPhi(550, 0.25f * (info.hitNormal.y() + 1.0f));
           spd.addPhi(610, 0.25f * (info.hitNormal.x() + 1.0f));
+          std::cout << info << std::endl;
           film->addPixel(i, j, spd);
         }
       }
