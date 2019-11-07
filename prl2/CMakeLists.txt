@@ -23,6 +23,8 @@ add_library(prl2 STATIC
   src/core/vec2.h
   src/core/vec3.h
   src/core/vec4.h
+  src/intersector/intersector.h
+  src/intersector/linear.h
   src/shape/shape.h
   src/shape/sphere.h
   src/shape/sphere.cpp

@@ -22,7 +22,7 @@ class Intersector {
   //与えられたレイとの衝突計算を行う
   virtual bool intersect(const Ray& ray, IntersectInfo& info) const = 0;
 
- private:
+ protected:
   std::vector<std::shared_ptr<Primitive>> primitives;  // Primitiveの配列
 };
 

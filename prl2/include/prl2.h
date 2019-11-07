@@ -18,4 +18,7 @@
 #include "camera/film.h"
 #include "camera/pinhole.h"
 
+#include "intersector/intersector.h"
+#include "intersector/linear.h"
+
 #endif
