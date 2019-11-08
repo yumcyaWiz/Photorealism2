@@ -12,10 +12,10 @@ namespace Prl2 {
 struct RenderLayer {
   // RenderConfigから画像を初期化
   RenderLayer(const RenderConfig& config) {
-    render_sRGB.resize(config.width * config.height, 0);
-    normal_sRGB.resize(config.width * config.height, 0);
-    depth_sRGB.resize(config.width * config.height, 0);
-    position_sRGB.resize(config.width * config.height, 0);
+    render_sRGB.resize(3 * config.width * config.height, 0);
+    normal_sRGB.resize(3 * config.width * config.height, 0);
+    depth_sRGB.resize(3 * config.width * config.height, 0);
+    position_sRGB.resize(3 * config.width * config.height, 0);
   };
 
   std::vector<Real>
