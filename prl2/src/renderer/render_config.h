@@ -9,7 +9,14 @@ namespace Prl2 {
 
 //レンダリングの設定を表すクラス
 struct RenderConfig {
-  RenderConfig(){};
+  RenderConfig() {
+    // Default Settings
+    width = 512;
+    height = 512;
+    width_length = 0.0251f;
+    height_length = 0.0251f;
+    samples = 1;
+  };
 
   // Film
   int width;           //画像の横幅[px]
