@@ -5,7 +5,9 @@
 #include <string>
 
 #include "core/primitive.h"
+#include "material/material.h"
 #include "renderer/render_config.h"
+#include "texture/texture.h"
 
 namespace Prl2 {
 
