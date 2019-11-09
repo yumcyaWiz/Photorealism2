@@ -2,9 +2,8 @@
 
 namespace Prl2 {
 
-Renderer::Renderer(const RenderConfig& _config) : config(_config) {}
-
-void Renderer::render(RenderLayer& layer) const {
+void Renderer::render(const Scene& scene, const RenderConfig& config,
+                      RenderLayer& layer) const {
   // それぞれの画素で同じ処理を行う
   for (int j = 0; j < config.height; ++j) {
     for (int i = 0; i < config.width; ++i) {

@@ -9,4 +9,6 @@ int main() {
   RenderConfig config;
 
   RenderLayer layer(config);
+
+  Renderer renderer;
 }

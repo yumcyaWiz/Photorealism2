@@ -15,14 +15,11 @@ namespace Prl2 {
 //与えられた設定を元に、シーンのセットアップ、レンダリングを行う
 class Renderer {
  public:
-  //与えられたRenderConfigからシーンのセットアップを行う
-  Renderer(const RenderConfig& _config);
+  Renderer(){};
 
   //レンダリングを行い、結果をRenderLayerに格納する
-  void render(RenderLayer& layer) const;
-
- private:
-  const RenderConfig config;
+  void render(const Scene& scene, const RenderConfig& config,
+              RenderLayer& layer) const;
 };
 
 }  // namespace Prl2
