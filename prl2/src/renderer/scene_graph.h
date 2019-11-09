@@ -6,16 +6,15 @@
 
 #include "core/primitive.h"
 #include "material/material.h"
-#include "renderer/render_config.h"
 #include "texture/texture.h"
 
 namespace Prl2 {
 
-//シーンを表現するクラス
+//シーングラフを表現するクラス
 class SceneGraph {
  public:
-  // Configからシーンを初期化する
-  SceneGraph(const RenderConfig& config);
+  // tomlからシーングラフを初期化する
+  SceneGraph(const std::string& filename);
 
  private:
   //名前をキーとしてそれぞれのオブジェクトのポインタを格納する
