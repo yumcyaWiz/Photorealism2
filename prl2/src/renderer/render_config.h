@@ -25,7 +25,13 @@ struct RenderConfig {
   Real width_length;   //フィルムの横幅[m]
   Real height_length;  //フィルムの縦幅[m]
 
-  // Render
+  // Camera
+  std::string camera_type;  //カメラの種類
+
+  // Scene
+  std::string scene_file;  //シーンファイル
+
+  // Renderer
   int samples;  //サンプル数
 };
 
