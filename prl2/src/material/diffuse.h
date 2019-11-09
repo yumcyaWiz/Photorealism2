@@ -14,7 +14,7 @@ class Diffuse : public Material {
                        Real& pdf) const {};
 
  private:
-  SPD albedo;
+  SPD albedo;  //分光反射率
 };
 
 }  // namespace Prl2

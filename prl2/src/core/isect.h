@@ -11,9 +11,11 @@
 namespace Prl2 {
 
 struct IntersectInfo {
-  Real t;
-  Vec3 hitPos;
-  Vec3 hitNormal;
+  Real t;          //衝突距離
+  Vec3 hitPos;     //衝突位置
+  Vec3 hitNormal;  //法線
+  Vec3 dpdu;       //接線
+  Vec3 dpdv;       // 陪法線
 
   IntersectInfo()
       : t(std::numeric_limits<Real>::max()),
