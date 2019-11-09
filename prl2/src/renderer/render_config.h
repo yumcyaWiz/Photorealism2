@@ -15,6 +15,7 @@ struct RenderConfig {
     height = 512;
     width_length = 0.0251f;
     height_length = 0.0251f;
+
     samples = 1;
   };
 
