@@ -1,11 +1,21 @@
 #ifndef SAMPLER_H
 #define SAMPLER_H
 
+#include "core/type.h"
+#include "core/vec2.h"
+
 namespace Prl2 {
 
+// 乱数を生成するクラス
 class Sampler {
  public:
   Sampler(){};
+
+  //シード値を設定する
+  virtual void setSeed() = 0;
+
+  //次の次元の乱数を入手
+  virtual Real getNext() = 0;
 };
 
 }  // namespace Prl2
