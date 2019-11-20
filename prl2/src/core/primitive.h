@@ -7,6 +7,7 @@
 #include "core/ray.h"
 #include "core/transform.h"
 
+#include "material/material.h"
 #include "shape/shape.h"
 
 namespace Prl2 {
@@ -14,8 +15,9 @@ namespace Prl2 {
 class Primitive {
  public:
   Primitive(const std::shared_ptr<Shape>& _shape,
+            const std::shared_ptr<Material>& _material,
             const std::shared_ptr<Transform>& _localToWorld)
-      : shape(_shape), localToWorld(_localToWorld){};
+      : shape(_shape), material(_material), localToWorld(_localToWorld){};
 
   //ワールド座標系のレイを受け取り、shapeとの衝突計算を行う。結果をinfoに保存する。
   bool intersect(const Ray& ray, IntersectInfo& info) const {
@@ -34,8 +36,9 @@ class Primitive {
   };
 
  private:
-  std::shared_ptr<Shape> shape;  //形状
-  std::shared_ptr<Transform>
+  const std::shared_ptr<Shape> shape;        // Shape
+  const std::shared_ptr<Material> material;  // Material
+  const std::shared_ptr<Transform>
       localToWorld;  //ローカル座標系からワールド座標系への変換を表すTransform
 };
 
