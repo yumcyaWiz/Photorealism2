@@ -81,5 +81,10 @@ inline Real dot(const Vec2& v1, const Vec2& v2) {
 
 inline Vec2 normalize(const Vec2& v) { return v / length(v); }
 
+inline std::ostream& operator<<(std::ostream& stream, const Vec2& v) {
+  stream << "(" << v.x() << ", " << v.y() << ")";
+  return stream;
+}
+
 }  // namespace Prl2
 #endif
