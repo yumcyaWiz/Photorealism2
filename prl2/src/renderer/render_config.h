@@ -8,7 +8,8 @@
 
 namespace Prl2 {
 
-//レンダリングの設定を表すクラス
+// レンダリングの設定を表すクラス
+// 画像のサイズ、サンプル数、カメラの種類、シーンファイルの種類などを設定する
 struct RenderConfig {
   RenderConfig() {
     // Default Settings

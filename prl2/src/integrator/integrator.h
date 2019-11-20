@@ -2,9 +2,9 @@
 #define INTEGRATOR_H
 
 #include "core/ray.h"
-#include "core/scene.h"
 #include "core/spectrum.h"
 #include "core/type.h"
+#include "renderer/scene.h"
 #include "sampler/sampler.h"
 
 namespace Prl2 {

@@ -2,13 +2,13 @@
 
 #include "camera/pinhole.h"
 #include "core/primitive.h"
-#include "core/scene.h"
 #include "core/spectrum.h"
 #include "core/util.h"
 #include "integrator/pt.h"
 #include "intersector/linear.h"
 #include "material/diffuse.h"
 #include "renderer/renderer.h"
+#include "renderer/scene.h"
 #include "sampler/random.h"
 #include "shape/sphere.h"
 

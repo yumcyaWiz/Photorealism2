@@ -5,10 +5,10 @@
 #include <vector>
 
 #include "core/primitive.h"
-#include "core/scene.h"
 #include "integrator/integrator.h"
 #include "renderer/render_config.h"
 #include "renderer/render_layer.h"
+#include "renderer/scene.h"
 
 namespace Prl2 {
 

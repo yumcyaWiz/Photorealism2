@@ -3,7 +3,6 @@ target_sources(prl2 PUBLIC
   mat4.h
   primitive.h
   ray.h
-  scene.h
   spectrum.cpp
   spectrum.h
   transform.h

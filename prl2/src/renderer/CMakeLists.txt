@@ -5,4 +5,5 @@ target_sources(prl2 PUBLIC
   render_layer.h
   scene_loader.cpp
   scene_loader.h
+  scene.h
 )
