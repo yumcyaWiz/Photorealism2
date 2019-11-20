@@ -103,6 +103,20 @@ class Film {
     return Vec2(u * 0.5f * width_length, v * 0.5f * height_length);
   };
 
+  //(i, j)をある値で割る
+  void divide(int i, int j, const Real& k) {
+    assert(i >= 0 && i < static_cast<int>(width));
+    assert(j >= 0 && j < static_cast<int>(height));
+    pixels[i + width * j] /= k;
+  };
+  // フィルム全体をある値で割る
+  void divide(const Real& k) {
+    for (int j = 0; j < height; ++j) {
+      for (int i = 0; i < width; ++i) {
+      }
+    }
+  };
+
   // PPMを出力
   void writePPM(const std::string& filename) const;
 
