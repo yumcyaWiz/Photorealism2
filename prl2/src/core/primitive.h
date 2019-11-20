@@ -36,7 +36,6 @@ class Primitive {
     }
   };
 
- private:
   const std::shared_ptr<Shape> shape;        // Shape
   const std::shared_ptr<Material> material;  // Material
   const std::shared_ptr<Transform>

@@ -15,6 +15,9 @@ Real PT::integrate(const Ray& ray_in, const Scene& scene,
     if (scene.intersect(ray, info)) {
       // 方向ベクトルをマテリアル座標系に変換
       Vec3 wo_material = worldToMaterial(-ray.direction, info);
+
+      // BRDF Sampling
+      auto material = info.hitPrimitive->material;
     }
     // レイが空に飛んでいったら
     else {
