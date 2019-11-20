@@ -33,8 +33,7 @@ struct RenderConfig {
   std::string scene_file;  //シーンファイル
 
   // Renderer
-  int samples;                       //サンプル数
-  std::atomic<int> current_samples;  // 現在のサンプル数
+  int samples;  //サンプル数
 };
 
 }  // namespace Prl2
