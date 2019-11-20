@@ -5,6 +5,7 @@
 #include "core/scene.h"
 #include "core/spectrum.h"
 #include "core/type.h"
+#include "sampler/sampler.h"
 
 namespace Prl2 {
 
@@ -15,7 +16,8 @@ class Integrator {
   Integrator(){};
 
   //与えられたレイとシーンから分光放射輝度を計算して返す
-  virtual Real integrate(const Ray& ray, const Scene& scene) const = 0;
+  virtual Real integrate(const Ray& ray, const Scene& scene,
+                         Sampler& sampler) const = 0;
 };
 
 }  // namespace Prl2

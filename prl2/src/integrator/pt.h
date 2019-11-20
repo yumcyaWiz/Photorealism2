@@ -9,7 +9,11 @@ namespace Prl2 {
 class PT : public Integrator {
   PT(){};
 
-  Real integrate(const Ray& ray, const Scene& scene) const override;
+  Real integrate(const Ray& ray, const Scene& scene,
+                 Sampler& sampler) const override;
+
+ private:
+  static constexpr int MAXDEPTH = 100;
 };
 
 }  // namespace Prl2
