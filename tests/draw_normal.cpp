@@ -1,8 +1,8 @@
 #include "camera/film.h"
 #include "camera/pinhole.h"
 #include "core/primitive.h"
-#include "core/scene.h"
 #include "renderer/renderer.h"
+#include "renderer/scene.h"
 #include "shape/sphere.h"
 
 using namespace Prl2;

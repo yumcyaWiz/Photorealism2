@@ -90,7 +90,7 @@ int main() {
   // Rendererの初期化
   RenderConfig config;
   RenderLayer layer(config);
-  Renderer renderer;
+  Renderer renderer(config);
 
   // シーンの初期化
   Scene scene = initScene(config);

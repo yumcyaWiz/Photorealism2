@@ -16,6 +16,7 @@ struct Scene {
   const std::shared_ptr<Camera> camera;            // Camera
   const std::shared_ptr<Intersector> intersector;  // Intersector
 
+  Scene() : camera(nullptr), intersector(nullptr){};
   Scene(const std::shared_ptr<Camera>& _camera,
         const std::shared_ptr<Intersector>& _intersector)
       : camera(_camera), intersector(_intersector){};

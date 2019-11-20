@@ -5,23 +5,22 @@
 #include <string>
 
 #include "core/primitive.h"
-#include "core/scene.h"
 #include "material/material.h"
 #include "renderer/render_config.h"
+#include "renderer/scene.h"
 #include "shape/shape.h"
 #include "texture/texture.h"
 
 namespace Prl2 {
 
-// シーンファイルからSceneとConfigを作るクラス
+// シーンファイルを読み込み、Sceneクラスを作成する
 class SceneLoader {
  public:
   SceneLoader(){};
 
-  // TomlからSceneとConfigを初期化する
+  // TomlからSceneを初期化する
   // Shape, Material, Textureはこの中で生成される
-  void loadSceneFromToml(const std::string& filename, RenderConfig& config,
-                         Scene& scene);
+  void loadSceneFromToml(const std::string& filename, Scene& scene);
 
  private:
   //名前をキーとしてそれぞれのオブジェクトのポインタを格納する

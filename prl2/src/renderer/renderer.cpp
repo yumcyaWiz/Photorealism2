@@ -1,9 +1,13 @@
 #include "renderer/renderer.h"
+#include "renderer/scene_loader.h"
 #include "sampler/random.h"
 
 namespace Prl2 {
 
-Renderer::Renderer(const RenderConfig& _config) : config(_config) {}
+Renderer::Renderer(const RenderConfig& _config) : config(_config) {
+  if (!config.scene_file.empty()) {
+  }
+}
 
 void Renderer::render(RenderLayer& layer) const {
   // それぞれの画素で同じ処理を行う

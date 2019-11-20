@@ -2,7 +2,7 @@
 
 namespace Prl2 {
 
-void SceneLoader::loadSceneFromToml(const std::string& filename,
-                                    RenderConfig& config, Scene& scene) {}
+void SceneLoader::loadSceneFromToml(const std::string& filename, Scene& scene) {
+}
 
 }  // namespace Prl2
