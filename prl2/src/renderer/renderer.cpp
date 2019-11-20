@@ -60,14 +60,13 @@ void Renderer::render(const Integrator& integrator, const Scene& scene,
 
           // フィルムに分光放射束を加算
           scene.camera->film->addPixel(i, j, lambda, phi);
-
-          // Render LayerにsRGBを加算
-          const Vec3 rgb = scene.camera->film->getPixel(i, j).toRGB();
-          layer.render_sRGB[3 * i + 3 * config.width * j + 0] = rgb.x();
-          layer.render_sRGB[3 * i + 3 * config.width * j + 1] = rgb.y();
-          layer.render_sRGB[3 * i + 3 * config.width * j + 2] = rgb.z();
         }
       }
+      // Render LayerにsRGBを加算
+      const Vec3 rgb = scene.camera->film->getPixel(i, j).toRGB();
+      layer.render_sRGB[3 * i + 3 * config.width * j + 0] = rgb.x();
+      layer.render_sRGB[3 * i + 3 * config.width * j + 1] = rgb.y();
+      layer.render_sRGB[3 * i + 3 * config.width * j + 2] = rgb.z();
     }
   }
 }
