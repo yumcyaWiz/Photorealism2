@@ -4,6 +4,7 @@
 #include "core/primitive.h"
 #include "core/scene.h"
 #include "core/spectrum.h"
+#include "core/util.h"
 #include "integrator/pt.h"
 #include "intersector/linear.h"
 #include "material/diffuse.h"
@@ -44,6 +45,8 @@ int main() {
 
   Renderer renderer;
   renderer.render(integrator, scene, config, layer);
+
+  RGBArray2PPM(config.width, config.height, layer.render_sRGB, "output.ppm");
 
   return 0;
 }

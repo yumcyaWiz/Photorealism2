@@ -14,9 +14,9 @@ void Renderer::render(const Integrator& integrator, const Scene& scene,
       //サンプリングを繰り返す
       for (int k = 0; k < config.samples; ++k) {
         // 波長のサンプリング
-        const Real lambda =
-            SPD::LAMBDA_MIN +
-            0.99f * sampler.getNext() * (SPD::LAMBDA_MAX - SPD::LAMBDA_MIN);
+        Real lambda = SPD::LAMBDA_MIN + 0.99f * sampler.getNext() *
+                                            (SPD::LAMBDA_MAX - SPD::LAMBDA_MIN);
+        std::cout << lambda << std::endl;
 
         // サンプリングされた波長をセット
         Ray ray;
@@ -60,6 +60,12 @@ void Renderer::render(const Integrator& integrator, const Scene& scene,
 
           // フィルムに寄与の追加
           scene.camera->film->addPixel(i, j, lambda, phi);
+
+          // Render
+          const Vec3 rgb = scene.camera->film->getPixel(i, j).toRGB();
+          layer.render_sRGB[3 * i + 3 * config.width * j + 0] = rgb.x();
+          layer.render_sRGB[3 * i + 3 * config.width * j + 1] = rgb.y();
+          layer.render_sRGB[3 * i + 3 * config.width * j + 2] = rgb.z();
         }
       }
     }
