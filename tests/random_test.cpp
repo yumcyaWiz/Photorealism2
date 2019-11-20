@@ -10,7 +10,7 @@ int main() {
 
   for (int i = 0; i < 100; ++i) {
     Vec2 u = random.getNext2D();
-    std::cout << u << std::endl;
+    std::cout << sampleCosineHemisphere(u) << std::endl;
   }
 
   return 0;
