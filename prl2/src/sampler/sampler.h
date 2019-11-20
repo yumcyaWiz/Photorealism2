@@ -5,6 +5,7 @@
 
 #include "core/type.h"
 #include "core/vec2.h"
+#include "core/vec3.h"
 
 namespace Prl2 {
 
