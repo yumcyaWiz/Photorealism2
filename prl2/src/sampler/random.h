@@ -9,7 +9,7 @@ namespace Prl2 {
 class RandomSampler : public Sampler {
  public:
   RandomSampler(){};
-  RandomSampler(uint64_t seed) { setSeed(seed); };
+  RandomSampler(uint64_t seed) : rng(RNG(seed)){};
 
   void setSeed(uint64_t seed) { rng.setSeed(seed); };
 

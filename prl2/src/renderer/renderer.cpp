@@ -14,9 +14,9 @@ void Renderer::render(const Integrator& integrator, const Scene& scene,
       //サンプリングを繰り返す
       for (int k = 0; k < config.samples; ++k) {
         // 波長のサンプリング
-        Real lambda = SPD::LAMBDA_MIN + 0.99f * sampler.getNext() *
-                                            (SPD::LAMBDA_MAX - SPD::LAMBDA_MIN);
-        std::cout << lambda << std::endl;
+        const Real lambda =
+            SPD::LAMBDA_MIN +
+            sampler.getNext() * (SPD::LAMBDA_MAX - SPD::LAMBDA_MIN);
 
         // サンプリングされた波長をセット
         Ray ray;

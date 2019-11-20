@@ -25,22 +25,29 @@ inline uint32_t pcg32_random_r(pcg32_random_t* rng) {
 
 class RNG {
  public:
-  pcg32_random_t state;
-
   RNG() {
     state.state = PCG32_DEFAULT_STATE;
     state.inc = PCG32_DEFAULT_STREAM;
+    uniformUInt32();
   };
 
   RNG(uint64_t seed) {
     state.state = seed;
     state.inc = PCG32_DEFAULT_STREAM;
+    uniformUInt32();
   };
 
-  void setSeed(uint64_t seed) { state.state = seed; };
+  void setSeed(uint64_t seed) {
+    state.state = seed;
+    state.inc = PCG32_DEFAULT_STREAM;
+    uniformUInt32();
+  };
 
   uint32_t uniformUInt32() { return pcg32_random_r(&state); };
   float uniformFloat() { return uniformUInt32() * 0x1p-32; };
+
+ private:
+  pcg32_random_t state;
 };
 
 }  // namespace Prl2
