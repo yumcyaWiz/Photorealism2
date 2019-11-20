@@ -46,6 +46,7 @@ int main() {
     for (int j = 0; j < height; ++j) {
       const Real u = (2.0f * i - width) / width;
       const Real v = (2.0f * j - height) / height;
+
       for (int k = 0; k < 100; ++k) {
         // 波長のサンプリング
         Real lambda = SPD::LAMBDA_MIN + 0.99 * sampler.getNext() *
@@ -57,6 +58,8 @@ int main() {
           film->addPixel(i, j, ray.lambda, phi);
         }
       }
+
+      film->divide(i, j, 100);
     }
   }
 
