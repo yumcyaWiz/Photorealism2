@@ -2,17 +2,18 @@
 #define RNG_H
 #include <cstdint>
 
+#define PCG32_DEFAULT_STATE 0x853c49e6748fea9bULL
+#define PCG32_DEFAULT_STREAM 0xda3e39cb94b95bdbULL
+
 namespace Prl2 {
 
 // *Really* minimal PCG32 code / (c) 2014 M.E. O'Neill / pcg-random.org
 // Licensed under Apache License 2.0 (NO WARRANTY, etc. see website)
-
 typedef struct {
   uint64_t state;
   uint64_t inc;
 } pcg32_random_t;
-
-uint32_t pcg32_random_r(pcg32_random_t* rng) {
+inline uint32_t pcg32_random_r(pcg32_random_t* rng) {
   uint64_t oldstate = rng->state;
   // Advance internal state
   rng->state = oldstate * 6364136223846793005ULL + (rng->inc | 1);
@@ -27,13 +28,13 @@ class RNG {
   pcg32_random_t state;
 
   RNG() {
-    state.state = 0;
-    state.inc = 0;
+    state.state = PCG32_DEFAULT_STATE;
+    state.inc = PCG32_DEFAULT_STREAM;
   };
 
   RNG(uint64_t seed) {
     state.state = seed;
-    state.inc = 0;
+    state.inc = PCG32_DEFAULT_STREAM;
   };
 
   void setSeed(uint64_t seed) { state.state = seed; };
