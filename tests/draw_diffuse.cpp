@@ -28,9 +28,15 @@ int main() {
       std::make_shared<Transform>(translate(Vec3(0, 0, -3)));
   const auto prim = std::make_shared<Primitive>(shape, mat, prim_trans);
 
+  const auto shape2 = std::make_shared<Sphere>(10000.0f);
+  const auto prim2_trans =
+      std::make_shared<Transform>(translate(Vec3(0, -10001, 0)));
+  const auto prim2 = std::make_shared<Primitive>(shape2, mat, prim2_trans);
+
   std::shared_ptr<LinearIntersector> intersector =
       std::make_shared<LinearIntersector>();
   intersector->addPrimitive(prim);
+  intersector->addPrimitive(prim2);
 
   Scene scene(camera, intersector);
   PT integrator;

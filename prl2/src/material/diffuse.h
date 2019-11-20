@@ -16,8 +16,9 @@ class Diffuse : public Material {
                        Real& pdf) const {
     // Cosine Weighted Hemisphere Sampling
     const Vec2 u = sampler.getNext2D();
-    const Vec3 dir = sampleCosineHemisphere(u);
-    pdf = INV_PI * absCosTheta(dir);
+    const Vec3 wi = sampleCosineHemisphere(u);
+    interaction.wi = wi;
+    pdf = INV_PI * absCosTheta(wi);
 
     // BRDFを計算
     return INV_PI * albedo.sample(interaction.lambda);
