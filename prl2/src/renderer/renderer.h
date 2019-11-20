@@ -16,11 +16,16 @@ namespace Prl2 {
 //与えられた設定を元に、シーンのセットアップ、レンダリングを行う
 class Renderer {
  public:
-  Renderer(){};
+  // RenderConfigをもとにRendererの初期化を行う
+  Renderer(const RenderConfig& config);
 
   //レンダリングを行い、結果をRenderLayerに格納する
-  void render(const Integrator& integrator, const Scene& scene,
-              const RenderConfig& config, RenderLayer& layer) const;
+  void render(RenderLayer& layer) const;
+
+ private:
+  const RenderConfig config;                     // RenderConfig
+  const std::shared_ptr<Integrator> integrator;  // Integrator
+  const Scene scene;                             // Scene
 };
 
 }  // namespace Prl2

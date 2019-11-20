@@ -3,8 +3,9 @@
 
 namespace Prl2 {
 
-void Renderer::render(const Integrator& integrator, const Scene& scene,
-                      const RenderConfig& config, RenderLayer& layer) const {
+Renderer::Renderer(const RenderConfig& _config) : config(_config) {}
+
+void Renderer::render(RenderLayer& layer) const {
   // それぞれの画素で同じ処理を行う
   for (int j = 0; j < config.height; ++j) {
     for (int i = 0; i < config.width; ++i) {
@@ -56,7 +57,7 @@ void Renderer::render(const Integrator& integrator, const Scene& scene,
           }
 
           // 分光放射束の計算
-          const Real phi = integrator.integrate(ray, scene, sampler);
+          const Real phi = integrator->integrate(ray, scene, sampler);
 
           // フィルムに分光放射束を加算
           scene.camera->film->addPixel(i, j, lambda, phi);
