@@ -40,6 +40,13 @@ class SPD {
     }
   };
 
+  // ある値で初期化
+  SPD(const Real& v) {
+    for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
+      phi[i] = v;
+    }
+  };
+
   //任意の波長と放射束のサンプリング列から等間隔のSPDを構築
   //波長と対応する放射束は昇順で並んでいると仮定している
   SPD(const std::vector<Real>& _lambda, const std::vector<Real>& _phi);
