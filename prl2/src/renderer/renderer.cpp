@@ -1,4 +1,5 @@
 #include "renderer/renderer.h"
+#include "sampler/random.h"
 
 namespace Prl2 {
 

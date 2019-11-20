@@ -40,7 +40,7 @@ int main() {
 
   Scene scene(camera, intersector);
   PT integrator;
-  Random sampler;
+  RandomSampler sampler;
 
   for (int i = 0; i < width; ++i) {
     for (int j = 0; j < height; ++j) {

@@ -6,10 +6,10 @@
 namespace Prl2 {
 
 // ただの乱数を返すSampler
-class Random : public Sampler {
+class RandomSampler : public Sampler {
  public:
-  Random(){};
-  Random(uint64_t seed) { setSeed(seed); };
+  RandomSampler(){};
+  RandomSampler(uint64_t seed) { setSeed(seed); };
 
   void setSeed(uint64_t seed) { rng.setSeed(seed); };
 
