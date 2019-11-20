@@ -9,9 +9,10 @@ Real PT::integrate(const Ray& ray_in, const Scene& scene,
   Real russian_roulette_prob = 1;  // ロシアンルーレットの確率
 
   for (int depth = 0; depth < MAXDEPTH; ++depth) {
-    IntersectInfo info;
+    // TODO: ロシアンルーレット
 
     // レイが物体に当たったら
+    IntersectInfo info;
     if (scene.intersect(ray, info)) {
       // TODO: 光源だったら寄与を蓄積
 
@@ -25,7 +26,10 @@ Real PT::integrate(const Ray& ray_in, const Scene& scene,
       const float cos = absCosTheta(interaction.wi);
       throughput *= bsdf * cos / pdf_w;
 
-      // 次のレイを生成
+      // レイを更新
+      const Vec3 wi_world = materialToWorld(interaction.wi, info);
+      ray.origin = info.hitPos;
+      ray.direction = wi_world;
     }
     // レイが空に飛んでいったら
     else {

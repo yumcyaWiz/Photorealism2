@@ -8,6 +8,17 @@
 
 namespace Prl2 {
 
+//ワールド座標系の方向ベクトルをマテリアル座標系の方向ベクトルに変換する
+inline Vec3 worldToMaterial(const Vec3& v, const IntersectInfo& info) {
+  return Vec3(dot(v.x(), info.dpdu), dot(v.y(), info.hitNormal),
+              dot(v.z(), info.dpdv));
+}
+
+//マテリアル座標系の方向ベクトルをワールド座標系に変換する
+inline Vec3 materialToWorld(const Vec3& v, const IntersectInfo& info) {
+  return v.x() * info.dpdu + v.y() * info.hitNormal + v.z() * info.dpdv;
+}
+
 class SurfaceInteraction {
  public:
   Vec3 wi;      //入射方向
@@ -22,17 +33,6 @@ class SurfaceInteraction {
     lambda = ray.lambda;
   }
 };
-
-//ワールド座標系の方向ベクトルをマテリアル座標系の方向ベクトルに変換する
-inline Vec3 worldToMaterial(const Vec3& v, const IntersectInfo& info) {
-  return Vec3(dot(v.x(), info.dpdu), dot(v.y(), info.hitNormal),
-              dot(v.z(), info.dpdv));
-}
-
-//マテリアル座標系の方向ベクトルをワールド座標系に変換する
-inline Vec3 materialToWorld(const Vec3& v, const IntersectInfo& info) {
-  return v.x() * info.dpdu + v.y() * info.hitNormal + v.z() * info.dpdv;
-}
 
 }  // namespace Prl2
 
