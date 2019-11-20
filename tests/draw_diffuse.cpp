@@ -46,11 +46,16 @@ int main() {
     for (int j = 0; j < height; ++j) {
       const Real u = (2.0f * i - width) / width;
       const Real v = (2.0f * j - height) / height;
-      Ray ray;
-      if (camera->generateRay(u, v, ray)) {
-        ray.lambda = 550;
-        Real phi = integrator.integrate(ray, scene, sampler);
-        film->addPixel(i, j, ray.lambda, phi);
+      for (int k = 0; k < 100; ++k) {
+        // 波長のサンプリング
+        Real lambda = SPD::LAMBDA_MIN + 0.99 * sampler.getNext() *
+                                            (SPD::LAMBDA_MAX - SPD::LAMBDA_MIN);
+        Ray ray;
+        ray.lambda = lambda;
+        if (camera->generateRay(u, v, ray)) {
+          Real phi = integrator.integrate(ray, scene, sampler);
+          film->addPixel(i, j, ray.lambda, phi);
+        }
       }
     }
   }
