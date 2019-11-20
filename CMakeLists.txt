@@ -56,7 +56,7 @@ target_link_libraries(app PRIVATE prl2)
 
 #tests
 set(TEST_SOURCES
-  tests/draw_diffuse.cpp
+  tests/draw_spectrum.cpp
 )
 foreach(source_file ${TEST_SOURCES})
   get_filename_component(source_name ${source_file} NAME_WE)
