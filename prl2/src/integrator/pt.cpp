@@ -13,11 +13,19 @@ Real PT::integrate(const Ray& ray_in, const Scene& scene,
 
     // レイが物体に当たったら
     if (scene.intersect(ray, info)) {
-      // 方向ベクトルをマテリアル座標系に変換
-      Vec3 wo_material = worldToMaterial(-ray.direction, info);
+      // TODO: 光源だったら寄与を蓄積
 
       // BRDF Sampling
+      SurfaceInteraction interaction(ray, info);
       auto material = info.hitPrimitive->material;
+      Real pdf_w;
+      const Real bsdf = material->sampleDirection(interaction, sampler, pdf_w);
+
+      // Throughputを更新
+      const float cos = absCosTheta(interaction.wi);
+      throughput *= bsdf * cos / pdf_w;
+
+      // 次のレイを生成
     }
     // レイが空に飛んでいったら
     else {

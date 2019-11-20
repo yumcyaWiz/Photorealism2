@@ -5,6 +5,7 @@
 #include "core/ray.h"
 #include "core/type.h"
 #include "core/vec3.h"
+#include "material/surface_interaction.h"
 #include "sampler/sampler.h"
 
 namespace Prl2 {
@@ -17,20 +18,9 @@ class Material {
 
   //次のレイの方向をサンプリングする
   //評価した分光反射率を返り値とする
-  virtual Real sampleDirection(const Ray& ray_in, Sampler& sampler,
-                               Ray& ray_out, Real& pdf) const = 0;
+  virtual Real sampleDirection(SurfaceInteraction& interaction,
+                               Sampler& sampler, Real& pdf) const = 0;
 };
-
-//ワールド座標系の方向ベクトルをマテリアル座標系の方向ベクトルに変換する
-inline Vec3 worldToMaterial(const Vec3& v, const IntersectInfo& info) {
-  return Vec3(dot(v.x(), info.dpdu), dot(v.y(), info.hitNormal),
-              dot(v.z(), info.dpdv));
-}
-
-//マテリアル座標系の方向ベクトルをワールド座標系に変換する
-inline Vec3 materialToLocal(const Vec3& v, const IntersectInfo& info) {
-  return v.x() * info.dpdu + v.y() * info.hitNormal + v.z() * info.dpdv;
-}
 
 inline Real cosTheta(const Vec3& w) { return w.y(); }
 inline Real absCosTheta(const Vec3& w) { return std::abs(w.y()); }
