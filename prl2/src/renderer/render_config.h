@@ -1,6 +1,7 @@
 #ifndef RENDER_CONFIG_H
 #define RENDER_CONFIG_H
 
+#include <atomic>
 #include <string>
 
 #include "core/type.h"
@@ -32,7 +33,8 @@ struct RenderConfig {
   std::string scene_file;  //シーンファイル
 
   // Renderer
-  int samples;  //サンプル数
+  int samples;                       //サンプル数
+  std::atomic<int> current_samples;  // 現在のサンプル数
 };
 
 }  // namespace Prl2

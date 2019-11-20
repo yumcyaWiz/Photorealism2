@@ -30,10 +30,10 @@ void Renderer::render(const Integrator& integrator, const Scene& scene,
 
         //カメラからレイを生成
         if (scene.camera->generateRay(u, v, ray)) {
-          // Primary Rayで描画できるもの
+          // Primary Rayで計算できるものを計算しておく
           IntersectInfo info;
           if (scene.intersector->intersect(ray, info)) {
-            // Normal
+            // Normal LayerにsRGBを加算
             layer.normal_sRGB[3 * i + 3 * config.width * j + 0] +=
                 0.5f * (info.hitNormal.x() + 1.0f);
             layer.normal_sRGB[3 * i + 3 * config.width * j + 1] +=
@@ -41,12 +41,12 @@ void Renderer::render(const Integrator& integrator, const Scene& scene,
             layer.normal_sRGB[3 * i + 3 * config.width * j + 2] +=
                 0.5f * (info.hitNormal.z() + 1.0f);
 
-            // Depth
+            // Depth LayerにsRGBを加算
             layer.depth_sRGB[3 * i + 3 * config.width * j + 0] += info.t;
             layer.depth_sRGB[3 * i + 3 * config.width * j + 1] += info.t;
             layer.depth_sRGB[3 * i + 3 * config.width * j + 2] += info.t;
 
-            // Position
+            // Position LayerにsRGBを加算
             layer.position_sRGB[3 * i + 3 * config.width * j + 0] +=
                 info.hitPos.x();
             layer.position_sRGB[3 * i + 3 * config.width * j + 1] +=
@@ -58,10 +58,10 @@ void Renderer::render(const Integrator& integrator, const Scene& scene,
           // 分光放射束の計算
           const Real phi = integrator.integrate(ray, scene, sampler);
 
-          // フィルムに寄与の追加
+          // フィルムに分光放射束を加算
           scene.camera->film->addPixel(i, j, lambda, phi);
 
-          // Render
+          // Render LayerにsRGBを加算
           const Vec3 rgb = scene.camera->film->getPixel(i, j).toRGB();
           layer.render_sRGB[3 * i + 3 * config.width * j + 0] = rgb.x();
           layer.render_sRGB[3 * i + 3 * config.width * j + 1] = rgb.y();
