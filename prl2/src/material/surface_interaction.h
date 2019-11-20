@@ -30,7 +30,7 @@ inline Vec3 worldToMaterial(const Vec3& v, const IntersectInfo& info) {
 }
 
 //マテリアル座標系の方向ベクトルをワールド座標系に変換する
-inline Vec3 materialToLocal(const Vec3& v, const IntersectInfo& info) {
+inline Vec3 materialToWorld(const Vec3& v, const IntersectInfo& info) {
   return v.x() * info.dpdu + v.y() * info.hitNormal + v.z() * info.dpdv;
 }
 
