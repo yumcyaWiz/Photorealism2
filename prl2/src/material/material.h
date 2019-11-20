@@ -32,8 +32,8 @@ inline Vec3 materialToLocal(const Vec3& v, const IntersectInfo& info) {
   return v.x() * info.dpdu + v.y() * info.hitNormal + v.z() * info.dpdv;
 }
 
-inline Real cosTheta(const Vec3& w) { return w.y; }
-inline Real absCosTheta(const Vec3& w) { return std::abs(w.y); }
+inline Real cosTheta(const Vec3& w) { return w.y(); }
+inline Real absCosTheta(const Vec3& w) { return std::abs(w.y()); }
 
 }  // namespace Prl2
 
