@@ -14,10 +14,10 @@
 using namespace Prl2;
 
 int main() {
-  const int width = 512;
-  const int height = 512;
+  RenderConfig config;
+  RenderLayer layer(config);
 
-  const auto film = std::make_shared<Film>(width, height);
+  const auto film = std::make_shared<Film>(config.width, config.height);
   const auto camera_trans =
       std::make_shared<Transform>(translate(Vec3(0, 0, 0)));
   const auto camera =
@@ -41,10 +41,6 @@ int main() {
 
   Scene scene(camera, intersector);
   PT integrator;
-  RandomSampler sampler;
-
-  RenderConfig config;
-  RenderLayer layer(config);
 
   Renderer renderer;
   renderer.render(integrator, scene, config, layer);

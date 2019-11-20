@@ -8,6 +8,7 @@ target_sources(prl2 PUBLIC
   spectrum.h
   transform.h
   type.h
+  util.h
   vec2.h
   vec3.h
   vec4.h

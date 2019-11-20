@@ -33,7 +33,7 @@ Real PT::integrate(const Ray& ray_in, const Scene& scene,
     }
     // レイが空に飛んでいったら
     else {
-      return throughput * 0.015;
+      return throughput * 1;
     }
   }
 
