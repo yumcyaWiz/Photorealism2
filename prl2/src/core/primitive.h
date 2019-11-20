@@ -29,6 +29,7 @@ class Primitive {
     if (shape->intersect(ray_local, info_local)) {
       //ローカル座標系の衝突情報をワールド座標系に変換
       info = localToWorld->apply(info_local);
+      info.hitPrimitive = this;
       return true;
     } else {
       return false;

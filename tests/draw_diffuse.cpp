@@ -19,9 +19,10 @@ int main() {
       std::make_shared<PinholeCamera>(film, camera_trans, 90.0f);
 
   const auto shape = std::make_shared<Sphere>(1.0f);
+  const auto mat = std::make_shared<Diffuse>(SPD(0.9));
   const auto prim_trans =
       std::make_shared<Transform>(translate(Vec3(0, 0, -3)));
-  const auto prim = std::make_shared<Primitive>(shape, prim_trans);
+  const auto prim = std::make_shared<Primitive>(shape, mat, prim_trans);
 
   for (int i = 0; i < width; ++i) {
     for (int j = 0; j < height; ++j) {

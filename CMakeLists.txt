@@ -55,7 +55,9 @@ target_link_libraries(app PRIVATE Threads::Threads)
 target_link_libraries(app PRIVATE prl2)
 
 #tests
-file(GLOB TEST_SOURCES tests/*.cpp)
+set(TEST_SOURCES
+  tests/draw_diffuse.cpp
+)
 foreach(source_file ${TEST_SOURCES})
   get_filename_component(source_name ${source_file} NAME_WE)
   add_executable(${source_name} ${source_file})

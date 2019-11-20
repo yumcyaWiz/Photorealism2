@@ -10,12 +10,16 @@
 
 namespace Prl2 {
 
+// 前方宣言
+class Primitive;
+
 struct IntersectInfo {
-  Real t;          //衝突距離
-  Vec3 hitPos;     //衝突位置
-  Vec3 hitNormal;  //法線
-  Vec3 dpdu;       //接線
-  Vec3 dpdv;       // 陪法線
+  Real t;                         // 衝突距離
+  Vec3 hitPos;                    // 衝突位置
+  Vec3 hitNormal;                 // 法線
+  Vec3 dpdu;                      // 接線
+  Vec3 dpdv;                      // 陪法線
+  const Primitive* hitPrimitive;  // 衝突Primitiveへのポインタ
 
   IntersectInfo()
       : t(std::numeric_limits<Real>::max()),
