@@ -22,7 +22,6 @@ class Camera {
   //(u, v)はフィルム面を[-1, -1] x [1, 1]で表している
   virtual bool generateRay(const Real& u, const Real& v, Ray& ray) const = 0;
 
- protected:
   const std::shared_ptr<Film> film;  //フィルム
   const std::shared_ptr<Transform>
       localToWorld;  //ローカル座標系からワールド座標系へのTransform
