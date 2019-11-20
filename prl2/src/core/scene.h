@@ -19,6 +19,10 @@ struct Scene {
   Scene(const std::shared_ptr<Camera>& _camera,
         const std::shared_ptr<Intersector>& _intersector)
       : camera(_camera), intersector(_intersector){};
+
+  bool intersect(const Ray& ray, IntersectInfo& info) const {
+    return intersector->intersect(ray, info);
+  };
 };
 
 }  // namespace Prl2
