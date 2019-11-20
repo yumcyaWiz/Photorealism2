@@ -23,9 +23,9 @@ class Renderer {
   void render(RenderLayer& layer) const;
 
  private:
-  const RenderConfig config;                     // RenderConfig
-  const std::shared_ptr<Integrator> integrator;  // Integrator
-  const Scene scene;                             // Scene
+  const RenderConfig config;               // RenderConfig
+  std::shared_ptr<Integrator> integrator;  // Integrator
+  Scene scene;                             // Scene
 };
 
 }  // namespace Prl2

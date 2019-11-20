@@ -5,8 +5,13 @@
 namespace Prl2 {
 
 Renderer::Renderer(const RenderConfig& _config) : config(_config) {
+  // シーンファイルの読み込み
   if (!config.scene_file.empty()) {
+    SceneLoader sceneLoader;
+    sceneLoader.loadSceneFromToml(config.scene_file, scene);
   }
+
+  // Integratorの設定
 }
 
 void Renderer::render(RenderLayer& layer) const {
