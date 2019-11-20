@@ -1,6 +1,6 @@
 #ifndef RNG_H
 #define RNG_H
-#include <cinttypes>
+#include <cstdint>
 
 namespace Prl2 {
 
