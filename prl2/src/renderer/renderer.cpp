@@ -66,4 +66,4 @@ void Renderer::render(const Integrator& integrator, const Scene& scene,
   }
 }
 
-};  // namespace Prl2
+}  // namespace Prl2
