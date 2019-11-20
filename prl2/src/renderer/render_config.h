@@ -33,6 +33,9 @@ struct RenderConfig {
   // Scene
   std::string scene_file;  //シーンファイル
 
+  // Integrator
+  std::string integrator_type;  // Integratorの種類
+
   // Renderer
   int samples;  //サンプル数
 };

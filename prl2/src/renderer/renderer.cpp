@@ -1,4 +1,5 @@
 #include "renderer/renderer.h"
+#include "integrator/pt.h"
 #include "renderer/scene_loader.h"
 #include "sampler/random.h"
 
@@ -12,6 +13,16 @@ Renderer::Renderer(const RenderConfig& _config) : config(_config) {
   }
 
   // Integratorの設定
+  if (!config.integrator_type.empty()) {
+    if (config.integrator_type == "PT") {
+      integrator = std::make_shared<PT>();
+    } else {
+      std::cerr << "invalid integrator type" << std::endl;
+      std::exit(EXIT_FAILURE);
+    }
+  } else {
+    integrator = std::make_shared<PT>();
+  }
 }
 
 void Renderer::render(RenderLayer& layer) const {
