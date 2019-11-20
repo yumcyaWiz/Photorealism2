@@ -36,6 +36,8 @@ class RNG {
     state.inc = 0;
   };
 
+  void setSeed(uint64_t seed) { state.state = seed; };
+
   uint32_t uniformUInt32() { return pcg32_random_r(&state); };
   float uniformFloat() { return uniformUInt32() * 0x1p-32; };
 };
