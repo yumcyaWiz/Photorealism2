@@ -28,6 +28,8 @@ class alignas(16) Vec3 {
   Real y() const { return v[1]; };
   Real z() const { return v[2]; };
 
+  Vec3 operator-(const Vec3& v) const { return Vec3(-v.x(), -v.y(), -v.z()); };
+
  private:
   Real v[3];
 };

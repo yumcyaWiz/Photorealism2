@@ -13,6 +13,8 @@ Real PT::integrate(const Ray& ray_in, const Scene& scene,
 
     // レイが物体に当たったら
     if (scene.intersect(ray, info)) {
+      // 方向ベクトルをマテリアル座標系に変換
+      Vec3 wo_material = worldToMaterial(-ray.direction, info);
     }
     // レイが空に飛んでいったら
     else {
