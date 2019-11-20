@@ -1,3 +1,6 @@
+#include <algorithm>
+
+#include "core/constant.h"
 #include "shape/sphere.h"
 
 namespace Prl2 {
@@ -31,11 +34,26 @@ bool Sphere::intersect(const Ray& ray, IntersectInfo& info) const {
     }
   }
 
+  // ローカル座標系における衝突位置
+  const Vec3 hitPos = ray(t);
+
+  // 球面座標
+  Real phi = std::atan2(hitPos.z(), hitPos.x());
+  if (phi < 0) phi += PI_MUL_2;
+  const Real theta = std::acos(std::clamp(hitPos.y() / radius, -1.0f, 1.0f));
+
+  const Vec3 dpdu = Vec3(-PI_MUL_2 * hitPos.z(), 0, PI_MUL_2 * hitPos.x());
+  const Vec3 dpdv =
+      PI * Vec3(hitPos.y() * std::cos(phi), -radius * std::sin(theta),
+                hitPos.y() * std::sin(phi));
+
   //衝突情報を格納
   info.t = t;
   info.hitPos = ray(t);
   info.hitNormal = normalize(info.hitPos);
+  info.dpdu = normalize(dpdu);
+  info.dpdv = normalize(dpdv);
   return true;
 }
 
-}
+}  // namespace Prl2
