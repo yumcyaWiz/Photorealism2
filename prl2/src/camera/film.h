@@ -111,8 +111,9 @@ class Film {
   };
   // フィルム全体をある値で割る
   void divide(const Real& k) {
-    for (int j = 0; j < height; ++j) {
-      for (int i = 0; i < width; ++i) {
+    for (unsigned int j = 0; j < height; ++j) {
+      for (unsigned int i = 0; i < width; ++i) {
+        divide(i, j, k);
       }
     }
   };
