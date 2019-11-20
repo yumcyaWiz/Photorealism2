@@ -7,6 +7,7 @@ namespace Prl2 {
 
 //純粋なPath Tracingを実装するクラス
 class PT : public Integrator {
+ public:
   PT(){};
 
   Real integrate(const Ray& ray, const Scene& scene,
