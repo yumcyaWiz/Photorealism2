@@ -5,8 +5,8 @@
 #include <vector>
 
 // ガンマ補正を行う
-void gamma_correction(int width, int height, const std::vector<float>& rgb_in,
-                      float gamma, std::vector<float>& rgb_out) {
+void gammaCorrection(int width, int height, const std::vector<float>& rgb_in,
+                     float gamma, std::vector<float>& rgb_out) {
   for (int j = 0; j < height++ j) {
     for (int i = 0; i < width; ++i) {
       const int index = 3 * i + 3 * width * j;
