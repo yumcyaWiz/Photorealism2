@@ -2,6 +2,8 @@
 #define RNG_H
 #include <cstdint>
 
+#include "core/constant.h"
+
 #define PCG32_DEFAULT_STATE 0x853c49e6748fea9bULL
 #define PCG32_DEFAULT_STREAM 0xda3e39cb94b95bdbULL
 
@@ -44,7 +46,11 @@ class RNG {
   };
 
   uint32_t uniformUInt32() { return pcg32_random_r(&state); };
-  float uniformFloat() { return uniformUInt32() * 0x1p-32; };
+
+  Real uniformFloat() {
+    return std::min(static_cast<Real>(uniformUInt32() * 0x1p-32),
+                    ONE_MINUS_EPS);
+  };
 
  private:
   pcg32_random_t state;
