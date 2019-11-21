@@ -16,7 +16,7 @@ namespace Prl2 {
 //与えられた設定を元に、シーンのセットアップ、レンダリングを行う
 class Renderer {
  public:
-  Scene scene;                             // Scene
+  Scene scene;  // Scene
 
   Renderer(){};
   Renderer(const RenderConfig& _config) : config(_config) {
@@ -27,7 +27,7 @@ class Renderer {
   void loadConfig(const RenderConfig& config);
 
   // レンダリングを行い、結果をRenderLayerに格納する
-  void render(RenderLayer& layer) const;
+  void render(RenderLayer& layer, const std::atomic<bool>& cancel) const;
 
  private:
   RenderConfig config;                     // RenderConfig

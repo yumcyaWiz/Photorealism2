@@ -61,7 +61,8 @@ void Renderer::loadConfig(const RenderConfig& _config) {
   }
 }
 
-void Renderer::render(RenderLayer& layer) const {
+void Renderer::render(RenderLayer& layer,
+                      const std::atomic<bool>& cancel) const {
   // レイヤーをクリア
   layer.clear();
 
@@ -76,6 +77,10 @@ void Renderer::render(RenderLayer& layer) const {
 
         //サンプリングを繰り返す
         for (int k = 0; k < config.samples; ++k) {
+          if (cancel) {
+            break;
+          }
+
           // 波長のサンプリング
           const Real lambda =
               SPD::LAMBDA_MIN +

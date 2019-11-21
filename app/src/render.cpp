@@ -31,7 +31,7 @@ std::thread Render::render() {
     while (true) {
       if (refreshRender) {
         const auto start_time = std::chrono::system_clock::now();
-        renderer.render(layer);
+        renderer.render(layer, cancelRender);
 
         if (cancelRender) {
           cancelRender = false;
