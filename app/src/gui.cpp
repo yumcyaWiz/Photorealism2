@@ -3,6 +3,8 @@
 #include "gui.h"
 #include "imgui.h"
 
+#include "core/vec3.h"
+
 void GUI::drawRenderSettings(Render& render) const {
   bool refresh_render = false;
 
@@ -89,6 +91,10 @@ void GUI::drawCameraSettings(Render& render) const {
         render.renderer.config.camera_position.y(),
         render.renderer.config.camera_position.z()};
     if (ImGui::InputFloat3("Camera Position", camera_position)) {
+      render.renderer.setCameraLookAt(
+          Prl2::Vec3(camera_position[0], camera_position[1],
+                     camera_position[2]),
+          Prl2::Vec3(0, 0, 0));
     }
   }
   ImGui::End();
