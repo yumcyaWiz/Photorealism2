@@ -5,7 +5,10 @@
 
 namespace Prl2 {
 
-Renderer::Renderer(const RenderConfig& _config) : config(_config) {
+void Renderer::loadConfig(const RenderConfig& _config) {
+  // RenderConfigのセット
+  config = _config;
+
   // シーンファイルの読み込み
   if (!config.scene_file.empty()) {
     SceneLoader sceneLoader;
