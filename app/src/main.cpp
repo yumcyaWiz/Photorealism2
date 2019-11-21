@@ -76,6 +76,7 @@ int main() {
     gui.drawRenderSettings(render);
     gui.drawRenderLayer(render);
     gui.drawFilmSettings(render);
+    gui.drawCameraSettings(render);
 
     ImGui::Render();
     int display_w, display_h;

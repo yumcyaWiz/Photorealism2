@@ -81,6 +81,19 @@ void GUI::drawFilmSettings(Render& render) const {
   ImGui::End();
 }
 
+void GUI::drawCameraSettings(Render& render) const {
+  ImGui::Begin("Camera");
+  {
+    static float camera_position[3] = {
+        render.renderer.config.camera_position.x(),
+        render.renderer.config.camera_position.y(),
+        render.renderer.config.camera_position.z()};
+    if (ImGui::InputFloat3("Camera Position", camera_position)) {
+    }
+  }
+  ImGui::End();
+}
+
 void GUI::makeTextureFromLayer(GLuint texture_id, int width, int height,
                                const std::vector<float>& rgb) const {
   if (rgb.size() == 3 * width * height) {

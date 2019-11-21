@@ -29,6 +29,9 @@ class GUI {
   // FilmSettingsを表示
   void drawFilmSettings(Render& render) const;
 
+  // CameraSettingsを表示
+  void drawCameraSettings(Render& render) const;
+
  private:
   GLuint render_texture_id;    // Render Texture
   GLuint normal_texture_id;    // Normal Texture

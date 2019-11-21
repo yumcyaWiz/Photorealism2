@@ -21,10 +21,10 @@ struct RenderConfig {
   Real height_length = 0.0251f;  //フィルムの縦幅[m]
 
   // Camera
-  std::string camera_type;  //カメラの種類
-  Vec3 camera_origin = Vec3(0, 0, 0);       // カメラの位置
-  Vec3 camera_lookat = Vec3(0, 0, -100);       // カメラの注目位置
-  Real fov = 90.0f;         // 対角FOV
+  std::string camera_type;                //カメラの種類
+  Vec3 camera_position = Vec3(0, 0, 0);   // カメラの位置
+  Vec3 camera_lookat = Vec3(0, 0, -100);  // カメラの注目位置
+  Real fov = 90.0f;                       // 対角FOV
 
   // Scene
   std::string scene_file;  //シーンファイル
