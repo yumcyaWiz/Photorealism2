@@ -139,20 +139,28 @@ void GUI::drawToneMappingUI() const {
   ImGui::End();
 }
 
+void GUI::imagePostProcessing(int width, int height,
+                              const std::vector<float>& rgb_in,
+                              std::vector<float>& rgb_out) const {
+  // ガンマ補正
+  gammaCorrection(width, height, rgb_in, gamma, rgb_out);
+}
+
 void GUI::makeTextureFromLayer(GLuint texture_id, int width, int height,
                                const std::vector<float>& rgb) const {
-  if (rgb.size() == 3 * width * height) {
-    // ガンマ補正
-    std::vector<float> texture(3 * width * height);
-    gammaCorrection(width, height, rgb, gamma, texture);
+  if (rgb.size() != 3 * width * height) return;
 
-    glBindTexture(GL_TEXTURE_2D, texture_id);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_FLOAT,
-                 texture.data());
-    glBindTexture(GL_TEXTURE_2D, 0);
-  }
+  // 前処理
+  std::vector<float> texture(3 * width * height);
+  imagePostProcessing(width, height, rgb, texture);
+
+  // テクスチャの生成
+  glBindTexture(GL_TEXTURE_2D, texture_id);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_FLOAT,
+               texture.data());
+  glBindTexture(GL_TEXTURE_2D, 0);
 }

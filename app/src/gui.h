@@ -43,6 +43,12 @@ class GUI {
 
   static float gamma;  // ガンマ値
 
+  // 受け取った画像にガンマ補正・トーンマッピングなどを施す
+  void imagePostProcessing(int width, int height,
+                           const std::vector<float>& rgb_in,
+                           std::vector<float>& rgb_out) const;
+
+  // LayerからTextureを生成
   void makeTextureFromLayer(GLuint texture_id, int width, int height,
                             const std::vector<float>& rgb) const;
 };
