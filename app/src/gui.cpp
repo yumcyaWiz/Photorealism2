@@ -1,7 +1,9 @@
 #include <string>
 
-#include "gui.h"
 #include "imgui.h"
+
+#include "gui.h"
+#include "io.h"
 
 #include "core/vec3.h"
 
@@ -34,7 +36,10 @@ void GUI::drawRenderSettings(Render& render) const {
     ImGui::RadioButton("EXR", &image_type, 2);
 
     if (ImGui::Button("Save Image")) {
-      // TODO: Save Image
+      if (image_type == 0) {
+        savePPM(std::string(filename), render.renderer.config.width,
+                render.renderer.config.height, render.layer.render_sRGB);
+      }
     }
   }
   ImGui::End();
