@@ -38,7 +38,7 @@ Real PT::integrate(const Ray& ray_in, const Scene& scene,
     }
     // レイが空に飛んでいったら
     else {
-      return throughput * 0.01;
+      return throughput * scene.sky->getRadiance(ray);
     }
   }
 

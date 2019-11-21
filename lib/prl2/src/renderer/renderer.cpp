@@ -3,10 +3,12 @@
 #include "camera/pinhole.h"
 #include "core/transform.h"
 #include "integrator/pt.h"
+#include "light/light.h"
 #include "parallel/parallel.h"
 #include "renderer/renderer.h"
 #include "renderer/scene_loader.h"
 #include "sampler/random.h"
+#include "sky/uniform_sky.h"
 
 namespace Prl2 {
 
@@ -19,6 +21,15 @@ void Renderer::loadConfig(const RenderConfig& _config) {
     SceneLoader sceneLoader;
     sceneLoader.loadSceneFromToml(config.scene_file, scene);
   }
+
+  // Skyの設定
+  std::shared_ptr<Sky> sky = nullptr;
+  if (!config.sky_type.empty()) {
+    sky = std::make_shared<UniformSky>(D65Light());
+  } else {
+    sky = std::make_shared<UniformSky>(D65Light());
+  }
+  scene.sky = sky;
 
   // Filmの設定
   const auto film = std::make_shared<Film>(
