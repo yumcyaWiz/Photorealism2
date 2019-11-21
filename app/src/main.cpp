@@ -57,6 +57,9 @@ int main() {
   Prl2::RenderConfig config;
   Render render(config);
 
+  // レンダリングループ
+  render.render();
+
   // GUIのレンダリングループ
   while (!glfwWindowShouldClose(window)) {
     glfwPollEvents();
