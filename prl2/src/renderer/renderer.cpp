@@ -97,11 +97,28 @@ void Renderer::render(RenderLayer& layer) const {
           scene.camera->film->addPixel(i, j, lambda, phi);
         }
       }
+
       // Render LayerにsRGBを加算
       const Vec3 rgb = scene.camera->film->getPixel(i, j).toRGB();
-      layer.render_sRGB[3 * i + 3 * config.width * j + 0] = rgb.x();
-      layer.render_sRGB[3 * i + 3 * config.width * j + 1] = rgb.y();
-      layer.render_sRGB[3 * i + 3 * config.width * j + 2] = rgb.z();
+      layer.render_sRGB[3 * i + 3 * config.width * j + 0] =
+          rgb.x() / config.samples;
+      layer.render_sRGB[3 * i + 3 * config.width * j + 1] =
+          rgb.y() / config.samples;
+      layer.render_sRGB[3 * i + 3 * config.width * j + 2] =
+          rgb.z() / config.samples;
+
+      // 他のレイヤーの寄与をサンプル数で割る
+      layer.normal_sRGB[3 * i + 3 * config.width * j + 0] /= config.samples;
+      layer.normal_sRGB[3 * i + 3 * config.width * j + 1] /= config.samples;
+      layer.normal_sRGB[3 * i + 3 * config.width * j + 2] /= config.samples;
+
+      layer.depth_sRGB[3 * i + 3 * config.width * j + 0] /= config.samples;
+      layer.depth_sRGB[3 * i + 3 * config.width * j + 1] /= config.samples;
+      layer.depth_sRGB[3 * i + 3 * config.width * j + 2] /= config.samples;
+
+      layer.position_sRGB[3 * i + 3 * config.width * j + 0] /= config.samples;
+      layer.position_sRGB[3 * i + 3 * config.width * j + 1] /= config.samples;
+      layer.position_sRGB[3 * i + 3 * config.width * j + 2] /= config.samples;
     }
   }
 }
