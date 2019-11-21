@@ -14,6 +14,6 @@ class Sky {
   virtual Real getRadiance(const Ray& ray) const = 0;
 };
 
-};  // namespace Prl2
+}  // namespace Prl2
 
 #endif
