@@ -29,7 +29,7 @@ class Render {
 
   // レンダリングループ
   // 別スレッドでレンダリングが行われる
-  void render();
+  std::thread render();
 
  private:
   Prl2::RenderConfig config;  // RenderConfig

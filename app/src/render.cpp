@@ -32,7 +32,7 @@ void Render::initScene(const Prl2::RenderConfig& config) {
   renderer.setScene(Prl2::Scene(camera, intersector));
 }
 
-void Render::render() {
+std::thread Render::render() {
   std::thread rendering_thread([&] {
     while (true) {
       if (refreshRender) {
@@ -53,5 +53,5 @@ void Render::render() {
       std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
   });
-  rendering_thread.join();
+  return rendering_thread;
 }

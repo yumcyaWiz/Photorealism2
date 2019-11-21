@@ -57,8 +57,8 @@ int main() {
   Prl2::RenderConfig config;
   Render render(config);
 
-  // レンダリングループ
-  render.render();
+  // レンダリングスレッドの作成
+  std::thread rendering_thread = render.render();
 
   // GUIのレンダリングループ
   while (!glfwWindowShouldClose(window)) {
@@ -86,6 +86,9 @@ int main() {
   // GLFWの終了処理
   glfwDestroyWindow(window);
   glfwTerminate();
+
+  // スレッドの終了処理
+  rendering_thread.join();
 
   return 0;
 }
