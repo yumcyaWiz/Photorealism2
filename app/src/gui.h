@@ -32,11 +32,16 @@ class GUI {
   // CameraSettingsを表示
   void drawCameraSettings(Render& render) const;
 
+  // ToneMappingUIを表示
+  void drawToneMappingUI() const;
+
  private:
   GLuint render_texture_id;    // Render Texture
   GLuint normal_texture_id;    // Normal Texture
   GLuint position_texture_id;  // Position Texture
   GLuint depth_texture_id;     // Depth Texture
+
+  static float gamma;  // ガンマ値
 
   void makeTextureFromLayer(GLuint texture_id, int width, int height,
                             const std::vector<float>& rgb) const;

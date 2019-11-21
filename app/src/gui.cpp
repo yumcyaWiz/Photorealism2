@@ -4,8 +4,11 @@
 
 #include "gui.h"
 #include "io.h"
+#include "tonemapping.h"
 
 #include "core/vec3.h"
+
+float GUI::gamma = 2.2;
 
 void GUI::drawRenderSettings(Render& render) const {
   bool refresh_render = false;
@@ -130,16 +133,26 @@ void GUI::drawCameraSettings(Render& render) const {
   ImGui::End();
 }
 
+void GUI::drawToneMappingUI() const {
+  ImGui::Begin("Tone Mapping");
+  { ImGui::InputFloat("Gamma", &gamma); }
+  ImGui::End();
+}
+
 void GUI::makeTextureFromLayer(GLuint texture_id, int width, int height,
                                const std::vector<float>& rgb) const {
   if (rgb.size() == 3 * width * height) {
+    // ガンマ補正
+    std::vector<float> texture(3 * width * height);
+    gammaCorrection(width, height, rgb, gamma, texture);
+
     glBindTexture(GL_TEXTURE_2D, texture_id);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_FLOAT,
-                 rgb.data());
+                 texture.data());
     glBindTexture(GL_TEXTURE_2D, 0);
   }
 }
