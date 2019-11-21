@@ -141,12 +141,12 @@ void GUI::drawCameraSettings(Render& render) const {
 void GUI::drawToneMappingUI() {
   ImGui::Begin("Tone Mapping");
   {
-    static int e = tone_mapping_function;
+    static int _tone_mapping_function = tone_mapping_function;
     ImGui::Text("Tone Mapping Function");
-    ImGui::RadioButton("Linear", &e, 0);
+    ImGui::RadioButton("Linear", &_tone_mapping_function, 0);
     ImGui::SameLine();
-    ImGui::RadioButton("Reinhard", &e, 1);
-    tone_mapping_function = e;
+    ImGui::RadioButton("Reinhard", &_tone_mapping_function, 1);
+    tone_mapping_function = _tone_mapping_function;
 
     static float _gamma = gamma;
     if (ImGui::InputFloat("Gamma", &_gamma)) {
@@ -160,10 +160,14 @@ void GUI::imagePostProcessing(int width, int height,
                               const std::vector<float>& rgb_in,
                               std::vector<float>& rgb_out) const {
   // Tone Mapping
-  reinHardToneMapping(width, height, rgb_in, rgb_out);
+  if (tone_mapping_function == 0) {
+    linearToneMapping(width, height, rgb_in, rgb_out);
+  } else if (tone_mapping_function == 1) {
+    reinHardToneMapping(width, height, rgb_in, rgb_out);
+  }
 
   // ガンマ補正
-  gammaCorrection(width, height, rgb_in, gamma, rgb_out);
+  gammaCorrection(width, height, rgb_out, gamma, rgb_out);
 }
 
 void GUI::makeTextureFromLayer(GLuint texture_id, int width, int height,
