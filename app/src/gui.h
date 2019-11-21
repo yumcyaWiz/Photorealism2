@@ -42,6 +42,7 @@ class GUI {
   GLuint depth_texture_id;     // Depth Texture
 
   float gamma = 2.2;              // ガンマ値
+  float exposure = 0.18;          // 露光値(key value)
   int tone_mapping_function = 0;  // Tone Mappingの種類
 
   // 受け取った画像にガンマ補正・トーンマッピングなどを施す

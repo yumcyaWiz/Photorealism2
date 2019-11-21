@@ -141,8 +141,12 @@ void GUI::drawCameraSettings(Render& render) const {
 void GUI::drawToneMappingUI() {
   ImGui::Begin("Tone Mapping");
   {
+    static float _exposure = exposure;
+    if (ImGui::InputFloat("Exposure", &_exposure)) {
+      exposure = _exposure;
+    }
+
     static int _tone_mapping_function = tone_mapping_function;
-    ImGui::Text("Tone Mapping Function");
     ImGui::RadioButton("Linear", &_tone_mapping_function, 0);
     ImGui::SameLine();
     ImGui::RadioButton("Reinhard", &_tone_mapping_function, 1);
