@@ -1,5 +1,6 @@
 #include "renderer/renderer.h"
 #include "integrator/pt.h"
+#include "parallel/parallel.h"
 #include "renderer/scene_loader.h"
 #include "sampler/random.h"
 

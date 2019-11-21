@@ -10,7 +10,7 @@ add_subdirectory(src)
 
 # Include
 target_include_directories(prl2 PUBLIC src/)
-target_include_directories(prl2 PUBLIC ext/ThreadPool)
+target_include_directories(prl2 PUBLIC ext/)
 
 # Link
 target_link_libraries(prl2 PUBLIC Threads::Threads)
