@@ -87,6 +87,8 @@ int main() {
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
     glfwSwapBuffers(window);
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
   }
 
   // ImGuiの終了処理
