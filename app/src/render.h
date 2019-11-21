@@ -10,7 +10,8 @@
 // レンダラー周りのことをやる
 class Render {
  public:
-  Render(const Prl2::RenderConfig& config) {
+  Render(const Prl2::RenderConfig& config)
+      : cancelRender(false), refreshRender(false) {
     layer.resize(config.width, config.height);
     renderer.loadConfig(config);
     initScene(config);
