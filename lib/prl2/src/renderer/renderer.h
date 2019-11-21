@@ -37,8 +37,8 @@ class Renderer {
   // サンプル数を設定する
   void setSamples(unsigned int samples) { config.samples = samples; }
 
-  // フィルムサイズを設定する
-  void setFilmSize(const Real& width_length, const Real& height_length) {
+  // フィルムの長さを設定する
+  void setFilmLength(const Real& width_length, const Real& height_length) {
     config.width_length = width_length;
     config.height_length = height_length;
     scene.camera->film->resizeLength(width_length, height_length);

@@ -75,7 +75,7 @@ void GUI::drawFilmSettings(Render& render) const {
     static float film_length[2] = {render.renderer.config.width_length,
                                    render.renderer.config.height_length};
     if (ImGui::InputFloat2("Film Length", film_length)) {
-      render.renderer.setFilmSize(film_length[0], film_length[1]);
+      render.renderer.setFilmLength(film_length[0], film_length[1]);
     }
   }
   ImGui::End();
@@ -83,14 +83,14 @@ void GUI::drawFilmSettings(Render& render) const {
 
 void GUI::makeTextureFromLayer(GLuint texture_id, int width, int height,
                                const std::vector<float>& rgb) const {
-  if (rgb.size() < width * height) return;
-
-  glBindTexture(GL_TEXTURE_2D, texture_id);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_FLOAT,
-               rgb.data());
-  glBindTexture(GL_TEXTURE_2D, 0);
+  if (rgb.size() == 3 * width * height) {
+    glBindTexture(GL_TEXTURE_2D, texture_id);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_FLOAT,
+                 rgb.data());
+    glBindTexture(GL_TEXTURE_2D, 0);
+  }
 }
