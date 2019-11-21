@@ -11,6 +11,7 @@
 class Render {
  public:
   Render(const Prl2::RenderConfig& config) {
+    layer.resize(config.width, config.height);
     renderer.loadConfig(config);
     initScene(config);
   };
