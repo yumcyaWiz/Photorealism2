@@ -20,7 +20,7 @@ class GUI {
   };
 
   // RenderLayerを表示
-  void drawRenderLayer() const;
+  void drawRenderLayer(const Render& render) const;
 
  private:
   int width;
@@ -30,16 +30,7 @@ class GUI {
   GLuint position_texture_id;  // Position Texture
   GLuint depth_texture_id;     // Depth Texture
 
-  // RenderLayer Textureを更新
-  void updateRenderLayerTexture(const Prl2::RenderLayer& layer) {
-    makeTextureFromRGB(render_texture_id, width, height, layer.render_sRGB);
-    makeTextureFromRGB(normal_texture_id, width, height, layer.normal_sRGB);
-    makeTextureFromRGB(position_texture_id, width, height, layer.position_sRGB);
-    makeTextureFromRGB(depth_texture_id, width, height, layer.depth_sRGB);
-  };
-
-  void makeTextureFromRGB(GLuint texture_id, int width, int height,
-                          const std::vector<float>& rgb);
+  void makeTextureFromRGB(GLuint texture_id, const float* rgb) const;
 };
 
 #endif
