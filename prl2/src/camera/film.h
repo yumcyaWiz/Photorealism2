@@ -118,6 +118,15 @@ class Film {
     }
   };
 
+  // フィルム全体をクリア
+  void clear() {
+    for (unsigned int j = 0; j < height; ++j) {
+      for (unsigned int i = 0; i < width; ++i) {
+        pixels[i + width * j].clear();
+      }
+    }
+  };
+
   // PPMを出力
   void writePPM(const std::string& filename) const;
 

@@ -40,6 +40,12 @@ void Renderer::loadConfig(const RenderConfig& _config) {
 }
 
 void Renderer::render(RenderLayer& layer) const {
+  // レイヤーをクリア
+  layer.clear();
+
+  // フィルムをクリア
+  scene.camera->film->clear();
+
   // それぞれの画素で同じ処理を行う
   for (int j = 0; j < config.height; ++j) {
     for (int i = 0; i < config.width; ++i) {

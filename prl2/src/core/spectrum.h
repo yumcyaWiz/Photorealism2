@@ -51,6 +51,13 @@ class SPD {
   //波長と対応する放射束は昇順で並んでいると仮定している
   SPD(const std::vector<Real>& _lambda, const std::vector<Real>& _phi);
 
+  // クリアする
+  void clear() {
+    for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
+      phi[i] = 0;
+    }
+  };
+
   //分光放射束を加算する
   void addPhi(const Real& _lambda, const Real& _phi);
 

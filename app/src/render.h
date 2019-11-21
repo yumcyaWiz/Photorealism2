@@ -25,9 +25,6 @@ class Render {
 
   // レンダリングする
   void requestRender() {
-    // Layerをクリア
-    layer.clear();
-
     // フラグを立てる
     if (refreshRender) {
       cancelRender = true;
@@ -40,7 +37,7 @@ class Render {
   std::thread render();
 
  private:
-  Prl2::Renderer renderer;    // Renderer
+  Prl2::Renderer renderer;  // Renderer
 
   std::atomic<bool> cancelRender;  // レンダラーのキャンセルフラグ
   std::atomic<bool> refreshRender;  // レンダラーの再レンダリングフラグ
