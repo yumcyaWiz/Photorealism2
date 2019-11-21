@@ -1,6 +1,18 @@
 #include "gui.h"
 #include "imgui.h"
 
+void GUI::drawSettings(Render& render) const {
+  bool refresh = false;
+
+  ImGui::Begin("Settings");
+  { refresh |= ImGui::Button("Render"); }
+  ImGui::End();
+
+  if (refresh) {
+    render.requestRender();
+  }
+}
+
 void GUI::drawRenderLayer(const Render& render) const {
   ImGui::Begin("RenderLayer");
   {
@@ -41,4 +53,5 @@ void GUI::makeTextureFromRGB(GLuint texture_id, const float* rgb) const {
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_FLOAT,
                rgb);
+  glBindTexture(GL_TEXTURE_2D, 0);
 }

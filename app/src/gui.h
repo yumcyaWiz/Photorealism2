@@ -19,6 +19,9 @@ class GUI {
     glGenTextures(1, &depth_texture_id);
   };
 
+  // Settingsを表示
+  void drawSettings(Render& render) const;
+
   // RenderLayerを表示
   void drawRenderLayer(const Render& render) const;
 
