@@ -22,6 +22,9 @@ class Render {
 
   // レンダリングする
   void requestRender() {
+    // Layerをクリア
+
+    // フラグを立てる
     if (refreshRender) {
       cancelRender = true;
     }

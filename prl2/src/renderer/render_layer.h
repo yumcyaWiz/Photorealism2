@@ -28,6 +28,14 @@ struct RenderLayer {
     position_sRGB.resize(3 * width * height, 0);
   };
 
+  // クリアする
+  void clear() {
+    render_sRGB.clear();
+    normal_sRGB.clear();
+    depth_sRGB.clear();
+    position_sRGB.clear();
+  };
+
   std::vector<Real>
       render_sRGB;  // レンダリング結果のsRGBを[0, 1]の範囲で格納する
   std::vector<Real> normal_sRGB;  // 法線をsRGBにしたものを格納する
