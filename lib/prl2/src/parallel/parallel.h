@@ -19,13 +19,17 @@ inline void parallelFor1D(const std::function<void(int)>& job, int chunkSize,
 
   const int nChunks = n / chunkSize;
   for (int chunk_id = 0; chunk_id < nChunks; ++chunk_id) {
-    results.push_back(pool.enqueue([&] {
+    results.push_back(pool.enqueue([chunk_id, chunkSize, job] {
       const int start_i = chunk_id * chunkSize;
       const int end_i = (chunk_id + 1) * chunkSize;
       for (int i = start_i; i < end_i; ++i) {
         job(i);
       }
     }));
+  }
+
+  for (auto&& result : results) {
+    result.get();
   }
 }
 
