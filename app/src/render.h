@@ -23,6 +23,7 @@ class Render {
   // レンダリングする
   void requestRender() {
     // Layerをクリア
+    layer.clear();
 
     // フラグを立てる
     if (refreshRender) {

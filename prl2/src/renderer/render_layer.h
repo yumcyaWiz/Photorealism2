@@ -1,6 +1,7 @@
 #ifndef RENDER_LAYER_H
 #define RENDER_LAYER_H
 
+#include <algorithm>
 #include <vector>
 
 #include "core/type.h"
@@ -13,7 +14,8 @@ struct RenderLayer {
   RenderLayer(){};
 
   // RenderConfigから画像を初期化
-  RenderLayer(const RenderConfig& config) {
+  RenderLayer(const RenderConfig& config)
+      : width(config.width), height(config.height) {
     render_sRGB.resize(3 * config.width * config.height, 0);
     normal_sRGB.resize(3 * config.width * config.height, 0);
     depth_sRGB.resize(3 * config.width * config.height, 0);
@@ -30,12 +32,14 @@ struct RenderLayer {
 
   // クリアする
   void clear() {
-    render_sRGB.clear();
-    normal_sRGB.clear();
-    depth_sRGB.clear();
-    position_sRGB.clear();
+    std::fill(render_sRGB.begin(), render_sRGB.end(), 0);
+    std::fill(normal_sRGB.begin(), normal_sRGB.end(), 0);
+    std::fill(depth_sRGB.begin(), depth_sRGB.end(), 0);
+    std::fill(position_sRGB.begin(), position_sRGB.end(), 0);
   };
 
+  int width;   //横幅[px]
+  int height;  // 縦幅[px]
   std::vector<Real>
       render_sRGB;  // レンダリング結果のsRGBを[0, 1]の範囲で格納する
   std::vector<Real> normal_sRGB;  // 法線をsRGBにしたものを格納する
