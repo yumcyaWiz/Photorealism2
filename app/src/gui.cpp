@@ -149,6 +149,9 @@ void GUI::drawToneMappingUI() const {
 void GUI::imagePostProcessing(int width, int height,
                               const std::vector<float>& rgb_in,
                               std::vector<float>& rgb_out) const {
+  // Tone Mapping
+  reinHardToneMapping(width, height, rgb_in, rgb_out);
+
   // ガンマ補正
   gammaCorrection(width, height, rgb_in, gamma, rgb_out);
 }
