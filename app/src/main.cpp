@@ -8,6 +8,8 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 
+#include "render.h"
+
 static void glfw_error_callback(int error, const char* desc) {
   fprintf(stderr, "glfw error %d: %s\n", error, desc);
 }
@@ -50,14 +52,6 @@ int main() {
 
   ImGui_ImplGlfw_InitForOpenGL(window, true);
   ImGui_ImplOpenGL3_Init(glsl_version);
-
-  // Rendererの初期化
-  RenderConfig config;
-  RenderLayer layer(config);
-  Renderer renderer(config);
-
-  // シーンの初期化
-  Scene scene = initScene(config);
 
   // GUIのレンダリングループ
   while (!glfwWindowShouldClose(window)) {

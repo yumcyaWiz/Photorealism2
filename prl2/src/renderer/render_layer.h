@@ -10,6 +10,8 @@ namespace Prl2 {
 
 //レンダリング後の画像を格納する
 struct RenderLayer {
+  RenderLayer(){};
+
   // RenderConfigから画像を初期化
   RenderLayer(const RenderConfig& config) {
     render_sRGB.resize(3 * config.width * config.height, 0);

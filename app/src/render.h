@@ -17,7 +17,9 @@ class Render {
   void initScene(const Prl2::RenderConfig& config);
 
  private:
-  Prl2::Renderer renderer;  // Renderer
+  Prl2::RenderConfig config;  // RenderConfig
+  Prl2::RenderLayer layer;    // RenderLayer
+  Prl2::Renderer renderer;    // Renderer
 
   std::atomic<bool> cancelRender;  // レンダラーのキャンセルフラグ
   std::atomic<bool> refreshRender;  // レンダラーの再レンダリングフラグ
