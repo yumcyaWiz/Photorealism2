@@ -10,15 +10,19 @@
 
 namespace Prl2 {
 
-inline void parallelFor1D(const std::function<void(int)>& job, int chunkSize,
+// For文を並列実行する
+// job: 並列化する対象の関数
+// nChunks: ループ分割数
+// n: ループ数
+inline void parallelFor1D(const std::function<void(int)>& job, int nChunks,
                           int n) {
   const int num_threads = std::max(1U, std::thread::hardware_concurrency());
 
   ThreadPool pool(num_threads);
   std::vector<std::future<void>> results;
 
-  const int nChunks = n / chunkSize;
-  for (int chunk_id = 0; chunk_id < nChunks; ++chunk_id) {
+  const int chunkSize = n / nChunks;
+  for (int chunk_id = 0; chunk_id < chunkSize; ++chunk_id) {
     results.push_back(pool.enqueue([chunk_id, chunkSize, job] {
       const int start_i = chunk_id * chunkSize;
       const int end_i = (chunk_id + 1) * chunkSize;
