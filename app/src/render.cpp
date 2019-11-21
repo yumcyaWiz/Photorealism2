@@ -7,16 +7,18 @@
 
 void Render::initScene() {
   const auto shape = std::make_shared<Prl2::Sphere>(1.0f);
-  const auto mat = std::make_shared<Prl2::Diffuse>(Prl2::SPD(0.9));
+  const auto mat1 = std::make_shared<Prl2::Diffuse>(
+      Prl2::RGB2Spectrum(Prl2::RGB(0, 0.2, 0.8)));
   const auto prim_trans =
       std::make_shared<Prl2::Transform>(Prl2::translate(Prl2::Vec3(0, 0, 0)));
-  const auto prim = std::make_shared<Prl2::Primitive>(shape, mat, prim_trans);
+  const auto prim = std::make_shared<Prl2::Primitive>(shape, mat1, prim_trans);
 
   const auto shape2 = std::make_shared<Prl2::Sphere>(10000.0f);
+  const auto mat2 = std::make_shared<Prl2::Diffuse>(Prl2::SPD(0.9));
   const auto prim2_trans = std::make_shared<Prl2::Transform>(
       Prl2::translate(Prl2::Vec3(0, -10001, 0)));
   const auto prim2 =
-      std::make_shared<Prl2::Primitive>(shape2, mat, prim2_trans);
+      std::make_shared<Prl2::Primitive>(shape2, mat2, prim2_trans);
 
   std::shared_ptr<Prl2::LinearIntersector> intersector =
       std::make_shared<Prl2::LinearIntersector>();
