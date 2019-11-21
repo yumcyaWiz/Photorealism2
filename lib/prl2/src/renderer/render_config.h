@@ -5,6 +5,7 @@
 #include <string>
 
 #include "core/type.h"
+#include "core/vec3.h"
 
 namespace Prl2 {
 
@@ -21,6 +22,8 @@ struct RenderConfig {
 
   // Camera
   std::string camera_type;  //カメラの種類
+  Vec3 camera_origin = Vec3(0, 0, 0);       // カメラの位置
+  Vec3 camera_lookat = Vec3(0, 0, -100);       // カメラの注目位置
   Real fov = 90.0f;         // 対角FOV
 
   // Scene
