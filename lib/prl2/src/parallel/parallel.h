@@ -10,7 +10,8 @@
 
 namespace Prl2 {
 
-void parallelFor1D(const std::function<void(int)>& job, int chunkSize, int n) {
+inline void parallelFor1D(const std::function<void(int)>& job, int chunkSize,
+                          int n) {
   const int num_threads = std::max(1U, std::thread::hardware_concurrency());
 
   ThreadPool pool(num_threads);
