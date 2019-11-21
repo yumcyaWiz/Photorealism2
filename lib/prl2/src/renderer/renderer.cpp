@@ -86,6 +86,7 @@ void Renderer::render(RenderLayer& layer,
           const Real lambda =
               SPD::LAMBDA_MIN +
               sampler->getNext() * (SPD::LAMBDA_MAX - SPD::LAMBDA_MIN);
+          constexpr Real lambda_pdf = 1 / (SPD::LAMBDA_MAX - SPD::LAMBDA_MIN);
 
           // サンプリングされた波長をセット
           Ray ray;
@@ -125,7 +126,8 @@ void Renderer::render(RenderLayer& layer,
             }
 
             // 分光放射束の計算
-            const Real phi = integrator->integrate(ray, scene, *sampler);
+            const Real phi =
+                integrator->integrate(ray, scene, *sampler) / lambda_pdf;
 
             // フィルムに分光放射束を加算
             scene.camera->film->addPixel(i, j, lambda, phi);
@@ -133,13 +135,11 @@ void Renderer::render(RenderLayer& layer,
         }
 
         // Render LayerにsRGBを加算
-        const Vec3 rgb = scene.camera->film->getPixel(i, j).toRGB();
-        layer.render_sRGB[3 * i + 3 * config.width * j + 0] =
-            rgb.x() / config.samples;
-        layer.render_sRGB[3 * i + 3 * config.width * j + 1] =
-            rgb.y() / config.samples;
-        layer.render_sRGB[3 * i + 3 * config.width * j + 2] =
-            rgb.z() / config.samples;
+        const Vec3 rgb =
+            (scene.camera->film->getPixel(i, j) / config.samples).toRGB();
+        layer.render_sRGB[3 * i + 3 * config.width * j + 0] = rgb.x();
+        layer.render_sRGB[3 * i + 3 * config.width * j + 1] = rgb.y();
+        layer.render_sRGB[3 * i + 3 * config.width * j + 2] = rgb.z();
 
         // 他のレイヤーの寄与をサンプル数で割る
         layer.normal_sRGB[3 * i + 3 * config.width * j + 0] /= config.samples;
