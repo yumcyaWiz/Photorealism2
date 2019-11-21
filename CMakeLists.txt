@@ -47,6 +47,7 @@ add_executable(app
   app/src/main.cpp
   app/src/render.cpp
   app/src/render.h
+  app/src/tonemapping.h
 )
 target_include_directories(app PRIVATE app/src/)
 
