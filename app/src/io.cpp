@@ -24,5 +24,7 @@ void savePPM(const std::string& filename, int width, int height,
     }
   }
 
+  std::cout << filename << " has been written out" << std::endl;
+
   file.close();
 }
