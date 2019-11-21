@@ -22,6 +22,20 @@ void GUI::drawRenderSettings(Render& render) const {
     }
 
     refresh_render |= ImGui::Button("Render");
+
+    static char filename[32];
+    ImGui::InputText("Image Filename", filename, 32);
+
+    static int image_type = 0;
+    ImGui::RadioButton("PPM", &image_type, 0);
+    ImGui::SameLine();
+    ImGui::RadioButton("PNG", &image_type, 1);
+    ImGui::SameLine();
+    ImGui::RadioButton("EXR", &image_type, 2);
+
+    if (ImGui::Button("Save Image")) {
+      // TODO: Save Image
+    }
   }
   ImGui::End();
 
