@@ -5,7 +5,7 @@
 #include "material/diffuse.h"
 #include "shape/sphere.h"
 
-void Render::initScene(const Prl2::RenderConfig& config) {
+void Render::initScene() {
   const auto shape = std::make_shared<Prl2::Sphere>(1.0f);
   const auto mat = std::make_shared<Prl2::Diffuse>(Prl2::SPD(0.9));
   const auto prim_trans =

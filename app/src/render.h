@@ -16,12 +16,12 @@ class Render {
   Render(const Prl2::RenderConfig& config)
       : config(config), cancelRender(false), refreshRender(false) {
     layer.resize(config.width, config.height);
-    initScene(config);
+    initScene();
     renderer.loadConfig(config);
   };
 
   // シーンを初期化する
-  void initScene(const Prl2::RenderConfig& config);
+  void initScene();
 
   // レンダリングする
   void requestRender() {
