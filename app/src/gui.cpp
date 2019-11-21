@@ -86,17 +86,28 @@ void GUI::drawFilmSettings(Render& render) const {
 void GUI::drawCameraSettings(Render& render) const {
   ImGui::Begin("Camera");
   {
+    static bool lookat_modified = false;
     static float camera_position[3] = {
         render.renderer.config.camera_position.x(),
         render.renderer.config.camera_position.y(),
         render.renderer.config.camera_position.z()};
-    if (ImGui::InputFloat3("Camera Position", camera_position)) {
+    lookat_modified |= ImGui::InputFloat3("Camera Position", camera_position);
+
+    static float lookat[3] = {
+        render.renderer.config.camera_lookat.x(),
+        render.renderer.config.camera_lookat.y(),
+        render.renderer.config.camera_lookat.z(),
+    };
+    lookat_modified |= ImGui::InputFloat3("Lookat", lookat);
+
+    if (lookat_modified) {
       render.renderer.setCameraLookAt(
           Prl2::Vec3(camera_position[0], camera_position[1],
                      camera_position[2]),
-          Prl2::Vec3(0, 0, 0));
+          Prl2::Vec3(lookat[0], lookat[1], lookat[2]));
     }
   }
+
   ImGui::End();
 }
 
