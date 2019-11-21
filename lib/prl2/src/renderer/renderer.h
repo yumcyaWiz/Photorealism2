@@ -16,6 +16,8 @@ namespace Prl2 {
 //与えられた設定を元に、シーンのセットアップ、レンダリングを行う
 class Renderer {
  public:
+  Scene scene;                             // Scene
+
   Renderer(){};
   Renderer(const RenderConfig& _config) : config(_config) {
     loadConfig(_config);
@@ -27,14 +29,10 @@ class Renderer {
   // レンダリングを行い、結果をRenderLayerに格納する
   void render(RenderLayer& layer) const;
 
-  // シーンをセットする
-  void setScene(const Scene& _scene) { scene = _scene; };
-
  private:
   RenderConfig config;                     // RenderConfig
   std::shared_ptr<Sampler> sampler;        // Sampler
   std::shared_ptr<Integrator> integrator;  // Integrator
-  Scene scene;                             // Scene
 };
 
 }  // namespace Prl2

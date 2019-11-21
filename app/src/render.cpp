@@ -23,7 +23,7 @@ void Render::initScene(const Prl2::RenderConfig& config) {
   intersector->addPrimitive(prim);
   intersector->addPrimitive(prim2);
 
-  renderer.setScene(Prl2::Scene(nullptr, intersector));
+  renderer.scene.intersector = intersector;
 }
 
 std::thread Render::render() {
