@@ -2,6 +2,7 @@
 #define _PRL2_SKY_H
 
 #include "core/ray.h"
+#include "core/type.h"
 
 namespace Prl2 {
 
