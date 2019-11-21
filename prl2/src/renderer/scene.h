@@ -13,13 +13,16 @@ namespace Prl2 {
 // Camera, Intersectorを保持する
 struct Scene {
  public:
-  const std::shared_ptr<Camera> camera;            // Camera
-  const std::shared_ptr<Intersector> intersector;  // Intersector
+  std::shared_ptr<Camera> camera;            // Camera
+  std::shared_ptr<Intersector> intersector;  // Intersector
 
   Scene() : camera(nullptr), intersector(nullptr){};
-  Scene(const std::shared_ptr<Camera>& _camera,
-        const std::shared_ptr<Intersector>& _intersector)
-      : camera(_camera), intersector(_intersector){};
+  Scene(const std::shared_ptr<Camera> _camera, const std::shared_ptr<Intersector> _intersector) : camera(_camera), intersector(_intersector) {};
+
+  void operator=(const Scene& scene) {
+    camera = scene.camera;
+    intersector = scene.intersector;
+  };
 
   bool intersect(const Ray& ray, IntersectInfo& info) const {
     return intersector->intersect(ray, info);

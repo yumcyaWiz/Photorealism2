@@ -19,8 +19,11 @@ class Renderer {
   // RenderConfigをもとにRendererの初期化を行う
   Renderer(const RenderConfig& config);
 
-  //レンダリングを行い、結果をRenderLayerに格納する
+  // レンダリングを行い、結果をRenderLayerに格納する
   void render(RenderLayer& layer) const;
+
+  // シーンをセットする
+  void setScene(const Scene& _scene) { scene = _scene; };
 
  private:
   const RenderConfig config;               // RenderConfig
