@@ -164,7 +164,7 @@ inline Transform lookAt(const Vec3& pos, const Vec3& lookat,
                         const Vec3& up_base = Vec3(0, 1, 0)) {
   const Vec3 forward = -normalize(lookat - pos);
   const Vec3 right = normalize(cross(normalize(up_base), forward));
-  const Vec3 up = normalize(cross(forward, right));
+  const Vec3 up = cross(forward, right);
 
   Mat4 m(right.x(), up.x(), forward.x(), pos.x(), right.y(), up.y(),
          forward.y(), pos.y(), right.z(), up.z(), forward.z(), pos.z(), 0, 0, 0,

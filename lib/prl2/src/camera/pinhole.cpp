@@ -16,8 +16,6 @@ bool PinholeCamera::generateRay(const Real& u, const Real& v, Ray& ray) const {
   //ワールド座標系に変換
   ray = localToWorld->apply(ray);
 
-  std::cout << ray << std::endl;
-
   return true;
 }
 
