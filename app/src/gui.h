@@ -13,6 +13,9 @@ class GUI {
     glGenTextures(1, &depth_texture);
   };
 
+  // RenderLayerを表示
+  void drawRenderLayer() const;
+
  private:
   GLuint render_texture;    // Render Texture
   GLuint normal_texture;    // Normal Texture

@@ -42,6 +42,7 @@ add_subdirectory(prl2)
 add_executable(app
   app/src/main.cpp
   app/src/render.cpp
+  app/src/gui.cpp
 )
 target_include_directories(app PRIVATE app/src/)
 
