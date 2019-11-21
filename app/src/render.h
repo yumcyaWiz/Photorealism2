@@ -16,10 +16,10 @@ class Render {
   };
 
   // シーンを初期化する
-  static void initScene(const Prl2::RenderConfig& config);
+  void initScene(const Prl2::RenderConfig& config);
 
   // レンダリングする
-  static void requestRender() {
+  void requestRender() {
     if (refreshRender) {
       cancelRender = true;
     }
@@ -27,34 +27,37 @@ class Render {
   };
 
   // レンダリングループ
-  static void render() {
-    while (true) {
-      if (refreshRender) {
-        const auto start_time = std::chrono::system_clock::now();
-        renderer.render(layer);
+  // 別スレッドでレンダリングが行われる
+  void render() {
+    std::thread rendering_thread([&] {
+      while (true) {
+        if (refreshRender) {
+          const auto start_time = std::chrono::system_clock::now();
+          renderer.render(layer);
 
-        if (cancelRender) {
-          cancelRender = false;
-        } else {
-          std::cout << "Rendering Finished in "
-                    << std::chrono::duration_cast<std::chrono::milliseconds>(
-                           std::chrono::system_clock::now() - start_time)
-                           .count()
-                    << "ms" << std::endl;
-          refreshRender = false;
+          if (cancelRender) {
+            cancelRender = false;
+          } else {
+            std::cout << "Rendering Finished in "
+                      << std::chrono::duration_cast<std::chrono::milliseconds>(
+                             std::chrono::system_clock::now() - start_time)
+                             .count()
+                      << "ms" << std::endl;
+            refreshRender = false;
+          }
         }
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
       }
-      std::this_thread::sleep_for(std::chrono::milliseconds(10));
-    }
+    });
   };
 
  private:
-  static Prl2::RenderConfig config;  // RenderConfig
-  static Prl2::RenderLayer layer;    // RenderLayer
-  static Prl2::Renderer renderer;    // Renderer
+  Prl2::RenderConfig config;  // RenderConfig
+  Prl2::RenderLayer layer;    // RenderLayer
+  Prl2::Renderer renderer;    // Renderer
 
-  static std::atomic<bool> cancelRender;  // レンダラーのキャンセルフラグ
-  static std::atomic<bool> refreshRender;  // レンダラーの再レンダリングフラグ
+  std::atomic<bool> cancelRender;  // レンダラーのキャンセルフラグ
+  std::atomic<bool> refreshRender;  // レンダラーの再レンダリングフラグ
 };
 
 #endif
