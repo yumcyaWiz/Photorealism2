@@ -14,7 +14,6 @@ target_link_libraries(prl2 PUBLIC Threads::Threads)
 #compile options
 target_compile_features(prl2 PUBLIC cxx_std_17)
 set_target_properties(prl2 PROPERTIES CXX_EXTENSIONS OFF)
-target_compile_definitions(prl2 PRIVATE _USE_MATH_DEFINES)
 target_compile_options(prl2 PRIVATE 
   $<$<CXX_COMPILER_ID:GNU>:
     -Wall -Wextra -pedantic-errors
