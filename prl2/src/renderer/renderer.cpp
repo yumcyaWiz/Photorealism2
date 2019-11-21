@@ -12,6 +12,17 @@ Renderer::Renderer(const RenderConfig& _config) : config(_config) {
     sceneLoader.loadSceneFromToml(config.scene_file, scene);
   }
 
+  // Samplerの設定
+  if (!config.sampler_type.empty()) {
+    if (config.sampler_type == "random") {
+      sampler = std::make_shared<RandomSampler>();
+    } else {
+      sampler = std::make_shared<RandomSampler>();
+    }
+  } else {
+    sampler = std::make_shared<RandomSampler>();
+  }
+
   // Integratorの設定
   if (!config.integrator_type.empty()) {
     if (config.integrator_type == "PT") {
@@ -30,14 +41,14 @@ void Renderer::render(RenderLayer& layer) const {
   for (int j = 0; j < config.height; ++j) {
     for (int i = 0; i < config.width; ++i) {
       // Samplerの初期化
-      RandomSampler sampler(i + config.width * j);
+      sampler->setSeed(i + config.width * j);
 
       //サンプリングを繰り返す
       for (int k = 0; k < config.samples; ++k) {
         // 波長のサンプリング
         const Real lambda =
             SPD::LAMBDA_MIN +
-            sampler.getNext() * (SPD::LAMBDA_MAX - SPD::LAMBDA_MIN);
+            sampler->getNext() * (SPD::LAMBDA_MAX - SPD::LAMBDA_MIN);
 
         // サンプリングされた波長をセット
         Ray ray;
@@ -45,9 +56,9 @@ void Renderer::render(RenderLayer& layer) const {
 
         //フィルム面のUV座標
         const Real u =
-            (2.0f * (i + sampler.getNext()) - config.width) / config.width;
+            (2.0f * (i + sampler->getNext()) - config.width) / config.width;
         const Real v =
-            (2.0f * (j + sampler.getNext()) - config.height) / config.height;
+            (2.0f * (j + sampler->getNext()) - config.height) / config.height;
 
         //カメラからレイを生成
         if (scene.camera->generateRay(u, v, ray)) {
@@ -77,7 +88,7 @@ void Renderer::render(RenderLayer& layer) const {
           }
 
           // 分光放射束の計算
-          const Real phi = integrator->integrate(ray, scene, sampler);
+          const Real phi = integrator->integrate(ray, scene, *sampler);
 
           // フィルムに分光放射束を加算
           scene.camera->film->addPixel(i, j, lambda, phi);

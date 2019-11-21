@@ -24,6 +24,7 @@ class Renderer {
 
  private:
   const RenderConfig config;               // RenderConfig
+  std::shared_ptr<Sampler> sampler;        // Sampler
   std::shared_ptr<Integrator> integrator;  // Integrator
   Scene scene;                             // Scene
 };
