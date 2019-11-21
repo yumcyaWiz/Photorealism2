@@ -40,9 +40,11 @@ add_subdirectory(prl2)
 
 #app
 add_executable(app
+  app/src/gui.cpp
+  app/src/gui.h
   app/src/main.cpp
   app/src/render.cpp
-  app/src/gui.cpp
+  app/src/render.h
 )
 target_include_directories(app PRIVATE app/src/)
 
@@ -72,9 +74,9 @@ target_compile_options(app PRIVATE
 )
 
 #app link
+target_link_libraries(app PRIVATE glfw)
 target_link_libraries(app PRIVATE glad)
 target_link_libraries(app PRIVATE dl)
-target_link_libraries(app PRIVATE glfw)
 target_link_libraries(app PRIVATE imgui)
 target_link_libraries(app PRIVATE imgui_impl)
 target_link_libraries(app PRIVATE Threads::Threads)
