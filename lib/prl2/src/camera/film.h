@@ -18,12 +18,12 @@ namespace Prl2 {
 // 0.5*height_length]で表される
 class Film {
  public:
-  const unsigned int width;    //横幅
-  const unsigned int height;   //縦幅
-  const Real width_length;     //横の物理的長さ[m]
-  const Real height_length;    //縦の物理的長さ[m]
-  const Real diagonal_length;  //対角線の物理的長さ[m]
-  SPD* pixels;
+  unsigned int width;    //横幅
+  unsigned int height;   //縦幅
+  Real width_length;     //横の物理的長さ[m]
+  Real height_length;    //縦の物理的長さ[m]
+  Real diagonal_length;  //対角線の物理的長さ[m]
+  std::vector<SPD> pixels;
 
   Film(unsigned int _width, unsigned int _height,
        const Real& _width_length = 0.0251f,
@@ -34,9 +34,8 @@ class Film {
         height_length(_height_length),
         diagonal_length(std::sqrt(width_length * width_length +
                                   height_length * height_length)) {
-    pixels = new SPD[width * height];
+    pixels.resize(width * height);
   };
-  ~Film() { delete[] pixels; };
 
   // (i, j)のSPDを入手
   SPD getPixel(int i, int j) const {
@@ -125,6 +124,13 @@ class Film {
         pixels[i + width * j].clear();
       }
     }
+  };
+
+  // フィルムをリサイズ
+  void resize(unsigned int _width, unsigned int _height) {
+    width = _width;
+    height = _height;
+    pixels.resize(_width * _height);
   };
 
   // PPMを出力
