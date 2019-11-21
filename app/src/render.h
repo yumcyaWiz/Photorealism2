@@ -29,28 +29,7 @@ class Render {
 
   // レンダリングループ
   // 別スレッドでレンダリングが行われる
-  void render() {
-    std::thread rendering_thread([&] {
-      while (true) {
-        if (refreshRender) {
-          const auto start_time = std::chrono::system_clock::now();
-          renderer.render(layer);
-
-          if (cancelRender) {
-            cancelRender = false;
-          } else {
-            std::cout << "Rendering Finished in "
-                      << std::chrono::duration_cast<std::chrono::milliseconds>(
-                             std::chrono::system_clock::now() - start_time)
-                             .count()
-                      << "ms" << std::endl;
-            refreshRender = false;
-          }
-        }
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
-      }
-    });
-  };
+  void render();
 
  private:
   Prl2::RenderConfig config;  // RenderConfig
