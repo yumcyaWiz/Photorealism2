@@ -15,7 +15,9 @@ void GUI::drawSettings(Render& render) const {
     }
 
     static int samples = render.renderer.config.samples;
-    ImGui::InputInt("Samples", &samples);
+    if (ImGui::InputInt("Samples", &samples)) {
+      render.renderer.setSamples(samples);
+    }
 
     refresh_render |= ImGui::Button("Render");
   }
