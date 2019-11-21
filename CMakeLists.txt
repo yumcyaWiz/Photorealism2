@@ -39,7 +39,10 @@ find_package(Threads REQUIRED)
 add_subdirectory(prl2)
 
 #app
-add_executable(app app/src/main.cpp)
+add_executable(app
+  app/src/main.cpp
+  app/src/render.cpp
+)
 target_include_directories(app PRIVATE app/src/)
 
 # compile settings
