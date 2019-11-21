@@ -15,7 +15,14 @@ target_link_libraries(prl2 PUBLIC Threads::Threads)
 target_compile_features(prl2 PUBLIC cxx_std_17)
 set_target_properties(prl2 PROPERTIES CXX_EXTENSIONS OFF)
 target_compile_options(prl2 PRIVATE 
-  -Wall -Wextra -pedantic-errors
-  $<$<CONFIG:Debug>: -g3 -O0 -pg>
-  $<$<CONFIG:Release>: -O3 -s -DNDEBUG -march=native -mtune=native>
+  $<$<CXX_COMPILER_ID:GNU>:
+    -Wall -Wextra -pedantic-errors
+    $<$<CONFIG:Debug>: -g3 -O0 -pg>
+    $<$<CONFIG:Release>: -O3 -s -DNDEBUG -march=native -mtune=native>
+  >
+  $<$<CXX_COMPILER_ID:Clang>:
+    -Wall -Wextra -pedantic-errors
+    $<$<CONFIG:Debug>: -g3 -O0 -pg>
+    $<$<CONFIG:Release>: -O3 -s -DNDEBUG -march=native -mtune=native>
+  >
 )
