@@ -7,7 +7,7 @@
 
 class GUI {
  public:
-  GUI() {
+  GUI(const Prl2::RenderConfig& config) : width(config.width), height(config.height) {
     // Textureの用意
     glGenTextures(1, &render_texture_id);
     glGenTextures(1, &normal_texture_id);
