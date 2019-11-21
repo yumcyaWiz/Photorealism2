@@ -2,6 +2,7 @@
 #define CONSTANT_H
 
 #include <cmath>
+#include <limits>
 
 #include "core/type.h"
 
@@ -13,6 +14,9 @@ static constexpr Real PI_DIV_2 = PI / 2;
 
 static constexpr Real INV_PI = 1 / PI;
 static constexpr Real INV_PI_MUL_2 = 1 / PI_MUL_2;
+
+static constexpr Real ONE_MINUS_EPS =
+    static_cast<Real>(1) - std::numeric_limits<Real>::epsilon();
 
 }  // namespace Prl2
 
