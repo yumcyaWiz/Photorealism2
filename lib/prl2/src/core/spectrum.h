@@ -307,6 +307,9 @@ inline std::ostream& operator<<(std::ostream& stream, const SPD& spd) {
   return stream;
 }
 
+// An RGB to Spectrum Conversion for Reflectances, Smits(2001)
+SPD RGB2Spectrum(const RGB& rgb);
+
 }  // namespace Prl2
 
 #endif

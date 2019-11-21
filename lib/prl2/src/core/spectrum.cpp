@@ -131,4 +131,69 @@ XYZ SPD::toXYZ() const {
   return xyz;
 }
 
+SPD RGB2Spectrum(const RGB& rgb) {
+  static const std::vector<Real> sampled_lambda = {
+      380, 417.7, 455.55, 493.33, 531.11, 568.88, 606.66, 644.44, 682.22, 720};
+
+  static const SPD white_spectrum =
+      SPD(sampled_lambda, {1, 1, 0.9999, 0.9993, 0.9992, 0.9998, 1, 1, 1, 1});
+
+  static const SPD cyan_spectrum =
+      SPD(sampled_lambda,
+          {0.9710, 0.9426, 1.0007, 1.0007, 1.0007, 1.0007, 0.1564, 0, 0, 0});
+
+  static const SPD magenta_spectrum = SPD(
+      sampled_lambda, {1, 1, 0.9685, 0.2229, 0, 0.0458, 0.8369, 1, 1, 0.9959});
+
+  static const SPD yellow_spectrum =
+      SPD(sampled_lambda,
+          {0.0001, 0, 0.1088, 0.6651, 1, 1, 0.9996, 0.9586, 0.9685, 0.9840});
+
+  static const SPD red_spectrum =
+      SPD(sampled_lambda,
+          {0.1012, 0.0515, 0, 0, 0, 0, 0.8325, 1.0149, 1.0149, 1.0149});
+
+  static const SPD green_spectrum = SPD(
+      sampled_lambda, {0, 0, 0.0273, 0.7937, 1, 0.9418, 0.1719, 0, 0, 0.0025});
+
+  static const SPD blue_spectrum =
+      SPD(sampled_lambda,
+          {1, 1, 0.8916, 0.3323, 0, 0, 0.0003, 0.0369, 0.0483, 0.0496});
+
+  SPD ret;
+  const Real red = rgb.x();
+  const Real green = rgb.y();
+  const Real blue = rgb.z();
+  if (red <= green && red <= blue) {
+    ret += red * white_spectrum;
+    if (green <= blue) {
+      ret += (green - red) * cyan_spectrum;
+      ret += (blue - green) * blue_spectrum;
+    } else {
+      ret += (blue - red) * cyan_spectrum;
+      ret += (green - blue) * green_spectrum;
+    }
+  } else if (green <= red && green <= blue) {
+    ret += green * white_spectrum;
+    if (red <= blue) {
+      ret += (red - green) * magenta_spectrum;
+      ret += (blue - red) * blue_spectrum;
+    } else {
+      ret += (blue - green) * magenta_spectrum;
+      ret += (red - blue) * red_spectrum;
+    }
+  } else {
+    ret += blue * white_spectrum;
+    if (red <= green) {
+      ret += (red - blue) * yellow_spectrum;
+      ret += (green - red) * green_spectrum;
+    } else {
+      ret += (green - blue) * yellow_spectrum;
+      ret += (red - green) * red_spectrum;
+    }
+  }
+
+  return ret;
+}
+
 }  // namespace Prl2
