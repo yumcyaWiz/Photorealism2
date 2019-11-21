@@ -21,8 +21,8 @@ void Renderer::loadConfig(const RenderConfig& _config) {
   }
 
   // Filmの設定
-  const auto film = std::make_shared<Film>(config.width, config.height,
-                                           config.width_length, config.height);
+  const auto film = std::make_shared<Film>(
+      config.width, config.height, config.width_length, config.height_length);
 
   // Cameraの設定
   std::shared_ptr<Camera> camera = nullptr;
