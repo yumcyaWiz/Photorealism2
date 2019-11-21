@@ -17,6 +17,7 @@ class Transform {
   Transform() : mat(identity()), invmat(identity()){};
   Transform(const Mat4& _mat, const Mat4& _invmat)
       : mat(_mat), invmat(_invmat){};
+  Transform(const Transform& t) : mat(t.mat), invmat(t.invmat){};
 
   Transform operator*(const Transform& t) const {
     return Transform(mat * t.mat, invmat * t.invmat);
@@ -161,6 +162,12 @@ inline Transform rotate(const Vec3& r) {
 // 与えられたTransformの逆変換を表すTransformを返す
 inline Transform inverse(const Transform& t) {
   return Transform(t.invmat, t.mat);
+}
+
+inline std::ostream& operator<<(std::ostream& stream, const Transform& t) {
+  stream << "Forward: " << t.mat << std::endl;
+  stream << "Inverse: " << t.invmat << std::endl;
+  return stream;
 }
 
 }  // namespace Prl2

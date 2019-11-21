@@ -1,5 +1,7 @@
 #include <algorithm>
 
+#include "camera/pinhole.h"
+#include "core/transform.h"
 #include "integrator/pt.h"
 #include "parallel/parallel.h"
 #include "renderer/renderer.h"
@@ -17,6 +19,23 @@ void Renderer::loadConfig(const RenderConfig& _config) {
     SceneLoader sceneLoader;
     sceneLoader.loadSceneFromToml(config.scene_file, scene);
   }
+
+  // Filmの設定
+  const auto film = std::make_shared<Film>(config.width, config.height,
+                                           config.width_length, config.height);
+
+  // Cameraの設定
+  std::shared_ptr<Camera> camera = nullptr;
+  const auto camera_transform =
+      std::make_shared<Transform>(translate(Vec3(0, 0, 0)));
+  if (!config.camera_type.empty()) {
+    camera =
+        std::make_shared<PinholeCamera>(film, camera_transform, config.fov);
+  } else {
+    camera =
+        std::make_shared<PinholeCamera>(film, camera_transform, config.fov);
+  }
+  scene.camera = camera;
 
   // Samplerの設定
   if (!config.sampler_type.empty()) {

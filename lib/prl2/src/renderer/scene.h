@@ -17,12 +17,9 @@ struct Scene {
   std::shared_ptr<Intersector> intersector;  // Intersector
 
   Scene() : camera(nullptr), intersector(nullptr){};
-  Scene(const std::shared_ptr<Camera> _camera, const std::shared_ptr<Intersector> _intersector) : camera(_camera), intersector(_intersector) {};
-
-  void operator=(const Scene& scene) {
-    camera = scene.camera;
-    intersector = scene.intersector;
-  };
+  Scene(const std::shared_ptr<Camera> _camera,
+        const std::shared_ptr<Intersector> _intersector)
+      : camera(_camera), intersector(_intersector){};
 
   bool intersect(const Ray& ray, IntersectInfo& info) const {
     return intersector->intersect(ray, info);

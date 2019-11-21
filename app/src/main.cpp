@@ -57,9 +57,6 @@ int main() {
 
   // Renderの初期化
   Prl2::RenderConfig config;
-  config.width = 512;
-  config.height = 512;
-  config.samples = 10;
   Render render(config);
 
   // レンダリングスレッドの作成

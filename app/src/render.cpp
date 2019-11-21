@@ -6,12 +6,6 @@
 #include "shape/sphere.h"
 
 void Render::initScene(const Prl2::RenderConfig& config) {
-  const auto film = std::make_shared<Prl2::Film>(config.width, config.height);
-  const auto camera_trans =
-      std::make_shared<Prl2::Transform>(Prl2::translate(Prl2::Vec3(0, 0, 0)));
-  const auto camera =
-      std::make_shared<Prl2::PinholeCamera>(film, camera_trans, 90.0f);
-
   const auto shape = std::make_shared<Prl2::Sphere>(1.0f);
   const auto mat = std::make_shared<Prl2::Diffuse>(Prl2::SPD(0.9));
   const auto prim_trans =
@@ -29,7 +23,7 @@ void Render::initScene(const Prl2::RenderConfig& config) {
   intersector->addPrimitive(prim);
   intersector->addPrimitive(prim2);
 
-  renderer.setScene(Prl2::Scene(camera, intersector));
+  renderer.setScene(Prl2::Scene(nullptr, intersector));
 }
 
 std::thread Render::render() {
