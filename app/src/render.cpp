@@ -29,5 +29,5 @@ void Render::initScene(const Prl2::RenderConfig& config) {
   intersector->addPrimitive(prim);
   intersector->addPrimitive(prim2);
 
-  renderer.scene = Prl2::Scene(camera, intersector);
+  renderer.setScene(Prl2::Scene(camera, intersector));
 }
