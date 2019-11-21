@@ -36,7 +36,7 @@ target_link_libraries(imgui_impl PUBLIC glad)
 find_package(Threads REQUIRED)
 
 #Photorealism2
-add_subdirectory(prl2)
+add_subdirectory(lib/prl2)
 
 #app
 add_executable(app
