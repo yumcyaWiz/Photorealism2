@@ -63,8 +63,8 @@ void Renderer::loadConfig(const RenderConfig& _config) {
 
 void Renderer::render(RenderLayer& layer,
                       const std::atomic<bool>& cancel) const {
-  // レイヤーをクリア
-  layer.clear();
+  // レイヤーを初期化
+  layer.resize(config.width, config.height);
 
   // フィルムをクリア
   scene.camera->film->clear();

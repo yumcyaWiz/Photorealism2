@@ -4,18 +4,22 @@
 #include "imgui.h"
 
 void GUI::drawSettings(Render& render) const {
-  bool refresh = false;
+  bool refresh_render = false;
+  bool refresh_config = false;
 
   ImGui::Begin("Settings");
   {
-    ImGui::LabelText("width", std::to_string(render.config.width).c_str());
-    ImGui::LabelText("height", std::to_string(render.config.height).c_str());
-    ImGui::LabelText("samples", std::to_string(render.config.samples).c_str());
-    refresh |= ImGui::Button("Render");
+    static int size[2] = {render.config.width, render.config.height};
+    refresh_config |= ImGui::InputInt2("Image Size", size);
+
+    static int samples = render.config.samples;
+    refresh_config |= ImGui::InputInt("Samples", &samples);
+
+    refresh_render |= ImGui::Button("Render");
   }
   ImGui::End();
 
-  if (refresh) {
+  if (refresh_render) {
     render.requestRender();
   }
 }

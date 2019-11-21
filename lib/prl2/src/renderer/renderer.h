@@ -26,6 +26,15 @@ class Renderer {
   // RenderConfigをもとにRendererの初期化を行う
   void loadConfig(const RenderConfig& config);
 
+  // 出力サイズを変更する
+  void setImageSize(unsigned int width, unsigned int height) {
+    config.width = width;
+    config.height = height;
+  };
+
+  // サンプル数を設定する
+  void setSamples(unsigned int samples) { config.samples = samples; }
+
   // レンダリングを行い、結果をRenderLayerに格納する
   void render(RenderLayer& layer, const std::atomic<bool>& cancel) const;
 

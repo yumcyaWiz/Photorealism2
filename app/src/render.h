@@ -15,7 +15,6 @@ class Render {
 
   Render(const Prl2::RenderConfig& config)
       : config(config), cancelRender(false), refreshRender(false) {
-    layer.resize(config.width, config.height);
     initScene();
     renderer.loadConfig(config);
   };
