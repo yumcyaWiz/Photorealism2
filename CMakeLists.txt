@@ -13,11 +13,20 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 add_subdirectory(ext/glfw)
 
 #Dear ImGui
-add_library(imgui STATIC ext/imgui/imgui.cpp ext/imgui/imgui_widgets.cpp ext/imgui/imgui_draw.cpp ext/imgui/imgui_demo.cpp)
+add_library(imgui STATIC 
+  ext/imgui/imgui.cpp 
+  ext/imgui/imgui_widgets.cpp 
+  ext/imgui/imgui_draw.cpp 
+  ext/imgui/imgui_demo.cpp
+)
 target_include_directories(imgui PUBLIC ext/imgui)
 
 #Dear ImGui Impl
-add_library(imgui_impl STATIC ext/imgui/imgui_impl_glfw.cpp ext/imgui/imgui_impl_opengl3.cpp)
+add_library(imgui_impl STATIC 
+  ext/imgui/examples/imgui_impl_glfw.cpp 
+  ext/imgui/examples/imgui_impl_opengl3.cpp
+)
+target_include_directories(imgui_impl PUBLIC ext/imgui/examples)
 target_compile_definitions(imgui_impl PUBLIC IMGUI_IMPL_OPENGL_LOADER_GLAD)
 target_link_libraries(imgui_impl PUBLIC imgui)
 target_link_libraries(imgui_impl PUBLIC glad)
@@ -40,10 +49,6 @@ target_compile_options(app PRIVATE
   $<$<CONFIG:Debug>: -g3 -O0 -pg>
   $<$<CONFIG:Release>: -O3 -s -DNDEBUG -march=native -mtune=native>
 )
-
-#app include 
-target_include_directories(app PRIVATE glad)
-target_include_directories(app PRIVATE prl2)
 
 #app link
 target_link_libraries(app PRIVATE glad)
