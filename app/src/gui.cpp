@@ -5,15 +5,17 @@
 
 void GUI::drawSettings(Render& render) const {
   bool refresh_render = false;
-  bool refresh_config = false;
 
   ImGui::Begin("Settings");
   {
-    static int size[2] = {render.config.width, render.config.height};
-    refresh_config |= ImGui::InputInt2("Image Size", size);
+    static int size[2] = {render.renderer.config.width,
+                          render.renderer.config.height};
+    if (ImGui::InputInt2("Image Size", size)) {
+      render.renderer.setImageSize(size[0], size[1]);
+    }
 
-    static int samples = render.config.samples;
-    refresh_config |= ImGui::InputInt("Samples", &samples);
+    static int samples = render.renderer.config.samples;
+    ImGui::InputInt("Samples", &samples);
 
     refresh_render |= ImGui::Button("Render");
   }
@@ -39,17 +41,23 @@ void GUI::drawRenderLayer(const Render& render) const {
 
     // テクスチャの生成
     ImTextureID id;
+    const int width = render.renderer.config.width;
+    const int height = render.renderer.config.height;
     if (e == 0) {
-      makeTextureFromLayer(render_texture_id, render.layer.render_sRGB);
+      makeTextureFromLayer(render_texture_id, width, height,
+                           render.layer.render_sRGB);
       id = (ImTextureID)(intptr_t)(render_texture_id);
     } else if (e == 1) {
-      makeTextureFromLayer(normal_texture_id, render.layer.normal_sRGB);
+      makeTextureFromLayer(normal_texture_id, width, height,
+                           render.layer.normal_sRGB);
       id = (ImTextureID)(intptr_t)(normal_texture_id);
     } else if (e == 2) {
-      makeTextureFromLayer(position_texture_id, render.layer.position_sRGB);
+      makeTextureFromLayer(position_texture_id, width, height,
+                           render.layer.position_sRGB);
       id = (ImTextureID)(intptr_t)(position_texture_id);
     } else if (e == 3) {
-      makeTextureFromLayer(depth_texture_id, render.layer.depth_sRGB);
+      makeTextureFromLayer(depth_texture_id, width, height,
+                           render.layer.depth_sRGB);
       id = (ImTextureID)(intptr_t)(depth_texture_id);
     }
 
@@ -59,8 +67,10 @@ void GUI::drawRenderLayer(const Render& render) const {
   ImGui::End();
 }
 
-void GUI::makeTextureFromLayer(GLuint texture_id,
+void GUI::makeTextureFromLayer(GLuint texture_id, int width, int height,
                                const std::vector<float>& rgb) const {
+  if (rgb.size() < width * height) return;
+
   glBindTexture(GL_TEXTURE_2D, texture_id);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);

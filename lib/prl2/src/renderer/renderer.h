@@ -16,7 +16,8 @@ namespace Prl2 {
 //与えられた設定を元に、シーンのセットアップ、レンダリングを行う
 class Renderer {
  public:
-  Scene scene;  // Scene
+  RenderConfig config;  // RenderConfig
+  Scene scene;          // Scene
 
   Renderer(){};
   Renderer(const RenderConfig& _config) : config(_config) {
@@ -30,6 +31,7 @@ class Renderer {
   void setImageSize(unsigned int width, unsigned int height) {
     config.width = width;
     config.height = height;
+    scene.camera->film->resize(width, height);
   };
 
   // サンプル数を設定する
@@ -39,7 +41,6 @@ class Renderer {
   void render(RenderLayer& layer, const std::atomic<bool>& cancel) const;
 
  private:
-  RenderConfig config;                     // RenderConfig
   std::shared_ptr<Sampler> sampler;        // Sampler
   std::shared_ptr<Integrator> integrator;  // Integrator
 };

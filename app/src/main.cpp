@@ -65,7 +65,7 @@ int main() {
   std::thread rendering_thread = render.render();
 
   // GUIのレンダリングループ
-  GUI gui(config);
+  GUI gui;
   while (!glfwWindowShouldClose(window)) {
     glfwPollEvents();
 

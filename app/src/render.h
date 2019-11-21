@@ -10,11 +10,11 @@
 // レンダラー周りのことをやる
 class Render {
  public:
-  Prl2::RenderConfig config;  // RenderConfig
-  Prl2::RenderLayer layer;    // RenderLayer
+  Prl2::RenderLayer layer;  // RenderLayer
+  Prl2::Renderer renderer;  // Renderer
 
   Render(const Prl2::RenderConfig& config)
-      : config(config), cancelRender(false), refreshRender(false) {
+      : cancelRender(false), refreshRender(false) {
     initScene();
     renderer.loadConfig(config);
   };
@@ -36,8 +36,6 @@ class Render {
   std::thread render();
 
  private:
-  Prl2::Renderer renderer;  // Renderer
-
   std::atomic<bool> cancelRender;  // レンダラーのキャンセルフラグ
   std::atomic<bool> refreshRender;  // レンダラーの再レンダリングフラグ
 };

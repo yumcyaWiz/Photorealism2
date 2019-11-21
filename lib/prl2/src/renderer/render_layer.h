@@ -14,20 +14,19 @@ struct RenderLayer {
   RenderLayer(){};
 
   // RenderConfigから画像を初期化
-  RenderLayer(const RenderConfig& config)
-      : width(config.width), height(config.height) {
-    render_sRGB.resize(3 * config.width * config.height, 0);
-    normal_sRGB.resize(3 * config.width * config.height, 0);
-    depth_sRGB.resize(3 * config.width * config.height, 0);
-    position_sRGB.resize(3 * config.width * config.height, 0);
+  RenderLayer(const RenderConfig& config) {
+    render_sRGB.resize(3 * config.width * config.height);
+    normal_sRGB.resize(3 * config.width * config.height);
+    depth_sRGB.resize(3 * config.width * config.height);
+    position_sRGB.resize(3 * config.width * config.height);
   };
 
   // リサイズする
   void resize(int width, int height) {
-    render_sRGB.resize(3 * width * height, 0);
-    normal_sRGB.resize(3 * width * height, 0);
-    depth_sRGB.resize(3 * width * height, 0);
-    position_sRGB.resize(3 * width * height, 0);
+    render_sRGB.resize(3 * width * height);
+    normal_sRGB.resize(3 * width * height);
+    depth_sRGB.resize(3 * width * height);
+    position_sRGB.resize(3 * width * height);
   };
 
   // クリアする
@@ -38,8 +37,6 @@ struct RenderLayer {
     std::fill(position_sRGB.begin(), position_sRGB.end(), 0);
   };
 
-  int width;   //横幅[px]
-  int height;  // 縦幅[px]
   std::vector<Real>
       render_sRGB;  // レンダリング結果のsRGBを[0, 1]の範囲で格納する
   std::vector<Real> normal_sRGB;  // 法線をsRGBにしたものを格納する
