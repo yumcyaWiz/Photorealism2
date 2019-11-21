@@ -27,7 +27,7 @@ void Renderer::loadConfig(const RenderConfig& _config) {
   // Cameraの設定
   std::shared_ptr<Camera> camera = nullptr;
   const auto camera_transform =
-      std::make_shared<Transform>(translate(Vec3(0, 0, 0)));
+      std::make_shared<Transform>(translate(Vec3(0, 0, 3)));
   if (!config.camera_type.empty()) {
     camera =
         std::make_shared<PinholeCamera>(film, camera_transform, config.fov);
