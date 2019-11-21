@@ -4,6 +4,12 @@
 void GUI::drawRenderLayer() const {
   ImGui::Begin("RenderLayer");
   {
+    static int e = 0;
+    ImGui::RadioButton("Render", &e, 0);
+    ImGui::RadioButton("Normal", &e, 1);
+    ImGui::RadioButton("Position", &e, 2);
+    ImGui::RadioButton("Depth", &e, 3);
+
     ImTextureID id = (ImTextureID)(intptr_t)(normal_texture_id);
     ImGui::Image(id, ImVec2(width, height));
   }

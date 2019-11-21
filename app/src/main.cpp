@@ -63,12 +63,15 @@ int main() {
   std::thread rendering_thread = render.render();
 
   // GUIのレンダリングループ
+  GUI gui(config);
   while (!glfwWindowShouldClose(window)) {
     glfwPollEvents();
 
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
+
+    gui.drawRenderLayer();
 
     ImGui::Render();
     int display_w, display_h;
