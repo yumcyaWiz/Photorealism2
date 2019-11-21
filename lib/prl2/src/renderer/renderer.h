@@ -41,6 +41,7 @@ class Renderer {
   void setFilmSize(const Real& width_length, const Real& height_length) {
     config.width_length = width_length;
     config.height_length = height_length;
+    scene.camera->film->resizeLength(width_length, height_length);
   };
 
   // レンダリングを行い、結果をRenderLayerに格納する
