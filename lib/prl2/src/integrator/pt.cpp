@@ -4,12 +4,17 @@ namespace Prl2 {
 
 Real PT::integrate(const Ray& ray_in, const Scene& scene,
                    Sampler& sampler) const {
-  Ray ray = ray_in;                // 更新していくレイ
-  Real throughput = 1;             // Throughput
-  Real russian_roulette_prob = 1;  // ロシアンルーレットの確率
+  Ray ray = ray_in;                    // 更新していくレイ
+  Real throughput = 1;                 // Throughput
+  Real russian_roulette_prob = 0.99f;  // ロシアンルーレットの確率
 
   for (int depth = 0; depth < MAXDEPTH; ++depth) {
-    // TODO: ロシアンルーレット
+    // ロシアンルーレット
+    if (sampler.getNext() > russian_roulette_prob) {
+      break;
+    } else {
+      throughput /= russian_roulette_prob;
+    }
 
     // レイが物体に当たったら
     IntersectInfo info;
