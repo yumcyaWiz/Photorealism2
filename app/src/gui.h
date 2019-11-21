@@ -1,6 +1,8 @@
 #ifndef GUI_H
 #define GUI_H
 
+#include <vector>
+
 #include "glad/glad.h"
 
 #include "GLFW/glfw3.h"
@@ -33,7 +35,8 @@ class GUI {
   GLuint position_texture_id;  // Position Texture
   GLuint depth_texture_id;     // Depth Texture
 
-  void makeTextureFromRGB(GLuint texture_id, const float* rgb) const;
+  void makeTextureFromLayer(GLuint texture_id,
+                            const std::vector<float>& rgb) const;
 };
 
 #endif

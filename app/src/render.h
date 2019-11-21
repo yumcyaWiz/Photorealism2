@@ -10,6 +10,9 @@
 // レンダラー周りのことをやる
 class Render {
  public:
+  Prl2::RenderConfig config;  // RenderConfig
+  Prl2::RenderLayer layer;    // RenderLayer
+
   Render(const Prl2::RenderConfig& config)
       : cancelRender(false), refreshRender(false) {
     layer.resize(config.width, config.height);
@@ -36,17 +39,7 @@ class Render {
   // 別スレッドでレンダリングが行われる
   std::thread render();
 
-  // Render Layerの取得
-  const Prl2::Real* getRenderLayer() const { return layer.render_sRGB.data(); };
-  const Prl2::Real* getNormalLayer() const { return layer.normal_sRGB.data(); };
-  const Prl2::Real* getPositionLayer() const {
-    return layer.position_sRGB.data();
-  };
-  const Prl2::Real* getDepthLayer() const { return layer.depth_sRGB.data(); };
-
  private:
-  Prl2::RenderConfig config;  // RenderConfig
-  Prl2::RenderLayer layer;    // RenderLayer
   Prl2::Renderer renderer;    // Renderer
 
   std::atomic<bool> cancelRender;  // レンダラーのキャンセルフラグ

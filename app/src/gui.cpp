@@ -26,16 +26,16 @@ void GUI::drawRenderLayer(const Render& render) const {
     // テクスチャの生成
     ImTextureID id;
     if (e == 0) {
-      makeTextureFromRGB(render_texture_id, render.getRenderLayer());
+      makeTextureFromLayer(render_texture_id, render.layer.render_sRGB);
       id = (ImTextureID)(intptr_t)(render_texture_id);
     } else if (e == 1) {
-      makeTextureFromRGB(normal_texture_id, render.getNormalLayer());
+      makeTextureFromLayer(normal_texture_id, render.layer.normal_sRGB);
       id = (ImTextureID)(intptr_t)(normal_texture_id);
     } else if (e == 2) {
-      makeTextureFromRGB(position_texture_id, render.getPositionLayer());
+      makeTextureFromLayer(position_texture_id, render.layer.position_sRGB);
       id = (ImTextureID)(intptr_t)(position_texture_id);
     } else if (e == 3) {
-      makeTextureFromRGB(depth_texture_id, render.getDepthLayer());
+      makeTextureFromLayer(depth_texture_id, render.layer.depth_sRGB);
       id = (ImTextureID)(intptr_t)(depth_texture_id);
     }
 
@@ -45,13 +45,14 @@ void GUI::drawRenderLayer(const Render& render) const {
   ImGui::End();
 }
 
-void GUI::makeTextureFromRGB(GLuint texture_id, const float* rgb) const {
+void GUI::makeTextureFromLayer(GLuint texture_id,
+                               const std::vector<float>& rgb) const {
   glBindTexture(GL_TEXTURE_2D, texture_id);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_FLOAT,
-               rgb);
+               rgb.data());
   glBindTexture(GL_TEXTURE_2D, 0);
 }
