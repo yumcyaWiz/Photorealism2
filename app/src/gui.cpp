@@ -39,9 +39,16 @@ void GUI::drawRenderSettings(Render& render) const {
     ImGui::RadioButton("EXR", &image_type, 2);
 
     if (ImGui::Button("Save Image")) {
+      const int width = render.renderer.config.width;
+      const int height = render.renderer.config.height;
+
+      // 前処理
+      std::vector<float> image(3 * width * height);
+      imagePostProcessing(width, height, render.layer.render_sRGB, image);
+
+      // PPM
       if (image_type == 0) {
-        savePPM(std::string(filename), render.renderer.config.width,
-                render.renderer.config.height, render.layer.render_sRGB);
+        savePPM(std::string(filename), width, height, image);
       }
     }
   }
