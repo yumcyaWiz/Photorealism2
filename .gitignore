@@ -3,3 +3,4 @@ build/
 *.ppm
 *.png
 ext/*
+!ext/glad
