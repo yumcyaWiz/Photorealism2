@@ -1,3 +1,5 @@
+#include <string>
+
 #include "gui.h"
 #include "imgui.h"
 
@@ -5,7 +7,12 @@ void GUI::drawSettings(Render& render) const {
   bool refresh = false;
 
   ImGui::Begin("Settings");
-  { refresh |= ImGui::Button("Render"); }
+  {
+    ImGui::LabelText("width", std::to_string(render.config.width).c_str());
+    ImGui::LabelText("height", std::to_string(render.config.height).c_str());
+    ImGui::LabelText("samples", std::to_string(render.config.samples).c_str());
+    refresh |= ImGui::Button("Render");
+  }
   ImGui::End();
 
   if (refresh) {
@@ -19,8 +26,11 @@ void GUI::drawRenderLayer(const Render& render) const {
     // Layer選択ボタン
     static int e = 0;
     ImGui::RadioButton("Render", &e, 0);
+    ImGui::SameLine();
     ImGui::RadioButton("Normal", &e, 1);
+    ImGui::SameLine();
     ImGui::RadioButton("Position", &e, 2);
+    ImGui::SameLine();
     ImGui::RadioButton("Depth", &e, 3);
 
     // テクスチャの生成
