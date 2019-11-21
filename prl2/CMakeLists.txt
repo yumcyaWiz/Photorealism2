@@ -11,9 +11,18 @@ target_include_directories(prl2 PUBLIC include/)
 target_include_directories(prl2 PUBLIC src/)
 target_link_libraries(prl2 PUBLIC Threads::Threads)
 
-#compile options
+#compile settings
 target_compile_features(prl2 PUBLIC cxx_std_17)
 set_target_properties(prl2 PROPERTIES CXX_EXTENSIONS OFF)
+
+# compile definitions
+target_compile_definitions(prl2 PRIVATE
+  $<$<CXX_COMPILER_ID:MSVC>:
+    _ENABLE_EXTENDED_ALIGNED_STORAGE
+  >
+)
+
+#compile options
 target_compile_options(prl2 PRIVATE 
   $<$<CXX_COMPILER_ID:GNU>:
     -Wall -Wextra -pedantic-errors

@@ -42,9 +42,18 @@ add_subdirectory(prl2)
 add_executable(app app/src/main.cpp)
 target_include_directories(app PRIVATE app/src/)
 
-#app compile options
+# compile settings
 target_compile_features(app PRIVATE cxx_std_17)
 set_target_properties(app PROPERTIES CXX_EXTENSIONS OFF)
+
+# compile definitions
+target_compile_definitions(app PRIVATE
+  $<$<CXX_COMPILER_ID:MSVC>:
+    _ENABLE_EXTENDED_ALIGNED_STORAGE
+  >
+)
+
+# compile options
 target_compile_options(app PRIVATE 
   $<$<CXX_COMPILER_ID:GNU>:
     -Wall -Wextra -pedantic-errors
