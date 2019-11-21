@@ -46,9 +46,16 @@ target_include_directories(app PRIVATE app/src/)
 target_compile_features(app PRIVATE cxx_std_17)
 set_target_properties(app PROPERTIES CXX_EXTENSIONS OFF)
 target_compile_options(app PRIVATE 
-  -Wall -Wextra -pedantic-errors
-  $<$<CONFIG:Debug>: -g3 -O0 -pg>
-  $<$<CONFIG:Release>: -O3 -s -DNDEBUG -march=native -mtune=native>
+  $<$<CXX_COMPILER_ID:GNU>:
+    -Wall -Wextra -pedantic-errors
+    $<$<CONFIG:Debug>: -g3 -O0 -pg>
+    $<$<CONFIG:Release>: -O3 -s -DNDEBUG -march=native -mtune=native>
+  >
+  $<$<CXX_COMPILER_ID:Clang>:
+    -Wall -Wextra -pedantic-errors
+    $<$<CONFIG:Debug>: -g3 -O0 -pg>
+    $<$<CONFIG:Release>: -O3 -s -DNDEBUG -march=native -mtune=native>
+  >
 )
 
 #app link
