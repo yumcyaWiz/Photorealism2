@@ -7,8 +7,12 @@ find_package(Threads REQUIRED)
 #prl2
 add_library(prl2 STATIC)
 add_subdirectory(src)
-target_include_directories(prl2 PUBLIC include/)
+
+# Include
 target_include_directories(prl2 PUBLIC src/)
+target_include_directories(prl2 PUBLIC ext/ThreadPool)
+
+# Link
 target_link_libraries(prl2 PUBLIC Threads::Threads)
 
 #compile settings
