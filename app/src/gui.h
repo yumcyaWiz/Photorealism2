@@ -41,7 +41,8 @@ class GUI {
   GLuint position_texture_id;  // Position Texture
   GLuint depth_texture_id;     // Depth Texture
 
-  float gamma = 2.2;  //ガンマ値
+  float gamma = 2.2;              // ガンマ値
+  int tone_mapping_function = 0;  // Tone Mappingの種類
 
   // 受け取った画像にガンマ補正・トーンマッピングなどを施す
   void imagePostProcessing(int width, int height,

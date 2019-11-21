@@ -141,6 +141,13 @@ void GUI::drawCameraSettings(Render& render) const {
 void GUI::drawToneMappingUI() {
   ImGui::Begin("Tone Mapping");
   {
+    static int e = tone_mapping_function;
+    ImGui::Text("Tone Mapping Function");
+    ImGui::RadioButton("Linear", &e, 0);
+    ImGui::SameLine();
+    ImGui::RadioButton("Reinhard", &e, 1);
+    tone_mapping_function = e;
+
     static float _gamma = gamma;
     if (ImGui::InputFloat("Gamma", &_gamma)) {
       gamma = _gamma;
