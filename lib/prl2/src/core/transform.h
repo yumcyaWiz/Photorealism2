@@ -159,6 +159,24 @@ inline Transform rotate(const Vec3& r) {
   return rotateX(r.x()) * rotateY(r.y()) * rotateZ(r.z());
 }
 
+// LookAt Transformを返す
+inline Transform lookAt(const Vec3& pos, const Vec3& lookat,
+                        const Vec3& up_base = Vec3(0, 1, 0)) {
+  const Vec3 forward = normalize(lookat - pos);
+  const Vec3 right = normalize(cross(normalize(up_base), forward));
+  const Vec3 up = normalize(cross(forward, right));
+
+  Mat4 m(right.x(), right.y(), right.z(), 0, up.x(), up.y(), up.z(), 0,
+         forward.x(), forward.y(), forward.z(), 0, pos.x(), pos.y(), pos.z(),
+         1);
+
+  Mat4 m_inv(right.x(), up.x(), forward.x(), 0, right.y(), up.y(), forward.y(),
+             0, right.z(), up.z(), forward.z(), 0, -pos.x(), -pos.y(), -pos.z(),
+             1);
+
+  return Transform(m, m_inv);
+}
+
 // 与えられたTransformの逆変換を表すTransformを返す
 inline Transform inverse(const Transform& t) {
   return Transform(t.invmat, t.mat);
