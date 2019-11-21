@@ -1,13 +1,17 @@
 #ifndef GUI_H
 #define GUI_H
 
+#include "glad/glad.h"
+
 #include "GLFW/glfw3.h"
+
 #include "render.h"
 #include "renderer/render_layer.h"
 
 class GUI {
  public:
-  GUI(const Prl2::RenderConfig& config) : width(config.width), height(config.height) {
+  GUI(const Prl2::RenderConfig& config)
+      : width(config.width), height(config.height) {
     // Textureの用意
     glGenTextures(1, &render_texture_id);
     glGenTextures(1, &normal_texture_id);
