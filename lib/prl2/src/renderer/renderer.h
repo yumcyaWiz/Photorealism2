@@ -44,6 +44,13 @@ class Renderer {
     scene.camera->film->resizeLength(width_length, height_length);
   };
 
+  // カメラの位置、向きを設定する
+  void setCameraLookAt(const Vec3& pos, const Vec3& lookat) {
+    config.camera_position = pos;
+    config.camera_lookat = lookat;
+    scene.camera->setLookAt(pos, lookat);
+  };
+
   // レンダリングを行い、結果をRenderLayerに格納する
   void render(RenderLayer& layer, const std::atomic<bool>& cancel) const;
 
