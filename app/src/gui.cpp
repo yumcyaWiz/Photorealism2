@@ -8,8 +8,6 @@
 
 #include "core/vec3.h"
 
-float GUI::gamma = 2.2;
-
 void GUI::drawRenderSettings(Render& render) const {
   bool refresh_render = false;
 
@@ -140,9 +138,14 @@ void GUI::drawCameraSettings(Render& render) const {
   ImGui::End();
 }
 
-void GUI::drawToneMappingUI() const {
+void GUI::drawToneMappingUI() {
   ImGui::Begin("Tone Mapping");
-  { ImGui::InputFloat("Gamma", &gamma); }
+  {
+    static float _gamma = gamma;
+    if (ImGui::InputFloat("Gamma", &_gamma)) {
+      gamma = _gamma;
+    }
+  }
   ImGui::End();
 }
 

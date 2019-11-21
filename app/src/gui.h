@@ -33,7 +33,7 @@ class GUI {
   void drawCameraSettings(Render& render) const;
 
   // ToneMappingUIを表示
-  void drawToneMappingUI() const;
+  void drawToneMappingUI();
 
  private:
   GLuint render_texture_id;    // Render Texture
@@ -41,7 +41,7 @@ class GUI {
   GLuint position_texture_id;  // Position Texture
   GLuint depth_texture_id;     // Depth Texture
 
-  static float gamma;  // ガンマ値
+  float gamma = 2.2;  //ガンマ値
 
   // 受け取った画像にガンマ補正・トーンマッピングなどを施す
   void imagePostProcessing(int width, int height,
