@@ -1,6 +1,7 @@
 #ifndef SPECTRUM_H
 #define SPECTRUM_H
 
+#include <algorithm>
 #include <array>
 #include <iomanip>
 #include <iostream>
@@ -290,7 +291,10 @@ inline SPD operator/(const Real& k, const SPD& spd) {
 }
 
 // 正規化
-inline SPD normalize(const SPD& spd) { return SPD(); }
+inline SPD normalize(const SPD& spd) {
+  const auto m = std::max_element(spd.phi.begin(), spd.phi.end());
+  return spd / *m;
+}
 
 // SPDの出力
 inline std::ostream& operator<<(std::ostream& stream, const SPD& spd) {
