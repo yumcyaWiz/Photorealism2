@@ -29,6 +29,9 @@ struct RenderConfig {
   // Scene
   std::string scene_file;  //シーンファイル
 
+  // Sky
+  std::string sky_type;  // 空の種類
+
   // Sampler
   std::string sampler_type;  // Samplerの種類
 
