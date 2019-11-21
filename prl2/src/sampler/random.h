@@ -13,8 +13,8 @@ class RandomSampler : public Sampler {
 
   void setSeed(uint64_t seed) { rng.setSeed(seed); };
 
-  Real getNext() { return rng.uniformFloat(); }
-  Vec2 getNext2D() { return Vec2(rng.uniformFloat(), rng.uniformFloat()); };
+  Real getNext() { return rng.uniformReal(); }
+  Vec2 getNext2D() { return Vec2(rng.uniformReal(), rng.uniformReal()); };
 
  private:
   RNG rng;

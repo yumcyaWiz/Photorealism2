@@ -47,7 +47,7 @@ class RNG {
 
   uint32_t uniformUInt32() { return pcg32_random_r(&state); };
 
-  Real uniformFloat() {
+  Real uniformReal() {
     return std::min(static_cast<Real>(uniformUInt32() * 0x1p-32),
                     ONE_MINUS_EPS);
   };
