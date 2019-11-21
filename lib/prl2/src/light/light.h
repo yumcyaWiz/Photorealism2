@@ -7,6 +7,7 @@
 
 namespace Prl2 {
 
+// 正規化されたD65光源
 static inline SPD D65Light() {
   const static std::vector<Real> lambda = {
       300, 305, 310, 315, 320, 325, 330, 335, 340, 345, 350, 355, 360, 365,
@@ -38,7 +39,7 @@ static inline SPD D65Light() {
       63.382800,  63.843400,  64.304000,  61.877900,  59.451900,  55.705400,
       51.959000,  54.699800,  57.440600,  58.876500,  60.312500};
 
-  return SPD(lambda, phi);
+  return normalize(SPD(lambda, phi));
 }
 
 }  // namespace Prl2
