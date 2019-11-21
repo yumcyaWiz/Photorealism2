@@ -8,7 +8,10 @@
 // レンダラー周りのことをやる
 class Render {
  public:
-  Render(){};
+  Render(const Prl2::RenderConfig& config) {
+    renderer.loadConfig(config);
+    initScene(config);
+  };
 
   // シーンを初期化する
   void initScene(const Prl2::RenderConfig& config);
