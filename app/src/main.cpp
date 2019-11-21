@@ -53,6 +53,10 @@ int main() {
   ImGui_ImplGlfw_InitForOpenGL(window, true);
   ImGui_ImplOpenGL3_Init(glsl_version);
 
+  // Renderの初期化
+  Prl2::RenderConfig config;
+  Render render(config);
+
   // GUIのレンダリングループ
   while (!glfwWindowShouldClose(window)) {
     glfwPollEvents();
