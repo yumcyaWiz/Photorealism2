@@ -133,6 +133,14 @@ class Film {
     pixels.resize(_width * _height);
   };
 
+  // フィルムの物理的長さをリサイズ
+  void resizeLength(const Real& _width_length, const Real& _height_length) {
+    width_length = _width_length;
+    height_length = _height_length;
+    diagonal_length =
+        std::sqrt(width_length * width_length + height_length * height_length);
+  };
+
   // PPMを出力
   void writePPM(const std::string& filename) const;
 

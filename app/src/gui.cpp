@@ -3,10 +3,10 @@
 #include "gui.h"
 #include "imgui.h"
 
-void GUI::drawSettings(Render& render) const {
+void GUI::drawRenderSettings(Render& render) const {
   bool refresh_render = false;
 
-  ImGui::Begin("Settings");
+  ImGui::Begin("Render Settings");
   {
     static int size[2] = {render.renderer.config.width,
                           render.renderer.config.height};
@@ -29,7 +29,7 @@ void GUI::drawSettings(Render& render) const {
 }
 
 void GUI::drawRenderLayer(const Render& render) const {
-  ImGui::Begin("RenderLayer");
+  ImGui::Begin("Render");
   {
     // Layer選択ボタン
     static int e = 0;
@@ -65,6 +65,18 @@ void GUI::drawRenderLayer(const Render& render) const {
 
     // テクスチャの表示
     ImGui::Image(id, ImVec2(width, height));
+  }
+  ImGui::End();
+}
+
+void GUI::drawFilmSettings(Render& render) const {
+  ImGui::Begin("Film");
+  {
+    static float film_length[2] = {render.renderer.config.width_length,
+                                   render.renderer.config.height_length};
+    if (ImGui::InputFloat2("Film Length", film_length)) {
+      render.renderer.setFilmSize(film_length[0], film_length[1]);
+    }
   }
   ImGui::End();
 }

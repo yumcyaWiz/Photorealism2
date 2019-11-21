@@ -73,8 +73,9 @@ int main() {
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
-    gui.drawSettings(render);
+    gui.drawRenderSettings(render);
     gui.drawRenderLayer(render);
+    gui.drawFilmSettings(render);
 
     ImGui::Render();
     int display_w, display_h;

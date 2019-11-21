@@ -20,11 +20,14 @@ class GUI {
     glGenTextures(1, &depth_texture_id);
   };
 
-  // Settingsを表示
-  void drawSettings(Render& render) const;
+  // RenderSettingsを表示
+  void drawRenderSettings(Render& render) const;
 
   // RenderLayerを表示
   void drawRenderLayer(const Render& render) const;
+
+  // FilmSettingsを表示
+  void drawFilmSettings(Render& render) const;
 
  private:
   GLuint render_texture_id;    // Render Texture

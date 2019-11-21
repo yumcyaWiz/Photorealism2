@@ -37,6 +37,12 @@ class Renderer {
   // サンプル数を設定する
   void setSamples(unsigned int samples) { config.samples = samples; }
 
+  // フィルムサイズを設定する
+  void setFilmSize(const Real& width_length, const Real& height_length) {
+    config.width_length = width_length;
+    config.height_length = height_length;
+  };
+
   // レンダリングを行い、結果をRenderLayerに格納する
   void render(RenderLayer& layer, const std::atomic<bool>& cancel) const;
 
