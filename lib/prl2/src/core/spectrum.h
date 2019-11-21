@@ -1,6 +1,7 @@
 #ifndef SPECTRUM_H
 #define SPECTRUM_H
 
+#include <array>
 #include <iomanip>
 #include <iostream>
 #include <vector>
@@ -31,7 +32,7 @@ class SPD {
   static constexpr Real LAMBDA_INTERVAL =
       (LAMBDA_MAX - LAMBDA_MIN) / LAMBDA_SAMPLES;
 
-  Real phi[LAMBDA_SAMPLES];  //放射束
+  std::array<Real, LAMBDA_SAMPLES> phi;  //放射束
 
   // 0で初期化
   SPD() {
@@ -287,6 +288,9 @@ inline SPD operator/(const Real& k, const SPD& spd) {
   }
   return ret;
 }
+
+// 正規化
+inline SPD normalize(const SPD& spd) { return SPD(); }
 
 // SPDの出力
 inline std::ostream& operator<<(std::ostream& stream, const SPD& spd) {
