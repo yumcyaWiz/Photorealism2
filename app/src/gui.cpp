@@ -5,6 +5,7 @@
 #include "gui.h"
 
 #include "core/vec3.h"
+#include "renderer/renderer.h"
 
 void GUI::drawRenderSettings(Render& render) const {
   bool refresh_render = false;
@@ -38,13 +39,11 @@ void GUI::drawRenderSettings(Render& render) const {
       const int width = render.renderer.config.width;
       const int height = render.renderer.config.height;
 
-      // 前処理
-      std::vector<float> image(3 * width * height);
-      imagePostProcessing(width, height, render.layer.render_sRGB, image);
-
       // PPM
       if (image_type == 0) {
-        savePPM(std::string(filename), width, height, image);
+        render.renderer.saveLayer(std::string(filename),
+                                  Prl2::LayerType::Render,
+                                  Prl2::ImageType::PPM);
       }
     }
   }
@@ -72,21 +71,22 @@ void GUI::drawRenderLayer(const Render& render) const {
     ImTextureID id;
     const int width = render.renderer.config.width;
     const int height = render.renderer.config.height;
+    std::vector<float> image;
     if (e == 0) {
-      makeTextureFromLayer(render_texture_id, width, height,
-                           render.layer.render_sRGB);
+      render.renderer.getLayersRGB(Prl2::LayerType::Render, image);
+      makeTextureFromLayer(render_texture_id, width, height, image);
       id = (ImTextureID)(intptr_t)(render_texture_id);
     } else if (e == 1) {
-      makeTextureFromLayer(normal_texture_id, width, height,
-                           render.layer.normal_sRGB);
+      render.renderer.getLayersRGB(Prl2::LayerType::Normal, image);
+      makeTextureFromLayer(normal_texture_id, width, height, image);
       id = (ImTextureID)(intptr_t)(normal_texture_id);
     } else if (e == 2) {
-      makeTextureFromLayer(position_texture_id, width, height,
-                           render.layer.position_sRGB);
+      render.renderer.getLayersRGB(Prl2::LayerType::Position, image);
+      makeTextureFromLayer(position_texture_id, width, height, image);
       id = (ImTextureID)(intptr_t)(position_texture_id);
     } else if (e == 3) {
-      makeTextureFromLayer(depth_texture_id, width, height,
-                           render.layer.depth_sRGB);
+      render.renderer.getLayersRGB(Prl2::LayerType::Depth, image);
+      makeTextureFromLayer(depth_texture_id, width, height, image);
       id = (ImTextureID)(intptr_t)(depth_texture_id);
     }
 
@@ -158,27 +158,9 @@ void GUI::drawToneMappingUI() {
   ImGui::End();
 }
 
-void GUI::imagePostProcessing(int width, int height,
-                              const std::vector<float>& rgb_in,
-                              std::vector<float>& rgb_out) const {
-  // Tone Mapping
-  if (tone_mapping_function == 0) {
-    linearToneMapping(width, height, rgb_in, rgb_out);
-  } else if (tone_mapping_function == 1) {
-    reinHardToneMapping(width, height, rgb_in, rgb_out);
-  }
-
-  // ガンマ補正
-  gammaCorrection(width, height, rgb_out, gamma, rgb_out);
-}
-
 void GUI::makeTextureFromLayer(GLuint texture_id, int width, int height,
                                const std::vector<float>& rgb) const {
   if (rgb.size() != 3 * width * height) return;
-
-  // 前処理
-  std::vector<float> texture(3 * width * height);
-  imagePostProcessing(width, height, rgb, texture);
 
   // テクスチャの生成
   glBindTexture(GL_TEXTURE_2D, texture_id);
@@ -187,6 +169,6 @@ void GUI::makeTextureFromLayer(GLuint texture_id, int width, int height,
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_FLOAT,
-               texture.data());
+               rgb.data());
   glBindTexture(GL_TEXTURE_2D, 0);
 }

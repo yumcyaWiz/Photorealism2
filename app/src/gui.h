@@ -8,7 +8,6 @@
 #include "GLFW/glfw3.h"
 
 #include "render.h"
-#include "renderer/render_layer.h"
 
 class GUI {
  public:
@@ -44,11 +43,6 @@ class GUI {
   float gamma = 2.2;              // ガンマ値
   float exposure = 0.18;          // 露光値(key value)
   int tone_mapping_function = 0;  // Tone Mappingの種類
-
-  // 受け取った画像にガンマ補正・トーンマッピングなどを施す
-  void imagePostProcessing(int width, int height,
-                           const std::vector<float>& rgb_in,
-                           std::vector<float>& rgb_out) const;
 
   // LayerからTextureを生成
   void makeTextureFromLayer(GLuint texture_id, int width, int height,

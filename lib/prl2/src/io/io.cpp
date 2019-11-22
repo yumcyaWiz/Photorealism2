@@ -6,8 +6,8 @@
 
 namespace Prl2 {
 
-void savePPM(const std::string& filename, int width, int height,
-             const std::vector<float>& rgb) {
+void writePPM(const std::string& filename, int width, int height,
+              const std::vector<float>& rgb) {
   std::ofstream file(filename);
 
   file << "P3" << std::endl;
@@ -31,4 +31,4 @@ void savePPM(const std::string& filename, int width, int height,
   file.close();
 }
 
-}
+}  // namespace Prl2

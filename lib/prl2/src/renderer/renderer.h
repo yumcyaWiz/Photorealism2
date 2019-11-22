@@ -11,10 +11,13 @@
 #include "renderer/render_layer.h"
 #include "renderer/scene.h"
 
-enum class LayerType { Render, Normal, Position, Depth };
-enum class ImageType { PPM, PNG, EXR };
-
 namespace Prl2 {
+
+// Layerの種類
+enum class LayerType { Render, Normal, Position, Depth };
+
+// Imageの種類
+enum class ImageType { PPM, PNG, EXR };
 
 //レンダリングを行うクラス
 //与えられた設定を元に、シーンのセットアップ、レンダリングを行う
