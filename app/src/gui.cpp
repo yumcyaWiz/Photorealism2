@@ -41,9 +41,9 @@ void GUI::drawRenderSettings(Render& render) const {
 
       // PPM
       if (image_type == 0) {
-        render.renderer.saveLayer(std::string(filename),
-                                  Prl2::LayerType::Render,
-                                  Prl2::ImageType::PPM);
+        render.renderer.saveLayer(
+            std::string(filename), Prl2::LayerType::Render,
+            Prl2::ToneMappingType::Linear, 2.2, 2.2, Prl2::ImageType::PPM);
       }
     }
   }
@@ -73,19 +73,27 @@ void GUI::drawRenderLayer(const Render& render) const {
     const int height = render.renderer.config.height;
     std::vector<float> image;
     if (e == 0) {
-      render.renderer.getLayersRGB(Prl2::LayerType::Render, image);
+      render.renderer.getLayersRGB(Prl2::LayerType::Render,
+                                   Prl2::ToneMappingType::Linear, 2.2, 2.2,
+                                   image);
       makeTextureFromLayer(render_texture_id, width, height, image);
       id = (ImTextureID)(intptr_t)(render_texture_id);
     } else if (e == 1) {
-      render.renderer.getLayersRGB(Prl2::LayerType::Normal, image);
+      render.renderer.getLayersRGB(Prl2::LayerType::Normal,
+                                   Prl2::ToneMappingType::Linear, 2.2, 2.2,
+                                   image);
       makeTextureFromLayer(normal_texture_id, width, height, image);
       id = (ImTextureID)(intptr_t)(normal_texture_id);
     } else if (e == 2) {
-      render.renderer.getLayersRGB(Prl2::LayerType::Position, image);
+      render.renderer.getLayersRGB(Prl2::LayerType::Position,
+                                   Prl2::ToneMappingType::Linear, 2.2, 2.2,
+                                   image);
       makeTextureFromLayer(position_texture_id, width, height, image);
       id = (ImTextureID)(intptr_t)(position_texture_id);
     } else if (e == 3) {
-      render.renderer.getLayersRGB(Prl2::LayerType::Depth, image);
+      render.renderer.getLayersRGB(Prl2::LayerType::Depth,
+                                   Prl2::ToneMappingType::Linear, 2.2, 2.2,
+                                   image);
       makeTextureFromLayer(depth_texture_id, width, height, image);
       id = (ImTextureID)(intptr_t)(depth_texture_id);
     }
