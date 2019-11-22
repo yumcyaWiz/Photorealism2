@@ -5,6 +5,7 @@
 #include "integrator/pt.h"
 #include "light/light.h"
 #include "parallel/parallel.h"
+#include "postprocess/tone_mapping.h"
 #include "renderer/renderer.h"
 #include "renderer/scene_loader.h"
 #include "sampler/random.h"
@@ -170,21 +171,25 @@ void Renderer::render(const std::atomic<bool>& cancel) {
 }
 
 void Renderer::getRendersRGB(std::vector<float>& rgb) const {
-  rgb.resize(3 * config.width * config.height);
+  // XYZの配列を作成
+  std::vector<float> xyz(3 * config.width * config.height);
 
+  // ガンマ補正
+  gammaCorrection(config.width, config.height, layer.render_XYZ, 2.2, xyz);
+
+  rgb.resize(3 * config.width * config.height);
   for (int j = 0; j < config.height; ++j) {
     for (int i = 0; i < config.width; ++i) {
       const int index = 3 * i + 3 * config.width * j;
 
-      // XYZをRGBに変換
-      const XYZ xyz =
-          XYZ(layer.render_XYZ[index + 0], layer.render_XYZ[index + 1],
-              layer.render_XYZ[index + 2]);
-      const RGB rgb_col = XYZ2RGB(xyz);
+      const XYZ xyz_vec = XYZ(xyz[index + 0], xyz[index + 1], xyz[index + 2]);
 
-      rgb[index + 0] = rgb_col.x();
-      rgb[index + 1] = rgb_col.y();
-      rgb[index + 2] = rgb_col.z();
+      // XYZをRGBに変換
+      const RGB rgb_vec = XYZ2RGB(xyz_vec);
+
+      rgb[index + 0] = rgb_vec.x();
+      rgb[index + 1] = rgb_vec.y();
+      rgb[index + 2] = rgb_vec.z();
     }
   }
 }

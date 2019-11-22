@@ -15,9 +15,7 @@ void adjustExposure(int width, int height, const std::vector<float>& xyz_in,
     for (int i = 0; i < width; ++i) {
       const int index = 3 * i + 3 * width * j;
 
-      const float x = xyz_in[index + 0];
       const float y = xyz_in[index + 1];
-      const float z = xyz_in[index + 2];
 
       mean += y;
     }
