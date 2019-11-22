@@ -147,11 +147,11 @@ void Renderer::render(const std::atomic<bool>& cancel) {
         }
 
         // Render LayerにsRGBを加算
-        const Vec3 rgb =
-            (scene.camera->film->getPixel(i, j) / config.samples).toRGB();
-        layer.render_sRGB[3 * i + 3 * config.width * j + 0] = rgb.x();
-        layer.render_sRGB[3 * i + 3 * config.width * j + 1] = rgb.y();
-        layer.render_sRGB[3 * i + 3 * config.width * j + 2] = rgb.z();
+        const Vec3 xyz =
+            (scene.camera->film->getPixel(i, j) / config.samples).toXYZ();
+        layer.render_XYZ[3 * i + 3 * config.width * j + 0] = xyz.x();
+        layer.render_XYZ[3 * i + 3 * config.width * j + 1] = xyz.y();
+        layer.render_XYZ[3 * i + 3 * config.width * j + 2] = xyz.z();
 
         // 他のレイヤーの寄与をサンプル数で割る
         layer.normal_sRGB[3 * i + 3 * config.width * j + 0] /= config.samples;
@@ -175,9 +175,9 @@ void Renderer::getRendersRGB(std::vector<float>& rgb) const {
   for (int j = 0; j < config.height; ++j) {
     for (int i = 0; i < config.width; ++i) {
       const int index = 3 * i + 3 * config.width * j;
-      rgb[index + 0] = layer.render_sRGB[index + 0];
-      rgb[index + 1] = layer.render_sRGB[index + 1];
-      rgb[index + 2] = layer.render_sRGB[index + 2];
+      rgb[index + 0] = layer.render_XYZ[index + 0];
+      rgb[index + 1] = layer.render_XYZ[index + 1];
+      rgb[index + 2] = layer.render_XYZ[index + 2];
     }
   }
 }
