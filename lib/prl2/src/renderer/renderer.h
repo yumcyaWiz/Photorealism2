@@ -10,6 +10,8 @@
 #include "renderer/render_layer.h"
 #include "renderer/scene.h"
 
+enum class RenderLayerType { Render, Normal, Position, Depth };
+
 namespace Prl2 {
 
 //レンダリングを行うクラス
@@ -55,6 +57,25 @@ class Renderer {
     scene.camera->setLookAt(pos, lookat);
   };
 
+  // LayerをsRGBとして入手
+  void getLayersRGB(const RenderLayerType& type,
+                    std::vector<float>& rgb) const {
+    if (type == RenderLayerType::Render) {
+      getRendersRGB(rgb);
+    } else if (type == RenderLayerType::Normal) {
+      getNormalsRGB(rgb);
+    } else if (type == RenderLayerType::Position) {
+      getPositionsRGB(rgb);
+    } else if (type == RenderLayerType::Depth) {
+      getDepthsRGB(rgb);
+    }
+  };
+
+ private:
+  RenderLayer layer;                       // RenderLayer
+  std::shared_ptr<Sampler> sampler;        // Sampler
+  std::shared_ptr<Integrator> integrator;  // Integrator
+
   // Render LayerをsRGBとして入手
   void getRendersRGB(std::vector<float>& rgb) const;
 
@@ -66,11 +87,6 @@ class Renderer {
 
   // Depth LayerをsRGBとして入手
   void getDepthsRGB(std::vector<float>& rgb) const;
-
- private:
-  RenderLayer layer;                       // RenderLayer
-  std::shared_ptr<Sampler> sampler;        // Sampler
-  std::shared_ptr<Integrator> integrator;  // Integrator
 };
 
 }  // namespace Prl2
