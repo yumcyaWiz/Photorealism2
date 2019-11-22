@@ -175,9 +175,16 @@ void Renderer::getRendersRGB(std::vector<float>& rgb) const {
   for (int j = 0; j < config.height; ++j) {
     for (int i = 0; i < config.width; ++i) {
       const int index = 3 * i + 3 * config.width * j;
-      rgb[index + 0] = layer.render_XYZ[index + 0];
-      rgb[index + 1] = layer.render_XYZ[index + 1];
-      rgb[index + 2] = layer.render_XYZ[index + 2];
+
+      // XYZをRGBに変換
+      const XYZ xyz =
+          XYZ(layer.render_XYZ[index + 0], layer.render_XYZ[index + 1],
+              layer.render_XYZ[index + 2]);
+      const RGB rgb_col = XYZ2RGB(xyz);
+
+      rgb[index + 0] = rgb_col.x();
+      rgb[index + 1] = rgb_col.y();
+      rgb[index + 2] = rgb_col.z();
     }
   }
 }
