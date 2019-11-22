@@ -10,7 +10,6 @@
 // レンダラー周りのことをやる
 class Render {
  public:
-  Prl2::RenderLayer layer;  // RenderLayer
   Prl2::Renderer renderer;  // Renderer
 
   Render(const Prl2::RenderConfig& config)
