@@ -16,6 +16,9 @@ void Renderer::loadConfig(const RenderConfig& _config) {
   // RenderConfigのセット
   config = _config;
 
+  // Layerの初期化
+  layer.resize(_config.width, _config.height);
+
   // シーンファイルの読み込み
   if (!config.scene_file.empty()) {
     SceneLoader sceneLoader;
@@ -72,10 +75,8 @@ void Renderer::loadConfig(const RenderConfig& _config) {
   }
 }
 
-void Renderer::render(RenderLayer& layer,
-                      const std::atomic<bool>& cancel) const {
+void Renderer::render(const std::atomic<bool>& cancel) {
   // レイヤーを初期化
-  layer.resize(config.width, config.height);
   layer.clear();
 
   // フィルムをクリア

@@ -31,6 +31,7 @@ class Renderer {
   void setImageSize(unsigned int width, unsigned int height) {
     config.width = width;
     config.height = height;
+    layer.resize(width, height);
     scene.camera->film->resize(width, height);
   };
 
@@ -52,9 +53,10 @@ class Renderer {
   };
 
   // レンダリングを行い、結果をRenderLayerに格納する
-  void render(RenderLayer& layer, const std::atomic<bool>& cancel) const;
+  void render(const std::atomic<bool>& cancel);
 
  private:
+  RenderLayer layer;                       // RenderLayer
   std::shared_ptr<Sampler> sampler;        // Sampler
   std::shared_ptr<Integrator> integrator;  // Integrator
 };

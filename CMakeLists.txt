@@ -42,12 +42,9 @@ add_subdirectory(lib/prl2)
 add_executable(app
   app/src/gui.cpp
   app/src/gui.h
-  app/src/io.cpp
-  app/src/io.h
   app/src/main.cpp
   app/src/render.cpp
   app/src/render.h
-  app/src/tonemapping.h
 )
 target_include_directories(app PRIVATE app/src/)
 
