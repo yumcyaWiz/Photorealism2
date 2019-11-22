@@ -1,8 +1,10 @@
-#include "io.h"
+#include "io/io.h"
 
 #include <algorithm>
 #include <fstream>
 #include <iostream>
+
+namespace Prl2 {
 
 void savePPM(const std::string& filename, int width, int height,
              const std::vector<float>& rgb) {
@@ -27,4 +29,6 @@ void savePPM(const std::string& filename, int width, int height,
   std::cout << filename << " has been written out" << std::endl;
 
   file.close();
+}
+
 }
