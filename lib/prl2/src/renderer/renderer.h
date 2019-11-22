@@ -10,7 +10,7 @@
 #include "renderer/render_layer.h"
 #include "renderer/scene.h"
 
-enum class RenderLayerType { Render, Normal, Position, Depth };
+enum class LayerType { Render, Normal, Position, Depth };
 
 namespace Prl2 {
 
@@ -58,15 +58,14 @@ class Renderer {
   };
 
   // LayerをsRGBとして入手
-  void getLayersRGB(const RenderLayerType& type,
-                    std::vector<float>& rgb) const {
-    if (type == RenderLayerType::Render) {
+  void getLayersRGB(const LayerType& type, std::vector<float>& rgb) const {
+    if (type == LayerType::Render) {
       getRendersRGB(rgb);
-    } else if (type == RenderLayerType::Normal) {
+    } else if (type == LayerType::Normal) {
       getNormalsRGB(rgb);
-    } else if (type == RenderLayerType::Position) {
+    } else if (type == LayerType::Position) {
       getPositionsRGB(rgb);
-    } else if (type == RenderLayerType::Depth) {
+    } else if (type == LayerType::Depth) {
       getDepthsRGB(rgb);
     }
   };
