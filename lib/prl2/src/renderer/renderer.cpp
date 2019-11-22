@@ -148,11 +148,11 @@ void Renderer::render(const std::atomic<bool>& cancel) {
         }
 
         // Render LayerにsRGBを加算
-        const Vec3 xyz =
-            (scene.camera->film->getPixel(i, j) / config.samples).toXYZ();
-        layer.render_XYZ[3 * i + 3 * config.width * j + 0] = xyz.x();
-        layer.render_XYZ[3 * i + 3 * config.width * j + 1] = xyz.y();
-        layer.render_XYZ[3 * i + 3 * config.width * j + 2] = xyz.z();
+        const RGB rgb =
+            (scene.camera->film->getPixel(i, j) / config.samples).toRGB();
+        layer.render_sRGB[3 * i + 3 * config.width * j + 0] = rgb.x();
+        layer.render_sRGB[3 * i + 3 * config.width * j + 1] = rgb.y();
+        layer.render_sRGB[3 * i + 3 * config.width * j + 2] = rgb.z();
 
         // 他のレイヤーの寄与をサンプル数で割る
         layer.normal_sRGB[3 * i + 3 * config.width * j + 0] /= config.samples;
@@ -171,21 +171,14 @@ void Renderer::render(const std::atomic<bool>& cancel) {
 }
 
 void Renderer::getRendersRGB(std::vector<float>& rgb) const {
-  // XYZの配列を作成
-  std::vector<float> xyz(3 * config.width * config.height);
-
-  // ガンマ補正
-  gammaCorrection(config.width, config.height, layer.render_XYZ, 2.2, xyz);
-
   rgb.resize(3 * config.width * config.height);
   for (int j = 0; j < config.height; ++j) {
     for (int i = 0; i < config.width; ++i) {
       const int index = 3 * i + 3 * config.width * j;
 
-      const XYZ xyz_vec = XYZ(xyz[index + 0], xyz[index + 1], xyz[index + 2]);
-
-      // XYZをRGBに変換
-      const RGB rgb_vec = XYZ2RGB(xyz_vec);
+      const RGB rgb_vec =
+          RGB(layer.render_sRGB[index + 0], layer.render_sRGB[index + 1],
+              layer.render_sRGB[index + 2]);
 
       rgb[index + 0] = rgb_vec.x();
       rgb[index + 1] = rgb_vec.y();
