@@ -30,6 +30,55 @@ class alignas(16) Vec3 {
 
   Vec3 operator-() const { return Vec3(-x(), -y(), -z()); };
 
+  Vec3& operator+=(const Vec3& v2) {
+    v[0] += v2.x();
+    v[1] += v2.y();
+    v[2] += v2.z();
+    return *this;
+  };
+  Vec3& operator+=(const Real& k) {
+    v[0] += k;
+    v[1] += k;
+    v[2] += k;
+    return *this;
+  };
+  Vec3& operator-=(const Vec3& v2) {
+    v[0] -= v2.x();
+    v[1] -= v2.y();
+    v[2] -= v2.z();
+    return *this;
+  };
+  Vec3& operator-=(const Real& k) {
+    v[0] -= k;
+    v[1] -= k;
+    v[2] -= k;
+    return *this;
+  };
+  Vec3& operator*=(const Vec3& v2) {
+    v[0] *= v2.x();
+    v[1] *= v2.y();
+    v[2] *= v2.z();
+    return *this;
+  };
+  Vec3& operator*=(const Real& k) {
+    v[0] *= k;
+    v[1] *= k;
+    v[2] *= k;
+    return *this;
+  };
+  Vec3& operator/=(const Vec3& v2) {
+    v[0] /= v2.x();
+    v[1] /= v2.y();
+    v[2] /= v2.z();
+    return *this;
+  };
+  Vec3& operator/=(const Real& k) {
+    v[0] /= k;
+    v[1] /= k;
+    v[2] /= k;
+    return *this;
+  };
+
  private:
   Real v[3];
 };
