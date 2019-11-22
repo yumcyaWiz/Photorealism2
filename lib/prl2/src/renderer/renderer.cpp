@@ -187,7 +187,7 @@ void Renderer::getRendersRGB(const ToneMappingType& tm_type, float exposure,
       const float luminance =
           0.2126 * rgb_vec[0] + 0.7152 * rgb_vec[1] + 0.0722 * rgb_vec[2];
       if (tm_type == ToneMappingType::Reinhard) {
-        rgb_vec *= reinhardToneMapping(luminance, exposure);
+        rgb_vec *= reinhardToneMapping(luminance, exposure) / luminance;
       }
 
       // ガンマ補正
