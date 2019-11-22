@@ -3,8 +3,6 @@
 #include "imgui.h"
 
 #include "gui.h"
-#include "io.h"
-#include "tonemapping.h"
 
 #include "core/vec3.h"
 

@@ -169,4 +169,56 @@ void Renderer::render(const std::atomic<bool>& cancel) {
       16, 16, config.width, config.height);
 }
 
+void Renderer::getRendersRGB(std::vector<float>& rgb) const {
+  rgb.resize(3 * config.width * config.height);
+
+  for (int j = 0; j < config.height; ++j) {
+    for (int i = 0; i < config.width; ++i) {
+      const int index = 3 * i + 3 * config.width * j;
+      rgb[index + 0] = layer.render_sRGB[index + 0];
+      rgb[index + 1] = layer.render_sRGB[index + 1];
+      rgb[index + 2] = layer.render_sRGB[index + 2];
+    }
+  }
+}
+
+void Renderer::getNormalsRGB(std::vector<float>& rgb) const {
+  rgb.resize(3 * config.width * config.height);
+
+  for (int j = 0; j < config.height; ++j) {
+    for (int i = 0; i < config.width; ++i) {
+      const int index = 3 * i + 3 * config.width * j;
+      rgb[index + 0] = layer.normal_sRGB[index + 0];
+      rgb[index + 1] = layer.normal_sRGB[index + 1];
+      rgb[index + 2] = layer.normal_sRGB[index + 2];
+    }
+  }
+}
+
+void Renderer::getPositionsRGB(std::vector<float>& rgb) const {
+  rgb.resize(3 * config.width * config.height);
+
+  for (int j = 0; j < config.height; ++j) {
+    for (int i = 0; i < config.width; ++i) {
+      const int index = 3 * i + 3 * config.width * j;
+      rgb[index + 0] = layer.position_sRGB[index + 0];
+      rgb[index + 1] = layer.position_sRGB[index + 1];
+      rgb[index + 2] = layer.position_sRGB[index + 2];
+    }
+  }
+}
+
+void Renderer::getDepthsRGB(std::vector<float>& rgb) const {
+  rgb.resize(3 * config.width * config.height);
+
+  for (int j = 0; j < config.height; ++j) {
+    for (int i = 0; i < config.width; ++i) {
+      const int index = 3 * i + 3 * config.width * j;
+      rgb[index + 0] = layer.depth_sRGB[index + 0];
+      rgb[index + 1] = layer.depth_sRGB[index + 1];
+      rgb[index + 2] = layer.depth_sRGB[index + 2];
+    }
+  }
+}
+
 }  // namespace Prl2

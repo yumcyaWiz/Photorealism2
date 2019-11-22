@@ -27,6 +27,9 @@ class Renderer {
   // RenderConfigをもとにRendererの初期化を行う
   void loadConfig(const RenderConfig& config);
 
+  // レンダリングを行い、結果をRenderLayerに格納する
+  void render(const std::atomic<bool>& cancel);
+
   // 出力サイズを変更する
   void setImageSize(unsigned int width, unsigned int height) {
     config.width = width;
@@ -52,8 +55,17 @@ class Renderer {
     scene.camera->setLookAt(pos, lookat);
   };
 
-  // レンダリングを行い、結果をRenderLayerに格納する
-  void render(const std::atomic<bool>& cancel);
+  // Render LayerをsRGBとして入手
+  void getRendersRGB(std::vector<float>& rgb) const;
+
+  // Normal LayerをsRGBとして入手
+  void getNormalsRGB(std::vector<float>& rgb) const;
+
+  // Position LayerをsRGBとして入手
+  void getPositionsRGB(std::vector<float>& rgb) const;
+
+  // Depth LayerをsRGBとして入手
+  void getDepthsRGB(std::vector<float>& rgb) const;
 
  private:
   RenderLayer layer;                       // RenderLayer
