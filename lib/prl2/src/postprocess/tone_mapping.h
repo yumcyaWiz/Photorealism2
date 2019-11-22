@@ -32,9 +32,9 @@ void adjustExposure(int width, int height, const std::vector<float>& xyz_in,
       const float y = xyz_in[index + 1];
       const float z = xyz_in[index + 2];
 
-      xyz_out[index + 0] = x * exposure / mean;
+      xyz_out[index + 0] = x;
       xyz_out[index + 1] = y * exposure / mean;
-      xyz_out[index + 2] = z * exposure / mean;
+      xyz_out[index + 2] = z;
     }
   }
 }
@@ -50,9 +50,9 @@ void gammaCorrection(int width, int height, const std::vector<float>& xyz_in,
       const float y = xyz_in[index + 1];
       const float z = xyz_in[index + 2];
 
-      xyz_out[index + 0] = x * std::pow(y, 1 / gamma);
+      xyz_out[index + 0] = x;
       xyz_out[index + 1] = y * std::pow(y, 1 / gamma);
-      xyz_out[index + 2] = z * std::pow(y, 1 / gamma);
+      xyz_out[index + 2] = z;
     }
   }
 }
