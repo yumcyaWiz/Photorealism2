@@ -40,20 +40,19 @@ void adjustExposure(int width, int height, const std::vector<float>& xyz_in,
 }
 
 // ガンマ補正を行う
-void gammaCorrection(int width, int height, const std::vector<float>& rgb_in,
-                     float gamma, std::vector<float>& rgb_out) {
+void gammaCorrection(int width, int height, const std::vector<float>& xyz_in,
+                     float gamma, std::vector<float>& xyz_out) {
   for (int j = 0; j < height; ++j) {
     for (int i = 0; i < width; ++i) {
       const int index = 3 * i + 3 * width * j;
 
-      const float r = rgb_in[index + 0];
-      const float g = rgb_in[index + 1];
-      const float b = rgb_in[index + 2];
-      const float intensity = std::sqrt(r * r + g * g + b * b);
+      const float x = xyz_in[index + 0];
+      const float y = xyz_in[index + 1];
+      const float z = xyz_in[index + 2];
 
-      rgb_out[index + 0] = r * std::pow(intensity, 1 / gamma);
-      rgb_out[index + 1] = g * std::pow(intensity, 1 / gamma);
-      rgb_out[index + 2] = b * std::pow(intensity, 1 / gamma);
+      xyz_out[index + 0] = x * std::pow(y, 1 / gamma);
+      xyz_out[index + 1] = y * std::pow(y, 1 / gamma);
+      xyz_out[index + 2] = z * std::pow(y, 1 / gamma);
     }
   }
 }
