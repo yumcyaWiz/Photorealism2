@@ -176,9 +176,14 @@ void Renderer::getRendersRGB(std::vector<float>& rgb) const {
     for (int i = 0; i < config.width; ++i) {
       const int index = 3 * i + 3 * config.width * j;
 
-      const RGB rgb_vec =
+      RGB rgb_vec =
           RGB(layer.render_sRGB[index + 0], layer.render_sRGB[index + 1],
               layer.render_sRGB[index + 2]);
+
+      // ガンマ補正
+      rgb_vec[0] = std::pow(rgb_vec[0], 1 / 2.2);
+      rgb_vec[1] = std::pow(rgb_vec[1], 1 / 2.2);
+      rgb_vec[2] = std::pow(rgb_vec[2], 1 / 2.2);
 
       rgb[index + 0] = rgb_vec.x();
       rgb[index + 1] = rgb_vec.y();
