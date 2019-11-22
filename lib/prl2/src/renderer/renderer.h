@@ -6,11 +6,13 @@
 
 #include "core/primitive.h"
 #include "integrator/integrator.h"
+#include "io/io.h"
 #include "renderer/render_config.h"
 #include "renderer/render_layer.h"
 #include "renderer/scene.h"
 
 enum class LayerType { Render, Normal, Position, Depth };
+enum class ImageType { PPM, PNG, EXR };
 
 namespace Prl2 {
 
@@ -67,6 +69,19 @@ class Renderer {
       getPositionsRGB(rgb);
     } else if (type == LayerType::Depth) {
       getDepthsRGB(rgb);
+    }
+  };
+
+  // Layerを画像として保存
+  void saveLayer(const std::string& filename, const LayerType& layer_type,
+                 const ImageType& image_type) {
+    std::vector<float> image;
+    getLayersRGB(layer_type, image);
+
+    if (image_type == ImageType::PPM) {
+      writePPM(filename, config.width, config.height, image);
+    } else {
+      writePPM(filename, config.width, config.height, image);
     }
   };
 
