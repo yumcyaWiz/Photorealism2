@@ -170,7 +170,8 @@ void Renderer::render(const std::atomic<bool>& cancel) {
       16, 16, config.width, config.height);
 }
 
-void Renderer::getRendersRGB(std::vector<float>& rgb) const {
+void Renderer::getRendersRGB(const ToneMappingType& tm_type, float exposure,
+                             float gamma, std::vector<float>& rgb) const {
   rgb.resize(3 * config.width * config.height);
   for (int j = 0; j < config.height; ++j) {
     for (int i = 0; i < config.width; ++i) {
@@ -180,10 +181,17 @@ void Renderer::getRendersRGB(std::vector<float>& rgb) const {
           RGB(layer.render_sRGB[index + 0], layer.render_sRGB[index + 1],
               layer.render_sRGB[index + 2]);
 
+      // Tone Mapping
+      const float luminance =
+          0.2126 * rgb_vec[0] + 0.7152 * rgb_vec[1] + 0.0722 * rgb_vec[2];
+      if (tm_type == ToneMappingType::Reinhard) {
+        rgb_vec *= reinhardToneMapping(luminance, exposure);
+      }
+
       // ガンマ補正
-      rgb_vec[0] = std::pow(rgb_vec[0], 1 / 2.2);
-      rgb_vec[1] = std::pow(rgb_vec[1], 1 / 2.2);
-      rgb_vec[2] = std::pow(rgb_vec[2], 1 / 2.2);
+      rgb_vec[0] = std::pow(rgb_vec[0], 1 / gamma);
+      rgb_vec[1] = std::pow(rgb_vec[1], 1 / gamma);
+      rgb_vec[2] = std::pow(rgb_vec[2], 1 / gamma);
 
       rgb[index + 0] = rgb_vec.x();
       rgb[index + 1] = rgb_vec.y();

@@ -19,6 +19,9 @@ enum class LayerType { Render, Normal, Position, Depth };
 // Imageの種類
 enum class ImageType { PPM, PNG, EXR };
 
+// Tone Mappingの種類
+enum class ToneMappingType { Linear, Reinhard };
+
 //レンダリングを行うクラス
 //与えられた設定を元に、シーンのセットアップ、レンダリングを行う
 class Renderer {
@@ -63,23 +66,26 @@ class Renderer {
   };
 
   // LayerをsRGBとして入手
-  void getLayersRGB(const LayerType& type, std::vector<float>& rgb) const {
-    if (type == LayerType::Render) {
-      getRendersRGB(rgb);
-    } else if (type == LayerType::Normal) {
+  void getLayersRGB(const LayerType& layer_type, const ToneMappingType& tm_type,
+                    float exposure, float gamma,
+                    std::vector<float>& rgb) const {
+    if (layer_type == LayerType::Render) {
+      getRendersRGB(tm_type, exposure, gamma, rgb);
+    } else if (layer_type == LayerType::Normal) {
       getNormalsRGB(rgb);
-    } else if (type == LayerType::Position) {
+    } else if (layer_type == LayerType::Position) {
       getPositionsRGB(rgb);
-    } else if (type == LayerType::Depth) {
+    } else if (layer_type == LayerType::Depth) {
       getDepthsRGB(rgb);
     }
   };
 
   // Layerを画像として保存
   void saveLayer(const std::string& filename, const LayerType& layer_type,
+                 const ToneMappingType& tm_type, float exposure, float gamma,
                  const ImageType& image_type) {
     std::vector<float> image;
-    getLayersRGB(layer_type, image);
+    getLayersRGB(layer_type, tm_type, exposure, gamma, image);
 
     if (image_type == ImageType::PPM) {
       writePPM(filename, config.width, config.height, image);
@@ -94,7 +100,8 @@ class Renderer {
   std::shared_ptr<Integrator> integrator;  // Integrator
 
   // Render LayerをsRGBとして入手
-  void getRendersRGB(std::vector<float>& rgb) const;
+  void getRendersRGB(const ToneMappingType& tm_type, float exposure,
+                     float gamma, std::vector<float>& rgb) const;
 
   // Normal LayerをsRGBとして入手
   void getNormalsRGB(std::vector<float>& rgb) const;
