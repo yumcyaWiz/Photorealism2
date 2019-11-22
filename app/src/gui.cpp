@@ -41,9 +41,9 @@ void GUI::drawRenderSettings(Render& render) const {
 
       // PPM
       if (image_type == 0) {
-        render.renderer.saveLayer(
-            std::string(filename), Prl2::LayerType::Render,
-            Prl2::ToneMappingType::Linear, 2.2, 2.2, Prl2::ImageType::PPM);
+        render.renderer.saveLayer(std::string(filename), render_layer_type,
+                                  tone_mapping_type, exposure, gamma,
+                                  Prl2::ImageType::PPM);
       }
     }
   }
@@ -54,7 +54,7 @@ void GUI::drawRenderSettings(Render& render) const {
   }
 }
 
-void GUI::drawRenderLayer(const Render& render) const {
+void GUI::drawRenderLayer(const Render& render) {
   ImGui::Begin("Render");
   {
     // Layer選択ボタン
@@ -66,37 +66,24 @@ void GUI::drawRenderLayer(const Render& render) const {
     ImGui::RadioButton("Position", &e, 2);
     ImGui::SameLine();
     ImGui::RadioButton("Depth", &e, 3);
+    if (e == 0) {
+      render_layer_type = Prl2::LayerType::Render;
+    } else if (e == 1) {
+      render_layer_type = Prl2::LayerType::Normal;
+    } else if (e == 2) {
+      render_layer_type = Prl2::LayerType::Position;
+    } else if (e == 3) {
+      render_layer_type = Prl2::LayerType::Depth;
+    }
 
     // テクスチャの生成
-    ImTextureID id;
     const int width = render.renderer.config.width;
     const int height = render.renderer.config.height;
     std::vector<float> image;
-    if (e == 0) {
-      render.renderer.getLayersRGB(Prl2::LayerType::Render,
-                                   Prl2::ToneMappingType::Linear, 2.2, 2.2,
-                                   image);
-      makeTextureFromLayer(render_texture_id, width, height, image);
-      id = (ImTextureID)(intptr_t)(render_texture_id);
-    } else if (e == 1) {
-      render.renderer.getLayersRGB(Prl2::LayerType::Normal,
-                                   Prl2::ToneMappingType::Linear, 2.2, 2.2,
-                                   image);
-      makeTextureFromLayer(normal_texture_id, width, height, image);
-      id = (ImTextureID)(intptr_t)(normal_texture_id);
-    } else if (e == 2) {
-      render.renderer.getLayersRGB(Prl2::LayerType::Position,
-                                   Prl2::ToneMappingType::Linear, 2.2, 2.2,
-                                   image);
-      makeTextureFromLayer(position_texture_id, width, height, image);
-      id = (ImTextureID)(intptr_t)(position_texture_id);
-    } else if (e == 3) {
-      render.renderer.getLayersRGB(Prl2::LayerType::Depth,
-                                   Prl2::ToneMappingType::Linear, 2.2, 2.2,
-                                   image);
-      makeTextureFromLayer(depth_texture_id, width, height, image);
-      id = (ImTextureID)(intptr_t)(depth_texture_id);
-    }
+    render.renderer.getLayersRGB(render_layer_type, tone_mapping_type, exposure,
+                                 gamma, image);
+    makeTextureFromLayer(render_texture_id, width, height, image);
+    ImTextureID id = (ImTextureID)(intptr_t)(render_texture_id);
 
     // テクスチャの表示
     ImGui::Image(id, ImVec2(width, height));
@@ -152,11 +139,15 @@ void GUI::drawToneMappingUI() {
       exposure = _exposure;
     }
 
-    static int _tone_mapping_function = tone_mapping_function;
-    ImGui::RadioButton("Linear", &_tone_mapping_function, 0);
+    static int tm_type = 0;
+    ImGui::RadioButton("Linear", &tm_type, 0);
     ImGui::SameLine();
-    ImGui::RadioButton("Reinhard", &_tone_mapping_function, 1);
-    tone_mapping_function = _tone_mapping_function;
+    ImGui::RadioButton("Reinhard", &tm_type, 1);
+    if (tm_type == 0) {
+      tone_mapping_type = Prl2::ToneMappingType::Linear;
+    } else if (tm_type == 1) {
+      tone_mapping_type = Prl2::ToneMappingType::Reinhard;
+    }
 
     static float _gamma = gamma;
     if (ImGui::InputFloat("Gamma", &_gamma)) {
