@@ -41,9 +41,7 @@ void GUI::drawRenderSettings(Render& render) const {
 
       // PPM
       if (image_type == 0) {
-        render.renderer.saveLayer(std::string(filename), render_layer_type,
-                                  tone_mapping_type, exposure, gamma,
-                                  Prl2::ImageType::PPM);
+        render.renderer.saveLayer(std::string(filename));
       }
     }
   }
@@ -54,34 +52,36 @@ void GUI::drawRenderSettings(Render& render) const {
   }
 }
 
-void GUI::drawRenderLayer(const Render& render) {
+void GUI::drawRenderLayer(Render& render) const {
   ImGui::Begin("Render");
   {
     // Layer選択ボタン
     static int e = 0;
-    ImGui::RadioButton("Render", &e, 0);
+    bool layer_changed = false;
+    layer_changed |= ImGui::RadioButton("Render", &e, 0);
     ImGui::SameLine();
-    ImGui::RadioButton("Normal", &e, 1);
+    layer_changed |= ImGui::RadioButton("Normal", &e, 1);
     ImGui::SameLine();
-    ImGui::RadioButton("Position", &e, 2);
+    layer_changed |= ImGui::RadioButton("Position", &e, 2);
     ImGui::SameLine();
-    ImGui::RadioButton("Depth", &e, 3);
-    if (e == 0) {
-      render_layer_type = Prl2::LayerType::Render;
-    } else if (e == 1) {
-      render_layer_type = Prl2::LayerType::Normal;
-    } else if (e == 2) {
-      render_layer_type = Prl2::LayerType::Position;
-    } else if (e == 3) {
-      render_layer_type = Prl2::LayerType::Depth;
+    layer_changed |= ImGui::RadioButton("Depth", &e, 3);
+    if (layer_changed) {
+      if (e == 0) {
+        render.renderer.setOutputLayer(Prl2::LayerType::Render);
+      } else if (e == 1) {
+        render.renderer.setOutputLayer(Prl2::LayerType::Normal);
+      } else if (e == 2) {
+        render.renderer.setOutputLayer(Prl2::LayerType::Position);
+      } else if (e == 3) {
+        render.renderer.setOutputLayer(Prl2::LayerType::Depth);
+      }
     }
 
     // テクスチャの生成
     const int width = render.renderer.config.width;
     const int height = render.renderer.config.height;
     std::vector<float> image;
-    render.renderer.getLayersRGB(render_layer_type, tone_mapping_type, exposure,
-                                 gamma, image);
+    render.renderer.getLayersRGB(image);
     makeTextureFromLayer(render_texture_id, width, height, image);
     ImTextureID id = (ImTextureID)(intptr_t)(render_texture_id);
 
@@ -131,27 +131,30 @@ void GUI::drawCameraSettings(Render& render) const {
   ImGui::End();
 }
 
-void GUI::drawToneMappingUI() {
+void GUI::drawToneMappingUI(Render& render) const {
   ImGui::Begin("Tone Mapping");
   {
-    static float _exposure = exposure;
-    if (ImGui::InputFloat("Exposure", &_exposure)) {
-      exposure = _exposure;
+    static float exposure = render.renderer.config.exposure;
+    if (ImGui::InputFloat("Exposure", &exposure)) {
+      render.renderer.setExposure(exposure);
     }
 
     static int tm_type = 0;
-    ImGui::RadioButton("Linear", &tm_type, 0);
+    bool tm_type_changed = false;
+    tm_type_changed |= ImGui::RadioButton("Linear", &tm_type, 0);
     ImGui::SameLine();
-    ImGui::RadioButton("Reinhard", &tm_type, 1);
-    if (tm_type == 0) {
-      tone_mapping_type = Prl2::ToneMappingType::Linear;
-    } else if (tm_type == 1) {
-      tone_mapping_type = Prl2::ToneMappingType::Reinhard;
+    tm_type_changed |= ImGui::RadioButton("Reinhard", &tm_type, 1);
+    if (tm_type_changed) {
+      if (tm_type == 0) {
+        render.renderer.setToneMappingType(Prl2::ToneMappingType::Linear);
+      } else if (tm_type == 1) {
+        render.renderer.setToneMappingType(Prl2::ToneMappingType::Reinhard);
+      }
     }
 
-    static float _gamma = gamma;
-    if (ImGui::InputFloat("Gamma", &_gamma)) {
-      gamma = _gamma;
+    static float gamma = render.renderer.config.gamma;
+    if (ImGui::InputFloat("Gamma", &gamma)) {
+      render.renderer.setGamma(gamma);
     }
   }
   ImGui::End();
