@@ -17,7 +17,7 @@ class alignas(16) Vec3 {
     v[0] = v[1] = v[2] = _x;
   };
   Vec3(const Real& _x, const Real& _y, const Real& _z) {
-    assert(!std::isnan(_x) && !std::isnan(_y) && std::isnan(_z));
+    assert(!std::isnan(_x) && !std::isnan(_y) && !std::isnan(_z));
     v[0] = _x;
     v[1] = _y;
     v[2] = _z;
