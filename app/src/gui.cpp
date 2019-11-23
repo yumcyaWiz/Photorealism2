@@ -12,13 +12,14 @@ void GUI::drawRenderSettings(Render& render) const {
 
   ImGui::Begin("Render Settings");
   {
-    static int size[2] = {render.renderer.config.width,
-                          render.renderer.config.height};
+    int sx, sy;
+    render.renderer.getImageSize(sx, sy);
+    static int size[2] = {sx, sy};
     if (ImGui::InputInt2("Image Size", size)) {
       render.renderer.setImageSize(size[0], size[1]);
     }
 
-    static int samples = render.renderer.config.samples;
+    static int samples = render.renderer.getSamples();
     if (ImGui::InputInt("Samples", &samples)) {
       render.renderer.setSamples(samples);
     }
@@ -36,8 +37,8 @@ void GUI::drawRenderSettings(Render& render) const {
     ImGui::RadioButton("EXR", &image_type, 2);
 
     if (ImGui::Button("Save Image")) {
-      const int width = render.renderer.config.width;
-      const int height = render.renderer.config.height;
+      int width, height;
+      render.renderer.getImageSize(width, height);
 
       // PPM
       if (image_type == 0) {
@@ -78,8 +79,8 @@ void GUI::drawRenderLayer(Render& render) const {
     }
 
     // テクスチャの生成
-    const int width = render.renderer.config.width;
-    const int height = render.renderer.config.height;
+    int width, height;
+    render.renderer.getImageSize(width, height);
     std::vector<float> image;
     render.renderer.getLayersRGB(image);
     makeTextureFromLayer(render_texture_id, width, height, image);
@@ -94,8 +95,9 @@ void GUI::drawRenderLayer(Render& render) const {
 void GUI::drawFilmSettings(Render& render) const {
   ImGui::Begin("Film");
   {
-    static float film_length[2] = {render.renderer.config.width_length,
-                                   render.renderer.config.height_length};
+    float lx, ly;
+    render.renderer.getFilmLength(lx, ly);
+    static float film_length[2] = {lx, ly};
     if (ImGui::InputFloat2("Film Length", film_length)) {
       render.renderer.setFilmLength(film_length[0], film_length[1]);
     }
@@ -107,18 +109,13 @@ void GUI::drawCameraSettings(Render& render) const {
   ImGui::Begin("Camera");
   {
     static bool lookat_modified = false;
-    static float camera_position[3] = {
-        render.renderer.config.camera_position.x(),
-        render.renderer.config.camera_position.y(),
-        render.renderer.config.camera_position.z()};
+    Prl2::Vec3 pos, lookat;
+    render.renderer.getCameraLookAt(pos, lookat);
+    static float camera_position[3] = {pos.x(), pos.y(), pos.z()};
     lookat_modified |= ImGui::InputFloat3("Camera Position", camera_position);
 
-    static float lookat[3] = {
-        render.renderer.config.camera_lookat.x(),
-        render.renderer.config.camera_lookat.y(),
-        render.renderer.config.camera_lookat.z(),
-    };
-    lookat_modified |= ImGui::InputFloat3("Lookat", lookat);
+    static float lookat_position[3] = {lookat.x(), lookat.y(), lookat.z()};
+    lookat_modified |= ImGui::InputFloat3("Lookat", lookat_position);
 
     if (lookat_modified) {
       render.renderer.setCameraLookAt(
@@ -134,7 +131,7 @@ void GUI::drawCameraSettings(Render& render) const {
 void GUI::drawToneMappingUI(Render& render) const {
   ImGui::Begin("Tone Mapping");
   {
-    static float exposure = render.renderer.config.exposure;
+    static float exposure = render.renderer.getExposure();
     if (ImGui::InputFloat("Exposure", &exposure)) {
       render.renderer.setExposure(exposure);
     }
@@ -152,12 +149,12 @@ void GUI::drawToneMappingUI(Render& render) const {
       }
     }
 
-    static float mapping_factor = render.renderer.config.mapping_factor;
+    static float mapping_factor = render.renderer.getMappingFactor();
     if (ImGui::InputFloat("Mapping Factor", &mapping_factor)) {
       render.renderer.setMappingFactor(mapping_factor);
     }
 
-    static float gamma = render.renderer.config.gamma;
+    static float gamma = render.renderer.getGamma();
     if (ImGui::InputFloat("Gamma", &gamma)) {
       render.renderer.setGamma(gamma);
     }
