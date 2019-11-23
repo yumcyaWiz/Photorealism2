@@ -162,13 +162,27 @@ inline Transform rotate(const Vec3& r) {
 // LookAt Transformを返す
 inline Transform lookAt(const Vec3& pos, const Vec3& lookat,
                         const Vec3& up_base = Vec3(0, 1, 0)) {
-  const Vec3 forward = -normalize(lookat - pos);
-  const Vec3 right = normalize(cross(normalize(up_base), forward));
-  const Vec3 up = cross(forward, right);
+  const Vec3 forward = normalize(lookat - pos);
+  const Vec3 right = normalize(cross(forward, normalize(up_base)));
+  const Vec3 up = normalize(cross(right, forward));
 
-  Mat4 m(right.x(), up.x(), forward.x(), pos.x(), right.y(), up.y(),
-         forward.y(), pos.y(), right.z(), up.z(), forward.z(), pos.z(), 0, 0, 0,
-         1);
+  Mat4 m;
+  m.m[0][0] = right.x();
+  m.m[0][1] = up.x();
+  m.m[0][2] = forward.x();
+  m.m[0][3] = pos.x();
+  m.m[1][0] = right.y();
+  m.m[1][1] = up.y();
+  m.m[1][2] = forward.y();
+  m.m[1][3] = pos.y();
+  m.m[2][0] = right.z();
+  m.m[2][1] = up.z();
+  m.m[2][2] = forward.z();
+  m.m[2][3] = pos.z();
+  m.m[3][0] = 0;
+  m.m[3][1] = 0;
+  m.m[3][2] = 0;
+  m.m[3][3] = 1;
 
   return Transform(m, identity());
 }

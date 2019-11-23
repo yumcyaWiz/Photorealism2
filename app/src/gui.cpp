@@ -121,7 +121,8 @@ void GUI::drawCameraSettings(Render& render) const {
       render.renderer.setCameraLookAt(
           Prl2::Vec3(camera_position[0], camera_position[1],
                      camera_position[2]),
-          Prl2::Vec3(lookat[0], lookat[1], lookat[2]));
+          Prl2::Vec3(lookat_position[0], lookat_position[1],
+                     lookat_position[2]));
     }
   }
 
