@@ -1,6 +1,7 @@
 #ifndef VEC3_H
 #define VEC3_H
 
+#include <algorithm>
 #include <cassert>
 #include <cmath>
 #include <iostream>

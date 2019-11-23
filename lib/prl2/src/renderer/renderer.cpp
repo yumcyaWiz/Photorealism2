@@ -9,6 +9,7 @@
 #include "renderer/renderer.h"
 #include "renderer/scene_loader.h"
 #include "sampler/random.h"
+#include "sky/hosek_sky.h"
 #include "sky/uniform_sky.h"
 
 namespace Prl2 {
@@ -31,7 +32,7 @@ void Renderer::loadConfig(const RenderConfig& _config) {
   if (!config.sky_type.empty()) {
     sky = std::make_shared<UniformSky>(D65Light());
   } else {
-    sky = std::make_shared<UniformSky>(D65Light() / 100);
+    sky = std::make_shared<HosekSky>(0.3, 1, 0.3);
   }
   scene.sky = sky;
 
