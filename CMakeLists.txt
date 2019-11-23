@@ -53,7 +53,7 @@ target_compile_features(app PRIVATE cxx_std_17)
 set_target_properties(app PROPERTIES CXX_EXTENSIONS OFF)
 
 # compile definitions
-target_compile_definitions(app PRIVATE
+add_compile_definitions(
   $<$<CXX_COMPILER_ID:MSVC>:
     _ENABLE_EXTENDED_ALIGNED_STORAGE
   >
@@ -76,7 +76,7 @@ target_compile_options(app PRIVATE
 #app link
 target_link_libraries(app PRIVATE glfw)
 target_link_libraries(app PRIVATE glad)
-target_link_libraries(app PRIVATE dl)
+#target_link_libraries(app PRIVATE dl)
 target_link_libraries(app PRIVATE imgui)
 target_link_libraries(app PRIVATE imgui_impl)
 target_link_libraries(app PRIVATE Threads::Threads)

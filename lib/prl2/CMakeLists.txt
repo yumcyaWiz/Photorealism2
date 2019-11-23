@@ -20,7 +20,7 @@ target_compile_features(prl2 PUBLIC cxx_std_17)
 set_target_properties(prl2 PROPERTIES CXX_EXTENSIONS OFF)
 
 # compile definitions
-target_compile_definitions(prl2 PRIVATE
+add_compile_definitions(
   $<$<CXX_COMPILER_ID:MSVC>:
     _ENABLE_EXTENDED_ALIGNED_STORAGE
   >
