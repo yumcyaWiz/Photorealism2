@@ -152,6 +152,11 @@ void GUI::drawToneMappingUI(Render& render) const {
       }
     }
 
+    static float mapping_factor = render.renderer.config.mapping_factor;
+    if (ImGui::InputFloat("Mapping Factor", &mapping_factor)) {
+      render.renderer.setMappingFactor(mapping_factor);
+    }
+
     static float gamma = render.renderer.config.gamma;
     if (ImGui::InputFloat("Gamma", &gamma)) {
       render.renderer.setGamma(gamma);
