@@ -42,6 +42,16 @@ class Renderer {
   // サンプル数を設定する
   void setSamples(unsigned int samples) { config.samples = samples; }
 
+  // 出力レイヤーを指定する
+  void setOutputLayer(const LayerType& _layer_type) {
+    config.layer_type = _layer_type;
+  };
+
+  // 出力画像形式を指定する
+  void setImageType(const ImageType& _image_type) {
+    config.image_type = _image_type;
+  };
+
   // フィルムの長さを設定する
   void setFilmLength(const Real& width_length, const Real& height_length) {
     config.width_length = width_length;
