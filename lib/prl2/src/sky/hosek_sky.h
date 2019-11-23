@@ -25,7 +25,8 @@ class HosekSky : public Sky {
 
   Real getRadiance(const Ray& ray) const override {
     // Compute (theta, phi)
-    const Real theta;
+    Real theta, phi;
+    cartesianToSpherical(ray.direction, theta, phi);
 
     // Compute State Index
     return 0;

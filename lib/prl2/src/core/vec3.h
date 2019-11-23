@@ -5,6 +5,7 @@
 #include <cmath>
 #include <iostream>
 
+#include "core/constant.h"
 #include "core/type.h"
 
 namespace Prl2 {
@@ -148,6 +149,13 @@ inline Vec3 normalize(const Vec3& v) { return v / length(v); }
 inline std::ostream& operator<<(std::ostream& stream, const Vec3& v) {
   stream << "(" << v.x() << ", " << v.y() << ", " << v.z() << ")";
   return stream;
+}
+
+// 方向ベクトルから球面座標系を計算
+inline void cartesianToSpherical(const Vec3& v, Real& theta, Real& phi) {
+  phi = std::atan2(v.z(), v.x());
+  if (phi < 0) phi += PI_MUL_2;
+  theta = std::acos(std::clamp(v.y(), -1.0f, 1.0f));
 }
 
 }  // namespace Prl2
