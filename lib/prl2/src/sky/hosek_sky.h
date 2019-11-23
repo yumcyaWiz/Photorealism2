@@ -29,7 +29,10 @@ class HosekSky : public Sky {
     cartesianToSpherical(ray.direction, theta, phi);
 
     // Compute State Index
-    return 0;
+    const unsigned int index = (ray.lambda - SPD::LAMBDA_MIN) /
+                               (SPD::LAMBDA_MAX - SPD::LAMBDA_MIN) *
+                               SPD::LAMBDA_SAMPLES;
+    return arhosekskymodel_radiance(state[index], theta, phi, ray.lambda);
   };
 
  private:
