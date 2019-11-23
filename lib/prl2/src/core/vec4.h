@@ -11,8 +11,13 @@ namespace Prl2 {
 class alignas(16) Vec4 {
  public:
   Vec4() { v[0] = v[1] = v[2] = v[3] = 0; };
-  Vec4(const Real& _x) { v[0] = v[1] = v[2] = v[3] = _x; };
+  Vec4(const Real& _x) {
+    assert(!std::isnan(_x));
+    v[0] = v[1] = v[2] = v[3] = _x;
+  };
   Vec4(const Real& _x, const Real& _y, const Real& _z, const Real& _w) {
+    assert(!std::isnan(_x) && !std::isnan(_y) && !std::isnan(_z) &&
+           !std::isnan(_w));
     v[0] = _x;
     v[1] = _y;
     v[2] = _z;
