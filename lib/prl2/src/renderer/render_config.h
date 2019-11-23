@@ -24,14 +24,14 @@ struct RenderConfig {
   RenderConfig(){};
 
   // Output
-  LayerType layer_type;  // 出力レイヤーの種類
-  ImageType image_type;  // 出力画像形式
+  LayerType layer_type = LayerType::Render;  // 出力レイヤーの種類
+  ImageType image_type = ImageType::PPM;     // 出力画像形式
 
   // PostProcess
-  float exposure;  // 露光
-  float gamma;     // ガンマ値
-  float
-      mapping_factor;  // https://docs.substance3d.com/spdoc/tone-mapping-162005358.html
+  float exposure = 1.0;  // 露光
+  float gamma = 2.2;     // ガンマ値
+  float mapping_factor =
+      1;  // https://docs.substance3d.com/spdoc/tone-mapping-162005358.html
 
   // Film
   int width = 512;               //画像の横幅[px]
