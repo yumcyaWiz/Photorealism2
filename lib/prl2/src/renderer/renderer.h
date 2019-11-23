@@ -13,15 +13,6 @@
 
 namespace Prl2 {
 
-// Layerの種類
-enum class LayerType { Render, Normal, Position, Depth };
-
-// Imageの種類
-enum class ImageType { PPM, PNG, EXR };
-
-// Tone Mappingの種類
-enum class ToneMappingType { Linear, Reinhard };
-
 //レンダリングを行うクラス
 //与えられた設定を元に、シーンのセットアップ、レンダリングを行う
 class Renderer {

@@ -9,10 +9,29 @@
 
 namespace Prl2 {
 
+// Layerの種類
+enum class LayerType { Render, Normal, Position, Depth };
+
+// Imageの種類
+enum class ImageType { PPM, PNG, EXR };
+
+// Tone Mappingの種類
+enum class ToneMappingType { Linear, Reinhard };
+
 // レンダリングの設定を表すクラス
 // 画像のサイズ、サンプル数、カメラの種類、シーンファイルの種類などを設定する
 struct RenderConfig {
   RenderConfig(){};
+
+  // Output
+  LayerType layer_type;  // 出力レイヤーの種類
+  ImageType image_type;  // 出力画像形式
+
+  // PostProcess
+  float exposure;  // 露光
+  float gamma;     // ガンマ値
+  float
+      mapping_factor;  // https://docs.substance3d.com/spdoc/tone-mapping-162005358.html
 
   // Film
   int width = 512;               //画像の横幅[px]
