@@ -7,13 +7,14 @@ find_package(Threads REQUIRED)
 #prl2
 add_library(prl2 STATIC)
 add_subdirectory(src)
+add_subdirectory(ext)
 
 # Include
 target_include_directories(prl2 PUBLIC src/)
-target_include_directories(prl2 PUBLIC ext/)
 
 # Link
 target_link_libraries(prl2 PUBLIC Threads::Threads)
+target_link_libraries(prl2 PUBLIC hosek)
 
 #compile settings
 target_compile_features(prl2 PUBLIC cxx_std_17)
