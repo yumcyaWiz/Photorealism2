@@ -23,24 +23,30 @@ class Transform {
     return Transform(mat * t.mat, invmat * t.invmat);
   };
 
-  //方向ベクトルに対して変換を施す(mutable)
-  void applyDirection(Vec3& v) const {
-    v[0] = mat.m[0][0] * v.x() + mat.m[0][1] * v.y() + mat.m[0][2] * v.z();
-    v[1] = mat.m[1][0] * v.x() + mat.m[1][1] * v.y() + mat.m[1][2] * v.z();
-    v[2] = mat.m[2][0] * v.x() + mat.m[2][1] * v.y() + mat.m[2][2] * v.z();
-  };
-  //方向ベクトルに対して逆変換を施す(mutable)
-  void applyDirectionInverse(Vec3& v) const {
-    v[0] = invmat.m[0][0] * v.x() + invmat.m[0][1] * v.y() +
-           invmat.m[0][2] * v.z();
-    v[1] = invmat.m[1][0] * v.x() + invmat.m[1][1] * v.y() +
-           invmat.m[1][2] * v.z();
-    v[2] = invmat.m[2][0] * v.x() + invmat.m[2][1] * v.y() +
-           invmat.m[2][2] * v.z();
+  // 方向ベクトルに対して変換を施す
+  Vec3 applyDirection(const Vec3& v) const {
+    Vec3 ret;
+    ret[0] = mat.m[0][0] * v.x() + mat.m[0][1] * v.y() + mat.m[0][2] * v.z();
+    ret[1] = mat.m[1][0] * v.x() + mat.m[1][1] * v.y() + mat.m[1][2] * v.z();
+    ret[2] = mat.m[2][0] * v.x() + mat.m[2][1] * v.y() + mat.m[2][2] * v.z();
+    return ret;
   };
 
-  //点ベクトルに対して変換を施す(mutable)
-  void applyPoint(Vec3& v) const {
+  // 方向ベクトルに対して逆変換を施す
+  Vec3 applyDirectionInverse(const Vec3& v) const {
+    Vec3 ret;
+    ret[0] = invmat.m[0][0] * v.x() + invmat.m[0][1] * v.y() +
+             invmat.m[0][2] * v.z();
+    ret[1] = invmat.m[1][0] * v.x() + invmat.m[1][1] * v.y() +
+             invmat.m[1][2] * v.z();
+    ret[2] = invmat.m[2][0] * v.x() + invmat.m[2][1] * v.y() +
+             invmat.m[2][2] * v.z();
+    return ret;
+  };
+
+  // 点ベクトルに対して変換を施す
+  Vec3 applyPoint(const Vec3& v) const {
+    Vec3 ret;
     const Real x = mat.m[0][0] * v.x() + mat.m[0][1] * v.y() +
                    mat.m[0][2] * v.z() + mat.m[0][3];
     const Real y = mat.m[1][0] * v.x() + mat.m[1][1] * v.y() +
@@ -49,12 +55,22 @@ class Transform {
                    mat.m[2][2] * v.z() + mat.m[2][3];
     const Real w = mat.m[3][0] * v.x() + mat.m[3][1] * v.y() +
                    mat.m[3][2] * v.z() + mat.m[3][3];
-    v[0] = x / w;
-    v[1] = y / w;
-    v[2] = z / w;
+
+    if (w == 1) {
+      ret[0] = x;
+      ret[1] = y;
+      ret[2] = z;
+    } else {
+      ret[0] = x / w;
+      ret[1] = y / w;
+      ret[2] = z / w;
+    }
+
+    return ret;
   };
-  //点ベクトルに対して逆変換を施す(mutable)
-  void applyPointInverse(Vec3& v) const {
+  // 点ベクトルに対して逆変換を施す
+  Vec3 applyPointInverse(const Vec3& v) const {
+    Vec3 ret;
     const Real x = invmat.m[0][0] * v.x() + invmat.m[0][1] * v.y() +
                    invmat.m[0][2] * v.z() + invmat.m[0][3];
     const Real y = invmat.m[1][0] * v.x() + invmat.m[1][1] * v.y() +
@@ -63,54 +79,68 @@ class Transform {
                    invmat.m[2][2] * v.z() + invmat.m[2][3];
     const Real w = invmat.m[3][0] * v.x() + invmat.m[3][1] * v.y() +
                    invmat.m[3][2] * v.z() + invmat.m[3][3];
-    v[0] = x / w;
-    v[1] = y / w;
-    v[2] = z / w;
+
+    if (w == 1) {
+      ret[0] = x;
+      ret[1] = y;
+      ret[2] = z;
+    } else {
+      ret[0] = x / w;
+      ret[1] = y / w;
+      ret[2] = z / w;
+    }
+
+    return ret;
   };
 
-  //法線ベクトルに対して変換を施す(mutable)
-  void applyNormal(Vec3& n) const {
-    n[0] = invmat.m[0][0] * n.x() + invmat.m[1][0] * n.y() +
-           invmat.m[2][0] * n.z();
-    n[1] = invmat.m[0][1] * n.x() + invmat.m[1][1] * n.y() +
-           invmat.m[2][1] * n.z();
-    n[2] = invmat.m[0][2] * n.x() + invmat.m[1][2] * n.y() +
-           invmat.m[2][2] * n.z();
+  // 法線ベクトルに対して変換を施す
+  Vec3 applyNormal(const Vec3& n) const {
+    Vec3 ret;
+    ret[0] = invmat.m[0][0] * n.x() + invmat.m[1][0] * n.y() +
+             invmat.m[2][0] * n.z();
+    ret[1] = invmat.m[0][1] * n.x() + invmat.m[1][1] * n.y() +
+             invmat.m[2][1] * n.z();
+    ret[2] = invmat.m[0][2] * n.x() + invmat.m[1][2] * n.y() +
+             invmat.m[2][2] * n.z();
+
+    return ret;
   };
-  //法線ベクトルに対して逆変換を施す(mutable)
-  void applyNormalInverse(Vec3& n) const {
-    n[0] = mat.m[0][0] * n.x() + mat.m[1][0] * n.y() + mat.m[2][0] * n.z();
-    n[1] = mat.m[0][1] * n.x() + mat.m[1][1] * n.y() + mat.m[2][1] * n.z();
-    n[2] = mat.m[0][2] * n.x() + mat.m[1][2] * n.y() + mat.m[2][2] * n.z();
+  // 法線ベクトルに対して逆変換を施す
+  Vec3 applyNormalInverse(const Vec3& n) const {
+    Vec3 ret;
+    ret[0] = mat.m[0][0] * n.x() + mat.m[1][0] * n.y() + mat.m[2][0] * n.z();
+    ret[1] = mat.m[0][1] * n.x() + mat.m[1][1] * n.y() + mat.m[2][1] * n.z();
+    ret[2] = mat.m[0][2] * n.x() + mat.m[1][2] * n.y() + mat.m[2][2] * n.z();
+    return ret;
   };
 
   //レイに対して変換を施す
   Ray apply(const Ray& ray) const {
     Ray ret = ray;
-    applyPoint(ret.origin);
-    applyDirection(ret.direction);
+    ret.origin = applyPoint(ray.origin);
+    ret.direction = applyDirection(ray.direction);
     return ret;
   };
   //レイに対して逆変換を施す
   Ray applyInverse(const Ray& ray) const {
     Ray ret = ray;
-    applyPointInverse(ret.origin);
-    applyDirectionInverse(ret.direction);
+    ret.origin = applyPointInverse(ray.origin);
+    ret.direction = applyDirectionInverse(ray.direction);
     return ret;
   };
 
   // IntersectInfoに対して変換を施す
   IntersectInfo apply(const IntersectInfo& isect) const {
     IntersectInfo ret = isect;
-    applyPoint(ret.hitPos);
-    applyNormal(ret.hitNormal);
+    ret.hitPos = applyPoint(isect.hitPos);
+    ret.hitNormal = applyNormal(isect.hitNormal);
     return ret;
   };
   // IntersectInfoに対して逆変換を施す
   IntersectInfo applyInverse(const IntersectInfo& isect) const {
     IntersectInfo ret = isect;
-    applyPointInverse(ret.hitPos);
-    applyNormalInverse(ret.hitNormal);
+    ret.hitPos = applyPointInverse(isect.hitPos);
+    ret.hitNormal = applyNormalInverse(isect.hitNormal);
     return ret;
   };
 };
