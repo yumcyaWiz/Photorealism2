@@ -162,7 +162,7 @@ inline Transform rotate(const Vec3& r) {
 // LookAt Transformを返す
 inline Transform lookAt(const Vec3& pos, const Vec3& lookat,
                         const Vec3& up_base = Vec3(0, 1, 0)) {
-  const Vec3 forward = normalize(lookat - pos);
+  const Vec3 forward = -normalize(lookat - pos);
   const Vec3 right = normalize(cross(forward, normalize(up_base)));
   const Vec3 up = normalize(cross(right, forward));
 
