@@ -27,9 +27,10 @@ struct RenderConfig {
   LayerType layer_type = LayerType::Render;  // 出力レイヤーの種類
   ImageType image_type = ImageType::PPM;     // 出力画像形式
 
-  // PostProcess
-  float exposure = 1.0;  // 露光
-  float gamma = 2.2;     // ガンマ値
+  // Post Process
+  float exposure = 1.0;               // 露光
+  float gamma = 2.2;                  // ガンマ値
+  ToneMappingType tone_mapping_type;  // Tone Mappingの種類
   float mapping_factor =
       1;  // https://docs.substance3d.com/spdoc/tone-mapping-162005358.html
 

@@ -31,6 +31,7 @@ class Renderer {
   // レンダリングを行い、結果をRenderLayerに格納する
   void render(const std::atomic<bool>& cancel);
 
+  // Render Settings
   // 出力サイズを変更する
   void setImageSize(unsigned int width, unsigned int height) {
     config.width = width;
@@ -52,6 +53,13 @@ class Renderer {
     config.image_type = _image_type;
   };
 
+  // Post Processing
+  // Tone Mappingの種類を指定
+  void setToneMappingType(const ToneMappingType& _tone_mapping_type) {
+    config.tone_mapping_type = _tone_mapping_type;
+  };
+
+  // Film
   // フィルムの長さを設定する
   void setFilmLength(const Real& width_length, const Real& height_length) {
     config.width_length = width_length;
