@@ -75,28 +75,24 @@ class Renderer {
   };
 
   // LayerをsRGBとして入手
-  void getLayersRGB(const LayerType& layer_type, const ToneMappingType& tm_type,
-                    float exposure, float gamma,
-                    std::vector<float>& rgb) const {
-    if (layer_type == LayerType::Render) {
-      getRendersRGB(tm_type, exposure, gamma, rgb);
-    } else if (layer_type == LayerType::Normal) {
+  void getLayersRGB(std::vector<float>& rgb) const {
+    if (config.layer_type == LayerType::Render) {
+      getRendersRGB(rgb);
+    } else if (config.layer_type == LayerType::Normal) {
       getNormalsRGB(rgb);
-    } else if (layer_type == LayerType::Position) {
+    } else if (config.layer_type == LayerType::Position) {
       getPositionsRGB(rgb);
-    } else if (layer_type == LayerType::Depth) {
+    } else if (config.layer_type == LayerType::Depth) {
       getDepthsRGB(rgb);
     }
   };
 
   // Layerを画像として保存
-  void saveLayer(const std::string& filename, const LayerType& layer_type,
-                 const ToneMappingType& tm_type, float exposure, float gamma,
-                 const ImageType& image_type) {
+  void saveLayer(const std::string& filename) {
     std::vector<float> image;
-    getLayersRGB(layer_type, tm_type, exposure, gamma, image);
+    getLayersRGB(image);
 
-    if (image_type == ImageType::PPM) {
+    if (config.image_type == ImageType::PPM) {
       writePPM(filename, config.width, config.height, image);
     } else {
       writePPM(filename, config.width, config.height, image);
@@ -109,8 +105,7 @@ class Renderer {
   std::shared_ptr<Integrator> integrator;  // Integrator
 
   // Render LayerをsRGBとして入手
-  void getRendersRGB(const ToneMappingType& tm_type, float exposure,
-                     float gamma, std::vector<float>& rgb) const;
+  void getRendersRGB(std::vector<float>& rgb) const;
 
   // Normal LayerをsRGBとして入手
   void getNormalsRGB(std::vector<float>& rgb) const;
