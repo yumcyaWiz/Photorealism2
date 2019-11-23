@@ -54,9 +54,20 @@ class Renderer {
   };
 
   // Post Processing
+  // 露光を設定
+  void setExposure(const Real& exposure) { config.exposure = exposure; };
+
+  // ガンマ値を設定
+  void setGamma(const Real& gamma) { config.gamma = gamma; };
+
   // Tone Mappingの種類を指定
   void setToneMappingType(const ToneMappingType& _tone_mapping_type) {
     config.tone_mapping_type = _tone_mapping_type;
+  };
+
+  // Mapping Factorを指定
+  void setMappingFactor(const Real& _mapping_factor) {
+    config.mapping_factor = _mapping_factor;
   };
 
   // Film
