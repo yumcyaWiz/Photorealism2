@@ -7,7 +7,7 @@
 #include "core/vec3.h"
 #include "renderer/renderer.h"
 
-void GUI::drawRenderSettings(Render& render) const {
+void GUI::drawRenderSettings(Render& render) {
   bool refresh_render = false;
 
   ImGui::Begin("Render Settings");
@@ -17,14 +17,24 @@ void GUI::drawRenderSettings(Render& render) const {
     static int size[2] = {sx, sy};
     if (ImGui::InputInt2("Image Size", size)) {
       render.renderer.setImageSize(size[0], size[1]);
+      refresh_render = true;
     }
 
     static int samples = render.renderer.getSamples();
     if (ImGui::InputInt("Samples", &samples)) {
       render.renderer.setSamples(samples);
+      refresh_render = true;
     }
 
-    refresh_render |= ImGui::Button("Render");
+    if (ImGui::Button("Render")) {
+      render.requestRender();
+    }
+
+    static bool _auto_render = auto_render;
+    ImGui::SameLine();
+    if (ImGui::Checkbox("Auto Render", &_auto_render)) {
+      auto_render = _auto_render;
+    }
 
     static char filename[32];
     ImGui::InputText("Image Filename", filename, 32);
@@ -48,7 +58,7 @@ void GUI::drawRenderSettings(Render& render) const {
   }
   ImGui::End();
 
-  if (refresh_render) {
+  if (refresh_render && auto_render) {
     render.requestRender();
   }
 }
@@ -93,6 +103,8 @@ void GUI::drawRenderLayer(Render& render) const {
 }
 
 void GUI::drawFilmSettings(Render& render) const {
+  bool refresh_render = false;
+
   ImGui::Begin("Film");
   {
     float lx, ly;
@@ -100,15 +112,22 @@ void GUI::drawFilmSettings(Render& render) const {
     static float film_length[2] = {lx, ly};
     if (ImGui::InputFloat2("Film Length", film_length)) {
       render.renderer.setFilmLength(film_length[0], film_length[1]);
+      refresh_render = true;
     }
   }
   ImGui::End();
+
+  if (refresh_render && auto_render) {
+    render.requestRender();
+  }
 }
 
 void GUI::drawCameraSettings(Render& render) const {
+  bool refresh_render = false;
+
   ImGui::Begin("Camera");
   {
-    static bool lookat_modified = false;
+    bool lookat_modified = false;
     Prl2::Vec3 pos, lookat;
     render.renderer.getCameraLookAt(pos, lookat);
     static float camera_position[3] = {pos.x(), pos.y(), pos.z()};
@@ -123,10 +142,14 @@ void GUI::drawCameraSettings(Render& render) const {
                      camera_position[2]),
           Prl2::Vec3(lookat_position[0], lookat_position[1],
                      lookat_position[2]));
+      refresh_render = true;
     }
   }
-
   ImGui::End();
+
+  if (refresh_render && auto_render) {
+    render.requestRender();
+  }
 }
 
 void GUI::drawToneMappingUI(Render& render) const {

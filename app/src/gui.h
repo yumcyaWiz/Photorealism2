@@ -17,7 +17,7 @@ class GUI {
   };
 
   // RenderSettingsを表示
-  void drawRenderSettings(Render& render) const;
+  void drawRenderSettings(Render& render);
 
   // RenderLayerを表示
   void drawRenderLayer(Render& render) const;
@@ -33,6 +33,8 @@ class GUI {
 
  private:
   GLuint render_texture_id;  // Render Texture
+
+  bool auto_render = true;  // パラメーター変化時に自動で再レンダリングするか
 
   // LayerからTextureを生成
   void makeTextureFromLayer(GLuint texture_id, int width, int height,
