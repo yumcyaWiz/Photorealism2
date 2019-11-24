@@ -22,7 +22,7 @@ Real PT::integrate(const Ray& ray_in, const Scene& scene,
       // TODO: 光源だったら寄与を蓄積
 
       // BRDF Sampling
-      auto material = info.hitPrimitive->material;
+      const auto material = info.hitPrimitive->material;
       const Vec3 wo = -ray.direction;
       const Vec3 wo_local = worldToMaterial(wo, info);
       Vec3 wi_local;
@@ -31,7 +31,7 @@ Real PT::integrate(const Ray& ray_in, const Scene& scene,
                                                   wi_local, pdf_w);
 
       // Throughputを更新
-      const float cos = absCosTheta(wi_local);
+      const Real cos = absCosTheta(wi_local);
       throughput *= bsdf * cos / pdf_w;
 
       // レイを更新
