@@ -42,7 +42,7 @@ struct RenderConfig {
 
   // Camera
   std::string camera_type;               //カメラの種類
-  Vec3 camera_position = Vec3(0, 0, 3);  // カメラの位置
+  Vec3 camera_position = Vec3(0, 1, 3);  // カメラの位置
   Vec3 camera_lookat = Vec3(0, 0, 0);    // カメラの注目位置
   Real fov = 90.0f;                      // 対角FOV
 
@@ -59,7 +59,7 @@ struct RenderConfig {
   std::string integrator_type;  // Integratorの種類
 
   // Renderer
-  int samples = 1;  //サンプル数
+  int samples = 10;  //サンプル数
 };
 
 }  // namespace Prl2
