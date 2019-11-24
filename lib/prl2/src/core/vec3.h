@@ -159,5 +159,11 @@ inline void cartesianToSpherical(const Vec3& v, Real& theta, Real& phi) {
   theta = std::acos(std::clamp(v.y(), -1.0f, 1.0f));
 }
 
+// ２つの方向ベクトルの間の角度を計算
+inline Real radianBetween(const Vec3& v1, const Vec3& v2) {
+  const Real cos = dot(v1, v2);
+  return std::acos(cos);
+}
+
 }  // namespace Prl2
 #endif
