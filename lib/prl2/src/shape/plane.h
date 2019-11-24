@@ -9,9 +9,9 @@ class Plane : public Shape {
  public:
   Plane(){};
 
-  bool intersect(const Ray& ray, IntersectInfo& info) const override{
-
-  };
+  bool intersect(const Ray& ray, IntersectInfo& info) const override;
 };
 
 }  // namespace Prl2
+
+#endif
