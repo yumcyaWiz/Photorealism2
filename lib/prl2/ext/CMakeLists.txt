@@ -1,10 +1,11 @@
 # HosekWilkie
 add_library(hosek STATIC
- HosekWilkie/ArHosekSkyModel.c 
+  HosekWilkie/ArHosekSkyModel.c
 )
 target_include_directories(hosek PUBLIC
   HosekWilkie
 )
+target_compile_features(hosek PRIVATE c_std_99)
 
 # ThreadPool
 add_library(pool INTERFACE)

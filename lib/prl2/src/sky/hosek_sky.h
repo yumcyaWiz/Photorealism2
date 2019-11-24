@@ -1,7 +1,9 @@
 #ifndef _PRL2_HOSEK_SKY
 #define _PRL2_HOSEK_SKY
 
+extern "C" {
 #include "ArHosekSkyModel.h"
+}
 
 #include "core/spectrum.h"
 #include "sky/sky.h"
