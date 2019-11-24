@@ -14,8 +14,7 @@ inline Real absCosTheta(const Vec3& w) { return std::abs(w.y()); }
 
 //ワールド座標系の方向ベクトルをマテリアル座標系の方向ベクトルに変換する
 inline Vec3 worldToMaterial(const Vec3& v, const IntersectInfo& info) {
-  return Vec3(dot(v.x(), info.dpdu), dot(v.y(), info.hitNormal),
-              dot(v.z(), info.dpdv));
+  return Vec3(dot(v, info.dpdu), dot(v, info.hitNormal), dot(v, info.dpdv));
 }
 
 //マテリアル座標系の方向ベクトルをワールド座標系に変換する
