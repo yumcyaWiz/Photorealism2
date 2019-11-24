@@ -269,9 +269,9 @@ void Renderer::getSamplesRGB(std::vector<float>& rgb) const {
   for (int j = 0; j < config.height; ++j) {
     for (int i = 0; i < config.width; ++i) {
       const int index = 3 * i + 3 * config.width * j;
-      rgb[index + 0] = layer.depth_sRGB[index + 0];
-      rgb[index + 1] = layer.depth_sRGB[index + 1];
-      rgb[index + 2] = layer.depth_sRGB[index + 2];
+      rgb[index + 0] = layer.sample_sRGB[index + 0];
+      rgb[index + 1] = layer.sample_sRGB[index + 1];
+      rgb[index + 2] = layer.sample_sRGB[index + 2];
     }
   }
 }

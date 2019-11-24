@@ -76,6 +76,8 @@ void GUI::drawRenderLayer(Render& render) const {
     layer_changed |= ImGui::RadioButton("Position", &e, 2);
     ImGui::SameLine();
     layer_changed |= ImGui::RadioButton("Depth", &e, 3);
+    ImGui::SameLine();
+    layer_changed |= ImGui::RadioButton("Sample", &e, 4);
     if (layer_changed) {
       if (e == 0) {
         render.renderer.setOutputLayer(Prl2::LayerType::Render);
@@ -85,6 +87,8 @@ void GUI::drawRenderLayer(Render& render) const {
         render.renderer.setOutputLayer(Prl2::LayerType::Position);
       } else if (e == 3) {
         render.renderer.setOutputLayer(Prl2::LayerType::Depth);
+      } else if (e == 4) {
+        render.renderer.setOutputLayer(Prl2::LayerType::Sample);
       }
     }
 
