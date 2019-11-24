@@ -12,8 +12,11 @@ namespace Prl2 {
 
 class HosekSky : public Sky {
  public:
-  HosekSky(const Real& solarElevation, const Real& turbidity,
-           const Real& albedo) {
+  HosekSky(const Real& turbidity, const Real& albedo) {
+    sunDirection = normalize(Vec3(0, 1, 0));
+    Real solarElevation, _tmp;
+    cartesianToSpherical(sunDirection, solarElevation, _tmp);
+
     for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
       state[i] =
           arhosekskymodelstate_alloc_init(solarElevation, turbidity, albedo);
@@ -26,19 +29,18 @@ class HosekSky : public Sky {
   };
 
   Real getRadiance(const Ray& ray) const override {
-    // Compute (theta, phi)
+    // Compute theta, gamma
     Real theta, phi;
     cartesianToSpherical(ray.direction, theta, phi);
-
-    // Compute State Index
-    const unsigned int index =
-        (ray.lambda - 320) / (720 - 320) * SPD::LAMBDA_SAMPLES;
+    const Real gamma = radianBetween(ray.direction, sunDirection);
 
     Real ret = 0;
     if (ray.lambda > 320 && ray.lambda < 720) {
-      ret =
-          arhosekskymodel_radiance(state[index], theta, phi, ray.lambda) +
-          arhosekskymodel_solar_radiance(state[index], theta, phi, ray.lambda);
+      // Compute State Index
+      const unsigned int index =
+          (ray.lambda - 320) / (720 - 320) * SPD::LAMBDA_SAMPLES;
+
+      ret = arhosekskymodel_radiance(state[index], theta, gamma, ray.lambda);
     }
 
     if (std::isnan(ret)) {
@@ -49,6 +51,7 @@ class HosekSky : public Sky {
 
  private:
   ArHosekSkyModelState* state[SPD::LAMBDA_SAMPLES];
+  Vec3 sunDirection;  // 太陽の方向
 };
 
 }  // namespace Prl2
