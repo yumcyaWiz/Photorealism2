@@ -12,11 +12,11 @@ namespace Prl2 {
 
 class HosekSky : public Sky {
  public:
-  HosekSky(const Real& albedo, const Real& turbidity,
-           const Real& solarElevation) {
+  HosekSky(const Real& solarElevation, const Real& turbidity,
+           const Real& albedo) {
     for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
       state[i] =
-          arhosekskymodelstate_alloc_init(turbidity, albedo, solarElevation);
+          arhosekskymodelstate_alloc_init(solarElevation, turbidity, albedo);
     }
   };
   ~HosekSky() {
