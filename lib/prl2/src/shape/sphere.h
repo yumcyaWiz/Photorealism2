@@ -12,7 +12,7 @@ class Sphere : public Shape {
 
   Sphere(const Real& _radius) : radius(_radius){};
 
-  bool intersect(const Ray& ray, IntersectInfo& info) const;
+  bool intersect(const Ray& ray, IntersectInfo& info) const override;
 };
 
 }  // namespace Prl2
