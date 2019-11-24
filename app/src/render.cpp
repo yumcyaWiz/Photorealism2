@@ -3,14 +3,15 @@
 #include "camera/pinhole.h"
 #include "intersector/linear.h"
 #include "material/diffuse.h"
+#include "shape/plane.h"
 #include "shape/sphere.h"
 
 void Render::initScene() {
-  const auto shape = std::make_shared<Prl2::Sphere>(1.0f);
+  const auto shape = std::make_shared<Prl2::Plane>();
   const auto mat1 = std::make_shared<Prl2::Diffuse>(
       Prl2::RGB2Spectrum(Prl2::RGB(0, 0.2, 0.8)));
   const auto prim_trans =
-      std::make_shared<Prl2::Transform>(Prl2::translate(Prl2::Vec3(0, 0, 0)));
+      std::make_shared<Prl2::Transform>(Prl2::translate(Prl2::Vec3(0, -1, 0)));
   const auto prim = std::make_shared<Prl2::Primitive>(shape, mat1, prim_trans);
 
   const auto shape2 = std::make_shared<Prl2::Sphere>(10000.0f);
@@ -23,7 +24,7 @@ void Render::initScene() {
   std::shared_ptr<Prl2::LinearIntersector> intersector =
       std::make_shared<Prl2::LinearIntersector>();
   intersector->addPrimitive(prim);
-  intersector->addPrimitive(prim2);
+  // intersector->addPrimitive(prim2);
 
   renderer.scene.intersector = intersector;
 }
