@@ -5,10 +5,24 @@
 #include "core/ray.h"
 #include "core/type.h"
 #include "core/vec3.h"
-#include "material/surface_interaction.h"
 #include "sampler/sampler.h"
 
 namespace Prl2 {
+
+inline Real cosTheta(const Vec3& w) { return w.y(); }
+inline Real absCosTheta(const Vec3& w) { return std::abs(w.y()); }
+
+//ワールド座標系の方向ベクトルをマテリアル座標系の方向ベクトルに変換する
+inline Vec3 worldToMaterial(const Vec3& v, const IntersectInfo& info) {
+  return Vec3(dot(v.x(), info.dpdu), dot(v.y(), info.hitNormal),
+              dot(v.z(), info.dpdv));
+}
+
+//マテリアル座標系の方向ベクトルをワールド座標系に変換する
+inline Vec3 materialToWorld(const Vec3& v, const IntersectInfo& info) {
+  return v.x() * info.dpdu + v.y() * info.hitNormal + v.z() * info.dpdv;
+}
+
 // Materialを表現するクラス
 // マテリアル座標系は原点を衝突点、+Xを接線, +Yを法線
 // -Zを陪法線とする座標系で定義される
@@ -16,14 +30,12 @@ class Material {
  public:
   Material(){};
 
-  //次のレイの方向をサンプリングする
+  //マテリアル座標系で次のレイの方向をサンプリングする
   //評価した分光反射率を返り値とする
-  virtual Real sampleDirection(SurfaceInteraction& interaction,
-                               Sampler& sampler, Real& pdf) const = 0;
+  virtual Real sampleDirection(const Vec3& wo_local, const Real& lambda,
+                               Sampler& sampler, Vec3& wi_local,
+                               Real& pdf) const = 0;
 };
-
-inline Real cosTheta(const Vec3& w) { return w.y(); }
-inline Real absCosTheta(const Vec3& w) { return std::abs(w.y()); }
 
 }  // namespace Prl2
 

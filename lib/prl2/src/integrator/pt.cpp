@@ -22,17 +22,20 @@ Real PT::integrate(const Ray& ray_in, const Scene& scene,
       // TODO: 光源だったら寄与を蓄積
 
       // BRDF Sampling
-      SurfaceInteraction interaction(ray, info);
       auto material = info.hitPrimitive->material;
+      const Vec3 wo = -ray.direction;
+      const Vec3 wo_local = worldToMaterial(wo, info);
+      Vec3 wi_local;
       Real pdf_w;
-      const Real bsdf = material->sampleDirection(interaction, sampler, pdf_w);
+      const Real bsdf = material->sampleDirection(wo_local, ray.lambda, sampler,
+                                                  wi_local, pdf_w);
 
       // Throughputを更新
-      const float cos = absCosTheta(interaction.wi);
+      const float cos = absCosTheta(wi_local);
       throughput *= bsdf * cos / pdf_w;
 
       // レイを更新
-      const Vec3 wi_world = materialToWorld(interaction.wi, info);
+      const Vec3 wi_world = materialToWorld(wi_local, info);
       ray.origin = info.hitPos;
       ray.direction = wi_world;
     }

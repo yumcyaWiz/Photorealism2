@@ -12,16 +12,15 @@ class Diffuse : public Material {
  public:
   Diffuse(const SPD& _albedo) : albedo(_albedo){};
 
-  Real sampleDirection(SurfaceInteraction& interaction, Sampler& sampler,
-                       Real& pdf) const {
+  Real sampleDirection(const Vec3& wo_local, const Real& lambda,
+                       Sampler& sampler, Vec3& wi_local, Real& pdf) const {
     // Cosine Weighted Hemisphere Sampling
     const Vec2 u = sampler.getNext2D();
-    const Vec3 wi = sampleCosineHemisphere(u);
-    interaction.wi = wi;
-    pdf = INV_PI * absCosTheta(wi);
+    wi_local = sampleCosineHemisphere(u);
+    pdf = INV_PI * absCosTheta(wi_local);
 
     // BRDFを計算
-    return INV_PI * albedo.sample(interaction.lambda);
+    return INV_PI * albedo.sample(lambda);
   };
 
  private:
