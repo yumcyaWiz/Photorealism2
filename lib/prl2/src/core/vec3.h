@@ -25,6 +25,10 @@ class alignas(16) Vec3 {
     v[2] = _z;
   };
 
+  Real operator[](int i) const {
+    assert(i >= 0 && i < 3);
+    return v[i];
+  };
   Real& operator[](int i) {
     assert(i >= 0 && i < 3);
     return v[i];
