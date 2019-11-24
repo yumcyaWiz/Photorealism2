@@ -6,7 +6,7 @@
 #include <future>
 #include <thread>
 
-#include "ThreadPool/ThreadPool.h"
+#include "ThreadPool.h"
 
 namespace Prl2 {
 

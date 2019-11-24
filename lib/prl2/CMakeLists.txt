@@ -14,6 +14,7 @@ target_include_directories(prl2 PUBLIC src/)
 
 # Link
 target_link_libraries(prl2 PUBLIC Threads::Threads)
+target_link_libraries(prl2 PUBLIC pool)
 target_link_libraries(prl2 PUBLIC hosek)
 
 #compile settings
