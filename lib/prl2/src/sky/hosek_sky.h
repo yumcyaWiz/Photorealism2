@@ -1,7 +1,7 @@
 #ifndef _PRL2_HOSEK_SKY
 #define _PRL2_HOSEK_SKY
 
-#include "HosekWilkie/ArHosekSkyModel.h"
+#include "ArHosekSkyModel.h"
 
 #include "core/spectrum.h"
 #include "sky/sky.h"
@@ -39,6 +39,6 @@ class HosekSky : public Sky {
   ArHosekSkyModelState* state[SPD::LAMBDA_SAMPLES];
 };
 
-};  // namespace Prl2
+}  // namespace Prl2
 
 #endif
