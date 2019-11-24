@@ -135,7 +135,7 @@ class Transform {
     ret.hitPos = applyPoint(isect.hitPos);
     ret.dpdu = applyDirection(isect.dpdu);
     ret.dpdv = applyDirection(isect.dpdv);
-    ret.hitNormal = applyNormal(isect.hitNormal);
+    ret.hitNormal = normalize(applyNormal(isect.hitNormal));
     return ret;
   };
   // IntersectInfoに対して逆変換を施す
@@ -144,7 +144,7 @@ class Transform {
     ret.hitPos = applyPointInverse(isect.hitPos);
     ret.dpdu = applyDirectionInverse(isect.dpdu);
     ret.dpdv = applyDirectionInverse(isect.dpdv);
-    ret.hitNormal = applyNormalInverse(isect.hitNormal);
+    ret.hitNormal = normalize(applyNormalInverse(isect.hitNormal));
     return ret;
   };
 };
