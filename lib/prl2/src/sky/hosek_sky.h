@@ -34,7 +34,12 @@ class HosekSky : public Sky {
     const unsigned int index = (ray.lambda - SPD::LAMBDA_MIN) /
                                (SPD::LAMBDA_MAX - SPD::LAMBDA_MIN) *
                                SPD::LAMBDA_SAMPLES;
-    return arhosekskymodel_radiance(state[index], theta, phi, ray.lambda);
+
+    Real ret = arhosekskymodel_radiance(state[index], theta, phi, ray.lambda);
+    if (std::isnan(ret)) {
+      ret = 0;
+    }
+    return ret;
   };
 
  private:

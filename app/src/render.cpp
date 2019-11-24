@@ -22,8 +22,8 @@ void Render::initScene() {
 
   std::shared_ptr<Prl2::LinearIntersector> intersector =
       std::make_shared<Prl2::LinearIntersector>();
-  intersector->addPrimitive(prim);
-  intersector->addPrimitive(prim2);
+  // intersector->addPrimitive(prim);
+  // intersector->addPrimitive(prim2);
 
   renderer.scene.intersector = intersector;
 }
