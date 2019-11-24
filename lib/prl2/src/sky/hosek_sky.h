@@ -31,11 +31,16 @@ class HosekSky : public Sky {
     cartesianToSpherical(ray.direction, theta, phi);
 
     // Compute State Index
-    const unsigned int index = (ray.lambda - SPD::LAMBDA_MIN) /
-                               (SPD::LAMBDA_MAX - SPD::LAMBDA_MIN) *
-                               SPD::LAMBDA_SAMPLES;
+    const unsigned int index =
+        (ray.lambda - 320) / (720 - 320) * SPD::LAMBDA_SAMPLES;
 
-    Real ret = arhosekskymodel_radiance(state[index], theta, phi, ray.lambda);
+    Real ret = 0;
+    if (ray.lambda > 320 && ray.lambda < 720) {
+      ret =
+          arhosekskymodel_radiance(state[index], theta, phi, ray.lambda) +
+          arhosekskymodel_solar_radiance(state[index], theta, phi, ray.lambda);
+    }
+
     if (std::isnan(ret)) {
       ret = 0;
     }
