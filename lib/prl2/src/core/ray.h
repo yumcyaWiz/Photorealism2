@@ -13,8 +13,8 @@ struct Ray {
   Vec3 direction;  //方向
   Real lambda;     //波長[nm]
 
-  static constexpr Real tmin = 0.001f;    //最小衝突距離
-  static constexpr Real tmax = 10000.0f;  //最大衝突距離
+  static constexpr Real tmin = 1e-6;  //最小衝突距離
+  static constexpr Real tmax = 1e6;   //最大衝突距離
 
   Ray(){};
   Ray(const Vec3& _origin, const Vec3& _direction, const Real& _lambda = 550)
