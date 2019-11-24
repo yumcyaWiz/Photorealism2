@@ -10,7 +10,7 @@
 namespace Prl2 {
 
 // Layerの種類
-enum class LayerType { Render, Normal, Position, Depth };
+enum class LayerType { Render, Normal, Position, Depth, Sample };
 
 // Imageの種類
 enum class ImageType { PPM, PNG, EXR };

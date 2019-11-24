@@ -125,6 +125,8 @@ class Renderer {
       getPositionsRGB(rgb);
     } else if (config.layer_type == LayerType::Depth) {
       getDepthsRGB(rgb);
+    } else if (config.layer_type == LayerType::Sample) {
+      getSamplesRGB(rgb);
     }
   };
 
@@ -156,6 +158,9 @@ class Renderer {
 
   // Depth LayerをsRGBとして入手
   void getDepthsRGB(std::vector<float>& rgb) const;
+
+  // Sampler LayerをsRGBとして入手
+  void getSamplesRGB(std::vector<float>& rgb) const;
 };
 
 }  // namespace Prl2
