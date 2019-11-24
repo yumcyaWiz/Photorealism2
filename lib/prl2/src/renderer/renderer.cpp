@@ -138,6 +138,22 @@ void Renderer::render(const std::atomic<bool>& cancel) {
                   info.hitPos.y();
               layer.position_sRGB[3 * i + 3 * config.width * j + 2] +=
                   info.hitPos.z();
+
+              // Sample LayerにsRGBを格納
+              const auto material = info.hitPrimitive->material;
+              const Vec3 wo = -ray.direction;
+              const Vec3 wo_local = worldToMaterial(wo, info);
+              Vec3 wi_local;
+              Real pdf;
+              material->sampleDirection(wo_local, ray.lambda, *sampler,
+                                        wi_local, pdf);
+              const Vec3 wi = materialToWorld(wi_local, info);
+              layer.sample_sRGB[3 * i + 3 * config.width * j + 0] +=
+                  0.5f * (wi.x() + 1.0f);
+              layer.sample_sRGB[3 * i + 3 * config.width * j + 1] +=
+                  0.5f * (wi.y() + 1.0f);
+              layer.sample_sRGB[3 * i + 3 * config.width * j + 2] +=
+                  0.5f * (wi.z() + 1.0f);
             }
 
             // 分光放射束の計算
@@ -168,6 +184,10 @@ void Renderer::render(const std::atomic<bool>& cancel) {
         layer.position_sRGB[3 * i + 3 * config.width * j + 0] /= config.samples;
         layer.position_sRGB[3 * i + 3 * config.width * j + 1] /= config.samples;
         layer.position_sRGB[3 * i + 3 * config.width * j + 2] /= config.samples;
+
+        layer.sample_sRGB[3 * i + 3 * config.width * j + 0] /= config.samples;
+        layer.sample_sRGB[3 * i + 3 * config.width * j + 1] /= config.samples;
+        layer.sample_sRGB[3 * i + 3 * config.width * j + 2] /= config.samples;
       },
       16, 16, config.width, config.height);
 }
