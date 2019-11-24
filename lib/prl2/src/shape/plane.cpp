@@ -7,7 +7,7 @@ bool Plane::intersect(const Ray& ray, IntersectInfo& info) const {
   if (t < ray.tmin || t > ray.tmax || std::isnan(t)) return false;
 
   const Vec3 hitPos = ray(t);
-  // if (std::abs(hitPos.x()) > 0.5 || std::abs(hitPos.z()) > 0.5) return false;
+  if (std::abs(hitPos.x()) > 0.5 || std::abs(hitPos.z()) > 0.5) return false;
 
   info.t = t;
   info.hitPos = hitPos;
