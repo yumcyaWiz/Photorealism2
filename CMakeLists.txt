@@ -82,7 +82,7 @@ target_link_libraries(app PRIVATE prl2)
 
 #tests
 set(TEST_SOURCES
-  tests/test_spherical.cpp
+  tests/vec3_test.cpp
 )
 foreach(source_file ${TEST_SOURCES})
   get_filename_component(source_name ${source_file} NAME_WE)
