@@ -7,24 +7,24 @@
 #include "shape/sphere.h"
 
 void Render::initScene() {
-  const auto shape = std::make_shared<Prl2::Plane>();
-  const auto mat1 =
+  const auto plane = std::make_shared<Prl2::Plane>();
+  const auto sphere = std::make_shared<Prl2::Sphere>(1);
+  const auto diffuse_white =
       std::make_shared<Prl2::Diffuse>(Prl2::RGB2Spectrum(Prl2::RGB(0.8)));
-  const auto prim_trans =
-      std::make_shared<Prl2::Transform>(Prl2::translate(Prl2::Vec3(0, 0.1, 0)));
-  const auto prim = std::make_shared<Prl2::Primitive>(shape, mat1, prim_trans);
+  const auto prim1_trans =
+      std::make_shared<Prl2::Transform>(Prl2::translate(Prl2::Vec3(0, 1, 0)));
+  const auto prim1 =
+      std::make_shared<Prl2::Primitive>(sphere, diffuse_white, prim1_trans);
 
-  const auto shape2 = std::make_shared<Prl2::Sphere>(10000.0f);
-  const auto mat2 = std::make_shared<Prl2::Diffuse>(Prl2::SPD(0.8));
-  const auto prim2_trans = std::make_shared<Prl2::Transform>(
-      Prl2::translate(Prl2::Vec3(0, -10001, 0)));
+  const auto prim2_trans =
+      std::make_shared<Prl2::Transform>(Prl2::scale(Prl2::Vec3(5)));
   const auto prim2 =
-      std::make_shared<Prl2::Primitive>(shape2, mat2, prim2_trans);
+      std::make_shared<Prl2::Primitive>(plane, diffuse_white, prim2_trans);
 
   std::shared_ptr<Prl2::LinearIntersector> intersector =
       std::make_shared<Prl2::LinearIntersector>();
-  intersector->addPrimitive(prim);
-  // intersector->addPrimitive(prim2);
+  intersector->addPrimitive(prim1);
+  intersector->addPrimitive(prim2);
 
   renderer.scene.intersector = intersector;
 }

@@ -133,6 +133,8 @@ class Transform {
   IntersectInfo apply(const IntersectInfo& isect) const {
     IntersectInfo ret = isect;
     ret.hitPos = applyPoint(isect.hitPos);
+    ret.dpdu = applyDirection(isect.dpdu);
+    ret.dpdv = applyDirection(isect.dpdv);
     ret.hitNormal = applyNormal(isect.hitNormal);
     return ret;
   };
@@ -140,6 +142,8 @@ class Transform {
   IntersectInfo applyInverse(const IntersectInfo& isect) const {
     IntersectInfo ret = isect;
     ret.hitPos = applyPointInverse(isect.hitPos);
+    ret.dpdu = applyDirectionInverse(isect.dpdu);
+    ret.dpdv = applyDirectionInverse(isect.dpdv);
     ret.hitNormal = applyNormalInverse(isect.hitNormal);
     return ret;
   };
