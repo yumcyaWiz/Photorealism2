@@ -11,12 +11,12 @@ namespace Prl2 {
 
 class alignas(8) Vec2 {
  public:
-  Vec2() { v[0] = v[1] = 0; };
-  Vec2(const Real& _x) {
+  explicit Vec2() { v[0] = v[1] = 0; };
+  explicit Vec2(const Real& _x) {
     assert(!std::isnan(_x));
     v[0] = v[1] = _x;
   };
-  Vec2(const Real& _x, const Real& _y) {
+  explicit Vec2(const Real& _x, const Real& _y) {
     assert(!std::isnan(_x) && !std::isnan(_y));
     v[0] = _x;
     v[1] = _y;

@@ -11,31 +11,33 @@ namespace Prl2 {
 struct alignas(64) Mat4 {
   Real m[4][4];
 
-  Mat4() {
+  explicit Mat4() {
     for (int i = 0; i < 4; ++i) {
       for (int j = 0; j < 4; ++j) {
         m[i][j] = 0;
       }
     }
   };
-  Mat4(const Real& _x) {
+  explicit Mat4(const Real& _x) {
     for (int i = 0; i < 4; ++i) {
       for (int j = 0; j < 4; ++j) {
         m[i][j] = _x;
       }
     }
   }
-  Mat4(const Real _m[4][4]) {
+  explicit Mat4(const Real _m[4][4]) {
     for (int i = 0; i < 4; ++i) {
       for (int j = 0; j < 4; ++j) {
         m[i][j] = _m[i][j];
       }
     }
   }
-  Mat4(const Real& m00, const Real& m01, const Real& m02, const Real& m03,
-       const Real& m10, const Real& m11, const Real& m12, const Real& m13,
-       const Real& m20, const Real& m21, const Real& m22, const Real& m23,
-       const Real& m30, const Real& m31, const Real& m32, const Real& m33) {
+  explicit Mat4(const Real& m00, const Real& m01, const Real& m02,
+                const Real& m03, const Real& m10, const Real& m11,
+                const Real& m12, const Real& m13, const Real& m20,
+                const Real& m21, const Real& m22, const Real& m23,
+                const Real& m30, const Real& m31, const Real& m32,
+                const Real& m33) {
     m[0][0] = m00;
     m[0][1] = m01;
     m[0][2] = m02;
