@@ -48,6 +48,12 @@ add_executable(app
 )
 target_include_directories(app PRIVATE app/src/)
 
+# build type
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+  message(STATUS "Setting build type to Release as none was specified.")
+  set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build." FORCE)
+endif()
+
 # compile settings
 target_compile_features(app PRIVATE cxx_std_17)
 set_target_properties(app PROPERTIES CXX_EXTENSIONS OFF)
