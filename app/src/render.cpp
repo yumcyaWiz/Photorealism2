@@ -11,8 +11,8 @@ void Render::initScene() {
   const auto sphere = std::make_shared<Prl2::Sphere>();
   const auto diffuse_white =
       std::make_shared<Prl2::Diffuse>(Prl2::RGB2Spectrum(Prl2::RGB(0.8)));
-  const auto prim1_trans = std::make_shared<Prl2::Transform>(
-      Prl2::scale(Prl2::Vec3(2)) * Prl2::translate(Prl2::Vec3(0, 2, 0)));
+  const auto prim1_trans =
+      std::make_shared<Prl2::Transform>(Prl2::translate(Prl2::Vec3(0, 1, 0)));
   const auto prim1 =
       std::make_shared<Prl2::Primitive>(sphere, diffuse_white, prim1_trans);
 
