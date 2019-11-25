@@ -133,18 +133,9 @@ class Transform {
   IntersectInfo apply(const IntersectInfo& isect) const {
     IntersectInfo ret = isect;
     ret.hitPos = applyPoint(isect.hitPos);
-    ret.dpdu = applyDirection(isect.dpdu);
-    ret.dpdv = applyDirection(isect.dpdv);
+    ret.dpdu = normalize(applyDirection(isect.dpdu));
+    ret.dpdv = normalize(applyDirection(isect.dpdv));
     ret.hitNormal = normalize(applyNormal(isect.hitNormal));
-    return ret;
-  };
-  // IntersectInfoに対して逆変換を施す
-  IntersectInfo applyInverse(const IntersectInfo& isect) const {
-    IntersectInfo ret = isect;
-    ret.hitPos = applyPointInverse(isect.hitPos);
-    ret.dpdu = applyDirectionInverse(isect.dpdu);
-    ret.dpdv = applyDirectionInverse(isect.dpdv);
-    ret.hitNormal = normalize(applyNormalInverse(isect.hitNormal));
     return ret;
   };
 };
