@@ -7,7 +7,7 @@ find_package(Threads REQUIRED)
 #prl2
 add_library(prl2 STATIC)
 add_subdirectory(src)
-add_subdirectory(ext)
+add_subdirectory(extern)
 
 # Include
 target_include_directories(prl2 PUBLIC src/)

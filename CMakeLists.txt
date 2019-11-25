@@ -3,30 +3,30 @@ cmake_minimum_required(VERSION 3.12..3.15)
 project(Photorealism2Viewer LANGUAGES C CXX)
 
 #glad
-add_library(glad STATIC ext/glad/src/glad.c)
-target_include_directories(glad PUBLIC ext/glad/include)
+add_library(glad STATIC extern/glad/src/glad.c)
+target_include_directories(glad PUBLIC extern/glad/include)
 
 #GLFW
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
-add_subdirectory(ext/glfw)
+add_subdirectory(extern/glfw)
 
 #Dear ImGui
 add_library(imgui STATIC 
-  ext/imgui/imgui.cpp 
-  ext/imgui/imgui_widgets.cpp 
-  ext/imgui/imgui_draw.cpp 
-  ext/imgui/imgui_demo.cpp
+  extern/imgui/imgui.cpp 
+  extern/imgui/imgui_widgets.cpp 
+  extern/imgui/imgui_draw.cpp 
+  extern/imgui/imgui_demo.cpp
 )
-target_include_directories(imgui PUBLIC ext/imgui)
+target_include_directories(imgui PUBLIC extern/imgui)
 
 #Dear ImGui Impl
 add_library(imgui_impl STATIC 
-  ext/imgui/examples/imgui_impl_glfw.cpp 
-  ext/imgui/examples/imgui_impl_opengl3.cpp
+  extern/imgui/examples/imgui_impl_glfw.cpp 
+  extern/imgui/examples/imgui_impl_opengl3.cpp
 )
-target_include_directories(imgui_impl PUBLIC ext/imgui/examples)
+target_include_directories(imgui_impl PUBLIC extern/imgui/examples)
 target_compile_definitions(imgui_impl PUBLIC IMGUI_IMPL_OPENGL_LOADER_GLAD)
 target_link_libraries(imgui_impl PUBLIC imgui)
 target_link_libraries(imgui_impl PUBLIC glfw)
