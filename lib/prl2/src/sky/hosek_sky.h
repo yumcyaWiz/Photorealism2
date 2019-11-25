@@ -40,7 +40,8 @@ class HosekSky : public Sky {
       const unsigned int index =
           (ray.lambda - 320) / (720 - 320) * SPD::LAMBDA_SAMPLES;
 
-      ret = arhosekskymodel_radiance(state[index], theta, gamma, ray.lambda);
+      ret = arhosekskymodel_solar_radiance(state[index], theta, gamma,
+                                           ray.lambda);
     }
 
     if (std::isnan(ret)) {
