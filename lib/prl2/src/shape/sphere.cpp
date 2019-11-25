@@ -8,7 +8,7 @@ namespace Prl2 {
 //球のベクトル方程式にレイを代入
 //二次方程式を解く
 bool Sphere::intersect(const Ray& ray, IntersectInfo& info) const {
-  const Real a = length(ray.direction);
+  const Real a = length2(ray.direction);
   const Real b = 2 * dot(ray.direction, ray.origin);
   const Real c = length2(ray.origin) - radius * radius;
 
