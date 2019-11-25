@@ -45,7 +45,13 @@ class HosekSky : public Sky {
                                  (SPD::LAMBDA_MAX - SPD::LAMBDA_MIN) *
                                  SPD::LAMBDA_SAMPLES;
 
-      ret = arhosekskymodel_radiance(state[index], theta, gamma, ray.lambda);
+      // gammaが太陽の視野角/2以下なら太陽光を計算
+      if (gamma < 0.251 / 180.0 * PI) {
+        ret = arhosekskymodel_solar_radiance(state[index], theta, gamma,
+                                             ray.lambda);
+      } else {
+        ret = arhosekskymodel_radiance(state[index], theta, gamma, ray.lambda);
+      }
     }
 
     if (std::isnan(ret)) {
