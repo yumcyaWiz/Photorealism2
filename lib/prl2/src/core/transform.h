@@ -20,7 +20,10 @@ class Transform {
   Transform(const Transform& t) : mat(t.mat), invmat(t.invmat){};
 
   Transform operator*(const Transform& t) const {
-    return Transform(mat * t.mat, invmat * t.invmat);
+    const auto t2 = Transform(mat * t.mat, invmat * t.invmat);
+    std::cout << t2.mat << std::endl;
+    std::cout << t2.invmat << std::endl;
+    return t2;
   };
 
   // 方向ベクトルに対して変換を施す

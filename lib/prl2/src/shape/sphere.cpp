@@ -10,7 +10,7 @@ namespace Prl2 {
 bool Sphere::intersect(const Ray& ray, IntersectInfo& info) const {
   const Real a = length2(ray.direction);
   const Real b = 2 * dot(ray.direction, ray.origin);
-  const Real c = length2(ray.origin) - radius * radius;
+  const Real c = length2(ray.origin) - 1;
 
   const Real D = b * b - 4 * a * c;
   if (D < 0) return false;
@@ -40,12 +40,11 @@ bool Sphere::intersect(const Ray& ray, IntersectInfo& info) const {
   // 球面座標
   Real phi = std::atan2(hitPos.z(), hitPos.x());
   if (phi < 0) phi += PI_MUL_2;
-  const Real theta = std::acos(std::clamp(hitPos.y() / radius, -1.0f, 1.0f));
+  const Real theta = std::acos(std::clamp(hitPos.y(), -1.0f, 1.0f));
 
   const Vec3 dpdu = Vec3(-PI_MUL_2 * hitPos.z(), 0, PI_MUL_2 * hitPos.x());
-  const Vec3 dpdv =
-      PI * Vec3(hitPos.y() * std::cos(phi), -radius * std::sin(theta),
-                hitPos.y() * std::sin(phi));
+  const Vec3 dpdv = PI * Vec3(hitPos.y() * std::cos(phi), -std::sin(theta),
+                              hitPos.y() * std::sin(phi));
 
   //衝突情報を格納
   info.t = t;

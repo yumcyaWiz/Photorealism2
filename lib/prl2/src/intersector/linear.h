@@ -13,7 +13,7 @@ class LinearIntersector : public Intersector {
   bool intersect(const Ray& ray, IntersectInfo& info) const {
     bool hit = false;
 
-    float t = ray.tmax;
+    Real t = ray.tmax;
     IntersectInfo info_tmp;
     for (const auto& prim : primitives) {
       if (prim->intersect(ray, info_tmp)) {

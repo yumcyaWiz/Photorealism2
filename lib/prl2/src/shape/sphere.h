@@ -6,11 +6,10 @@
 
 namespace Prl2 {
 
+// 単位球を表現するクラス
 class Sphere : public Shape {
  public:
-  const Real radius;  //半径
-
-  Sphere(const Real& _radius) : radius(_radius){};
+  Sphere(){};
 
   bool intersect(const Ray& ray, IntersectInfo& info) const override;
 };

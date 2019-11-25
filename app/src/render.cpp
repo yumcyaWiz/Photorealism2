@@ -8,24 +8,23 @@
 
 void Render::initScene() {
   const auto plane = std::make_shared<Prl2::Plane>();
-  const auto sphere = std::make_shared<Prl2::Sphere>(1);
-  const auto big_sphere = std::make_shared<Prl2::Sphere>(10000);
+  const auto sphere = std::make_shared<Prl2::Sphere>();
   const auto diffuse_white =
       std::make_shared<Prl2::Diffuse>(Prl2::RGB2Spectrum(Prl2::RGB(0.8)));
-  const auto prim1_trans =
-      std::make_shared<Prl2::Transform>(Prl2::scale(Prl2::Vec3(2)));
+  const auto prim1_trans = std::make_shared<Prl2::Transform>(
+      Prl2::scale(Prl2::Vec3(2)) * Prl2::translate(Prl2::Vec3(0, 2, 0)));
   const auto prim1 =
       std::make_shared<Prl2::Primitive>(sphere, diffuse_white, prim1_trans);
 
-  const auto prim2_trans = std::make_shared<Prl2::Transform>(
-      Prl2::translate(Prl2::Vec3(0, -10000, 0)));
+  const auto prim2_trans =
+      std::make_shared<Prl2::Transform>(Prl2::scale(Prl2::Vec3(4)));
   const auto prim2 =
-      std::make_shared<Prl2::Primitive>(big_sphere, diffuse_white, prim2_trans);
+      std::make_shared<Prl2::Primitive>(plane, diffuse_white, prim2_trans);
 
   std::shared_ptr<Prl2::LinearIntersector> intersector =
       std::make_shared<Prl2::LinearIntersector>();
   intersector->addPrimitive(prim1);
-  // intersector->addPrimitive(prim2);
+  intersector->addPrimitive(prim2);
 
   renderer.scene.intersector = intersector;
 }
