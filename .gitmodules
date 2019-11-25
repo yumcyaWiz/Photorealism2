@@ -1,8 +1,8 @@
-[submodule "ext/imgui"]
-	path = ext/imgui
+[submodule "extern/imgui"]
+	path = extern/imgui
 	url = git@github.com:ocornut/imgui.git
-[submodule "ext/glfw"]
-	path = ext/glfw
+[submodule "extern/glfw"]
+	path = extern/glfw
 	url = git@github.com:glfw/glfw.git
 [submodule "lib/prl2/ext/ThreadPool"]
 	path = lib/prl2/ext/ThreadPool
