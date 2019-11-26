@@ -195,6 +195,20 @@ void GUI::drawSkyUI(Render& render) const {
   {
     static int sky_type = 0;
     ImGui::Combo("Sky Type", &sky_type, "Uniform\0Hosek\0");
+
+    if (sky_type == 0) {
+      static float color[3];
+      ImGui::ColorEdit3("Color", color);
+    } else if (sky_type == 1) {
+      static float sunDirection[3];
+      ImGui::InputFloat3("Sun Direction", sunDirection);
+
+      static float turbidity = 0;
+      ImGui::InputFloat("Turbidity", &turbidity);
+
+      static float albedo[3];
+      ImGui::ColorEdit3("Albedo", albedo);
+    }
   }
   ImGui::End();
 }
