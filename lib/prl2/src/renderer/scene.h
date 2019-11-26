@@ -24,8 +24,20 @@ struct Scene {
         const std::shared_ptr<Sky> _sky)
       : camera(_camera), intersector(_intersector), sky(_sky){};
 
+  // レイとシーンの衝突計算を行う
   bool intersect(const Ray& ray, IntersectInfo& info) const {
     return intersector->intersect(ray, info);
+  };
+
+  // Skyをセットする
+  void setSky(const std::shared_ptr<Sky>& _sky) { sky = _sky; };
+
+  // Cameraをセットする
+  void setCamera(const std::shared_ptr<Camera>& _camera) { camera = _camera; }
+
+  // Intersectorをセットする
+  void setIntersector(const std::shared_ptr<Intersector>& _intersector) {
+    intersector = _intersector;
   };
 };
 
