@@ -31,6 +31,9 @@ class GUI {
   // ToneMappingUIを表示
   void drawToneMappingUI(Render& render) const;
 
+  // SkyUIを表示
+  void drawSkyUI(Render& render) const;
+
  private:
   GLuint render_texture_id;  // Render Texture
 

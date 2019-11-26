@@ -190,6 +190,15 @@ void GUI::drawToneMappingUI(Render& render) const {
   ImGui::End();
 }
 
+void GUI::drawSkyUI(Render& render) const {
+  ImGui::Begin("Sky");
+  {
+    static int sky_type = 0;
+    ImGui::Combo("Sky Type", &sky_type, "Uniform\0Hosek\0");
+  }
+  ImGui::End();
+}
+
 void GUI::makeTextureFromLayer(GLuint texture_id, int width, int height,
                                const std::vector<float>& rgb) const {
   if (rgb.size() != 3 * width * height) return;
