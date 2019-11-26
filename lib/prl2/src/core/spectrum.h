@@ -63,6 +63,12 @@ class SPD {
   //波長と対応する放射束は昇順で並んでいると仮定している
   SPD(const std::vector<Real>& _lambda, const std::vector<Real>& _phi);
 
+  // i番目の放射束を返す
+  Real operator[](int i) const {
+    assert(i >= 0 && i < SPD::LAMBDA_SAMPLES);
+    return phi[i];
+  };
+
   // クリアする
   void clear() {
     for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
