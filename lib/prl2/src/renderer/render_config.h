@@ -18,6 +18,9 @@ enum class ImageType { PPM, PNG, EXR };
 // Tone Mappingの種類
 enum class ToneMappingType { Linear, Reinhard };
 
+// 空の種類
+enum class SkyType { Uniform, Hosek };
+
 // レンダリングの設定を表すクラス
 // 画像のサイズ、サンプル数、カメラの種類、シーンファイルの種類などを設定する
 struct RenderConfig {
@@ -50,7 +53,7 @@ struct RenderConfig {
   std::string scene_file;  //シーンファイル
 
   // Sky
-  std::string sky_type;  // 空の種類
+  SkyType sky_type;  // 空の種類
 
   // Sampler
   std::string sampler_type;  // Samplerの種類
