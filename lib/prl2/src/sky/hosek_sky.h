@@ -12,16 +12,15 @@ namespace Prl2 {
 
 class HosekSky : public Sky {
  public:
-  HosekSky(const Real& turbidity, const Real& albedo) {
+  HosekSky(const Real& turbidity, const SPD& albedo) {
     sunDirection = normalize(Vec3(0, 0, 1));
     Real solarElevation, _tmp;
     cartesianToSpherical(sunDirection, solarElevation, _tmp);
     solarElevation = PI_DIV_2 - solarElevation;
 
-    SPD ad = RGB2Spectrum(RGB(1));
     for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
       state[i] =
-          arhosekskymodelstate_alloc_init(solarElevation, turbidity, ad.phi[i]);
+          arhosekskymodelstate_alloc_init(solarElevation, turbidity, albedo[i]);
     }
   };
   ~HosekSky() {
