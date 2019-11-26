@@ -32,7 +32,7 @@ void Renderer::loadConfig(const RenderConfig& _config) {
   if (!config.sky_type.empty()) {
     sky = std::make_shared<UniformSky>(D65Light());
   } else {
-    sky = std::make_shared<HosekSky>(4, RGB2Spectrum(RGB(1)));
+    sky = std::make_shared<HosekSky>(Vec3(0, 1, 0), 4, RGB2Spectrum(RGB(1)));
   }
   scene.sky = sky;
 
