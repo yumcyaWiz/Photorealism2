@@ -32,19 +32,19 @@ void Render::initScene() {
 std::thread Render::render() {
   std::thread rendering_thread([&] {
     while (true) {
-      if (refreshRender) {
+      if (refresh_render) {
         const auto start_time = std::chrono::system_clock::now();
-        renderer.render(cancelRender);
+        renderer.render(cancel_render);
 
-        if (cancelRender) {
-          cancelRender = false;
+        if (cancel_render) {
+          cancel_render = false;
         } else {
           std::cout << "Rendering Finished in "
                     << std::chrono::duration_cast<std::chrono::milliseconds>(
                            std::chrono::system_clock::now() - start_time)
                            .count()
                     << "ms" << std::endl;
-          refreshRender = false;
+          refresh_render = false;
         }
       }
       std::this_thread::sleep_for(std::chrono::milliseconds(10));

@@ -13,7 +13,7 @@ class Render {
   Prl2::Renderer renderer;  // Renderer
 
   Render(const Prl2::RenderConfig& config)
-      : cancelRender(false), refreshRender(false) {
+      : cancel_render(false), refresh_render(false) {
     initScene();
     renderer.loadConfig(config);
   };
@@ -24,19 +24,22 @@ class Render {
   // レンダリングする
   void requestRender() {
     // フラグを立てる
-    if (refreshRender) {
-      cancelRender = true;
+    if (refresh_render) {
+      cancel_render = true;
     }
-    refreshRender = true;
+    refresh_render = true;
   };
+
+  // レンダリングをキャンセルする
+  void cancelRender() { cancel_render = true; };
 
   // レンダリングループ
   // 別スレッドでレンダリングが行われる
   std::thread render();
 
  private:
-  std::atomic<bool> cancelRender;  // レンダラーのキャンセルフラグ
-  std::atomic<bool> refreshRender;  // レンダラーの再レンダリングフラグ
+  std::atomic<bool> cancel_render;  // レンダラーのキャンセルフラグ
+  std::atomic<bool> refresh_render;  // レンダラーの再レンダリングフラグ
 };
 
 #endif
