@@ -103,6 +103,7 @@ class Renderer {
     scene.camera->film->resizeLength(width_length, height_length);
   };
 
+  // Camera
   // カメラの位置、向きを入手する
   void getCameraLookAt(Vec3& pos, Vec3& lookat) {
     pos = config.camera_position;
@@ -114,6 +115,12 @@ class Renderer {
     config.camera_lookat = lookat;
     scene.camera->setLookAt(pos, lookat);
   };
+
+  // Sky
+  // 空の種類を入手する
+  SkyType getSkyType(const SkyType& sky_type) const { return config.sky_type; };
+  // 空の種類を設定する
+  void setSkyType(const SkyType& sky_type) { config.sky_type = sky_type; };
 
   // LayerをsRGBとして入手
   void getLayersRGB(std::vector<float>& rgb) const {
