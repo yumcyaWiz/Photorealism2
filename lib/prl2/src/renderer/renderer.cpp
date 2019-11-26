@@ -29,10 +29,12 @@ void Renderer::loadConfig(const RenderConfig& _config) {
 
   // Skyの設定
   std::shared_ptr<Sky> sky = nullptr;
-  if (!config.sky_type.empty()) {
+  if (config.sky_type == SkyType::Uniform) {
     sky = std::make_shared<UniformSky>(D65Light());
+  } else if (config.sky_type == SkyType::Hosek) {
+    sky = std::make_shared<HosekSky>(Vec3(0, 0, 1), 4, RGB2Spectrum(RGB(1)));
   } else {
-    sky = std::make_shared<HosekSky>(Vec3(0, 1, 0), 4, RGB2Spectrum(RGB(1)));
+    std::cerr << "invalid sky type" << std::endl;
   }
   scene.sky = sky;
 
