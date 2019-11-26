@@ -54,6 +54,11 @@ struct RenderConfig {
 
   // Sky
   SkyType sky_type = SkyType::Hosek;  // 空の種類
+  Vec3 uniform_sky_color = Vec3(1, 1, 1);   // 空の色(UniformSky)
+
+  Vec3 hosek_sky_sun_direciton = Vec3(0, 0, 1);  // 太陽の方向(HosekSky)
+  Real hosek_sky_turbidity = 4;      // Turbidity(HosekSky)
+  Vec3 hosek_sky_albedo = Vec3(1, 1, 1);         // Albedo(HosekSky)
 
   // Sampler
   std::string sampler_type;  // Samplerの種類
