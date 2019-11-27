@@ -124,7 +124,10 @@ class Renderer {
   void setSkyType(const SkyType& sky_type);
 
   // Uniform Sky
+  Vec3 getUniformSkyColor() const;
   void setUniformSkyColor(const Vec3& color);
+
+  // Hosek Sky
 
   // LayerをsRGBとして入手
   void getLayersRGB(std::vector<float>& rgb) const {

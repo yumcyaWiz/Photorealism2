@@ -207,6 +207,8 @@ void Renderer::setSkyType(const SkyType& sky_type) {
   }
 }
 
+Vec3 Renderer::getUniformSkyColor() const { return config.uniform_sky_color; }
+
 void Renderer::setUniformSkyColor(const Vec3& color) {
   config.uniform_sky_color = color;
   if (config.sky_type == SkyType::Uniform) {
