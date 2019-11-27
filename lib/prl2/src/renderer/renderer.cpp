@@ -199,7 +199,16 @@ void Renderer::setSkyType(const SkyType& sky_type) {
   config.sky_type = sky_type;
 }
 
-void Renderer::commitSky() {}
+void Renderer::commitSky() {
+  if (config.sky_type == SkyType::Uniform) {
+    scene.setSky(
+        std::make_shared<UniformSky>(RGB2Spectrum(config.uniform_sky_color)));
+  } else if (config.sky_type == SkyType::Hosek) {
+    scene.setSky(std::make_shared<HosekSky>(
+        config.hosek_sky_sun_direciton, config.hosek_sky_turbidity,
+        RGB2Spectrum(config.hosek_sky_albedo)));
+  }
+}
 
 Vec3 Renderer::getUniformSkyColor() const { return config.uniform_sky_color; }
 
