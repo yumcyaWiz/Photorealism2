@@ -122,12 +122,20 @@ class Renderer {
   SkyType getSkyType() const;
   // 空の種類を設定する
   void setSkyType(const SkyType& sky_type);
+  // Configから空を初期化し、シーンにセットする
+  void commitSky();
 
   // Uniform Sky
   Vec3 getUniformSkyColor() const;
   void setUniformSkyColor(const Vec3& color);
 
   // Hosek Sky
+  Vec3 getHosekSkySunDirection() const;
+  Real getHosekSkyTurbidity() const;
+  Vec3 getHosekSkyAlbedo() const;
+  void setHosekSkySunDirection(const Vec3& sun_direction);
+  void setHosekSkyTurbidity(const Real& turbidity);
+  void setHosekSkyAlbedo(const Vec3& albedo);
 
   // LayerをsRGBとして入手
   void getLayersRGB(std::vector<float>& rgb) const {
@@ -175,9 +183,6 @@ class Renderer {
 
   // Sampler LayerをsRGBとして入手
   void getSamplesRGB(std::vector<float>& rgb) const;
-
-  // ConfigからSkyを初期化
-  void initSky(){};
 };
 
 }  // namespace Prl2

@@ -197,24 +197,28 @@ SkyType Renderer::getSkyType() const { return config.sky_type; }
 
 void Renderer::setSkyType(const SkyType& sky_type) {
   config.sky_type = sky_type;
-  if (config.sky_type == SkyType::Uniform) {
-    scene.setSky(
-        std::make_shared<UniformSky>(RGB2Spectrum(config.uniform_sky_color)));
-  } else if (config.sky_type == SkyType::Hosek) {
-    scene.setSky(std::make_shared<HosekSky>(
-        config.hosek_sky_sun_direciton, config.hosek_sky_turbidity,
-        RGB2Spectrum(config.hosek_sky_albedo)));
-  }
 }
+
+void Renderer::commitSky() {}
 
 Vec3 Renderer::getUniformSkyColor() const { return config.uniform_sky_color; }
 
 void Renderer::setUniformSkyColor(const Vec3& color) {
   config.uniform_sky_color = color;
-  if (config.sky_type == SkyType::Uniform) {
-    scene.setSky(
-        std::make_shared<UniformSky>(RGB2Spectrum(config.uniform_sky_color)));
-  }
+}
+
+Vec3 Renderer::getHosekSkySunDirection() const {
+  return config.hosek_sky_sun_direciton;
+}
+Real Renderer::getHosekSkyTurbidity() const {
+  return config.hosek_sky_turbidity;
+}
+Vec3 Renderer::getHosekSkyAlbedo() const { return config.hosek_sky_albedo; }
+void Renderer::setHosekSkySunDirection(const Vec3& sun_direction) {
+  config.hosek_sky_sun_direciton = sun_direction;
+}
+void Renderer::setHosekSkyTurbidity(const Real& turbidity) {
+  config.hosek_sky_turbidity = turbidity;
 }
 
 void Renderer::getRendersRGB(std::vector<float>& rgb) const {
