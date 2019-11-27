@@ -11,10 +11,16 @@ class RandomSampler : public Sampler {
   RandomSampler(){};
   RandomSampler(uint64_t seed) : rng(RNG(seed)){};
 
-  void setSeed(uint64_t seed) { rng.setSeed(seed); };
+  void setSeed(uint64_t seed) override { rng.setSeed(seed); };
 
-  Real getNext() { return rng.uniformReal(); }
-  Vec2 getNext2D() { return Vec2(rng.uniformReal(), rng.uniformReal()); };
+  Real getNext() override { return rng.uniformReal(); }
+  Vec2 getNext2D() override {
+    return Vec2(rng.uniformReal(), rng.uniformReal());
+  };
+
+  std::unique_ptr<Sampler> clone(uint64_t seed) override {
+    return std::unique_ptr<Sampler>(new RandomSampler(seed));
+  };
 
  private:
   RNG rng;

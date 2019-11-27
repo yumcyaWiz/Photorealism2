@@ -90,7 +90,8 @@ void Renderer::render(const std::atomic<bool>& cancel) {
   parallelFor2D(
       [&](int i, int j) {
         // Samplerの初期化
-        sampler->setSeed(i + config.width * j);
+        std::unique_ptr<Sampler> pixel_sampler =
+            sampler->clone(i + config.width * j);
 
         //サンプリングを繰り返す
         for (int k = 0; k < config.samples; ++k) {
@@ -101,7 +102,7 @@ void Renderer::render(const std::atomic<bool>& cancel) {
           // 波長のサンプリング
           const Real lambda =
               SPD::LAMBDA_MIN +
-              sampler->getNext() * (SPD::LAMBDA_MAX - SPD::LAMBDA_MIN);
+              pixel_sampler->getNext() * (SPD::LAMBDA_MAX - SPD::LAMBDA_MIN);
           constexpr Real lambda_pdf = 1 / (SPD::LAMBDA_MAX - SPD::LAMBDA_MIN);
 
           // サンプリングされた波長をセット
@@ -110,9 +111,11 @@ void Renderer::render(const std::atomic<bool>& cancel) {
 
           //フィルム面のUV座標
           const Real u =
-              (2.0f * (i + sampler->getNext()) - config.width) / config.width;
+              (2.0f * (i + pixel_sampler->getNext()) - config.width) /
+              config.width;
           const Real v =
-              (2.0f * (j + sampler->getNext()) - config.height) / config.height;
+              (2.0f * (j + pixel_sampler->getNext()) - config.height) /
+              config.height;
 
           //カメラからレイを生成
           if (scene.camera->generateRay(u, v, ray)) {
@@ -146,7 +149,7 @@ void Renderer::render(const std::atomic<bool>& cancel) {
               const Vec3 wo_local = worldToMaterial(wo, info);
               Vec3 wi_local;
               Real pdf;
-              material->sampleDirection(wo_local, ray.lambda, *sampler,
+              material->sampleDirection(wo_local, ray.lambda, *pixel_sampler,
                                         wi_local, pdf);
               const Vec3 wi = materialToWorld(wi_local, info);
               layer.sample_sRGB[3 * i + 3 * config.width * j + 0] +=
@@ -159,7 +162,7 @@ void Renderer::render(const std::atomic<bool>& cancel) {
 
             // 分光放射束の計算
             const Real phi =
-                integrator->integrate(ray, scene, *sampler) / lambda_pdf;
+                integrator->integrate(ray, scene, *pixel_sampler) / lambda_pdf;
 
             // フィルムに分光放射束を加算
             scene.camera->film->addPixel(i, j, lambda, phi);
