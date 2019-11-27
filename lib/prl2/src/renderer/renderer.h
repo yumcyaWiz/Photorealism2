@@ -13,8 +13,9 @@
 
 namespace Prl2 {
 
-//レンダリングを行うクラス
-//与えられた設定を元に、シーンのセットアップ、レンダリングを行う
+// レンダリングを行うクラス
+// 与えられた設定を元に、シーンのセットアップ、レンダリングを行う
+// 外部へのAPIを提供する
 class Renderer {
  public:
   RenderConfig config;  // RenderConfig
@@ -120,7 +121,10 @@ class Renderer {
   // 空の種類を入手する
   SkyType getSkyType(const SkyType& sky_type) const { return config.sky_type; };
   // 空の種類を設定する
-  void setSkyType(const SkyType& sky_type) { config.sky_type = sky_type; };
+  void setSkyType(const SkyType& sky_type) { config.sky_type = sky_type; }
+
+  // Uniform Sky
+  void setUniformSkyColor(const Vec3& color);
 
   // LayerをsRGBとして入手
   void getLayersRGB(std::vector<float>& rgb) const {
@@ -168,6 +172,9 @@ class Renderer {
 
   // Sampler LayerをsRGBとして入手
   void getSamplesRGB(std::vector<float>& rgb) const;
+
+  // ConfigからSkyを初期化
+  void initSky(){};
 };
 
 }  // namespace Prl2

@@ -193,6 +193,14 @@ void Renderer::render(const std::atomic<bool>& cancel) {
       16, 16, config.width, config.height);
 }
 
+void Renderer::setUniformSkyColor(const Vec3& color) {
+  config.uniform_sky_color = color;
+  if (config.sky_type == SkyType::Uniform) {
+    scene.setSky(
+        std::make_shared<UniformSky>(RGB2Spectrum(config.uniform_sky_color)));
+  }
+}
+
 void Renderer::getRendersRGB(std::vector<float>& rgb) const {
   rgb.resize(3 * config.width * config.height);
 
