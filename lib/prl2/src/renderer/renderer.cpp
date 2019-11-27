@@ -193,6 +193,20 @@ void Renderer::render(const std::atomic<bool>& cancel) {
       16, 16, config.width, config.height);
 }
 
+SkyType Renderer::getSkyType() const { return config.sky_type; }
+
+void Renderer::setSkyType(const SkyType& sky_type) {
+  config.sky_type = sky_type;
+  if (config.sky_type == SkyType::Uniform) {
+    scene.setSky(
+        std::make_shared<UniformSky>(RGB2Spectrum(config.uniform_sky_color)));
+  } else if (config.sky_type == SkyType::Hosek) {
+    scene.setSky(std::make_shared<HosekSky>(
+        config.hosek_sky_sun_direciton, config.hosek_sky_turbidity,
+        RGB2Spectrum(config.hosek_sky_albedo)));
+  }
+}
+
 void Renderer::setUniformSkyColor(const Vec3& color) {
   config.uniform_sky_color = color;
   if (config.sky_type == SkyType::Uniform) {

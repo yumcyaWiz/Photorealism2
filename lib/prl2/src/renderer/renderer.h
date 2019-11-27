@@ -119,9 +119,9 @@ class Renderer {
 
   // Sky
   // 空の種類を入手する
-  SkyType getSkyType(const SkyType& sky_type) const { return config.sky_type; };
+  SkyType getSkyType() const;
   // 空の種類を設定する
-  void setSkyType(const SkyType& sky_type) { config.sky_type = sky_type; }
+  void setSkyType(const SkyType& sky_type);
 
   // Uniform Sky
   void setUniformSkyColor(const Vec3& color);
