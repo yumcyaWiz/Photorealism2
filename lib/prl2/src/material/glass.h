@@ -37,7 +37,22 @@ class Glass : public Material {
 
   Real sampleDirection(const SurfaceInteraction& interaction, Sampler& sampler,
                        Vec3& wi_local, Real& pdf) const override {
-    return albedo.sample(interaction.lambda);
+    const Real glass_ior = sellmeier.ior(interaction.lambda);
+    const Real fr = fresnel(interaction.wo_local, Vec3(0, 1, 0),
+                            interaction.ior, glass_ior);
+
+    // Reflect
+    if (sampler.getNext() < 1) {
+      wi_local = reflect(interaction.wo_local, Vec3(0, 1, 0));
+      pdf = 1;
+      return albedo.sample(interaction.lambda) / absCosTheta(wi_local);
+    }
+    // Refract
+    else {
+      wi_local = reflect(interaction.wo_local, Vec3(0, 1, 0));
+      pdf = 1;
+      return albedo.sample(interaction.lambda) / absCosTheta(wi_local);
+    }
   };
 
  private:
