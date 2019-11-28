@@ -42,16 +42,13 @@ class Glass : public Material {
                             interaction.ior, glass_ior);
 
     // Reflect
-    if (sampler.getNext() < 1) {
+    if (sampler.getNext() < fr) {
       wi_local = reflect(interaction.wo_local, Vec3(0, 1, 0));
-      pdf = 1;
+      pdf = fr;
       return albedo.sample(interaction.lambda) / absCosTheta(wi_local);
     }
     // Refract
     else {
-      wi_local = reflect(interaction.wo_local, Vec3(0, 1, 0));
-      pdf = 1;
-      return albedo.sample(interaction.lambda) / absCosTheta(wi_local);
     }
   };
 
