@@ -43,6 +43,11 @@ class Renderer {
   // サンプル数を設定する
   void setSamples(unsigned int samples);
 
+  // レンダリングタイル数を入手する
+  void getRenderTiles(int& x, int& y) const;
+  // レンダリングタイル数をセットする
+  void setRenderTiles(int x, int y);
+
   // 出力レイヤーを入手する
   LayerType getOutputLayer() const;
   // 出力レイヤーを指定する

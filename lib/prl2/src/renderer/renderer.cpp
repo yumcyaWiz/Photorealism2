@@ -218,6 +218,16 @@ unsigned int Renderer::getSamples() const { return config.samples; }
 
 void Renderer::setSamples(unsigned int samples) { config.samples = samples; }
 
+void Renderer::getRenderTiles(int& x, int& y) const {
+  x = config.render_tiles_y;
+  y = config.render_tiles_x;
+}
+
+void Renderer::setRenderTiles(int x, int y) {
+  config.render_tiles_x = x;
+  config.render_tiles_y = y;
+}
+
 LayerType Renderer::getOutputLayer() const { return config.layer_type; }
 
 void Renderer::setOutputLayer(const LayerType& _layer_type) {
