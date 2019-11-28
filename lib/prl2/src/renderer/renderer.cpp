@@ -35,6 +35,7 @@ void Renderer::loadConfig(const RenderConfig& _config) {
     sky = std::make_shared<HosekSky>(Vec3(0, 0, 1), 4, RGB2Spectrum(RGB(1)));
   } else {
     std::cerr << "invalid sky type" << std::endl;
+    std::exit(EXIT_FAILURE);
   }
   scene.sky = sky;
 
