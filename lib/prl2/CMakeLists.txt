@@ -10,7 +10,7 @@ add_subdirectory(src)
 add_subdirectory(extern)
 
 # Include
-target_include_directories(prl2 PUBLIC src/)
+target_include_directories(prl2 PUBLIC src)
 
 # Link
 target_link_libraries(prl2 PUBLIC Threads::Threads)

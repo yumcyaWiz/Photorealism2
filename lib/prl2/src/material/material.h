@@ -9,7 +9,9 @@
 
 namespace Prl2 {
 
+// 方向ベクトルと法線との間のコサインを計算する
 inline Real cosTheta(const Vec3& w) { return w.y(); }
+// 方向ベクトルと法線との間のコサインの絶対値を計算する
 inline Real absCosTheta(const Vec3& w) { return std::abs(w.y()); }
 
 //ワールド座標系の方向ベクトルをマテリアル座標系の方向ベクトルに変換する
