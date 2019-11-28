@@ -1,6 +1,6 @@
 #tests
 set(TEST_SOURCES
-  test_parallel.cpp
+  refract_test.cpp
 )
 
 foreach(source_file ${TEST_SOURCES})

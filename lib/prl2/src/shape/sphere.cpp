@@ -29,7 +29,7 @@ bool Sphere::intersect(const Ray& ray, IntersectInfo& info) const {
   Real t = t0;
   if (t < ray.tmin || t > ray.tmax) {
     t = t1;
-    if (t < ray.tmin || ray.tmax) {
+    if (t < ray.tmin || t > ray.tmax) {
       return false;
     }
   }
