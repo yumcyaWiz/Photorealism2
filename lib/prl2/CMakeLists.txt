@@ -23,11 +23,6 @@ target_link_libraries(prl2 PUBLIC tinyexr)
 target_compile_features(prl2 PUBLIC cxx_std_17)
 set_target_properties(prl2 PROPERTIES CXX_EXTENSIONS OFF)
 
-# compile definitions
-add_definitions(
-  -D_ENABLE_EXTENDED_ALIGNED_STORAGE
-)
-
 #compile options
 target_compile_options(prl2 PRIVATE 
   $<$<CXX_COMPILER_ID:GNU>:
