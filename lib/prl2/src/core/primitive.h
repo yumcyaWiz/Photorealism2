@@ -27,9 +27,17 @@ class Primitive {
     // shapeとの衝突計算
     IntersectInfo info_local;
     if (shape->intersect(ray_local, info_local)) {
-      //ローカル座標系の衝突情報をワールド座標系に変換
+      // ローカル座標系の衝突情報をワールド座標系に変換
       info = localToWorld->apply(info_local);
+
+      // 法線が逆の場合、修正する
+      if (dot(-ray.direction, info.hitNormal) < 0) {
+        info.hitNormal = -info.hitNormal;
+      }
+
+      // 衝突Primitiveをセット
       info.hitPrimitive = this;
+
       return true;
     } else {
       return false;
