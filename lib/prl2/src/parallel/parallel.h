@@ -68,6 +68,10 @@ inline void parallelFor2D(const std::function<void(int, int)>& job,
           }));
     }
   }
+
+  for (auto&& result : results) {
+    result.get();
+  }
 }
 
 }  // namespace Prl2
