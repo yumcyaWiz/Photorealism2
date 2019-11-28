@@ -1,3 +1,3 @@
 target_sources(prl2 PUBLIC
-  sky.h
+  ibl_sky.cpp
 )
