@@ -47,13 +47,16 @@ void GUI::drawRenderSettings(Render& render) {
     ImGui::RadioButton("EXR", &image_type, 2);
 
     if (ImGui::Button("Save Image")) {
-      int width, height;
-      render.renderer.getImageSize(width, height);
-
-      // PPM
+      // Set image type
       if (image_type == 0) {
-        render.renderer.saveLayer(std::string(filename));
+        render.renderer.setImageType(Prl2::ImageType::PPM);
+      } else if (image_type == 1) {
+        render.renderer.setImageType(Prl2::ImageType::PNG);
+      } else if (image_type == 2) {
+        render.renderer.setImageType(Prl2::ImageType::EXR);
       }
+      // Save layer
+      render.renderer.saveLayer(std::string(filename));
     }
   }
   ImGui::End();
