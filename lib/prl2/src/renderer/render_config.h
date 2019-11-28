@@ -19,7 +19,7 @@ enum class ImageType { PPM, PNG, EXR };
 enum class ToneMappingType { Linear, Reinhard };
 
 // 空の種類
-enum class SkyType { Uniform, Hosek };
+enum class SkyType { Uniform, Hosek, IBL };
 
 // レンダリングの設定を表すクラス
 // 画像のサイズ、サンプル数、カメラの種類、シーンファイルの種類などを設定する
@@ -53,11 +53,11 @@ struct RenderConfig {
   std::string scene_file;  //シーンファイル
 
   // Sky
-  SkyType sky_type = SkyType::Hosek;  // 空の種類
-  Vec3 uniform_sky_color = Vec3(1, 1, 1);   // 空の色(UniformSky)
+  SkyType sky_type = SkyType::IBL;         // 空の種類
+  Vec3 uniform_sky_color = Vec3(1, 1, 1);  // 空の色(UniformSky)
 
   Vec3 hosek_sky_sun_direciton = Vec3(0, 0, 1);  // 太陽の方向(HosekSky)
-  Real hosek_sky_turbidity = 4;      // Turbidity(HosekSky)
+  Real hosek_sky_turbidity = 4;                  // Turbidity(HosekSky)
   Vec3 hosek_sky_albedo = Vec3(1, 1, 1);         // Albedo(HosekSky)
 
   // Sampler
