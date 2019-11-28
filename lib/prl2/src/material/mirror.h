@@ -14,8 +14,8 @@ class Mirror : public Material {
                        Sampler& sampler, Vec3& wi_local,
                        Real& pdf) const override {
     wi_local = reflect(wo_local, Vec3(0, 1, 0));
-    pdf = 1 / absCosTheta(wi_local);
-    return albedo.sample(lambda);
+    pdf = 1;
+    return albedo.sample(lambda) / absCosTheta(wi_local);
   };
 
  private:

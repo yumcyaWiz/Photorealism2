@@ -12,6 +12,8 @@ void Render::initScene() {
   const auto sphere = std::make_shared<Prl2::Sphere>();
   const auto diffuse_white =
       std::make_shared<Prl2::Diffuse>(Prl2::RGB2Spectrum(Prl2::RGB(0.8)));
+  const auto mirror =
+      std::make_shared<Prl2::Mirror>(Prl2::RGB2Spectrum(Prl2::RGB(0.8)));
   const auto prim1_trans =
       std::make_shared<Prl2::Transform>(Prl2::translate(Prl2::Vec3(0, 1, 0)));
   const auto prim1 =
@@ -20,7 +22,7 @@ void Render::initScene() {
   const auto prim2_trans =
       std::make_shared<Prl2::Transform>(Prl2::scale(Prl2::Vec3(4)));
   const auto prim2 =
-      std::make_shared<Prl2::Primitive>(plane, diffuse_white, prim2_trans);
+      std::make_shared<Prl2::Primitive>(plane, mirror, prim2_trans);
 
   std::shared_ptr<Prl2::LinearIntersector> intersector =
       std::make_shared<Prl2::LinearIntersector>();
