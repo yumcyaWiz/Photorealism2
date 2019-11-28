@@ -26,6 +26,11 @@ void GUI::drawRenderSettings(Render& render) {
       refresh_render = true;
     }
 
+    static int render_tiles[2] = {16, 16};
+    if (ImGui::InputInt2("Render Tiles", render_tiles)) {
+      render.renderer.setRenderTiles(render_tiles[0], render_tiles[1]);
+    }
+
     if (ImGui::Button("Render")) {
       render.requestRender();
     }
