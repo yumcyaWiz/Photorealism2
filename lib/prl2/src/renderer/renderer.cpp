@@ -10,6 +10,7 @@
 #include "renderer/scene_loader.h"
 #include "sampler/random.h"
 #include "sky/hosek_sky.h"
+#include "sky/ibl_sky.h"
 #include "sky/uniform_sky.h"
 
 namespace Prl2 {
@@ -33,6 +34,8 @@ void Renderer::loadConfig(const RenderConfig& _config) {
     sky = std::make_shared<UniformSky>(D65Light());
   } else if (config.sky_type == SkyType::Hosek) {
     sky = std::make_shared<HosekSky>(Vec3(0, 0, 1), 4, RGB2Spectrum(RGB(1)));
+  } else if (config.sky_type == SkyType::IBL) {
+    sky = std::make_shared<IBLSky>("PaperMill_E_3k.hdr");
   } else {
     std::cerr << "invalid sky type" << std::endl;
     std::exit(EXIT_FAILURE);

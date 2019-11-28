@@ -7,22 +7,10 @@ namespace Prl2 {
 IBLSky::IBLSky(const std::string& filename) {
   // HDR画像の読み込み
   int c;
-  float* image = stbi_loadf(filename.c_str(), &width, &height, &c, 3);
-
-  // 配列の初期化
-  pixels = new SPD[width * height];
-  for (int j = 0; j < height; ++j) {
-    for (int i = 0; i < width; ++i) {
-      const int index = 3 * i + 3 * width * j;
-      const float r = image[index + 0];
-      const float g = image[index + 1];
-      const float b = image[index + 2];
-      pixels[i + width * j] = RGB2Spectrum(RGB(r, g, b));
-    }
-  }
+  pixels = stbi_loadf(filename.c_str(), &width, &height, &c, 3);
 }
 
-IBLSky::~IBLSky() { delete[] pixels; }
+IBLSky::~IBLSky() { stbi_image_free(pixels); }
 
 Real IBLSky::getRadiance(const Ray& ray) const {
   // 球面座標を計算
@@ -37,7 +25,13 @@ Real IBLSky::getRadiance(const Ray& ray) const {
   const int i = u * width;
   const int j = v * height;
 
-  return pixels[i + width * j].sample(ray.lambda);
+  // RGBをSPDに変換
+  const Real r = pixels[3 * i + 3 * width * j];
+  const Real g = pixels[3 * i + 3 * width * j + 1];
+  const Real b = pixels[3 * i + 3 * width * j + 2];
+  const SPD spd = RGB2Spectrum(RGB(r, g, b));
+
+  return spd.sample(ray.lambda);
 }
 
 }  // namespace Prl2

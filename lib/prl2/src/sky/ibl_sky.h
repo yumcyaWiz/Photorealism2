@@ -15,9 +15,9 @@ class IBLSky : public Sky {
   Real getRadiance(const Ray& ray) const override;
 
  private:
-  int width;    // 横幅[px]
-  int height;   // 縦幅[px]
-  SPD* pixels;  // 画素の配列
+  int width;      // 横幅[px]
+  int height;     // 縦幅[px]
+  float* pixels;  // 画素の配列(容量削減のためRGBで保存)
 };
 
 }  // namespace Prl2
