@@ -6,6 +6,30 @@
 
 namespace Prl2 {
 
+// Sellmeierの式を表す
+struct SellmeierEquation {
+  SellmeierEquation(const Real& _b1, const Real& _b2, const Real& _b3,
+                    const Real& _c1, const Real& _c2, const Real& _c3)
+      : b1(_b1), b2(_b2), b3(_b3), c1(_c1), c2(_c2), c3(_c3){};
+
+  // 屈折率を計算する
+  Real ior(const Real& lambda) const {
+    return std::sqrt(1 + b1 * lambda * lambda / (lambda * lambda - c1) +
+                     b2 * lambda * lambda / (lambda * lambda - c2) +
+                     b3 * lambda * lambda / (lambda * lambda - c3));
+  };
+
+ private:
+  // Sellmeierの式の係数
+  // 単位は[nm]
+  const Real b1;
+  const Real b2;
+  const Real b3;
+  const Real c1;
+  const Real c2;
+  const Real c3;
+};
+
 class Glass : public Material {
   Glass(const SPD& _albedo) : albedo(_albedo){};
 

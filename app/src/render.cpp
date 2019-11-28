@@ -3,6 +3,7 @@
 #include "camera/pinhole.h"
 #include "intersector/linear.h"
 #include "material/diffuse.h"
+#include "material/glass.h"
 #include "material/mirror.h"
 #include "shape/plane.h"
 #include "shape/sphere.h"
