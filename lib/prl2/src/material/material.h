@@ -24,6 +24,11 @@ inline Vec3 materialToWorld(const Vec3& v, const IntersectInfo& info) {
   return v.x() * info.dpdu + v.y() * info.hitNormal + v.z() * info.dpdv;
 }
 
+// 反射ベクトルを返す
+inline Vec3 reflect(const Vec3& v, const Vec3& n) {
+  return -v + 2 * dot(v, n) * n;
+}
+
 // Materialを表現するクラス
 // マテリアル座標系は原点を衝突点、+Xを接線, +Yを法線
 // -Zを陪法線とする座標系で定義される
