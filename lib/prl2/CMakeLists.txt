@@ -33,11 +33,11 @@ target_compile_options(prl2 PRIVATE
   $<$<CXX_COMPILER_ID:GNU>:
     -Wall -Wextra -pedantic-errors
     $<$<CONFIG:Debug>: -g3 -O0 -pg>
-    $<$<CONFIG:Release>: -O3 -s -DNDEBUG -march=native -mtune=native>
+    $<$<CONFIG:Release>: -O2 -ftree-vectorize -s -DNDEBUG -march=native -mtune=native>
   >
   $<$<CXX_COMPILER_ID:Clang>:
     -Wall -Wextra -pedantic-errors
     $<$<CONFIG:Debug>: -g3 -O0 -pg>
-    $<$<CONFIG:Release>: -O3 -s -DNDEBUG -march=native -mtune=native>
+    $<$<CONFIG:Release>: -O2 -ftree-vectorize -s -DNDEBUG -march=native -mtune=native>
   >
 )
