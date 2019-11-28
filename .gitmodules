@@ -10,3 +10,6 @@
 [submodule "lib/prl2/extern/spdlog"]
 	path = lib/prl2/extern/spdlog
 	url = git@github.com:gabime/spdlog.git
+[submodule "lib/prl2/extern/stb"]
+	path = lib/prl2/extern/stb
+	url = git@github.com:nothings/stb.git
