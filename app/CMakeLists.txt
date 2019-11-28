@@ -49,11 +49,6 @@ target_include_directories(app PRIVATE src/)
 target_compile_features(app PRIVATE cxx_std_17)
 set_target_properties(app PROPERTIES CXX_EXTENSIONS OFF)
 
-# compile definitions
-add_definitions(
-  -D_ENABLE_EXTENDED_ALIGNED_STORAGE
-)
-
 # compile options
 target_compile_options(app PRIVATE 
   $<$<CXX_COMPILER_ID:GNU>:
