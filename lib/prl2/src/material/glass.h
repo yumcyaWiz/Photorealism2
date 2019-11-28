@@ -32,7 +32,8 @@ struct SellmeierEquation {
 };
 
 class Glass : public Material {
-  Glass(const SPD& _albedo) : albedo(_albedo){};
+  Glass(const SellmeierEquation& _sellmeier, const SPD& _albedo)
+      : sellmeier(_sellmeier), albedo(_albedo){};
 
   Real sampleDirection(const Vec3& wo_local, const Real& lambda,
                        Sampler& sampler, Vec3& wi_local,
@@ -41,7 +42,8 @@ class Glass : public Material {
   };
 
  private:
-  const SPD albedo;  // 分光反射率
+  const SellmeierEquation sellmeier;  //セルマイヤーの式
+  const SPD albedo;                   // 分光反射率
 };
 
 }  // namespace Prl2
