@@ -147,8 +147,7 @@ void Renderer::render(const std::atomic<bool>& cancel) {
               const auto material = info.hitPrimitive->material;
               const Vec3 wo = -ray.direction;
               const Vec3 wo_local = worldToMaterial(wo, info);
-              const SurfaceInteraction interaction(wo_local, ray.lambda,
-                                                   ray.ior);
+              const SurfaceInteraction interaction(wo_local, ray.lambda);
               Vec3 wi_local;
               Real pdf;
               material->sampleDirection(interaction, *pixel_sampler, wi_local,

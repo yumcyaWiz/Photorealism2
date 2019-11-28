@@ -25,7 +25,7 @@ Real PT::integrate(const Ray& ray_in, const Scene& scene,
       const auto material = info.hitPrimitive->material;
       const Vec3 wo = -ray.direction;
       const Vec3 wo_local = worldToMaterial(wo, info);
-      const SurfaceInteraction interaction(wo_local, ray.lambda, ray.ior);
+      const SurfaceInteraction interaction(wo_local, ray.lambda);
       Vec3 wi_local;
       Real pdf_w;
       const Real bsdf =
