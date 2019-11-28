@@ -202,6 +202,79 @@ void Renderer::render(const std::atomic<bool>& cancel) {
       config.height);
 }
 
+void Renderer::getImageSize(int& sx, int& sy) const {
+  sx = config.width;
+  sy = config.height;
+}
+
+void Renderer::setImageSize(unsigned int width, unsigned int height) {
+  config.width = width;
+  config.height = height;
+  layer.resize(width, height);
+  scene.camera->film->resize(width, height);
+}
+
+unsigned int Renderer::getSamples() const { return config.samples; }
+
+void Renderer::setSamples(unsigned int samples) { config.samples = samples; }
+
+LayerType Renderer::getOutputLayer() const { return config.layer_type; }
+
+void Renderer::setOutputLayer(const LayerType& _layer_type) {
+  config.layer_type = _layer_type;
+}
+
+ImageType Renderer::getImageType() const { return config.image_type; }
+
+void Renderer::setImageType(const ImageType& _image_type) {
+  config.image_type = _image_type;
+}
+
+Real Renderer::getExposure() const { return config.exposure; }
+
+void Renderer::setExposure(const Real& exposure) { config.exposure = exposure; }
+
+Real Renderer::getGamma() const { return config.gamma; }
+
+void Renderer::setGamma(const Real& gamma) { config.gamma = gamma; }
+
+ToneMappingType Renderer::getToneMappingType() const {
+  return config.tone_mapping_type;
+}
+
+void Renderer::setToneMappingType(const ToneMappingType& _tone_mapping_type) {
+  config.tone_mapping_type = _tone_mapping_type;
+}
+
+Real Renderer::getMappingFactor() const { return config.mapping_factor; }
+
+void Renderer::setMappingFactor(const Real& _mapping_factor) {
+  config.mapping_factor = _mapping_factor;
+}
+
+void Renderer::getFilmLength(Real& lx, Real& ly) const {
+  lx = config.width_length;
+  ly = config.height_length;
+}
+
+void Renderer::setFilmLength(const Real& width_length,
+                             const Real& height_length) {
+  config.width_length = width_length;
+  config.height_length = height_length;
+  scene.camera->film->resizeLength(width_length, height_length);
+}
+
+void Renderer::getCameraLookAt(Vec3& pos, Vec3& lookat) const {
+  pos = config.camera_position;
+  lookat = config.camera_lookat;
+}
+
+void Renderer::setCameraLookAt(const Vec3& pos, const Vec3& lookat) {
+  config.camera_position = pos;
+  config.camera_lookat = lookat;
+  scene.camera->setLookAt(pos, lookat);
+}
+
 SkyType Renderer::getSkyType() const { return config.sky_type; }
 
 void Renderer::setSkyType(const SkyType& sky_type) {
@@ -239,6 +312,33 @@ void Renderer::setHosekSkyTurbidity(const Real& turbidity) {
   config.hosek_sky_turbidity = turbidity;
 }
 
+void Renderer::getLayersRGB(std::vector<float>& rgb) const {
+  if (config.layer_type == LayerType::Render) {
+    getRendersRGB(rgb);
+  } else if (config.layer_type == LayerType::Normal) {
+    getNormalsRGB(rgb);
+  } else if (config.layer_type == LayerType::Position) {
+    getPositionsRGB(rgb);
+  } else if (config.layer_type == LayerType::Depth) {
+    getDepthsRGB(rgb);
+  } else if (config.layer_type == LayerType::Sample) {
+    getSamplesRGB(rgb);
+  }
+}
+
+void Renderer::saveLayer(const std::string& filename) const {
+  std::vector<float> image;
+  getLayersRGB(image);
+
+  if (config.image_type == ImageType::PPM) {
+    writePPM(filename, config.width, config.height, image);
+  } else if (config.image_type == ImageType::EXR) {
+    writeEXR(filename, config.width, config.height, image);
+  } else {
+    writePPM(filename, config.width, config.height, image);
+  }
+}
+
 void Renderer::getRendersRGB(std::vector<float>& rgb) const {
   rgb.resize(3 * config.width * config.height);
 
@@ -268,19 +368,6 @@ void Renderer::getRendersRGB(std::vector<float>& rgb) const {
       rgb[index + 1] = rgb_vec.y();
       rgb[index + 2] = rgb_vec.z();
     }
-  }
-}
-
-void Renderer::saveLayer(const std::string& filename) const {
-  std::vector<float> image;
-  getLayersRGB(image);
-
-  if (config.image_type == ImageType::PPM) {
-    writePPM(filename, config.width, config.height, image);
-  } else if (config.image_type == ImageType::EXR) {
-    writeEXR(filename, config.width, config.height, image);
-  } else {
-    writePPM(filename, config.width, config.height, image);
   }
 }
 
