@@ -12,3 +12,12 @@ add_library(pool INTERFACE)
 target_include_directories(pool INTERFACE
   ThreadPool
 )
+
+# stb
+add_library(stb INTERFACE)
+target_compile_definitions(stb INTERFACE
+  STB_IMAGE_IMPLEMENTATION
+)
+target_include_directories(stb INTERFACE
+  stb
+)
