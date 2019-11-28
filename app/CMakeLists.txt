@@ -43,6 +43,7 @@ add_executable(app
   src/render.cpp
   src/render.h
 )
+add_dependencies(app prl2)
 target_include_directories(app PRIVATE src/)
 
 # compile settings
