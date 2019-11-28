@@ -13,3 +13,6 @@
 [submodule "lib/prl2/extern/stb"]
 	path = lib/prl2/extern/stb
 	url = git@github.com:nothings/stb.git
+[submodule "lib/prl2/extern/tinyexr"]
+	path = lib/prl2/extern/tinyexr
+	url = git@github.com:syoyo/tinyexr.git
