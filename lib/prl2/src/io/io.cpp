@@ -4,6 +4,8 @@
 #include <fstream>
 #include <iostream>
 
+#include "tinyexr.h"
+
 namespace Prl2 {
 
 void writePPM(const std::string& filename, int width, int height,
@@ -30,5 +32,8 @@ void writePPM(const std::string& filename, int width, int height,
 
   file.close();
 }
+
+void writeEXR(const std::string& filename, int width, int height,
+              const std::vector<float>& rgb) {}
 
 }  // namespace Prl2

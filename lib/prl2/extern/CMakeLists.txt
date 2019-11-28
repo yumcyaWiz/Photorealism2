@@ -21,3 +21,12 @@ target_compile_definitions(stb INTERFACE
 target_include_directories(stb INTERFACE
   stb
 )
+
+# tinyexr
+add_library(tinyexr INTERFACE)
+target_compile_definitions(tinyexr INTERFACE
+  TINYEXR_IMPLEMENTATION
+)
+target_include_directories(tinyexr INTERFACE
+  tinyexr
+)
