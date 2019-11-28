@@ -20,7 +20,6 @@ struct SellmeierEquation {
                      b3 * l * l / (l * l - c3));
   };
 
- private:
   // Sellmeierの式の係数
   // 単位は[μm]
   const Real b1;
@@ -32,6 +31,7 @@ struct SellmeierEquation {
 };
 
 class Glass : public Material {
+ public:
   Glass(const SellmeierEquation& _sellmeier, const SPD& _albedo)
       : sellmeier(_sellmeier), albedo(_albedo){};
 
