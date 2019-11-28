@@ -3,4 +3,5 @@ target_sources(prl2 PUBLIC
   diffuse.h
   mirror.h
   glass.h
+  surface_interaction.h
 )
