@@ -153,16 +153,7 @@ class Renderer {
   };
 
   // Layerを画像として保存
-  void saveLayer(const std::string& filename) {
-    std::vector<float> image;
-    getLayersRGB(image);
-
-    if (config.image_type == ImageType::PPM) {
-      writePPM(filename, config.width, config.height, image);
-    } else {
-      writePPM(filename, config.width, config.height, image);
-    }
-  };
+  void saveLayer(const std::string& filename) const;
 
  private:
   RenderLayer layer;                       // RenderLayer

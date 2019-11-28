@@ -33,6 +33,7 @@ void writePPM(const std::string& filename, int width, int height,
   file.close();
 }
 
+// https://github.com/syoyo/tinyexr
 void writeEXR(const std::string& filename, int width, int height,
               const std::vector<float>& rgb) {
   EXRHeader header;

@@ -270,6 +270,19 @@ void Renderer::getRendersRGB(std::vector<float>& rgb) const {
   }
 }
 
+void Renderer::saveLayer(const std::string& filename) const {
+  std::vector<float> image;
+  getLayersRGB(image);
+
+  if (config.image_type == ImageType::PPM) {
+    writePPM(filename, config.width, config.height, image);
+  } else if (config.image_type == ImageType::EXR) {
+    writeEXR(filename, config.width, config.height, image);
+  } else {
+    writePPM(filename, config.width, config.height, image);
+  }
+}
+
 void Renderer::getNormalsRGB(std::vector<float>& rgb) const {
   rgb.resize(3 * config.width * config.height);
 
