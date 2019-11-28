@@ -10,12 +10,11 @@ class Mirror : public Material {
  public:
   Mirror(const SPD& _albedo) : albedo(_albedo){};
 
-  Real sampleDirection(const Vec3& wo_local, const Real& lambda,
-                       Sampler& sampler, Vec3& wi_local,
-                       Real& pdf) const override {
-    wi_local = reflect(wo_local, Vec3(0, 1, 0));
+  Real sampleDirection(const SurfaceInteraction& interaction, Sampler& sampler,
+                       Vec3& wi_local, Real& pdf) const override {
+    wi_local = reflect(interaction.wo_local, Vec3(0, 1, 0));
     pdf = 1;
-    return albedo.sample(lambda) / absCosTheta(wi_local);
+    return albedo.sample(interaction.lambda) / absCosTheta(wi_local);
   };
 
  private:

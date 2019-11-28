@@ -59,8 +59,9 @@ class Material {
 
   //マテリアル座標系で次のレイの方向をサンプリングする
   //評価した分光反射率を返り値とする
-  virtual Real sampleDirection(SurfaceInteraction& interaction,
-                               Sampler& sampler, Real& pdf) const = 0;
+  virtual Real sampleDirection(const SurfaceInteraction& interaction,
+                               Sampler& sampler, Vec3& wi_local,
+                               Real& pdf) const = 0;
 };
 
 }  // namespace Prl2

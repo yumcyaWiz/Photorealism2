@@ -14,7 +14,6 @@ struct SurfaceInteraction {
   const Vec3 wo_local;  // マテリアル座標系の出射ベクトル
   const Real lambda;    // 波長
   const Real ior;       // 現在の媒質の屈折率
-  Vec3 wi_local;        // マテリアル座標系の入射ベクトル
 };
 
 }  // namespace Prl2

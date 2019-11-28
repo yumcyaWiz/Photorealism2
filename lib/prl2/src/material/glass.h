@@ -35,10 +35,9 @@ class Glass : public Material {
   Glass(const SellmeierEquation& _sellmeier, const SPD& _albedo)
       : sellmeier(_sellmeier), albedo(_albedo){};
 
-  Real sampleDirection(const Vec3& wo_local, const Real& lambda,
-                       Sampler& sampler, Vec3& wi_local,
-                       Real& pdf) const override {
-    return albedo.sample(lambda);
+  Real sampleDirection(const SurfaceInteraction& interaction, Sampler& sampler,
+                       Vec3& wi_local, Real& pdf) const override {
+    return albedo.sample(interaction.lambda);
   };
 
  private:
