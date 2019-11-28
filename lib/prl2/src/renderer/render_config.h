@@ -25,6 +25,9 @@ enum class SkyType { Uniform, Hosek, IBL };
 // 画像のサイズ、サンプル数、カメラの種類、シーンファイルの種類などを設定する
 struct RenderConfig {
   RenderConfig(){};
+  // Render
+  int render_tiles_x = 16;  // X方向のレンダリングタイルの数
+  int render_tiles_y = 16;  // Y方向のレンダリングタイルの数
 
   // Output
   LayerType layer_type = LayerType::Render;  // 出力レイヤーの種類
@@ -53,7 +56,7 @@ struct RenderConfig {
   std::string scene_file;  //シーンファイル
 
   // Sky
-  SkyType sky_type = SkyType::IBL;         // 空の種類
+  SkyType sky_type = SkyType::Hosek;       // 空の種類
   Vec3 uniform_sky_color = Vec3(1, 1, 1);  // 空の色(UniformSky)
 
   Vec3 hosek_sky_sun_direciton = Vec3(0, 0, 1);  // 太陽の方向(HosekSky)

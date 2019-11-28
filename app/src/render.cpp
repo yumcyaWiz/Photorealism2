@@ -23,7 +23,7 @@ void Render::initScene() {
   const auto prim1_trans =
       std::make_shared<Prl2::Transform>(Prl2::translate(Prl2::Vec3(0, 1, 0)));
   const auto prim1 =
-      std::make_shared<Prl2::Primitive>(sphere, glass, prim1_trans);
+      std::make_shared<Prl2::Primitive>(sphere, diffuse_white, prim1_trans);
 
   const auto prim2_trans =
       std::make_shared<Prl2::Transform>(Prl2::scale(Prl2::Vec3(4)));
