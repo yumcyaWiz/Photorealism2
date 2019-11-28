@@ -9,16 +9,18 @@
 namespace Prl2 {
 
 struct Ray {
-  Vec3 origin;     //始点
-  Vec3 direction;  //方向
-  Real lambda;     //波長[nm]
+  Vec3 origin;     // 始点
+  Vec3 direction;  // 方向
+  Real lambda;     // 波長[nm]
+  Real ior;        // 現在の媒質の屈折率
 
   static constexpr Real tmin = 1e-6;  //最小衝突距離
   static constexpr Real tmax = 1e6;   //最大衝突距離
 
   Ray(){};
-  Ray(const Vec3& _origin, const Vec3& _direction, const Real& _lambda = 550)
-      : origin(_origin), direction(_direction), lambda(_lambda){};
+  Ray(const Vec3& _origin, const Vec3& _direction, const Real& _lambda = 550,
+      const Real& _ior = 1)
+      : origin(_origin), direction(_direction), lambda(_lambda), ior(_ior){};
 
   Vec3 operator()(const Real& t) const { return origin + t * direction; };
 };
