@@ -5,7 +5,7 @@ cmake_policy(SET CMP0076 NEW)
 find_package(Threads REQUIRED)
 
 #prl2
-add_library(prl2 STATIC)
+add_library(prl2)
 add_subdirectory(src)
 add_subdirectory(extern)
 

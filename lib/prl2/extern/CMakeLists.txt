@@ -1,5 +1,5 @@
 # HosekWilkie
-add_library(hosek STATIC
+add_library(hosek
   HosekWilkie/ArHosekSkyModel.c
 )
 target_include_directories(hosek PUBLIC

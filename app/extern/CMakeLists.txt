@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12..3.15)
 
 #glad
-add_library(glad STATIC glad/src/glad.c)
+add_library(glad glad/src/glad.c)
 target_include_directories(glad PUBLIC glad/include)
 
 #GLFW
@@ -11,7 +11,7 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 add_subdirectory(glfw)
 
 #Dear ImGui
-add_library(imgui STATIC 
+add_library(imgui
   imgui/imgui.cpp 
   imgui/imgui_widgets.cpp 
   imgui/imgui_draw.cpp 
@@ -20,7 +20,7 @@ add_library(imgui STATIC
 target_include_directories(imgui PUBLIC imgui)
 
 #Dear ImGui Impl
-add_library(imgui_impl STATIC 
+add_library(imgui_impl
   imgui/examples/imgui_impl_glfw.cpp 
   imgui/examples/imgui_impl_opengl3.cpp
 )
