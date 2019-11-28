@@ -147,10 +147,12 @@ void Renderer::render(const std::atomic<bool>& cancel) {
               const auto material = info.hitPrimitive->material;
               const Vec3 wo = -ray.direction;
               const Vec3 wo_local = worldToMaterial(wo, info);
+              const SurfaceInteraction interaction(wo_local, ray.lambda,
+                                                   ray.ior);
               Vec3 wi_local;
               Real pdf;
-              material->sampleDirection(wo_local, ray.lambda, *pixel_sampler,
-                                        wi_local, pdf);
+              material->sampleDirection(interaction, *pixel_sampler, wi_local,
+                                        pdf);
               const Vec3 wi = materialToWorld(wi_local, info);
               layer.sample_sRGB[3 * i + 3 * config.width * j + 0] +=
                   0.5f * (wi.x() + 1.0f);
