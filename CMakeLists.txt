@@ -13,7 +13,11 @@ add_definitions(
   -D_ENABLE_EXTENDED_ALIGNED_STORAGE
 )
 
-#Photorealism2 Viewer
+# Photorealism2 Viewer
 add_subdirectory(app)
-#Photorealism2 Library
+
+# Photorealism2 Library
 add_subdirectory(lib/prl2)
+
+# Photorealism2 Tests
+add_subdirectory(tests)

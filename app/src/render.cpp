@@ -16,9 +16,9 @@ void Render::initScene() {
       std::make_shared<Prl2::Diffuse>(Prl2::RGB2Spectrum(Prl2::RGB(0.8)));
   const auto mirror =
       std::make_shared<Prl2::Mirror>(Prl2::RGB2Spectrum(Prl2::RGB(0.8)));
-  const auto glass =
-      std::make_shared<Prl2::Glass>(Prl2::SellmeierEquation(0, 0, 0, 0, 0, 0),
-                                    Prl2::RGB2Spectrum(Prl2::RGB(0.8)));
+  const auto glass = std::make_shared<Prl2::Glass>(
+      Prl2::SellmeierEquation(1.03, 0.23, 1.01, 0.006, 0.02, 103.56),
+      Prl2::RGB2Spectrum(Prl2::RGB(0.8)));
 
   const auto prim1_trans =
       std::make_shared<Prl2::Transform>(Prl2::translate(Prl2::Vec3(0, 1, 0)));
