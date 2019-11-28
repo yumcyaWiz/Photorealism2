@@ -13,15 +13,16 @@ struct SellmeierEquation {
       : b1(_b1), b2(_b2), b3(_b3), c1(_c1), c2(_c2), c3(_c3){};
 
   // 屈折率を計算する
+  // lambdaの単位は[nm]
   Real ior(const Real& lambda) const {
-    return std::sqrt(1 + b1 * lambda * lambda / (lambda * lambda - c1) +
-                     b2 * lambda * lambda / (lambda * lambda - c2) +
-                     b3 * lambda * lambda / (lambda * lambda - c3));
+    const Real l = lambda * 1e-3;
+    return std::sqrt(1 + b1 * l * l / (l * l - c1) + b2 * l * l / (l * l - c2) +
+                     b3 * l * l / (l * l - c3));
   };
 
  private:
   // Sellmeierの式の係数
-  // 単位は[nm]
+  // 単位は[μm]
   const Real b1;
   const Real b2;
   const Real b3;
