@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <chrono>
 
 #include "camera/environment.h"
 #include "camera/pinhole.h"
@@ -72,6 +73,9 @@ void Renderer::render(const std::atomic<bool>& cancel) {
 
   // フィルムをクリア
   scene.camera->film->clear();
+
+  // 時間計測
+  const auto start_time = std::chrono::system_clock::now();
 
   // それぞれの画素で同じ処理を行う
   parallelFor2D(
@@ -190,12 +194,21 @@ void Renderer::render(const std::atomic<bool>& cancel) {
       },
       config.render_tiles_x, config.render_tiles_y, config.width,
       config.height);
+
+  const auto finish_time = std::chrono::system_clock::now();
+
+  // レンダリングに要した時間をセット
+  rendering_time = std::chrono::duration_cast<std::chrono::microseconds>(
+                       finish_time - start_time)
+                       .count();
 }
 
 Real Renderer::getRenderProgress() const {
   return static_cast<Real>(num_rendered_pixels) /
          (config.width * config.height);
 }
+
+int Renderer::getRenderingTime() const { return rendering_time; }
 
 void Renderer::commitCamera() {
   const auto film = std::make_shared<Film>(

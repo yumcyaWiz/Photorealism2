@@ -36,6 +36,9 @@ class Renderer {
   // レンダリングの進捗を入手する
   Real getRenderProgress() const;
 
+  // レンダリングに要した時間を入手する
+  int getRenderingTime() const;
+
   // Render Settings
   // 出力サイズを入手する
   void getImageSize(int& sx, int& sy) const;
@@ -129,6 +132,7 @@ class Renderer {
   std::shared_ptr<Integrator> integrator;  // Integrator
 
   std::atomic<int> num_rendered_pixels;  // レンダリング済みのピクセル数
+  int rendering_time;  // レンダリングにかかった時間[ms]
 
   // Render LayerをsRGBとして入手
   void getRendersRGB(std::vector<float>& rgb) const;
