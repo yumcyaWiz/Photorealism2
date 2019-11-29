@@ -33,6 +33,11 @@ class Render {
   // レンダリングをキャンセルする
   void cancelRender() { cancel_render = true; };
 
+  // レンダリングしているかどうか
+  bool isRendering() const {
+    return !refresh_render;
+  };
+
   // レンダリングループ
   // 別スレッドでレンダリングが行われる
   std::thread render();
