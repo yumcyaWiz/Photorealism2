@@ -170,7 +170,11 @@ void Renderer::render(const std::atomic<bool>& cancel) {
                 integrator->integrate(ray, scene, *pixel_sampler) / lambda_pdf;
 
             // フィルムに分光放射束を加算
-            scene.camera->film->addPixel(i, j, lambda, phi);
+            if (!std::isnan(phi)) {
+              scene.camera->film->addPixel(i, j, lambda, phi);
+            } else {
+              fprintf(stderr, "nan detected at (%d, %d)\n", i, j);
+            }
           }
         }
 
