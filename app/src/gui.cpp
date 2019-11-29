@@ -50,6 +50,8 @@ void GUI::drawRenderSettings(Render& render) {
     ImGui::RadioButton("PNG", &image_type, 1);
     ImGui::SameLine();
     ImGui::RadioButton("EXR", &image_type, 2);
+    ImGui::SameLine();
+    ImGui::RadioButton("HDR", &image_type, 3);
 
     if (ImGui::Button("Save Image")) {
       // Set image type
@@ -59,6 +61,8 @@ void GUI::drawRenderSettings(Render& render) {
         render.renderer.setImageType(Prl2::ImageType::PNG);
       } else if (image_type == 2) {
         render.renderer.setImageType(Prl2::ImageType::EXR);
+      } else if (image_type == 3) {
+        render.renderer.setImageType(Prl2::ImageType::HDR);
       }
       // Save layer
       render.renderer.saveLayer(std::string(filename));

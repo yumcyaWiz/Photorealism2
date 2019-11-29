@@ -346,8 +346,10 @@ void Renderer::saveLayer(const std::string& filename) const {
     writePNG(filename, config.width, config.height, image);
   } else if (config.image_type == ImageType::EXR) {
     writeEXR(filename, config.width, config.height, image);
+  } else if (config.image_type == ImageType::HDR) {
+    writeHDR(filename, config.width, config.height, image);
   } else {
-    std::cerr << "invalid image type" << std::endl;
+    std::cerr << "nvalid image type" << std::endl;
   }
 }
 
