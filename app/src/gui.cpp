@@ -41,10 +41,12 @@ void GUI::drawRenderSettings(Render& render) {
       if (ImGui::Button("Render")) {
         render.requestRender();
       }
+      ImGui::SameLine();
+      ImGui::Text((std::to_string(render.renderer.getRenderingTime()) + " [ms]")
+                      .c_str());
     }
 
     static bool _auto_render = auto_render;
-    ImGui::SameLine();
     if (ImGui::Checkbox("Auto Render", &_auto_render)) {
       auto_render = _auto_render;
     }
