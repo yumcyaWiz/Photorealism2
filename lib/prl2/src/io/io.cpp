@@ -4,6 +4,7 @@
 #include <fstream>
 #include <iostream>
 
+#include "stb_image_write.h"
 #include "tinyexr.h"
 
 namespace Prl2 {
@@ -31,6 +32,16 @@ void writePPM(const std::string& filename, int width, int height,
   std::cout << filename << " has been written out" << std::endl;
 
   file.close();
+}
+
+void writePNG(const std::string& filename, int width, int height,
+              const std::vector<float>& rgb) {
+  if (!stbi_write_png(filename.c_str(), width, height, 3, rgb.data(),
+                      sizeof(float) * width)) {
+    std::cerr << "failed to save png file" << std::endl;
+  } else {
+    std::cout << "saved png file [" << filename << "]" << std::endl;
+  }
 }
 
 // https://github.com/syoyo/tinyexr

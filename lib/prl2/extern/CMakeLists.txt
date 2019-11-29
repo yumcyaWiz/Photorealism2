@@ -17,6 +17,7 @@ target_include_directories(pool INTERFACE
 add_library(stb INTERFACE)
 target_compile_definitions(stb INTERFACE
   STB_IMAGE_IMPLEMENTATION
+  STB_IMAGE_WRITE_IMPLEMENTATION
 )
 target_include_directories(stb INTERFACE
   stb
