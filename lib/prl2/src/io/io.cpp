@@ -126,4 +126,13 @@ void writeEXR(const std::string& filename, int width, int height,
   delete[] header.requested_pixel_types;
 }
 
+void writeHDR(const std::string& filename, int width, int height,
+              std::vector<float>& rgb) {
+  if (!stbi_write_hdr(filename.c_str(), width, height, 3, rgb.data())) {
+    std::cerr << "Failed to save HDR file" << std::endl;
+  } else {
+    std::cout << "Saved HDR file [" << filename << "]" << std::endl;
+  }
+}
+
 }  // namespace Prl2
