@@ -48,11 +48,6 @@ std::thread Render::render() {
         if (cancel_render) {
           cancel_render = false;
         } else {
-          std::cout << "Rendering Finished in "
-                    << std::chrono::duration_cast<std::chrono::milliseconds>(
-                           std::chrono::system_clock::now() - start_time)
-                           .count()
-                    << "ms" << std::endl;
           refresh_render = false;
         }
       }
