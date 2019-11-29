@@ -56,7 +56,7 @@ struct RenderConfig {
   std::string scene_file;  //シーンファイル
 
   // Sky
-  SkyType sky_type = SkyType::Hosek;       // 空の種類
+  SkyType sky_type = SkyType::IBL;       // 空の種類
   Vec3 uniform_sky_color = Vec3(1, 1, 1);  // 空の色(UniformSky)
 
   Vec3 hosek_sky_sun_direciton = Vec3(0, 0, 1);  // 太陽の方向(HosekSky)
