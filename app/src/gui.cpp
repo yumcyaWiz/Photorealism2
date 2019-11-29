@@ -35,6 +35,8 @@ void GUI::drawRenderSettings(Render& render) {
       if (ImGui::Button("Cancel")) {
         render.cancelRender();
       }
+      ImGui::SameLine();
+      ImGui::ProgressBar(render.renderer.getRenderProgress());
     } else {
       if (ImGui::Button("Render")) {
         render.requestRender();
