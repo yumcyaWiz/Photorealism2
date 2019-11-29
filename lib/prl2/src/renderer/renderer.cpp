@@ -198,7 +198,7 @@ void Renderer::render(const std::atomic<bool>& cancel) {
   const auto finish_time = std::chrono::system_clock::now();
 
   // レンダリングに要した時間をセット
-  rendering_time = std::chrono::duration_cast<std::chrono::microseconds>(
+  rendering_time = std::chrono::duration_cast<std::chrono::milliseconds>(
                        finish_time - start_time)
                        .count();
 }
