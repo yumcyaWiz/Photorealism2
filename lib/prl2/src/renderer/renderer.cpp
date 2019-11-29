@@ -186,6 +186,8 @@ void Renderer::render(const std::atomic<bool>& cancel) {
       config.height);
 }
 
+Real Renderer::getRenderProgress() const { return progress; }
+
 void Renderer::commitCamera() {
   const auto film = std::make_shared<Film>(
       config.width, config.height, config.width_length, config.height_length);

@@ -32,6 +32,9 @@ class Renderer {
   // レンダリングを行い、結果をRenderLayerに格納する
   void render(const std::atomic<bool>& cancel);
 
+  // レンダリングの進捗を入手する
+  Real getRenderProgress() const;
+
   // Render Settings
   // 出力サイズを入手する
   void getImageSize(int& sx, int& sy) const;
@@ -123,6 +126,8 @@ class Renderer {
   RenderLayer layer;                       // RenderLayer
   std::shared_ptr<Sampler> sampler;        // Sampler
   std::shared_ptr<Integrator> integrator;  // Integrator
+
+  Real progress;  // レンダリングの進捗を[0, 1]で表す
 
   // Render LayerをsRGBとして入手
   void getRendersRGB(std::vector<float>& rgb) const;
