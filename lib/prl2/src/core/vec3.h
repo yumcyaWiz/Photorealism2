@@ -163,6 +163,13 @@ inline void cartesianToSpherical(const Vec3& v, Real& theta, Real& phi) {
   theta = std::acos(std::clamp(v.y(), -1.0f, 1.0f));
 }
 
+// 球面座標から方向ベクトルを生成
+inline Vec3 sphericalToCartesian(const Real& theta, const Real& phi) {
+  const Real sinTheta = std::sin(theta);
+  return Vec3(std::cos(phi) * sinTheta, std::cos(theta),
+              std::sin(phi) * sinTheta);
+}
+
 // ２つの方向ベクトルの間の角度を計算
 inline Real radianBetween(const Vec3& v1, const Vec3& v2) {
   const Real cos = dot(v1, v2);
