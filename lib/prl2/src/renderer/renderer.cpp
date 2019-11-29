@@ -1,5 +1,6 @@
 #include <algorithm>
 
+#include "camera/environment.h"
 #include "camera/pinhole.h"
 #include "core/transform.h"
 #include "integrator/pt.h"
@@ -39,13 +40,8 @@ void Renderer::loadConfig(const RenderConfig& _config) {
   std::shared_ptr<Camera> camera = nullptr;
   const auto camera_transform = std::make_shared<Transform>(
       lookAt(config.camera_position, config.camera_lookat));
-  if (!config.camera_type.empty()) {
-    camera =
-        std::make_shared<PinholeCamera>(film, camera_transform, config.fov);
-  } else {
-    camera =
-        std::make_shared<PinholeCamera>(film, camera_transform, config.fov);
-  }
+  camera = std::make_shared<PinholeCamera>(film, camera_transform,
+                                           config.camera_pinhole_fov);
   scene.camera = camera;
 
   // Samplerの設定
@@ -196,8 +192,16 @@ void Renderer::render(const std::atomic<bool>& cancel) {
 }
 
 void Renderer::commitCamera() {
+  const auto film = std::make_shared<Film>(
+      config.width, config.height, config.width_length, config.height_length);
+  const auto transform = std::make_shared<Transform>(
+      lookAt(config.camera_position, config.camera_lookat));
+
   if (config.camera_type == CameraType::Pinhole) {
+    scene.setCamera(std::make_shared<PinholeCamera>(film, transform,
+                                                    config.camera_pinhole_fov));
   } else if (config.camera_type == CameraType::Environment) {
+    scene.setCamera(std::make_shared<EnvironmentCamera>(film, transform));
   } else {
     std::cerr << "Invalid camera type" << std::endl;
     std::exit(EXIT_FAILURE);
