@@ -303,6 +303,11 @@ void Renderer::commitSky() {
     scene.setSky(std::make_shared<HosekSky>(
         config.hosek_sky_sun_direciton, config.hosek_sky_turbidity,
         RGB2Spectrum(config.hosek_sky_albedo)));
+  } else if (config.sky_type == SkyType::IBL) {
+    scene.setSky(std::make_shared<IBLSky>(config.ibl_sky_filename));
+  } else {
+    std::cerr << "Invalid sky type" << std::endl;
+    std::exit(EXIT_FAILURE);
   }
 }
 
