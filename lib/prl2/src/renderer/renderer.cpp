@@ -29,18 +29,7 @@ void Renderer::loadConfig(const RenderConfig& _config) {
   }
 
   // Skyの設定
-  std::shared_ptr<Sky> sky = nullptr;
-  if (config.sky_type == SkyType::Uniform) {
-    sky = std::make_shared<UniformSky>(D65Light());
-  } else if (config.sky_type == SkyType::Hosek) {
-    sky = std::make_shared<HosekSky>(Vec3(0, 0, 1), 4, RGB2Spectrum(RGB(1)));
-  } else if (config.sky_type == SkyType::IBL) {
-    sky = std::make_shared<IBLSky>("PaperMill_E_3k.hdr");
-  } else {
-    std::cerr << "invalid sky type" << std::endl;
-    std::exit(EXIT_FAILURE);
-  }
-  scene.sky = sky;
+  commitSky();
 
   // Filmの設定
   const auto film = std::make_shared<Film>(
