@@ -1,4 +1,4 @@
-target_sources(prl2 PUBLIC
+target_sources(prl2 PRIVATE
   random.h
   rng.h
   sampler.h

@@ -1,4 +1,4 @@
-target_sources(prl2 PUBLIC
+target_sources(prl2 PRIVATE
   film.cpp
   pinhole.cpp
   environment.cpp

@@ -1,5 +1,3 @@
-target_sources(prl2 PUBLIC
-  integrator.h
+target_sources(prl2 PRIVATE
   pt.cpp
-  pt.h
 )

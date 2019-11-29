@@ -1,7 +1,4 @@
-target_sources(prl2 PUBLIC
+target_sources(prl2 PRIVATE
   plane.cpp
-  plane.h
-  shape.h
   sphere.cpp
-  sphere.h
 )

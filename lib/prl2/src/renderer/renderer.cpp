@@ -37,12 +37,7 @@ void Renderer::loadConfig(const RenderConfig& _config) {
       config.width, config.height, config.width_length, config.height_length);
 
   // Cameraの設定
-  std::shared_ptr<Camera> camera = nullptr;
-  const auto camera_transform = std::make_shared<Transform>(
-      lookAt(config.camera_position, config.camera_lookat));
-  camera = std::make_shared<PinholeCamera>(film, camera_transform,
-                                           config.camera_pinhole_fov);
-  scene.camera = camera;
+  commitCamera();
 
   // Samplerの設定
   if (!config.sampler_type.empty()) {
