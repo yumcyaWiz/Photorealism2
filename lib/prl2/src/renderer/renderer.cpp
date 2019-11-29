@@ -64,6 +64,9 @@ void Renderer::loadConfig(const RenderConfig& _config) {
 }
 
 void Renderer::render(const std::atomic<bool>& cancel) {
+  // Progressを初期化
+  num_rendered_pixels = 0;
+
   // レイヤーを初期化
   layer.clear();
 
@@ -183,13 +186,16 @@ void Renderer::render(const std::atomic<bool>& cancel) {
         layer.sample_sRGB[3 * i + 3 * config.width * j + 2] /= config.samples;
 
         // Progressを加算
-        progress += 1 / (config.width * config.height);
+        num_rendered_pixels += 1;
       },
       config.render_tiles_x, config.render_tiles_y, config.width,
       config.height);
 }
 
-Real Renderer::getRenderProgress() const { return progress; }
+Real Renderer::getRenderProgress() const {
+  return static_cast<Real>(num_rendered_pixels) /
+         (config.width * config.height);
+}
 
 void Renderer::commitCamera() {
   const auto film = std::make_shared<Film>(

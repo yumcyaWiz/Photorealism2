@@ -1,6 +1,7 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
+#include <atomic>
 #include <memory>
 #include <vector>
 
@@ -127,7 +128,7 @@ class Renderer {
   std::shared_ptr<Sampler> sampler;        // Sampler
   std::shared_ptr<Integrator> integrator;  // Integrator
 
-  Real progress;  // レンダリングの進捗を[0, 1]で表す
+  std::atomic<int> num_rendered_pixels;  // レンダリング済みのピクセル数
 
   // Render LayerをsRGBとして入手
   void getRendersRGB(std::vector<float>& rgb) const;
