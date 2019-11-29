@@ -51,7 +51,7 @@ std::thread Render::render() {
           refresh_render = false;
         }
       }
-      std::this_thread::sleep_for(std::chrono::milliseconds(10));
+      std::this_thread::sleep_for(std::chrono::milliseconds(16));
     }
   });
   return rendering_thread;
