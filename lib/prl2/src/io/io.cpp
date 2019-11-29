@@ -36,11 +36,32 @@ void writePPM(const std::string& filename, int width, int height,
 
 void writePNG(const std::string& filename, int width, int height,
               const std::vector<float>& rgb) {
-  if (!stbi_write_png(filename.c_str(), width, height, 3, rgb.data(),
-                      sizeof(float) * width)) {
-    std::cerr << "failed to save png file" << std::endl;
+  // RGBを0-255に直す
+  std::vector<unsigned char> image(3 * width * height);
+  for (int j = 0; j < height; ++j) {
+    for (int i = 0; i < width; ++i) {
+      // R
+      image[3 * i + 3 * width * j] = std::clamp(
+          static_cast<unsigned char>(255 * rgb[3 * i + 3 * width * j]),
+          static_cast<unsigned char>(0), static_cast<unsigned char>(255));
+
+      // G
+      image[3 * i + 3 * width * j + 1] = std::clamp(
+          static_cast<unsigned char>(255 * rgb[3 * i + 3 * width * j + 1]),
+          static_cast<unsigned char>(0), static_cast<unsigned char>(255));
+
+      // B
+      image[3 * i + 3 * width * j + 2] = std::clamp(
+          static_cast<unsigned char>(255 * rgb[3 * i + 3 * width * j + 2]),
+          static_cast<unsigned char>(0), static_cast<unsigned char>(255));
+    }
+  }
+
+  if (!stbi_write_png(filename.c_str(), width, height, 3, image.data(),
+                      3 * sizeof(unsigned char) * width)) {
+    std::cerr << "Failed to save PNG file" << std::endl;
   } else {
-    std::cout << "saved png file [" << filename << "]" << std::endl;
+    std::cout << "Saved PNG file [" << filename << "]" << std::endl;
   }
 }
 

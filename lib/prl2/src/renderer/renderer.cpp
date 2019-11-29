@@ -342,10 +342,12 @@ void Renderer::saveLayer(const std::string& filename) const {
 
   if (config.image_type == ImageType::PPM) {
     writePPM(filename, config.width, config.height, image);
+  } else if (config.image_type == ImageType::PNG) {
+    writePNG(filename, config.width, config.height, image);
   } else if (config.image_type == ImageType::EXR) {
     writeEXR(filename, config.width, config.height, image);
   } else {
-    writePPM(filename, config.width, config.height, image);
+    std::cerr << "invalid image type" << std::endl;
   }
 }
 
