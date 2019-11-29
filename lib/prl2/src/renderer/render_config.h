@@ -56,12 +56,18 @@ struct RenderConfig {
   std::string scene_file;  //シーンファイル
 
   // Sky
-  SkyType sky_type = SkyType::IBL;       // 空の種類
+  SkyType sky_type = SkyType::IBL;  // 空の種類
+
+  // Uniform Sky
   Vec3 uniform_sky_color = Vec3(1, 1, 1);  // 空の色(UniformSky)
 
+  // Hosek Sky
   Vec3 hosek_sky_sun_direciton = Vec3(0, 0, 1);  // 太陽の方向(HosekSky)
   Real hosek_sky_turbidity = 4;                  // Turbidity(HosekSky)
   Vec3 hosek_sky_albedo = Vec3(1, 1, 1);         // Albedo(HosekSky)
+
+  // IBL Sky
+  std::string ibl_sky_filename = "PaperMill_E_3k.hdr";  // IBLのファイル名
 
   // Sampler
   std::string sampler_type;  // Samplerの種類
