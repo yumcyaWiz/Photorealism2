@@ -90,6 +90,8 @@ class Renderer {
   void getCameraLookAt(Vec3& pos, Vec3& lookat) const;
   // カメラの位置、向きを設定する
   void setCameraLookAt(const Vec3& pos, const Vec3& lookat);
+  // ConfigからCameraを初期化する
+  void commitCamera();
 
   // Sky
   // 空の種類を入手する

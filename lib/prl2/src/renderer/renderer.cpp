@@ -195,6 +195,15 @@ void Renderer::render(const std::atomic<bool>& cancel) {
       config.height);
 }
 
+void Renderer::commitCamera() {
+  if (config.camera_type == CameraType::Pinhole) {
+  } else if (config.camera_type == CameraType::Environment) {
+  } else {
+    std::cerr << "Invalid camera type" << std::endl;
+    std::exit(EXIT_FAILURE);
+  }
+}
+
 void Renderer::getImageSize(int& sx, int& sy) const {
   sx = config.width;
   sy = config.height;
