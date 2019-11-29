@@ -17,7 +17,7 @@ add_definitions(
 add_subdirectory(app)
 
 # Photorealism2 Library
-add_subdirectory(lib/prl2)
+add_subdirectory(lib)
 
 # Photorealism2 Tests
 add_subdirectory(tests)
