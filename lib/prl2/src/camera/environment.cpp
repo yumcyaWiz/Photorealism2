@@ -5,7 +5,7 @@ namespace Prl2 {
 EnvironmentCamera::EnvironmentCamera(
     const std::shared_ptr<Film>& _film,
     const std::shared_ptr<Transform>& _localToWorld)
-    : Camera(_film, _localToWorld){};
+    : Camera(_film, _localToWorld) {}
 
 bool EnvironmentCamera::generateRay(const Real& u, const Real& v,
                                     Ray& ray) const {
