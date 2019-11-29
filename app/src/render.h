@@ -31,12 +31,13 @@ class Render {
   };
 
   // レンダリングをキャンセルする
-  void cancelRender() { cancel_render = true; };
+  void cancelRender() {
+    refresh_render = false;
+    cancel_render = true;
+  }
 
   // レンダリングしているかどうか
-  bool isRendering() const {
-    return !refresh_render;
-  };
+  bool isRendering() const { return refresh_render; };
 
   // レンダリングループ
   // 別スレッドでレンダリングが行われる

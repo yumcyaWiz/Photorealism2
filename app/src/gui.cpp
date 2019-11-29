@@ -31,8 +31,14 @@ void GUI::drawRenderSettings(Render& render) {
       render.renderer.setRenderTiles(render_tiles[0], render_tiles[1]);
     }
 
-    if (ImGui::Button("Render")) {
-      render.requestRender();
+    if (render.isRendering()) {
+      if (ImGui::Button("Cancel")) {
+        render.cancelRender();
+      }
+    } else {
+      if (ImGui::Button("Render")) {
+        render.requestRender();
+      }
     }
 
     static bool _auto_render = auto_render;
