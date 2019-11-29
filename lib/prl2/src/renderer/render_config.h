@@ -50,9 +50,9 @@ struct RenderConfig {
   Real height_length = 0.0251f;  //フィルムの縦幅[m]
 
   // Camera
-  CameraType camera_type = CameraType::Pinhole;  // カメラの種類
-  Vec3 camera_position = Vec3(0, 1, 3);          // カメラの位置
-  Vec3 camera_lookat = Vec3(0, 0, 0);            // カメラの注目位置
+  CameraType camera_type = CameraType::Environment;  // カメラの種類
+  Vec3 camera_position = Vec3(0, 1, 3);              // カメラの位置
+  Vec3 camera_lookat = Vec3(0, 0, 0);                // カメラの注目位置
 
   // Pinhole Camera
   Real camera_pinhole_fov = 90.0f;  // 対角FOV
@@ -61,7 +61,7 @@ struct RenderConfig {
   std::string scene_file;  //シーンファイル
 
   // Sky
-  SkyType sky_type = SkyType::IBL;  // 空の種類
+  SkyType sky_type = SkyType::Hosek;  // 空の種類
 
   // Uniform Sky
   Vec3 uniform_sky_color = Vec3(1, 1, 1);  // 空の色(UniformSky)
