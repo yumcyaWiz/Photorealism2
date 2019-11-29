@@ -181,6 +181,9 @@ void Renderer::render(const std::atomic<bool>& cancel) {
         layer.sample_sRGB[3 * i + 3 * config.width * j + 0] /= config.samples;
         layer.sample_sRGB[3 * i + 3 * config.width * j + 1] /= config.samples;
         layer.sample_sRGB[3 * i + 3 * config.width * j + 2] /= config.samples;
+
+        // Progressを加算
+        progress += 1 / (config.width * config.height);
       },
       config.render_tiles_x, config.render_tiles_y, config.width,
       config.height);
