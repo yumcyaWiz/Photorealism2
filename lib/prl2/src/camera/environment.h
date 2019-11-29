@@ -9,7 +9,7 @@ class EnvironmentCamera : public Camera {
   EnvironmentCamera(const std::shared_ptr<Film>& _film,
                     const std::shared_ptr<Transform>& _localToWorld);
 
-  bool generateRay(const Real& u, const Real& v, Ray& ray) const = 0;
+  bool generateRay(const Real& u, const Real& v, Ray& ray) const override;
 };
 
 }  // namespace Prl2
