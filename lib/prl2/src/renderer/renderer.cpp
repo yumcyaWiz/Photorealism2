@@ -165,6 +165,9 @@ void Renderer::render(const std::atomic<bool>& cancel) {
                 fprintf(stderr, "nan detected at (%d, %d)\n", i, j);
               }
             }
+
+            // Progressを加算
+            num_rendered_pixels += 1;
           }
 
           // Render LayerにsRGBを加算
@@ -193,9 +196,6 @@ void Renderer::render(const std::atomic<bool>& cancel) {
           layer.sample_sRGB[3 * i + 3 * config.width * j + 0] /= config.samples;
           layer.sample_sRGB[3 * i + 3 * config.width * j + 1] /= config.samples;
           layer.sample_sRGB[3 * i + 3 * config.width * j + 2] /= config.samples;
-
-          // Progressを加算
-          num_rendered_pixels += 1;
         },
         config.render_tiles_x, config.render_tiles_y, config.width,
         config.height);
@@ -336,7 +336,7 @@ void Renderer::render(const std::atomic<bool>& cancel) {
 
 Real Renderer::getRenderProgress() const {
   return static_cast<Real>(num_rendered_pixels) /
-         (config.width * config.height);
+         (config.samples * config.width * config.height);
 }
 
 int Renderer::getRenderingTime() const { return rendering_time; }
