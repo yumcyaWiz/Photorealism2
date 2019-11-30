@@ -46,8 +46,14 @@ void GUI::drawRenderSettings(Render& render) {
                       .c_str());
     }
 
+    static bool _realtime = render.renderer.getRenderRealtime();
+    if (ImGui::Checkbox("Realtime", &_realtime)) {
+      render.renderer.setRenderRealtime(_realtime);
+    }
+    ImGui::SameLine();
+
     static bool _auto_render = auto_render;
-    if (ImGui::Checkbox("Auto Render", &_auto_render)) {
+    if (ImGui::Checkbox("Auto Refresh", &_auto_render)) {
       auto_render = _auto_render;
     }
 
