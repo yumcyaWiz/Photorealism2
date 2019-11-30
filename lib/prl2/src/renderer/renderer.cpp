@@ -334,6 +334,12 @@ void Renderer::render(const std::atomic<bool>& cancel) {
                        .count();
 }
 
+bool Renderer::getRenderRealtime() const { return config.render_realtime; }
+
+void Renderer::setRenderRealtime(bool realtime) {
+  config.render_realtime = realtime;
+}
+
 Real Renderer::getRenderProgress() const {
   return static_cast<Real>(num_rendered_pixels) /
          (config.samples * config.width * config.height);

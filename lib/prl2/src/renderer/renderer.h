@@ -33,6 +33,9 @@ class Renderer {
   // レンダリングを行い、結果をRenderLayerに格納する
   void render(const std::atomic<bool>& cancel);
 
+  bool getRenderRealtime() const;
+  void setRenderRealtime(bool realtime);
+
   // レンダリングの進捗を入手する
   Real getRenderProgress() const;
 
