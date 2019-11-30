@@ -78,122 +78,253 @@ void Renderer::render(const std::atomic<bool>& cancel) {
   const auto start_time = std::chrono::system_clock::now();
 
   // それぞれの画素で同じ処理を行う
-  parallelFor2D(
-      [&](int i, int j) {
-        // Samplerの初期化
-        std::unique_ptr<Sampler> pixel_sampler =
-            sampler->clone(i + config.width * j);
+  if (!config.render_realtime) {
+    parallelFor2D(
+        [&](int i, int j) {
+          // Samplerの初期化
+          std::unique_ptr<Sampler> pixel_sampler =
+              sampler->clone(i + config.width * j);
 
-        //サンプリングを繰り返す
-        for (int k = 0; k < config.samples; ++k) {
-          if (cancel) {
-            break;
-          }
-
-          // 波長のサンプリング
-          const Real lambda =
-              SPD::LAMBDA_MIN +
-              pixel_sampler->getNext() * (SPD::LAMBDA_MAX - SPD::LAMBDA_MIN);
-          constexpr Real lambda_pdf = 1 / (SPD::LAMBDA_MAX - SPD::LAMBDA_MIN);
-
-          // サンプリングされた波長をセット
-          Ray ray;
-          ray.lambda = lambda;
-
-          //フィルム面のUV座標
-          const Real u =
-              (2.0f * (i + pixel_sampler->getNext()) - config.width) /
-              config.width;
-          const Real v =
-              (2.0f * (j + pixel_sampler->getNext()) - config.height) /
-              config.height;
-
-          //カメラからレイを生成
-          if (scene.camera->generateRay(u, v, ray)) {
-            // Primary Rayで計算できるものを計算しておく
-            IntersectInfo info;
-            if (scene.intersector->intersect(ray, info)) {
-              // Normal LayerにsRGBを加算
-              layer.normal_sRGB[3 * i + 3 * config.width * j + 0] +=
-                  0.5f * (info.hitNormal.x() + 1.0f);
-              layer.normal_sRGB[3 * i + 3 * config.width * j + 1] +=
-                  0.5f * (info.hitNormal.y() + 1.0f);
-              layer.normal_sRGB[3 * i + 3 * config.width * j + 2] +=
-                  0.5f * (info.hitNormal.z() + 1.0f);
-
-              // Depth LayerにsRGBを加算
-              layer.depth_sRGB[3 * i + 3 * config.width * j + 0] += info.t;
-              layer.depth_sRGB[3 * i + 3 * config.width * j + 1] += info.t;
-              layer.depth_sRGB[3 * i + 3 * config.width * j + 2] += info.t;
-
-              // Position LayerにsRGBを加算
-              layer.position_sRGB[3 * i + 3 * config.width * j + 0] +=
-                  info.hitPos.x();
-              layer.position_sRGB[3 * i + 3 * config.width * j + 1] +=
-                  info.hitPos.y();
-              layer.position_sRGB[3 * i + 3 * config.width * j + 2] +=
-                  info.hitPos.z();
-
-              // Sample LayerにsRGBを格納
-              const auto material = info.hitPrimitive->material;
-              const Vec3 wo = -ray.direction;
-              const Vec3 wo_local = worldToMaterial(wo, info);
-              const SurfaceInteraction interaction(wo_local, ray.lambda);
-              Vec3 wi_local;
-              Real pdf;
-              material->sampleDirection(interaction, *pixel_sampler, wi_local,
-                                        pdf);
-              const Vec3 wi = materialToWorld(wi_local, info);
-              layer.sample_sRGB[3 * i + 3 * config.width * j + 0] +=
-                  0.5f * (wi.x() + 1.0f);
-              layer.sample_sRGB[3 * i + 3 * config.width * j + 1] +=
-                  0.5f * (wi.y() + 1.0f);
-              layer.sample_sRGB[3 * i + 3 * config.width * j + 2] +=
-                  0.5f * (wi.z() + 1.0f);
+          //サンプリングを繰り返す
+          for (int k = 0; k < config.samples; ++k) {
+            if (cancel) {
+              break;
             }
 
-            // 分光放射束の計算
-            const Real phi =
-                integrator->integrate(ray, scene, *pixel_sampler) / lambda_pdf;
+            // 波長のサンプリング
+            const Real lambda =
+                SPD::LAMBDA_MIN +
+                pixel_sampler->getNext() * (SPD::LAMBDA_MAX - SPD::LAMBDA_MIN);
+            constexpr Real lambda_pdf = 1 / (SPD::LAMBDA_MAX - SPD::LAMBDA_MIN);
 
-            // フィルムに分光放射束を加算
-            if (!std::isnan(phi)) {
-              scene.camera->film->addPixel(i, j, lambda, phi);
-            } else {
-              fprintf(stderr, "nan detected at (%d, %d)\n", i, j);
+            // サンプリングされた波長をセット
+            Ray ray;
+            ray.lambda = lambda;
+
+            //フィルム面のUV座標
+            const Real u =
+                (2.0f * (i + pixel_sampler->getNext()) - config.width) /
+                config.width;
+            const Real v =
+                (2.0f * (j + pixel_sampler->getNext()) - config.height) /
+                config.height;
+
+            //カメラからレイを生成
+            if (scene.camera->generateRay(u, v, ray)) {
+              // Primary Rayで計算できるものを計算しておく
+              IntersectInfo info;
+              if (scene.intersector->intersect(ray, info)) {
+                // Normal LayerにsRGBを加算
+                layer.normal_sRGB[3 * i + 3 * config.width * j + 0] +=
+                    0.5f * (info.hitNormal.x() + 1.0f);
+                layer.normal_sRGB[3 * i + 3 * config.width * j + 1] +=
+                    0.5f * (info.hitNormal.y() + 1.0f);
+                layer.normal_sRGB[3 * i + 3 * config.width * j + 2] +=
+                    0.5f * (info.hitNormal.z() + 1.0f);
+
+                // Depth LayerにsRGBを加算
+                layer.depth_sRGB[3 * i + 3 * config.width * j + 0] += info.t;
+                layer.depth_sRGB[3 * i + 3 * config.width * j + 1] += info.t;
+                layer.depth_sRGB[3 * i + 3 * config.width * j + 2] += info.t;
+
+                // Position LayerにsRGBを加算
+                layer.position_sRGB[3 * i + 3 * config.width * j + 0] +=
+                    info.hitPos.x();
+                layer.position_sRGB[3 * i + 3 * config.width * j + 1] +=
+                    info.hitPos.y();
+                layer.position_sRGB[3 * i + 3 * config.width * j + 2] +=
+                    info.hitPos.z();
+
+                // Sample LayerにsRGBを格納
+                const auto material = info.hitPrimitive->material;
+                const Vec3 wo = -ray.direction;
+                const Vec3 wo_local = worldToMaterial(wo, info);
+                const SurfaceInteraction interaction(wo_local, ray.lambda);
+                Vec3 wi_local;
+                Real pdf;
+                material->sampleDirection(interaction, *pixel_sampler, wi_local,
+                                          pdf);
+                const Vec3 wi = materialToWorld(wi_local, info);
+                layer.sample_sRGB[3 * i + 3 * config.width * j + 0] +=
+                    0.5f * (wi.x() + 1.0f);
+                layer.sample_sRGB[3 * i + 3 * config.width * j + 1] +=
+                    0.5f * (wi.y() + 1.0f);
+                layer.sample_sRGB[3 * i + 3 * config.width * j + 2] +=
+                    0.5f * (wi.z() + 1.0f);
+              }
+
+              // 分光放射束の計算
+              const Real phi =
+                  integrator->integrate(ray, scene, *pixel_sampler) /
+                  lambda_pdf;
+
+              // フィルムに分光放射束を加算
+              if (!std::isnan(phi)) {
+                scene.camera->film->addPixel(i, j, lambda, phi);
+              } else {
+                fprintf(stderr, "nan detected at (%d, %d)\n", i, j);
+              }
             }
           }
-        }
 
-        // Render LayerにsRGBを加算
-        const RGB rgb =
-            (scene.camera->film->getPixel(i, j) / config.samples).toRGB();
-        layer.render_sRGB[3 * i + 3 * config.width * j + 0] = rgb.x();
-        layer.render_sRGB[3 * i + 3 * config.width * j + 1] = rgb.y();
-        layer.render_sRGB[3 * i + 3 * config.width * j + 2] = rgb.z();
+          // Render LayerにsRGBを加算
+          const RGB rgb =
+              (scene.camera->film->getPixel(i, j) / config.samples).toRGB();
+          layer.render_sRGB[3 * i + 3 * config.width * j + 0] = rgb.x();
+          layer.render_sRGB[3 * i + 3 * config.width * j + 1] = rgb.y();
+          layer.render_sRGB[3 * i + 3 * config.width * j + 2] = rgb.z();
 
-        // 他のレイヤーの寄与をサンプル数で割る
-        layer.normal_sRGB[3 * i + 3 * config.width * j + 0] /= config.samples;
-        layer.normal_sRGB[3 * i + 3 * config.width * j + 1] /= config.samples;
-        layer.normal_sRGB[3 * i + 3 * config.width * j + 2] /= config.samples;
+          // 他のレイヤーの寄与をサンプル数で割る
+          layer.normal_sRGB[3 * i + 3 * config.width * j + 0] /= config.samples;
+          layer.normal_sRGB[3 * i + 3 * config.width * j + 1] /= config.samples;
+          layer.normal_sRGB[3 * i + 3 * config.width * j + 2] /= config.samples;
 
-        layer.depth_sRGB[3 * i + 3 * config.width * j + 0] /= config.samples;
-        layer.depth_sRGB[3 * i + 3 * config.width * j + 1] /= config.samples;
-        layer.depth_sRGB[3 * i + 3 * config.width * j + 2] /= config.samples;
+          layer.depth_sRGB[3 * i + 3 * config.width * j + 0] /= config.samples;
+          layer.depth_sRGB[3 * i + 3 * config.width * j + 1] /= config.samples;
+          layer.depth_sRGB[3 * i + 3 * config.width * j + 2] /= config.samples;
 
-        layer.position_sRGB[3 * i + 3 * config.width * j + 0] /= config.samples;
-        layer.position_sRGB[3 * i + 3 * config.width * j + 1] /= config.samples;
-        layer.position_sRGB[3 * i + 3 * config.width * j + 2] /= config.samples;
+          layer.position_sRGB[3 * i + 3 * config.width * j + 0] /=
+              config.samples;
+          layer.position_sRGB[3 * i + 3 * config.width * j + 1] /=
+              config.samples;
+          layer.position_sRGB[3 * i + 3 * config.width * j + 2] /=
+              config.samples;
 
-        layer.sample_sRGB[3 * i + 3 * config.width * j + 0] /= config.samples;
-        layer.sample_sRGB[3 * i + 3 * config.width * j + 1] /= config.samples;
-        layer.sample_sRGB[3 * i + 3 * config.width * j + 2] /= config.samples;
+          layer.sample_sRGB[3 * i + 3 * config.width * j + 0] /= config.samples;
+          layer.sample_sRGB[3 * i + 3 * config.width * j + 1] /= config.samples;
+          layer.sample_sRGB[3 * i + 3 * config.width * j + 2] /= config.samples;
 
-        // Progressを加算
-        num_rendered_pixels += 1;
-      },
-      config.render_tiles_x, config.render_tiles_y, config.width,
-      config.height);
+          // Progressを加算
+          num_rendered_pixels += 1;
+        },
+        config.render_tiles_x, config.render_tiles_y, config.width,
+        config.height);
+  } else {
+    for (int k = 0; k < config.samples; ++k) {
+      parallelFor2D(
+          [&](int i, int j) {
+            if (cancel) {
+              return;
+            }
+
+            // Samplerの初期化
+            std::unique_ptr<Sampler> pixel_sampler = sampler->clone(
+                k + config.samples * i + config.samples * config.width * j);
+
+            // 波長のサンプリング
+            const Real lambda =
+                SPD::LAMBDA_MIN +
+                pixel_sampler->getNext() * (SPD::LAMBDA_MAX - SPD::LAMBDA_MIN);
+            constexpr Real lambda_pdf = 1 / (SPD::LAMBDA_MAX - SPD::LAMBDA_MIN);
+
+            // サンプリングされた波長をセット
+            Ray ray;
+            ray.lambda = lambda;
+
+            //フィルム面のUV座標
+            const Real u =
+                (2.0f * (i + pixel_sampler->getNext()) - config.width) /
+                config.width;
+            const Real v =
+                (2.0f * (j + pixel_sampler->getNext()) - config.height) /
+                config.height;
+
+            //カメラからレイを生成
+            if (scene.camera->generateRay(u, v, ray)) {
+              // Primary Rayで計算できるものを計算しておく
+              IntersectInfo info;
+              if (scene.intersector->intersect(ray, info)) {
+                // Normal LayerにsRGBを加算
+                layer.normal_sRGB[3 * i + 3 * config.width * j + 0] =
+                    (k * layer.normal_sRGB[3 * i + 3 * config.width * j + 0] +
+                     0.5f * (info.hitNormal.x() + 1.0f)) /
+                    (k + 1);
+                layer.normal_sRGB[3 * i + 3 * config.width * j + 1] =
+                    (k * layer.normal_sRGB[3 * i + 3 * config.width * j + 1] +
+                     0.5f * (info.hitNormal.y() + 1.0f)) /
+                    (k + 1);
+                layer.normal_sRGB[3 * i + 3 * config.width * j + 2] =
+                    (k * layer.normal_sRGB[3 * i + 3 * config.width * j + 2] +
+                     0.5f * (info.hitNormal.z() + 1.0f)) /
+                    (k + 1);
+
+                // Depth LayerにsRGBを加算
+                layer.depth_sRGB[3 * i + 3 * config.width * j + 0] =
+                    (k * layer.depth_sRGB[3 * i + 3 * config.width * j + 0] +
+                     info.t) /
+                    (k + 1);
+                layer.depth_sRGB[3 * i + 3 * config.width * j + 1] =
+                    (k * layer.depth_sRGB[3 * i + 3 * config.width * j + 1] +
+                     info.t) /
+                    (k + 1);
+                layer.depth_sRGB[3 * i + 3 * config.width * j + 2] =
+                    (k * layer.depth_sRGB[3 * i + 3 * config.width * j + 2] +
+                     info.t) /
+                    (k + 1);
+
+                // Position LayerにsRGBを加算
+                layer.position_sRGB[3 * i + 3 * config.width * j + 0] =
+                    (k * layer.position_sRGB[3 * i + 3 * config.width * j + 0] +
+                     info.hitPos.x()) /
+                    (k + 1);
+                layer.position_sRGB[3 * i + 3 * config.width * j + 1] =
+                    (k * layer.position_sRGB[3 * i + 3 * config.width * j + 1] +
+                     info.hitPos.y()) /
+                    (k + 1);
+                layer.position_sRGB[3 * i + 3 * config.width * j + 2] =
+                    (k * layer.position_sRGB[3 * i + 3 * config.width * j + 2] +
+                     info.hitPos.z()) /
+                    (k + 1);
+
+                // Sample LayerにsRGBを格納
+                const auto material = info.hitPrimitive->material;
+                const Vec3 wo = -ray.direction;
+                const Vec3 wo_local = worldToMaterial(wo, info);
+                const SurfaceInteraction interaction(wo_local, ray.lambda);
+                Vec3 wi_local;
+                Real pdf;
+                material->sampleDirection(interaction, *pixel_sampler, wi_local,
+                                          pdf);
+                const Vec3 wi = materialToWorld(wi_local, info);
+                layer.sample_sRGB[3 * i + 3 * config.width * j + 0] =
+                    (k * layer.sample_sRGB[3 * i + 3 * config.width * j + 0] +
+                     0.5f * (wi.x() + 1.0f)) /
+                    (k + 1);
+                layer.sample_sRGB[3 * i + 3 * config.width * j + 1] =
+                    (k * layer.sample_sRGB[3 * i + 3 * config.width * j + 1] +
+                     0.5f * (wi.y() + 1.0f)) /
+                    (k + 1);
+                layer.sample_sRGB[3 * i + 3 * config.width * j + 2] =
+                    (k * layer.sample_sRGB[3 * i + 3 * config.width * j + 2] +
+                     0.5f * (wi.z() + 1.0f)) /
+                    (k + 1);
+              }
+
+              // 分光放射束の計算
+              const Real phi =
+                  integrator->integrate(ray, scene, *pixel_sampler) /
+                  lambda_pdf;
+
+              // フィルムに分光放射束を加算
+              if (!std::isnan(phi)) {
+                scene.camera->film->addPixel(i, j, lambda, phi);
+              } else {
+                fprintf(stderr, "nan detected at (%d, %d)\n", i, j);
+              }
+            }
+
+            // Render LayerにsRGBを加算
+            const RGB rgb = (scene.camera->film->getPixel(i, j) / k).toRGB();
+            layer.render_sRGB[3 * i + 3 * config.width * j + 0] = rgb.x();
+            layer.render_sRGB[3 * i + 3 * config.width * j + 1] = rgb.y();
+            layer.render_sRGB[3 * i + 3 * config.width * j + 2] = rgb.z();
+
+            // Progressを加算
+            num_rendered_pixels += 1;
+          },
+          16, 16, config.width, config.height);
+    }
+  }
 
   const auto finish_time = std::chrono::system_clock::now();
 
