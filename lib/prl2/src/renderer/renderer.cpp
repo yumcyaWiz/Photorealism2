@@ -200,7 +200,7 @@ void Renderer::render(const std::atomic<bool>& cancel) {
         config.render_tiles_x, config.render_tiles_y, config.width,
         config.height);
   } else {
-    for (int k = 0; k < config.samples; ++k) {
+    for (int k = 1; k <= config.samples; ++k) {
       parallelFor2D(
           [&](int i, int j) {
             if (cancel) {

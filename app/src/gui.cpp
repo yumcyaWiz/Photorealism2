@@ -31,6 +31,17 @@ void GUI::drawRenderSettings(Render& render) {
       render.renderer.setRenderTiles(render_tiles[0], render_tiles[1]);
     }
 
+    static bool _realtime = render.renderer.getRenderRealtime();
+    if (ImGui::Checkbox("Realtime", &_realtime)) {
+      render.renderer.setRenderRealtime(_realtime);
+    }
+    ImGui::SameLine();
+
+    static bool _auto_render = auto_render;
+    if (ImGui::Checkbox("Auto Refresh", &_auto_render)) {
+      auto_render = _auto_render;
+    }
+
     if (render.isRendering()) {
       if (ImGui::Button("Cancel")) {
         render.cancelRender();
@@ -44,17 +55,6 @@ void GUI::drawRenderSettings(Render& render) {
       ImGui::SameLine();
       ImGui::Text((std::to_string(render.renderer.getRenderingTime()) + " [ms]")
                       .c_str());
-    }
-
-    static bool _realtime = render.renderer.getRenderRealtime();
-    if (ImGui::Checkbox("Realtime", &_realtime)) {
-      render.renderer.setRenderRealtime(_realtime);
-    }
-    ImGui::SameLine();
-
-    static bool _auto_render = auto_render;
-    if (ImGui::Checkbox("Auto Refresh", &_auto_render)) {
-      auto_render = _auto_render;
     }
 
     static char filename[32];
