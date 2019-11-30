@@ -130,6 +130,22 @@ void GUI::drawRenderLayer(Render& render) const {
 
     // テクスチャの表示
     ImGui::Image(id, ImVec2(width, height));
+
+    // カメラ操作
+    if (ImGui::IsWindowFocused()) {
+      // カメラ移動(Shift + Mouse)
+      if (ImGui::IsMouseDragging() && ImGui::IsKeyDown(340)) {
+        const ImVec2 delta = ImGui::GetIO().MouseDelta;
+
+        Prl2::Vec3 pos, lookat;
+        render.renderer.getCameraLookAt(pos, lookat);
+
+        Prl2::Vec3 pos_diff(1e-2 * delta.x, 1e-2 * delta.y, 0);
+        render.renderer.setCameraLookAt(pos + pos_diff, lookat + pos_diff);
+
+        render.requestRender();
+      }
+    }
   }
   ImGui::End();
 }
