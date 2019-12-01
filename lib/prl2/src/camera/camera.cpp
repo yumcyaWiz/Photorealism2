@@ -40,7 +40,7 @@ void Camera::moveCamera(const Vec3& pos_diff) {
 }
 
 void Camera::rotateCamera(const Vec3& r) {
-  Mat4& mat = localToWorld->mat;
+  const Mat4& mat = localToWorld->mat;
 
   // カメラの方向ベクトルを入手
   const Vec3 right(mat.m[0][0], mat.m[1][0], mat.m[2][0]);
@@ -56,10 +56,10 @@ void Camera::rotateCamera(const Vec3& r) {
   const Transform rotate_z = rotate(r.z(), forward);
 
   // LookAtを回転
-  Vec3 f = forward;
-  f = rotate_x.applyPoint(f);
-  f = rotate_y.applyPoint(f);
-  f = rotate_z.applyPoint(f);
+  Vec3 f = -forward;
+  f = rotate_x.applyDirection(f);
+  f = rotate_y.applyDirection(f);
+  f = rotate_z.applyDirection(f);
 
   // LookAtをセット
   setLookAt(pos, pos + f);

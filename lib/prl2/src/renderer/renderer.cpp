@@ -341,6 +341,8 @@ void Renderer::moveCamera(const Vec3& pos_diff) {
   scene.camera->moveCamera(pos_diff);
 }
 
+void Renderer::rotateCamera(const Vec3& r) { scene.camera->rotateCamera(r); }
+
 bool Renderer::getRenderRealtime() const { return config.render_realtime; }
 
 void Renderer::setRenderRealtime(bool realtime) {

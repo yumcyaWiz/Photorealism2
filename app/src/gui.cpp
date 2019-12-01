@@ -133,28 +133,32 @@ void GUI::drawRenderLayer(Render& render) const {
 
     // カメラ操作
     if (ImGui::IsWindowFocused()) {
-      if (ImGui::IsMouseDragging()) {
-        // カメラ移動XY(Shift + Mouse)
-        if (ImGui::IsKeyDown(340)) {
-          const ImVec2 delta = ImGui::GetIO().MouseDelta;
+      // カメラ移動XY(Shift + Mouse)
+      if (ImGui::IsMouseDragging() && ImGui::IsKeyDown(340)) {
+        const ImVec2 delta = ImGui::GetIO().MouseDelta;
 
-          Prl2::Vec3 pos_diff(1e-2 * delta.x, 1e-2 * delta.y, 0);
-          render.renderer.moveCamera(pos_diff);
+        Prl2::Vec3 pos_diff(1e-2 * delta.x, 1e-2 * delta.y, 0);
+        render.renderer.moveCamera(pos_diff);
 
-          render.requestRender();
-        }
-        // カメラ移動Z(Ctrl + Mouse)
-        else if (ImGui::IsKeyDown(341)) {
-          const ImVec2 delta = ImGui::GetIO().MouseDelta;
+        render.requestRender();
+      }
+      // カメラ移動Z(Ctrl + Mouse)
+      else if (ImGui::IsMouseDragging() && ImGui::IsKeyDown(341)) {
+        const ImVec2 delta = ImGui::GetIO().MouseDelta;
 
-          Prl2::Vec3 pos_diff(0, 0, -1e-2 * delta.y);
-          render.renderer.moveCamera(pos_diff);
+        Prl2::Vec3 pos_diff(0, 0, -1e-2 * delta.y);
+        render.renderer.moveCamera(pos_diff);
 
-          render.requestRender();
-        }
-        // カメラ回転
-        else {
-        }
+        render.requestRender();
+      }
+      // カメラ回転
+      else if (ImGui::IsMouseDragging()) {
+        const ImVec2 delta = ImGui::GetIO().MouseDelta;
+
+        Prl2::Vec3 rotate(1e-2 * delta.y, 1e-2 * delta.x, 0);
+        render.renderer.rotateCamera(rotate);
+
+        render.requestRender();
       }
     }
   }
