@@ -15,8 +15,6 @@ namespace Prl2 {
 class Camera {
  public:
   const std::shared_ptr<Film> film;  // フィルム
-  std::shared_ptr<Transform>
-      localToWorld;  // ローカル座標系からワールド座標系へのTransform
 
   Camera(const std::shared_ptr<Film>& _film,
          const std::shared_ptr<Transform>& _localToWorld)
@@ -29,6 +27,10 @@ class Camera {
   //(u, v)におけるレイを生成する
   //(u, v)はフィルム面を[-1, -1] x [1, 1]で表している
   virtual bool generateRay(const Real& u, const Real& v, Ray& ray) const = 0;
+
+ protected:
+  std::shared_ptr<Transform>
+      localToWorld;  // ローカル座標系からワールド座標系へのTransform
 };
 
 }  // namespace Prl2

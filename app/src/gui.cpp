@@ -158,6 +158,9 @@ void GUI::drawRenderLayer(Render& render) const {
 
           render.requestRender();
         }
+        // カメラ回転
+        else {
+        }
       }
     }
   }
