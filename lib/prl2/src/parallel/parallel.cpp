@@ -9,10 +9,11 @@
 
 namespace Prl2 {
 
-void parallelFor1D(const std::function<void(int)>& job, int nChunks, int n) {
-  const int num_threads = std::max(1U, std::thread::hardware_concurrency());
+Parallel::Parallel()
+    : pool(ThreadPool(std::max(1U, std::thread::hardware_concurrency()))) {}
 
-  ThreadPool pool(num_threads);
+void Parallel::parallelFor1D(const std::function<void(int)>& job, int nChunks,
+                             int n) {
   std::vector<std::future<void>> results;
 
   const int chunkSize = n / nChunks;
@@ -31,11 +32,8 @@ void parallelFor1D(const std::function<void(int)>& job, int nChunks, int n) {
   }
 }
 
-void parallelFor2D(const std::function<void(int, int)>& job, int nChunks_x,
-                   int nChunks_y, int nx, int ny) {
-  const int num_threads = std::max(1U, std::thread::hardware_concurrency());
-
-  ThreadPool pool(num_threads);
+void Parallel::parallelFor2D(const std::function<void(int, int)>& job,
+                             int nChunks_x, int nChunks_y, int nx, int ny) {
   std::vector<std::future<void>> results;
 
   const int chunkSize_x = nx / nChunks_x;

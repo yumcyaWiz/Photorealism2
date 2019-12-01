@@ -77,9 +77,12 @@ void Renderer::render(const std::atomic<bool>& cancel) {
   // 時間計測
   const auto start_time = std::chrono::system_clock::now();
 
+  // レンダリング用のスレッドプールの作成
+  Parallel pool;
+
   // それぞれの画素で同じ処理を行う
   if (!config.render_realtime) {
-    parallelFor2D(
+    pool.parallelFor2D(
         [&](int i, int j) {
           // Samplerの初期化
           std::unique_ptr<Sampler> pixel_sampler =
@@ -201,7 +204,7 @@ void Renderer::render(const std::atomic<bool>& cancel) {
         config.height);
   } else {
     for (int k = 1; k <= config.samples; ++k) {
-      parallelFor2D(
+      pool.parallelFor2D(
           [&](int i, int j) {
             if (k > 1 && cancel) {
               return;
