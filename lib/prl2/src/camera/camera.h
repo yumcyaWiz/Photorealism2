@@ -38,9 +38,22 @@ class Camera {
 
   // Camera Positionを動かす
   void moveCamera(const Vec3& pos_diff) {
-    localToWorld->mat.m[0][3] += pos_diff.x();
-    localToWorld->mat.m[1][3] += pos_diff.y();
-    localToWorld->mat.m[2][3] += pos_diff.y();
+    Mat4& mat = localToWorld->mat;
+
+    // Right
+    mat.m[0][3] += pos_diff.x() * mat.m[0][0];
+    mat.m[1][3] += pos_diff.x() * mat.m[1][0];
+    mat.m[2][3] += pos_diff.x() * mat.m[2][0];
+
+    // Up
+    mat.m[0][3] += pos_diff.y() * mat.m[0][1];
+    mat.m[1][3] += pos_diff.y() * mat.m[1][1];
+    mat.m[2][3] += pos_diff.y() * mat.m[2][1];
+
+    // Forward
+    mat.m[0][3] += pos_diff.z() * mat.m[0][2];
+    mat.m[1][3] += pos_diff.z() * mat.m[1][2];
+    mat.m[2][3] += pos_diff.z() * mat.m[2][2];
   };
 
   //(u, v)におけるレイを生成する
