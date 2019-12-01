@@ -25,6 +25,17 @@ class Camera {
     localToWorld = std::make_shared<Transform>(lookAt(pos, lookat));
   };
 
+  // LookAt Transformからpos, lookatを復元する
+  void getLookAt(Vec3& pos, Vec3& lookat) const {
+    pos[0] = localToWorld->mat.m[0][3];
+    pos[1] = localToWorld->mat.m[1][3];
+    pos[2] = localToWorld->mat.m[2][3];
+
+    lookat[0] = pos[0] + localToWorld->mat.m[0][2];
+    lookat[1] = pos[1] + localToWorld->mat.m[1][2];
+    lookat[2] = pos[2] + localToWorld->mat.m[2][2];
+  };
+
   // Camera Positionを動かす
   void moveCamera(const Vec3& pos_diff) {
     localToWorld->mat.m[0][3] += pos_diff.x();
