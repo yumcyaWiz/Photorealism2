@@ -147,11 +147,8 @@ void GUI::drawRenderLayer(Render& render) const {
         else if (ImGui::IsKeyDown(341)) {
           const ImVec2 delta = ImGui::GetIO().MouseDelta;
 
-          Prl2::Vec3 pos, lookat;
-          render.renderer.getCameraLookAt(pos, lookat);
-
           Prl2::Vec3 pos_diff(0, 0, -1e-2 * delta.y);
-          render.renderer.setCameraLookAt(pos + pos_diff, lookat + pos_diff);
+          render.renderer.moveCamera(pos_diff);
 
           render.requestRender();
         }
