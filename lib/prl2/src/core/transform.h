@@ -24,6 +24,12 @@ class Transform {
     return t2;
   };
 
+  Transform& operator=(const Transform& t) {
+    mat = t.mat;
+    invmat = t.invmat;
+    return *this;
+  };
+
   // 方向ベクトルに対して変換を施す
   Vec3 applyDirection(const Vec3& v) const {
     Vec3 ret;
@@ -206,6 +212,11 @@ inline Transform rotate(const Real& theta, const Vec3& axis) {
   m.m[2][1] = a.y() * a.z() * (1 - c) + a.x() * s;
   m.m[2][2] = a.z() * a.z() + (1 - a.z() * a.z()) * c;
   m.m[2][3] = 0;
+
+  m.m[3][0] = 0;
+  m.m[3][1] = 0;
+  m.m[3][2] = 0;
+  m.m[3][3] = 1;
 
   return Transform(m, transpose(m));
 }
