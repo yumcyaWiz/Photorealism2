@@ -20,8 +20,16 @@ class Camera {
          const std::shared_ptr<Transform>& _localToWorld)
       : film(_film), localToWorld(_localToWorld){};
 
+  // LookAt Transformを設定する
   void setLookAt(const Vec3& pos, const Vec3& lookat) {
     localToWorld = std::make_shared<Transform>(lookAt(pos, lookat));
+  };
+
+  // Camera Positionを動かす
+  void moveCamera(const Vec3& pos_diff) {
+    localToWorld->mat.m[0][3] += pos_diff.x();
+    localToWorld->mat.m[1][3] += pos_diff.y();
+    localToWorld->mat.m[2][3] += pos_diff.y();
   };
 
   //(u, v)におけるレイを生成する
