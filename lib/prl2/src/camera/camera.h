@@ -28,6 +28,9 @@ class Camera {
   // Camera Positionを動かす
   void moveCamera(const Vec3& pos_diff);
 
+  // Cameraをそれぞれの軸を中心に回転させる
+  void rotateCamera(const Vec3& r);
+
   //(u, v)におけるレイを生成する
   //(u, v)はフィルム面を[-1, -1] x [1, 1]で表している
   virtual bool generateRay(const Real& u, const Real& v, Ray& ray) const = 0;
