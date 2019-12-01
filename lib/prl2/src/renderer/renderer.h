@@ -100,6 +100,8 @@ class Renderer {
   void getCameraLookAt(Vec3& pos, Vec3& lookat) const;
   // カメラの位置、向きを設定する
   void setCameraLookAt(const Vec3& pos, const Vec3& lookat);
+  // カメラを移動する
+  void moveCamera(const Vec3& pos_diff);
   // ConfigからCameraを初期化する
   void commitCamera();
 

@@ -337,6 +337,10 @@ void Renderer::render(const std::atomic<bool>& cancel) {
                        .count();
 }
 
+void Renderer::moveCamera(const Vec3& pos_diff) {
+  scene.camera->moveCamera(pos_diff);
+}
+
 bool Renderer::getRenderRealtime() const { return config.render_realtime; }
 
 void Renderer::setRenderRealtime(bool realtime) {
