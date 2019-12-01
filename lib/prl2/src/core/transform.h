@@ -187,6 +187,31 @@ inline Transform rotate(const Vec3& r) {
   return rotateX(r.x()) * rotateY(r.y()) * rotateZ(r.z());
 }
 
+// 任意の軸中心に回転する変換を表す行列を返す
+inline Transform rotate(const Real& theta, const Vec3& axis) {
+  const Vec3 a = normalize(axis);
+  const Real s = std::sin(theta);
+  const Real c = std::cos(theta);
+
+  Mat4 m;
+  m.m[0][0] = a.x() * a.x() + (1 - a.x() * a.x()) * c;
+  m.m[0][1] = a.x() * a.y() * (1 - c) - a.z() * s;
+  m.m[0][2] = a.x() * a.z() * (1 - c) + a.y() * s;
+  m.m[0][3] = 0;
+
+  m.m[1][0] = a.x() * a.y() * (1 - c) + a.z() * s;
+  m.m[1][1] = a.y() * a.y() + (1 - a.y() * a.y()) * c;
+  m.m[1][2] = a.y() * a.z() * (1 - c) - a.x() * s;
+  m.m[1][3] = 0;
+
+  m.m[2][0] = a.x() * a.z() * (1 - c) - a.y() * s;
+  m.m[2][1] = a.y() * a.z() * (1 - c) + a.x() * s;
+  m.m[2][2] = a.z() * a.z() + (1 - a.z() * a.z()) * c;
+  m.m[2][3] = 0;
+
+  return Transform(m, transpose(m));
+}
+
 // LookAt Transformを返す
 inline Transform lookAt(const Vec3& pos, const Vec3& lookat,
                         const Vec3& up_base = Vec3(0, 1, 0)) {
