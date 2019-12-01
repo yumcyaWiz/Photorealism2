@@ -40,29 +40,13 @@ void Camera::moveCamera(const Vec3& pos_diff) {
 }
 
 void Camera::rotateCamera(const Vec3& r) {
-  const Mat4& mat = localToWorld->mat;
-
-  // カメラの方向ベクトルを入手
-  const Vec3 right(mat.m[0][0], mat.m[1][0], mat.m[2][0]);
-  const Vec3 up(mat.m[1][0], mat.m[1][1], mat.m[1][2]);
-  const Vec3 forward(mat.m[2][0], mat.m[2][1], mat.m[2][2]);
-
+  // カメラの位置を入手
   Vec3 pos, lookat;
   getLookAt(pos, lookat);
 
-  // それぞれの方向ベクトルを中心にlookatを回転する行列を生成
-  const Transform rotate_x = rotate(r.x(), right);
-  const Transform rotate_y = rotate(r.y(), up);
-  const Transform rotate_z = rotate(r.z(), forward);
-
-  // LookAtを回転
-  Vec3 f = -forward;
-  f = rotate_x.applyDirection(f);
-  f = rotate_y.applyDirection(f);
-  f = rotate_z.applyDirection(f);
-
-  // LookAtをセット
-  setLookAt(pos, pos + f);
+  // Transformを原点に戻してから回転させ、元に戻す
+  *localToWorld = translate(pos) * rotateX(r.x()) * rotateY(r.y()) *
+                  rotateZ(r.z()) * translate(-pos) * (*localToWorld);
 }
 
 }  // namespace Prl2
