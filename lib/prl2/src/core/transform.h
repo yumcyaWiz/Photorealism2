@@ -21,8 +21,6 @@ class Transform {
 
   Transform operator*(const Transform& t) const {
     const auto t2 = Transform(mat * t.mat, invmat * t.invmat);
-    std::cout << t2.mat << std::endl;
-    std::cout << t2.invmat << std::endl;
     return t2;
   };
 
