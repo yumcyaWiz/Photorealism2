@@ -15,9 +15,9 @@ void Camera::getLookAt(Vec3& pos, Vec3& lookat) const {
   pos[1] = localToWorld->mat.m[1][3];
   pos[2] = localToWorld->mat.m[2][3];
 
-  lookat[0] = pos[0] + localToWorld->mat.m[0][2];
-  lookat[1] = pos[1] + localToWorld->mat.m[1][2];
-  lookat[2] = pos[2] + localToWorld->mat.m[2][2];
+  lookat[0] = pos[0] - localToWorld->mat.m[0][2];
+  lookat[1] = pos[1] - localToWorld->mat.m[1][2];
+  lookat[2] = pos[2] - localToWorld->mat.m[2][2];
 }
 
 void Camera::moveCamera(const Vec3& pos_diff) {
