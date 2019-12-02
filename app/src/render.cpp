@@ -20,15 +20,16 @@ void Render::initScene() {
       Prl2::SellmeierEquation(1.26, 0.15, 0.88, 0.009, 0.044, 106.82),
       Prl2::RGB2Spectrum(Prl2::RGB(0.8)));
 
-  const auto prim1_trans =
+  const auto geom1_trans =
       std::make_shared<Prl2::Transform>(Prl2::translate(Prl2::Vec3(0, 1, 0)));
-  const auto prim1 =
-      std::make_shared<Prl2::Primitive>(sphere, glass, prim1_trans);
+  const auto geom1 = std::make_shared<Prl2::Geometry>(sphere, geom1_trans);
 
-  const auto prim2_trans =
+  const auto geom2_trans =
       std::make_shared<Prl2::Transform>(Prl2::scale(Prl2::Vec3(4)));
-  const auto prim2 =
-      std::make_shared<Prl2::Primitive>(plane, mirror, prim2_trans);
+  const auto geom2 = std::make_shared<Prl2::Geometry>(plane, geom2_trans);
+
+  const auto prim1 = std::make_shared<Prl2::Primitive>(geom1, diffuse_white);
+  const auto prim2 = std::make_shared<Prl2::Primitive>(geom2, diffuse_white);
 
   std::shared_ptr<Prl2::LinearIntersector> intersector =
       std::make_shared<Prl2::LinearIntersector>();
