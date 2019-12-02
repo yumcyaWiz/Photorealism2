@@ -7,6 +7,7 @@
 #include "core/ray.h"
 #include "core/transform.h"
 
+#include "core/geometry.h"
 #include "material/material.h"
 #include "shape/shape.h"
 
