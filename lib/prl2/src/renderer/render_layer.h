@@ -15,6 +15,7 @@ struct RenderLayer {
 
   // RenderConfigから画像を初期化
   RenderLayer(const RenderConfig& config) {
+    albedo_sRGB.resize(3 * config.width * config.height);
     normal_sRGB.resize(3 * config.width * config.height);
     depth_sRGB.resize(3 * config.width * config.height);
     position_sRGB.resize(3 * config.width * config.height);
@@ -23,6 +24,7 @@ struct RenderLayer {
 
   // リサイズする
   void resize(int width, int height) {
+    albedo_sRGB.resize(3 * width * height);
     normal_sRGB.resize(3 * width * height);
     depth_sRGB.resize(3 * width * height);
     position_sRGB.resize(3 * width * height);
@@ -31,12 +33,14 @@ struct RenderLayer {
 
   // クリアする
   void clear() {
+    std::fill(albedo_sRGB.begin(), albedo_sRGB.end(), 0);
     std::fill(normal_sRGB.begin(), normal_sRGB.end(), 0);
     std::fill(depth_sRGB.begin(), depth_sRGB.end(), 0);
     std::fill(position_sRGB.begin(), position_sRGB.end(), 0);
     std::fill(sample_sRGB.begin(), sample_sRGB.end(), 0);
   };
 
+  std::vector<Real> albedo_sRGB;  // AlbedoをsRGBにしたものを格納する
   std::vector<Real> normal_sRGB;  // 法線をsRGBにしたものを格納する
   std::vector<Real> depth_sRGB;   // 深度をsRGBにしたものを格納する
   std::vector<Real> position_sRGB;  // 位置をsRGBにしたものを格納する
