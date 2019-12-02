@@ -27,31 +27,13 @@ inline uint32_t pcg32_random_r(pcg32_random_t* rng) {
 
 class RNG {
  public:
-  RNG() {
-    state.state = PCG32_DEFAULT_STATE;
-    state.inc = PCG32_DEFAULT_STREAM;
-    uniformUInt32();
-  };
+  RNG();
+  RNG(uint64_t seed);
 
-  RNG(uint64_t seed) {
-    state.state = seed;
-    state.inc = PCG32_DEFAULT_STREAM;
-    uniformUInt32();
-  };
+  void setSeed(uint64_t seed);
 
-  void setSeed(uint64_t seed) {
-    state.state = seed;
-    state.inc = PCG32_DEFAULT_STREAM;
-    uniformUInt32();
-    uniformUInt32();
-  };
-
-  uint32_t uniformUInt32() { return pcg32_random_r(&state); };
-
-  Real uniformReal() {
-    return std::min(static_cast<Real>(uniformUInt32() * 0x1p-32),
-                    ONE_MINUS_EPS);
-  };
+  uint32_t uniformUInt32();
+  Real uniformReal();
 
  private:
   pcg32_random_t state;
