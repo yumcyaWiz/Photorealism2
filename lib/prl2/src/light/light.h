@@ -19,7 +19,7 @@ class Light {
   // 光源上の点から出る分光放射輝度を返す
   virtual Real Le(const Ray& ray, const IntersectInfo& info) const = 0;
 
- private:
+ protected:
   SPD spd;  // 分光放射束
 };
 
