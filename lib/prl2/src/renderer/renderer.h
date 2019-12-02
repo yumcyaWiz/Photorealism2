@@ -143,6 +143,9 @@ class Renderer {
   std::atomic<int> num_rendered_pixels;  // レンダリング済みのピクセル数
   int rendering_time;  // レンダリングにかかった時間[ms]
 
+  // (i, j)のレンダリングを行う
+  void renderPixel(int i, int j, Sampler& sampler);
+
   // Render LayerをsRGBとして入手
   void getRendersRGB(std::vector<float>& rgb) const;
 
