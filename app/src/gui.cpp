@@ -73,6 +73,8 @@ void GUI::drawRenderSettings(Render& render) {
         render.renderer.setImageType(Prl2::ImageType::EXR);
       } else if (image_type == 3) {
         render.renderer.setImageType(Prl2::ImageType::HDR);
+      } else if (image_type == 4) {
+        render.renderer.setImageType(Prl2::ImageType::PFM);
       }
       // Save layer
       render.renderer.saveLayer(std::string(filename));

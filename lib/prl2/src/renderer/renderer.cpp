@@ -411,6 +411,8 @@ void Renderer::saveLayer(const std::string& filename) const {
     writeEXR(filename, config.width, config.height, image);
   } else if (config.image_type == ImageType::HDR) {
     writeHDR(filename, config.width, config.height, image);
+  } else if (config.image_type == ImageType::PFM) {
+    writePFM(filename, config.width, config.height, image);
   } else {
     std::cerr << "nvalid image type" << std::endl;
   }
