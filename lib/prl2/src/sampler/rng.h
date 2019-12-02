@@ -43,6 +43,7 @@ class RNG {
     state.state = seed;
     state.inc = PCG32_DEFAULT_STREAM;
     uniformUInt32();
+    uniformUInt32();
   };
 
   uint32_t uniformUInt32() { return pcg32_random_r(&state); };
