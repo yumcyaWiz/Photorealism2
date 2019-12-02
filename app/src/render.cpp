@@ -32,8 +32,7 @@ void Render::initScene() {
   const auto light = std::make_shared<Prl2::AreaLight>(
       Prl2::RGB2Spectrum(Prl2::RGB(0.8, 0.2, 0.0)), geom1);
 
-  const auto prim1 =
-      std::make_shared<Prl2::Primitive>(geom1, diffuse_white, light);
+  const auto prim1 = std::make_shared<Prl2::Primitive>(geom1, diffuse_white);
   const auto prim2 = std::make_shared<Prl2::Primitive>(geom2, diffuse_white);
 
   std::shared_ptr<Prl2::LinearIntersector> intersector =
