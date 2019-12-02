@@ -14,7 +14,7 @@ class PT : public Integrator {
                  Sampler& sampler) const override;
 
  private:
-  static constexpr int MAXDEPTH = 100;
+  static constexpr int MAXDEPTH = 100;  // 最大反射回数
 };
 
 }  // namespace Prl2

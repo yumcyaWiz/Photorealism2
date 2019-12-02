@@ -7,6 +7,7 @@ Real PT::integrate(const Ray& ray_in, const Scene& scene,
   Ray ray = ray_in;                    // 更新していくレイ
   Real throughput = 1;                 // Throughput
   Real russian_roulette_prob = 0.99f;  // ロシアンルーレットの確率
+  Real radiance = 0;                   // 分光放射輝度
 
   for (int depth = 0; depth < MAXDEPTH; ++depth) {
     // ロシアンルーレット
@@ -19,7 +20,10 @@ Real PT::integrate(const Ray& ray_in, const Scene& scene,
     // レイが物体に当たったら
     IntersectInfo info;
     if (scene.intersect(ray, info)) {
-      // TODO: 光源だったら寄与を蓄積
+      // 光源に当たったら寄与を追加
+      if (info.hitPrimitive->light != nullptr) {
+        radiance += throughput * info.hitPrimitive->light->Le(ray, info);
+      }
 
       // BRDF Sampling
       const auto material = info.hitPrimitive->material;
@@ -42,11 +46,12 @@ Real PT::integrate(const Ray& ray_in, const Scene& scene,
     }
     // レイが空に飛んでいったら
     else {
-      return throughput * scene.sky->getRadiance(ray);
+      radiance += throughput * scene.sky->getRadiance(ray);
+      break;
     }
   }
 
-  return 0;
+  return radiance;
 }
 
 }  // namespace Prl2
