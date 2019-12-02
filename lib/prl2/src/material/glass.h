@@ -32,8 +32,8 @@ struct SellmeierEquation {
 
 class Glass : public Material {
  public:
-  Glass(const SellmeierEquation& _sellmeier, const SPD& _albedo)
-      : sellmeier(_sellmeier), albedo(_albedo){};
+  Glass(const SellmeierEquation& _sellmeier, const SPD& _spd)
+      : sellmeier(_sellmeier), spd(_spd){};
 
   Real sampleDirection(const SurfaceInteraction& interaction, Sampler& sampler,
                        Vec3& wi_local, Real& pdf) const override {
@@ -51,7 +51,7 @@ class Glass : public Material {
     if (sampler.getNext() < fr) {
       wi_local = reflect(interaction.wo_local, normal);
       pdf = fr;
-      return fr * albedo.sample(interaction.lambda) / absCosTheta(wi_local);
+      return fr * spd.sample(interaction.lambda) / absCosTheta(wi_local);
     }
     // Refract
     else {
@@ -59,22 +59,26 @@ class Glass : public Material {
       if (refract(interaction.wo_local, wt, normal, ior1, ior2)) {
         wi_local = wt;
         pdf = 1 - fr;
-        return (1 - fr) * albedo.sample(interaction.lambda) /
+        return (1 - fr) * spd.sample(interaction.lambda) /
                absCosTheta(wi_local);
       }
       // Total Refrection
       else {
         wi_local = reflect(interaction.wo_local, normal);
         pdf = 1 - fr;
-        return (1 - fr) * albedo.sample(interaction.lambda) /
+        return (1 - fr) * spd.sample(interaction.lambda) /
                absCosTheta(wi_local);
       }
     }
   };
 
+  Real albedo(const SurfaceInteraction& interaction) const {
+    return spd.sample(interaction.lambda);
+  };
+
  private:
   const SellmeierEquation sellmeier;  //セルマイヤーの式
-  const SPD albedo;                   // 分光反射率
+  const SPD spd;                      // 分光反射率
 };
 
 }  // namespace Prl2

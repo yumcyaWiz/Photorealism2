@@ -62,6 +62,9 @@ class Material {
   virtual Real sampleDirection(const SurfaceInteraction& interaction,
                                Sampler& sampler, Vec3& wi_local,
                                Real& pdf) const = 0;
+
+  // 分光反射率を返す
+  virtual Real albedo(const SurfaceInteraction& interaction) const = 0;
 };
 
 }  // namespace Prl2
