@@ -414,8 +414,8 @@ void Renderer::getRendersRGB(std::vector<float>& rgb) const {
   for (int j = 0; j < config.height; ++j) {
     for (int i = 0; i < config.width; ++i) {
       // FilmのSPDをRGBに変換
-      RGB rgb_vec =
-          (scene.camera->film->getPixel(i, j) / current_samples).toRGB();
+      const SPD& spd = scene.camera->film->getPixel(i, j);
+      RGB rgb_vec = spd.toRGB() / current_samples;
 
       // Tone Mapping
       // RGB to luminance
