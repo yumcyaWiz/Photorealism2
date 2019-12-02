@@ -31,3 +31,7 @@ target_compile_definitions(tinyexr INTERFACE
 target_include_directories(tinyexr INTERFACE
   tinyexr
 )
+
+# Intel Open Image Denoise
+set(OIDN_STATIC_LIB ON CACHE BOOL "" FORCE)
+add_subdirectory(oidn)
