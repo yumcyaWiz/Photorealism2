@@ -74,11 +74,11 @@ void Renderer::render(const std::atomic<bool>& cancel) {
   // フィルムをクリア
   scene.camera->film->clear();
 
-  // 時間計測
-  const auto start_time = std::chrono::system_clock::now();
-
   // レンダリング用のスレッドプールの作成
   Parallel pool;
+
+  // 時間計測
+  const auto start_time = std::chrono::system_clock::now();
 
   // それぞれの画素で同じ処理を行う
   if (!config.render_realtime) {
@@ -203,6 +203,15 @@ void Renderer::render(const std::atomic<bool>& cancel) {
         config.render_tiles_x, config.render_tiles_y, config.width,
         config.height);
   } else {
+    // Samplerの初期化
+    std::vector<std::unique_ptr<Sampler>> samplers(config.width *
+                                                   config.height);
+    for (int j = 0; j < config.height; ++j) {
+      for (int i = 0; i < config.width; ++i) {
+        samplers[i + config.width * j] = sampler->clone(i + config.width * j);
+      }
+    }
+
     for (int k = 1; k <= config.samples; ++k) {
       pool.parallelFor2D(
           [&](int i, int j) {
@@ -210,9 +219,8 @@ void Renderer::render(const std::atomic<bool>& cancel) {
               return;
             }
 
-            // Samplerの初期化
-            std::unique_ptr<Sampler> pixel_sampler = sampler->clone(
-                k + config.samples * i + config.samples * config.width * j);
+            std::unique_ptr<Sampler>& pixel_sampler =
+                samplers[i + config.width * j];
 
             // 波長のサンプリング
             const Real lambda =
