@@ -333,7 +333,8 @@ void Renderer::render(const std::atomic<bool>& cancel) {
             // Progressを加算
             num_rendered_pixels += 1;
           },
-          16, 16, config.width, config.height);
+          config.render_tiles_x, config.render_tiles_y, config.width,
+          config.height);
     }
   }
 
