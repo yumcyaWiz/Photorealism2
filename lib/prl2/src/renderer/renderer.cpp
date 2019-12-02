@@ -162,7 +162,7 @@ void Renderer::render(const std::atomic<bool>& cancel) {
 
           //サンプリングを繰り返す
           for (int k = 0; k < config.samples; ++k) {
-            if (k >= 1 && cancel) {
+            if (k > 1 && cancel) {
               break;
             }
 
