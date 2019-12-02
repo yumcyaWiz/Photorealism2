@@ -137,20 +137,24 @@ void writeHDR(const std::string& filename, int width, int height,
 
 void writePFM(const std::string& filename, int width, int height,
               const std::vector<float>& rgb) {
-  std::ofstream file(filename);
+  // 逆さにした画像を生成
+  std::vector<float> image(3 * width * height);
+  for (int j = 0; j < height; ++j) {
+    const int j2 = height - (j + 1);
+    for (int i = 0; i < width; ++i) {
+      image[3 * i + 3 * width * j] = rgb[3 * i + 3 * width * j2];
+      image[3 * i + 3 * width * j + 1] = rgb[3 * i + 3 * width * j2 + 1];
+      image[3 * i + 3 * width * j + 2] = rgb[3 * i + 3 * width * j2 + 2];
+    }
+  }
 
+  // PFMの生成
+  std::ofstream file(filename, std::ios::binary);
   file << "PF" << std::endl;
   file << width << " " << height << std::endl;
   file << "-1.0" << std::endl;
-
-  for (int j = 0; j < height; ++j) {
-    for (int i = 0; i < width; ++i) {
-      const float r = rgb[3 * i + 3 * width * j];
-      const float g = rgb[3 * i + 3 * width * j + 1];
-      const float b = rgb[3 * i + 3 * width * j + 2];
-      file << r << " " << g << " " << b << std::endl;
-    }
-  }
+  file.write(reinterpret_cast<const char*>(image.data()),
+             sizeof(float) * image.size());
 
   std::cout << filename << " has been written out" << std::endl;
 
