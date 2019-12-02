@@ -84,6 +84,8 @@ void Renderer::renderPixel(int i, int j, Sampler& sampler) {
     // Primary Rayで計算できるものを計算しておく
     IntersectInfo info;
     if (scene.intersector->intersect(ray, info)) {
+      // TODO: Albedo Layerの計算
+
       // Normal LayerにsRGBを加算
       layer.normal_sRGB[3 * i + 3 * config.width * j + 0] +=
           0.5f * (info.hitNormal.x() + 1.0f);
