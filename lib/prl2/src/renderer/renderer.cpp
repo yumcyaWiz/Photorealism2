@@ -68,6 +68,9 @@ void Renderer::render(const std::atomic<bool>& cancel) {
   // Progressを初期化
   num_rendered_pixels = 0;
 
+  // Rendered Samplesを初期化
+  rendered_samples = 0;
+
   // レイヤーを初期化
   layer.clear();
 
