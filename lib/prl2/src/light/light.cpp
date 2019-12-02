@@ -36,4 +36,6 @@ SPD D65Light() {
   return normalize(SPD(lambda, phi));
 }
 
-}
+Light::Light(const SPD& _spd) : spd(_spd) {}
+
+}  // namespace Prl2
