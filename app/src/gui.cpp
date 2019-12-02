@@ -195,13 +195,21 @@ void GUI::drawCameraSettings(Render& render) const {
 
   ImGui::Begin("Camera");
   {
-    bool lookat_modified = false;
     Prl2::Vec3 pos, lookat;
     render.renderer.getCameraLookAt(pos, lookat);
-    static float camera_position[3] = {pos.x(), pos.y(), pos.z()};
+
+    bool lookat_modified = false;
+
+    static float camera_position[3];
+    camera_position[0] = pos.x();
+    camera_position[1] = pos.y();
+    camera_position[2] = pos.z();
     lookat_modified |= ImGui::InputFloat3("Camera Position", camera_position);
 
-    static float lookat_position[3] = {lookat.x(), lookat.y(), lookat.z()};
+    static float lookat_position[3];
+    lookat_position[0] = lookat.x();
+    lookat_position[1] = lookat.y();
+    lookat_position[2] = lookat.z();
     lookat_modified |= ImGui::InputFloat3("Lookat", lookat_position);
 
     if (lookat_modified) {
