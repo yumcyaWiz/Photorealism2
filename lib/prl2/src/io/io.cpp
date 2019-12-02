@@ -135,4 +135,26 @@ void writeHDR(const std::string& filename, int width, int height,
   }
 }
 
+void writePFM(const std::string& filename, int width, int height,
+              const std::vector<float>& rgb) {
+  std::ofstream file(filename);
+
+  file << "PF" << std::endl;
+  file << width << " " << height << std::endl;
+  file << "-1.0" << std::endl;
+
+  for (int j = 0; j < height; ++j) {
+    for (int i = 0; i < width; ++i) {
+      const float r = rgb[3 * i + 3 * width * j];
+      const float g = rgb[3 * i + 3 * width * j + 1];
+      const float b = rgb[3 * i + 3 * width * j + 2];
+      file << r << " " << g << " " << b << std::endl;
+    }
+  }
+
+  std::cout << filename << " has been written out" << std::endl;
+
+  file.close();
+}
+
 }  // namespace Prl2

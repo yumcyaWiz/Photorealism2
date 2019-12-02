@@ -22,6 +22,10 @@ void writeEXR(const std::string& filename, int width, int height,
 void writeHDR(const std::string& filename, int width, int height,
               const std::vector<float>& rgb);
 
+// RGBの配列からPFM画像を保存する
+void writePFM(const std::string& filename, int width, int height,
+              const std::vector<float>& rgb);
+
 }  // namespace Prl2
 
 #endif
