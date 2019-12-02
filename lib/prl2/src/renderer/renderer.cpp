@@ -225,7 +225,10 @@ void Renderer::moveCamera(const Vec3& pos_diff) {
   scene.camera->getLookAt(config.camera_position, config.camera_lookat);
 }
 
-void Renderer::rotateCamera(const Vec3& r) { scene.camera->rotateCamera(r); }
+void Renderer::rotateCamera(const Vec3& r) {
+  scene.camera->rotateCamera(r);
+  scene.camera->getLookAt(config.camera_position, config.camera_lookat);
+}
 
 bool Renderer::getRenderRealtime() const { return config.render_realtime; }
 
