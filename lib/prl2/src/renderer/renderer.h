@@ -138,7 +138,7 @@ class Renderer {
   std::shared_ptr<Sampler> sampler;        // Sampler
   std::shared_ptr<Integrator> integrator;  // Integrator
 
-  std::atomic<int> rendered_samples;  // レンダリング済みのサンプル数
+  std::atomic<int> current_samples;  // レンダリング済みのサンプル数
 
   std::atomic<int> num_rendered_pixels;  // レンダリング済みのピクセル数
   int rendering_time;  // レンダリングにかかった時間[ms]

@@ -136,7 +136,7 @@ void Renderer::render(const std::atomic<bool>& cancel) {
   num_rendered_pixels = 0;
 
   // Rendered Samplesを初期化
-  rendered_samples = 0;
+  current_samples = 0;
 
   // レイヤーを初期化
   layer.clear();
@@ -152,6 +152,8 @@ void Renderer::render(const std::atomic<bool>& cancel) {
 
   // 画素ごとにサンプリングを繰り返す場合
   if (!config.render_realtime) {
+    current_samples = config.samples;
+
     pool.parallelFor2D(
         [&](int i, int j) {
           // Samplerの初期化
@@ -169,13 +171,6 @@ void Renderer::render(const std::atomic<bool>& cancel) {
             // Progressを加算
             num_rendered_pixels += 1;
           }
-
-          // Render LayerにsRGBを加算
-          const RGB rgb =
-              (scene.camera->film->getPixel(i, j) / config.samples).toRGB();
-          layer.render_sRGB[3 * i + 3 * config.width * j + 0] = rgb.x();
-          layer.render_sRGB[3 * i + 3 * config.width * j + 1] = rgb.y();
-          layer.render_sRGB[3 * i + 3 * config.width * j + 2] = rgb.z();
         },
         config.render_tiles_x, config.render_tiles_y, config.width,
         config.height);
@@ -192,6 +187,8 @@ void Renderer::render(const std::atomic<bool>& cancel) {
     }
 
     for (int k = 1; k <= config.samples; ++k) {
+      current_samples = k;
+
       pool.parallelFor2D(
           [&](int i, int j) {
             if (k > 1 && cancel) {
@@ -205,12 +202,6 @@ void Renderer::render(const std::atomic<bool>& cancel) {
 
             // Progressを加算
             num_rendered_pixels += 1;
-
-            // Render LayerにsRGBを加算
-            const RGB rgb = (scene.camera->film->getPixel(i, j) / k).toRGB();
-            layer.render_sRGB[3 * i + 3 * config.width * j + 0] = rgb.x();
-            layer.render_sRGB[3 * i + 3 * config.width * j + 1] = rgb.y();
-            layer.render_sRGB[3 * i + 3 * config.width * j + 2] = rgb.z();
           },
           config.render_tiles_x, config.render_tiles_y, config.width,
           config.height);
@@ -422,11 +413,9 @@ void Renderer::getRendersRGB(std::vector<float>& rgb) const {
 
   for (int j = 0; j < config.height; ++j) {
     for (int i = 0; i < config.width; ++i) {
-      const int index = 3 * i + 3 * config.width * j;
-
+      // FilmのSPDをRGBに変換
       RGB rgb_vec =
-          RGB(layer.render_sRGB[index + 0], layer.render_sRGB[index + 1],
-              layer.render_sRGB[index + 2]);
+          (scene.camera->film->getPixel(i, j) / current_samples).toRGB();
 
       // Tone Mapping
       // RGB to luminance
@@ -442,9 +431,9 @@ void Renderer::getRendersRGB(std::vector<float>& rgb) const {
       rgb_vec[1] = std::pow(rgb_vec[1], 1 / config.gamma);
       rgb_vec[2] = std::pow(rgb_vec[2], 1 / config.gamma);
 
-      rgb[index + 0] = rgb_vec.x();
-      rgb[index + 1] = rgb_vec.y();
-      rgb[index + 2] = rgb_vec.z();
+      rgb[3 * i + 3 * config.width * j + 0] = rgb_vec.x();
+      rgb[3 * i + 3 * config.width * j + 1] = rgb_vec.y();
+      rgb[3 * i + 3 * config.width * j + 2] = rgb_vec.z();
     }
   }
 }
@@ -455,9 +444,9 @@ void Renderer::getNormalsRGB(std::vector<float>& rgb) const {
   for (int j = 0; j < config.height; ++j) {
     for (int i = 0; i < config.width; ++i) {
       const int index = 3 * i + 3 * config.width * j;
-      rgb[index + 0] = layer.normal_sRGB[index + 0];
-      rgb[index + 1] = layer.normal_sRGB[index + 1];
-      rgb[index + 2] = layer.normal_sRGB[index + 2];
+      rgb[index + 0] = layer.normal_sRGB[index + 0] / current_samples;
+      rgb[index + 1] = layer.normal_sRGB[index + 1] / current_samples;
+      rgb[index + 2] = layer.normal_sRGB[index + 2] / current_samples;
     }
   }
 }
@@ -468,9 +457,9 @@ void Renderer::getPositionsRGB(std::vector<float>& rgb) const {
   for (int j = 0; j < config.height; ++j) {
     for (int i = 0; i < config.width; ++i) {
       const int index = 3 * i + 3 * config.width * j;
-      rgb[index + 0] = layer.position_sRGB[index + 0];
-      rgb[index + 1] = layer.position_sRGB[index + 1];
-      rgb[index + 2] = layer.position_sRGB[index + 2];
+      rgb[index + 0] = layer.position_sRGB[index + 0] / current_samples;
+      rgb[index + 1] = layer.position_sRGB[index + 1] / current_samples;
+      rgb[index + 2] = layer.position_sRGB[index + 2] / current_samples;
     }
   }
 }
@@ -481,9 +470,9 @@ void Renderer::getDepthsRGB(std::vector<float>& rgb) const {
   for (int j = 0; j < config.height; ++j) {
     for (int i = 0; i < config.width; ++i) {
       const int index = 3 * i + 3 * config.width * j;
-      rgb[index + 0] = layer.depth_sRGB[index + 0];
-      rgb[index + 1] = layer.depth_sRGB[index + 1];
-      rgb[index + 2] = layer.depth_sRGB[index + 2];
+      rgb[index + 0] = layer.depth_sRGB[index + 0] / current_samples;
+      rgb[index + 1] = layer.depth_sRGB[index + 1] / current_samples;
+      rgb[index + 2] = layer.depth_sRGB[index + 2] / current_samples;
     }
   }
 }
