@@ -20,7 +20,7 @@ class GUI {
   void drawRenderSettings(Render& render);
 
   // RenderLayerを表示
-  void drawRenderLayer(Render& render) const;
+  void drawRenderLayer(Render& render);
 
   // FilmSettingsを表示
   void drawFilmSettings(Render& render) const;
@@ -29,7 +29,7 @@ class GUI {
   void drawCameraSettings(Render& render) const;
 
   // ToneMappingUIを表示
-  void drawToneMappingUI(Render& render) const;
+  void drawToneMappingUI(Render& render);
 
   // SkyUIを表示
   void drawSkyUI(Render& render) const;
@@ -38,6 +38,7 @@ class GUI {
   GLuint render_texture_id;  // Render Texture
 
   bool auto_render = true;  // パラメーター変化時に自動で再レンダリングするか
+  bool update_texture = false;  // Textureの更新フラグ
 
   // LayerからTextureを生成
   void makeTextureFromLayer(GLuint texture_id, int width, int height,

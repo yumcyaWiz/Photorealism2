@@ -91,7 +91,7 @@ void GUI::drawRenderSettings(Render& render) {
   }
 }
 
-void GUI::drawRenderLayer(Render& render) const {
+void GUI::drawRenderLayer(Render& render) {
   ImGui::Begin("Render");
   {
     // Layer選択ボタン
@@ -118,17 +118,22 @@ void GUI::drawRenderLayer(Render& render) const {
       } else if (e == 4) {
         render.renderer.setOutputLayer(Prl2::LayerType::Sample);
       }
+      update_texture = true;
     }
 
     // テクスチャの生成
     int width, height;
     render.renderer.getImageSize(width, height);
-    std::vector<float> image;
-    render.renderer.getLayersRGB(image);
-    makeTextureFromLayer(render_texture_id, width, height, image);
-    ImTextureID id = (ImTextureID)(intptr_t)(render_texture_id);
+
+    if (update_texture || render.isRendering()) {
+      std::vector<float> image;
+      render.renderer.getLayersRGB(image);
+      makeTextureFromLayer(render_texture_id, width, height, image);
+      update_texture = false;
+    }
 
     // テクスチャの表示
+    ImTextureID id = (ImTextureID)(intptr_t)(render_texture_id);
     ImGui::Image(id, ImVec2(width, height));
 
     // カメラ操作
@@ -215,12 +220,13 @@ void GUI::drawCameraSettings(Render& render) const {
   }
 }
 
-void GUI::drawToneMappingUI(Render& render) const {
+void GUI::drawToneMappingUI(Render& render) {
   ImGui::Begin("Tone Mapping");
   {
     static float exposure = render.renderer.getExposure();
     if (ImGui::InputFloat("Exposure", &exposure)) {
       render.renderer.setExposure(exposure);
+      update_texture = true;
     }
 
     static int tm_type = 0;
@@ -234,16 +240,19 @@ void GUI::drawToneMappingUI(Render& render) const {
       } else if (tm_type == 1) {
         render.renderer.setToneMappingType(Prl2::ToneMappingType::Reinhard);
       }
+      update_texture = true;
     }
 
     static float mapping_factor = render.renderer.getMappingFactor();
     if (ImGui::InputFloat("Mapping Factor", &mapping_factor)) {
       render.renderer.setMappingFactor(mapping_factor);
+      update_texture = true;
     }
 
     static float gamma = render.renderer.getGamma();
     if (ImGui::InputFloat("Gamma", &gamma)) {
       render.renderer.setGamma(gamma);
+      update_texture = true;
     }
   }
   ImGui::End();
