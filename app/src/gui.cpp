@@ -61,13 +61,7 @@ void GUI::drawRenderSettings(Render& render) {
     ImGui::InputText("Image Filename", filename, 32);
 
     static int image_type = 0;
-    ImGui::RadioButton("PPM", &image_type, 0);
-    ImGui::SameLine();
-    ImGui::RadioButton("PNG", &image_type, 1);
-    ImGui::SameLine();
-    ImGui::RadioButton("EXR", &image_type, 2);
-    ImGui::SameLine();
-    ImGui::RadioButton("HDR", &image_type, 3);
+    ImGui::Combo("Image Type", &image_type, "PPM\0PNG\0EXR\0HDR\0PFM");
 
     if (ImGui::Button("Save Image")) {
       // Set image type
