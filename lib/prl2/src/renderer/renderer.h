@@ -149,6 +149,9 @@ class Renderer {
   // Render LayerをsRGBとして入手
   void getRendersRGB(std::vector<float>& rgb) const;
 
+  // Albedo LayerをsRGBとして入手
+  void getAlbedosRGB(std::vector<float>& rgb) const;
+
   // Normal LayerをsRGBとして入手
   void getNormalsRGB(std::vector<float>& rgb) const;
 
