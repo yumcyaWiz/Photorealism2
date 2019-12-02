@@ -1,5 +1,6 @@
 #ifndef RNG_H
 #define RNG_H
+#include <algorithm>
 #include <cstdint>
 
 #include "core/constant.h"
