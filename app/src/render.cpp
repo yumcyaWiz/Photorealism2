@@ -2,6 +2,7 @@
 
 #include "camera/pinhole.h"
 #include "intersector/linear.h"
+#include "light/area-light.h"
 #include "material/diffuse.h"
 #include "material/glass.h"
 #include "material/mirror.h"
@@ -28,7 +29,11 @@ void Render::initScene() {
       std::make_shared<Prl2::Transform>(Prl2::scale(Prl2::Vec3(4)));
   const auto geom2 = std::make_shared<Prl2::Geometry>(plane, geom2_trans);
 
-  const auto prim1 = std::make_shared<Prl2::Primitive>(geom1, diffuse_white);
+  const auto light = std::make_shared<Prl2::AreaLight>(
+      Prl2::RGB2Spectrum(Prl2::RGB(0.8, 0.2, 0.0)), geom1);
+
+  const auto prim1 =
+      std::make_shared<Prl2::Primitive>(geom1, diffuse_white, light);
   const auto prim2 = std::make_shared<Prl2::Primitive>(geom2, diffuse_white);
 
   std::shared_ptr<Prl2::LinearIntersector> intersector =

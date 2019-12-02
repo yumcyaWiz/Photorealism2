@@ -66,7 +66,7 @@ struct RenderConfig {
   SkyType sky_type = SkyType::Hosek;  // 空の種類
 
   // Uniform Sky
-  Vec3 uniform_sky_color = Vec3(1, 1, 1);  // 空の色(UniformSky)
+  Vec3 uniform_sky_color = Vec3(0, 0, 0);  // 空の色(UniformSky)
 
   // Hosek Sky
   Vec3 hosek_sky_sun_direciton = Vec3(0, 0, 1);  // 太陽の方向(HosekSky)
