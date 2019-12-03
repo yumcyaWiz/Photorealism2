@@ -140,12 +140,6 @@ void Renderer::render(const std::atomic<bool>& cancel) {
   // Rendered Samplesを初期化
   current_samples = 0;
 
-  // レイヤーを初期化
-  layer.clear();
-
-  // フィルムをクリア
-  scene.camera->film->clear();
-
   // レンダリング用のスレッドプールの作成
   Parallel pool;
 
@@ -154,12 +148,19 @@ void Renderer::render(const std::atomic<bool>& cancel) {
 
   // 画素ごとにサンプリングを繰り返す場合
   if (!config.render_realtime) {
+    // レイヤーを初期化
+    layer.clear();
+
+    // フィルムをクリア
+    scene.camera->film->clear();
+
+    // サンプル数のセット
     current_samples = config.samples;
 
     pool.parallelFor2D(
         [&](int i, int j) {
           // Samplerの初期化
-          std::unique_ptr<Sampler> pixel_sampler =
+          const std::unique_ptr<Sampler> pixel_sampler =
               sampler->clone(i + config.width * j);
 
           //サンプリングを繰り返す
@@ -193,11 +194,17 @@ void Renderer::render(const std::atomic<bool>& cancel) {
 
       pool.parallelFor2D(
           [&](int i, int j) {
+            // Layer, Filmの初期化
+            if (k == 1) {
+              layer.clearPixel(i, j, config.width, config.height);
+              scene.camera->film->clearPixel(i, j);
+            }
+
             if (k > 1 && cancel) {
               return;
             }
 
-            std::unique_ptr<Sampler>& pixel_sampler =
+            const std::unique_ptr<Sampler>& pixel_sampler =
                 samplers[i + config.width * j];
 
             renderPixel(i, j, *pixel_sampler);
@@ -208,7 +215,7 @@ void Renderer::render(const std::atomic<bool>& cancel) {
           config.render_tiles_x, config.render_tiles_y, config.width,
           config.height);
 
-      if (cancel) {
+      if (k > 1 && cancel) {
         break;
       }
     }
