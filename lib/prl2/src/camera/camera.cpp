@@ -68,6 +68,19 @@ void Camera::rotateCamera(const Vec3& r) {
                   translate(-pos) * (*localToWorld);
 }
 
-void Camera::rotateCameraAroundLookAt(const Vec3& r) {}
+void Camera::setCameraAroundLookAt(const Real& theta, const Real& phi) {
+  const Real x = std::cos(phi) * std::sin(theta);
+  const Real y = std::sin(theta);
+  const Real z = std::sin(phi) * std::sin(theta);
+
+  Vec3 pos, lookat;
+  getLookAt(pos, lookat);
+
+  Vec3 right, up, forward;
+  getDirections(right, up, forward);
+
+  pos = lookat + length(lookat - pos) * (x * right + y * up + z * forward);
+  setLookAt(pos, lookat);
+}
 
 }  // namespace Prl2
