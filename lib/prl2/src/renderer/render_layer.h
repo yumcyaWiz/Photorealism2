@@ -40,6 +40,25 @@ struct RenderLayer {
     std::fill(sample_sRGB.begin(), sample_sRGB.end(), 0);
   };
 
+  // 指定したピクセルのデータだけクリアする
+  void clearPixel(int i, int j, int width, int height) {
+    albedo_sRGB[3 * i + 3 * width * j] = 0;
+    albedo_sRGB[3 * i + 3 * width * j + 1] = 0;
+    albedo_sRGB[3 * i + 3 * width * j + 2] = 0;
+    normal_sRGB[3 * i + 3 * width * j] = 0;
+    normal_sRGB[3 * i + 3 * width * j + 1] = 0;
+    normal_sRGB[3 * i + 3 * width * j + 2] = 0;
+    depth_sRGB[3 * i + 3 * width * j] = 0;
+    depth_sRGB[3 * i + 3 * width * j + 1] = 0;
+    depth_sRGB[3 * i + 3 * width * j + 2] = 0;
+    position_sRGB[3 * i + 3 * width * j] = 0;
+    position_sRGB[3 * i + 3 * width * j + 1] = 0;
+    position_sRGB[3 * i + 3 * width * j + 2] = 0;
+    sample_sRGB[3 * i + 3 * width * j] = 0;
+    sample_sRGB[3 * i + 3 * width * j + 1] = 0;
+    sample_sRGB[3 * i + 3 * width * j + 2] = 0;
+  };
+
   std::vector<Real> albedo_sRGB;  // AlbedoをsRGBにしたものを格納する
   std::vector<Real> normal_sRGB;  // 法線をsRGBにしたものを格納する
   std::vector<Real> depth_sRGB;   // 深度をsRGBにしたものを格納する
