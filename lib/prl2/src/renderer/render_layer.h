@@ -39,7 +39,7 @@ struct RenderLayer {
     std::fill(normal_sRGB.begin(), normal_sRGB.end(), 0);
     std::fill(depth_sRGB.begin(), depth_sRGB.end(), 0);
     std::fill(position_sRGB.begin(), position_sRGB.end(), 0);
-    std::fill(samples.begin(), samples.end(), 0);
+    std::fill(samples.begin(), samples.end(), 1);
     std::fill(sample_sRGB.begin(), sample_sRGB.end(), 0);
   };
 
@@ -61,7 +61,7 @@ struct RenderLayer {
     position_sRGB[3 * i + 3 * width * j + 1] = 0;
     position_sRGB[3 * i + 3 * width * j + 2] = 0;
 
-    samples[i + width * j] = 0;
+    samples[i + width * j] = 1;  // 0割りを防ぐためにサンプル数は1で初期化する
 
     sample_sRGB[3 * i + 3 * width * j] = 0;
     sample_sRGB[3 * i + 3 * width * j + 1] = 0;

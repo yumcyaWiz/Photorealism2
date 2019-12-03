@@ -152,17 +152,21 @@ void Renderer::render(const std::atomic<bool>& cancel) {
     scene.camera->film->clear();
 
     // サンプル数のセット
-    current_samples = config.samples;
+    for (int j = 0; j < config.height; ++j) {
+      for (int i = 0; i < config.width; ++i) {
+        layer.samples[i + config.width * j] = config.samples;
+      }
+    }
 
     pool.parallelFor2D(
         [&](int i, int j) {
-          // Samplerの初期化
+          // Samplerを画素ごとに用意する
           const std::unique_ptr<Sampler> pixel_sampler =
               sampler->clone(i + config.width * j);
 
           //サンプリングを繰り返す
           for (int k = 0; k < config.samples; ++k) {
-            if (k > 1 && cancel) {
+            if (cancel) {
               break;
             }
 
@@ -176,8 +180,9 @@ void Renderer::render(const std::atomic<bool>& cancel) {
         config.height);
   }
   // 1回のサンプリングで画面全体を描画する場合
+  // Interactiveに操作する場合に向いている
   else {
-    // Samplerの初期化
+    // Samplerを画素ごとに用意する
     std::vector<std::unique_ptr<Sampler>> samplers(config.width *
                                                    config.height);
     for (int j = 0; j < config.height; ++j) {
@@ -190,19 +195,29 @@ void Renderer::render(const std::atomic<bool>& cancel) {
       pool.parallelFor2D(
           [&](int i, int j) {
             // Layer, Filmの初期化
+            // 各スレッドでkが異なる可能性があるので、ここで初期化処理を行うと見た目が綺麗になる
             if (k == 1) {
               layer.clearPixel(i, j, config.width, config.height);
               scene.camera->film->clearPixel(i, j);
             }
 
+            // 最低でも1回は描画してからキャンセルする
+            // 見た目が良くなる
             if (k > 1 && cancel) {
               return;
             }
 
+            // 画素ごとに用意したSamplerの取得
             const std::unique_ptr<Sampler>& pixel_sampler =
                 samplers[i + config.width * j];
 
             renderPixel(i, j, *pixel_sampler);
+
+            // サンプル数を加算
+            // サンプル数は1で初期化されているので次のIterationから加算する
+            if (k > 1) {
+              layer.samples[i + config.width * j]++;
+            }
 
             // Progressを加算
             num_rendered_pixels += 1;
@@ -210,7 +225,7 @@ void Renderer::render(const std::atomic<bool>& cancel) {
           config.render_tiles_x, config.render_tiles_y, config.width,
           config.height);
 
-      if (k > 1 && cancel) {
+      if (cancel) {
         break;
       }
     }
@@ -431,7 +446,7 @@ void Renderer::getRendersRGB(std::vector<float>& rgb) const {
     for (int i = 0; i < config.width; ++i) {
       // FilmのSPDをRGBに変換
       const SPD& spd = scene.camera->film->getPixel(i, j);
-      RGB rgb_vec = spd.toRGB() / current_samples;
+      RGB rgb_vec = spd.toRGB() / layer.samples[i + config.width * j];
 
       // Tone Mapping
       // RGB to luminance
@@ -460,6 +475,7 @@ void Renderer::getAlbedosRGB(std::vector<float>& rgb) const {
   for (int j = 0; j < config.height; ++j) {
     for (int i = 0; i < config.width; ++i) {
       const int index = 3 * i + 3 * config.width * j;
+      const int current_samples = layer.samples[i + config.width * j];
       rgb[index + 0] = layer.albedo_sRGB[index + 0] / current_samples;
       rgb[index + 1] = layer.albedo_sRGB[index + 1] / current_samples;
       rgb[index + 2] = layer.albedo_sRGB[index + 2] / current_samples;
@@ -473,6 +489,7 @@ void Renderer::getNormalsRGB(std::vector<float>& rgb) const {
   for (int j = 0; j < config.height; ++j) {
     for (int i = 0; i < config.width; ++i) {
       const int index = 3 * i + 3 * config.width * j;
+      const int current_samples = layer.samples[i + config.width * j];
       rgb[index + 0] = layer.normal_sRGB[index + 0] / current_samples;
       rgb[index + 1] = layer.normal_sRGB[index + 1] / current_samples;
       rgb[index + 2] = layer.normal_sRGB[index + 2] / current_samples;
@@ -486,6 +503,7 @@ void Renderer::getPositionsRGB(std::vector<float>& rgb) const {
   for (int j = 0; j < config.height; ++j) {
     for (int i = 0; i < config.width; ++i) {
       const int index = 3 * i + 3 * config.width * j;
+      const int current_samples = layer.samples[i + config.width * j];
       rgb[index + 0] = layer.position_sRGB[index + 0] / current_samples;
       rgb[index + 1] = layer.position_sRGB[index + 1] / current_samples;
       rgb[index + 2] = layer.position_sRGB[index + 2] / current_samples;
@@ -499,6 +517,7 @@ void Renderer::getDepthsRGB(std::vector<float>& rgb) const {
   for (int j = 0; j < config.height; ++j) {
     for (int i = 0; i < config.width; ++i) {
       const int index = 3 * i + 3 * config.width * j;
+      const int current_samples = layer.samples[i + config.width * j];
       rgb[index + 0] = layer.depth_sRGB[index + 0] / current_samples;
       rgb[index + 1] = layer.depth_sRGB[index + 1] / current_samples;
       rgb[index + 2] = layer.depth_sRGB[index + 2] / current_samples;
@@ -512,6 +531,7 @@ void Renderer::getSamplesRGB(std::vector<float>& rgb) const {
   for (int j = 0; j < config.height; ++j) {
     for (int i = 0; i < config.width; ++i) {
       const int index = 3 * i + 3 * config.width * j;
+      const int current_samples = layer.samples[i + config.width * j];
       rgb[index + 0] = layer.sample_sRGB[index + 0] / current_samples;
       rgb[index + 1] = layer.sample_sRGB[index + 1] / current_samples;
       rgb[index + 2] = layer.sample_sRGB[index + 2] / current_samples;
