@@ -19,6 +19,7 @@ struct RenderLayer {
     normal_sRGB.resize(3 * config.width * config.height);
     depth_sRGB.resize(3 * config.width * config.height);
     position_sRGB.resize(3 * config.width * config.height);
+    samples.resize(config.width * config.height);
     sample_sRGB.resize(3 * config.width * config.height);
   };
 
@@ -28,6 +29,7 @@ struct RenderLayer {
     normal_sRGB.resize(3 * width * height);
     depth_sRGB.resize(3 * width * height);
     position_sRGB.resize(3 * width * height);
+    samples.resize(width * height);
     sample_sRGB.resize(3 * width * height);
   };
 
@@ -37,6 +39,7 @@ struct RenderLayer {
     std::fill(normal_sRGB.begin(), normal_sRGB.end(), 0);
     std::fill(depth_sRGB.begin(), depth_sRGB.end(), 0);
     std::fill(position_sRGB.begin(), position_sRGB.end(), 0);
+    std::fill(samples.begin(), samples.end(), 0);
     std::fill(sample_sRGB.begin(), sample_sRGB.end(), 0);
   };
 
@@ -58,6 +61,8 @@ struct RenderLayer {
     position_sRGB[3 * i + 3 * width * j + 1] = 0;
     position_sRGB[3 * i + 3 * width * j + 2] = 0;
 
+    samples[i + width * j] = 0;
+
     sample_sRGB[3 * i + 3 * width * j] = 0;
     sample_sRGB[3 * i + 3 * width * j + 1] = 0;
     sample_sRGB[3 * i + 3 * width * j + 2] = 0;
@@ -67,6 +72,7 @@ struct RenderLayer {
   std::vector<Real> normal_sRGB;  // 法線をsRGBにしたものを格納する
   std::vector<Real> depth_sRGB;   // 深度をsRGBにしたものを格納する
   std::vector<Real> position_sRGB;  // 位置をsRGBにしたものを格納する
+  std::vector<int> samples;         // サンプル数を格納する
   std::vector<Real>
       sample_sRGB;  // 最初のサンプリング方向をsRGBにしたものを格納する
 };

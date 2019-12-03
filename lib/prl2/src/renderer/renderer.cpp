@@ -137,9 +137,6 @@ void Renderer::render(const std::atomic<bool>& cancel) {
   // Progressを初期化
   num_rendered_pixels = 0;
 
-  // Rendered Samplesを初期化
-  current_samples = 0;
-
   // レンダリング用のスレッドプールの作成
   Parallel pool;
 
@@ -190,8 +187,6 @@ void Renderer::render(const std::atomic<bool>& cancel) {
     }
 
     for (int k = 1; k <= config.samples; ++k) {
-      current_samples = k;
-
       pool.parallelFor2D(
           [&](int i, int j) {
             // Layer, Filmの初期化
