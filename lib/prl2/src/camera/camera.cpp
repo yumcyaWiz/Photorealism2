@@ -20,6 +20,21 @@ void Camera::getLookAt(Vec3& pos, Vec3& lookat) const {
   lookat[2] = pos[2] - localToWorld->mat.m[2][2];
 }
 
+void Camera::getDirections(Vec3& right, Vec3& up, Vec3& forward) const {
+  const Mat4& mat = localToWorld->mat;
+  right[0] = mat.m[0][0];
+  right[1] = mat.m[1][0];
+  right[2] = mat.m[2][0];
+
+  up[0] = mat.m[0][1];
+  up[1] = mat.m[1][1];
+  up[2] = mat.m[2][1];
+
+  forward[0] = mat.m[0][2];
+  forward[1] = mat.m[1][2];
+  forward[2] = mat.m[2][2];
+}
+
 void Camera::moveCamera(const Vec3& pos_diff) {
   Mat4& mat = localToWorld->mat;
 

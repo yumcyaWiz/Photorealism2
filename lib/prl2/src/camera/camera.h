@@ -25,6 +25,9 @@ class Camera {
   // LookAt Transformからpos, lookatを復元する
   void getLookAt(Vec3& pos, Vec3& lookat) const;
 
+  // LookAt TransformkからRight, Up, Forwardの方向ベクトルを入手
+  void getDirections(Vec3& right, Vec3& up, Vec3& forward) const;
+
   // Camera Positionを動かす
   void moveCamera(const Vec3& pos_diff);
 
