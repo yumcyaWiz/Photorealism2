@@ -15,6 +15,7 @@ struct RenderLayer {
 
   // RenderConfigから画像を初期化
   RenderLayer(const RenderConfig& config) {
+    render_sRGB.resize(3 * config.width * config.height);
     albedo_sRGB.resize(3 * config.width * config.height);
     normal_sRGB.resize(3 * config.width * config.height);
     depth_sRGB.resize(3 * config.width * config.height);
@@ -25,6 +26,7 @@ struct RenderLayer {
 
   // リサイズする
   void resize(int width, int height) {
+    render_sRGB.resize(3 * width * height);
     albedo_sRGB.resize(3 * width * height);
     normal_sRGB.resize(3 * width * height);
     depth_sRGB.resize(3 * width * height);
@@ -35,6 +37,7 @@ struct RenderLayer {
 
   // クリアする
   void clear() {
+    std::fill(render_sRGB.begin(), render_sRGB.end(), 0);
     std::fill(albedo_sRGB.begin(), albedo_sRGB.end(), 0);
     std::fill(normal_sRGB.begin(), normal_sRGB.end(), 0);
     std::fill(depth_sRGB.begin(), depth_sRGB.end(), 0);
@@ -45,6 +48,10 @@ struct RenderLayer {
 
   // 指定したピクセルのデータだけクリアする
   void clearPixel(int i, int j, int width, int height) {
+    render_sRGB[3 * i + 3 * width * j] = 0;
+    render_sRGB[3 * i + 3 * width * j + 1] = 0;
+    render_sRGB[3 * i + 3 * width * j + 2] = 0;
+
     albedo_sRGB[3 * i + 3 * width * j] = 0;
     albedo_sRGB[3 * i + 3 * width * j + 1] = 0;
     albedo_sRGB[3 * i + 3 * width * j + 2] = 0;
@@ -68,6 +75,7 @@ struct RenderLayer {
     sample_sRGB[3 * i + 3 * width * j + 2] = 0;
   };
 
+  std::vector<Real> render_sRGB;  // レンダリング結果をsRGBにしたものを格納する
   std::vector<Real> albedo_sRGB;  // AlbedoをsRGBにしたものを格納する
   std::vector<Real> normal_sRGB;  // 法線をsRGBにしたものを格納する
   std::vector<Real> depth_sRGB;   // 深度をsRGBにしたものを格納する
