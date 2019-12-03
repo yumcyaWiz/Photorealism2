@@ -247,7 +247,7 @@ void Renderer::setRenderRealtime(bool realtime) {
 
 Real Renderer::getRenderProgress() const {
   return static_cast<Real>(num_rendered_pixels) /
-         (config.samples * config.width * config.height);
+         (static_cast<Real>(config.width) * config.height * config.samples);
 }
 
 int Renderer::getRenderingTime() const { return rendering_time; }

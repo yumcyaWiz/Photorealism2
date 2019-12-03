@@ -140,7 +140,7 @@ class Renderer {
 
   std::atomic<int> current_samples;  // レンダリング済みのサンプル数
 
-  std::atomic<int> num_rendered_pixels;  // レンダリング済みのピクセル数
+  std::atomic<uint64_t> num_rendered_pixels;  // レンダリング済みのピクセル数
   int rendering_time;  // レンダリングにかかった時間[ms]
 
   // (i, j)のレンダリングを行う
