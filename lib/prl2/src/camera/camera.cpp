@@ -59,9 +59,13 @@ void Camera::rotateCamera(const Vec3& r) {
   Vec3 pos, lookat;
   getLookAt(pos, lookat);
 
-  // Transformを原点に戻してから回転させ、元に戻す
-  *localToWorld = translate(pos) * rotateX(r.x()) * rotateY(r.y()) *
-                  rotateZ(r.z()) * translate(-pos) * (*localToWorld);
+  // 方向ベクトルを入手
+  Vec3 right, up, forward;
+  getDirections(right, up, forward);
+
+  // Transformを原点に戻してから、それぞれの軸ごとに回転させ、元に戻す
+  *localToWorld = translate(pos) * rotate(r.x(), right) * rotate(r.y(), up) *
+                  translate(-pos) * (*localToWorld);
 }
 
 }  // namespace Prl2
