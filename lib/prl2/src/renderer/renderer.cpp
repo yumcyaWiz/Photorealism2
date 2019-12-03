@@ -130,6 +130,12 @@ void Renderer::renderPixel(int i, int j, Sampler& sampler) {
     } else {
       fprintf(stderr, "nan detected at (%d, %d)\n", i, j);
     }
+
+    // Render LayerにsRGBを書き込み
+    const RGB rgb = scene.camera->film->getPixel(i, j).toRGB();
+    layer.render_sRGB[3 * i + 3 * config.width * j] = rgb.x();
+    layer.render_sRGB[3 * i + 3 * config.width * j + 1] = rgb.y();
+    layer.render_sRGB[3 * i + 3 * config.width * j + 2] = rgb.z();
   }
 }
 
@@ -444,9 +450,10 @@ void Renderer::getRendersRGB(std::vector<float>& rgb) const {
 
   for (int j = 0; j < config.height; ++j) {
     for (int i = 0; i < config.width; ++i) {
-      // FilmのSPDをRGBに変換
-      const SPD& spd = scene.camera->film->getPixel(i, j);
-      RGB rgb_vec = spd.toRGB() / layer.samples[i + config.width * j];
+      RGB rgb_vec = RGB(layer.render_sRGB[3 * i + 3 * config.width * j],
+                        layer.render_sRGB[3 * i + 3 * config.width * j + 1],
+                        layer.render_sRGB[3 * i + 3 * config.width * j + 2]) /
+                    layer.samples[i + config.width * j];
 
       // Tone Mapping
       // RGB to luminance
