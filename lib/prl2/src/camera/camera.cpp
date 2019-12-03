@@ -68,4 +68,6 @@ void Camera::rotateCamera(const Vec3& r) {
                   translate(-pos) * (*localToWorld);
 }
 
+void Camera::rotateCameraAroundLookAt(const Vec3& r) {}
+
 }  // namespace Prl2
