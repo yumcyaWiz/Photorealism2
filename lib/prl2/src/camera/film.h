@@ -126,6 +126,9 @@ class Film {
     }
   };
 
+  // 指定したピクセルをクリア
+  void clearPixel(int i, int j) { pixels[i + width * j].clear(); }
+
   // フィルムをリサイズ
   void resize(unsigned int _width, unsigned int _height) {
     width = _width;
