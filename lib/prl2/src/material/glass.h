@@ -72,8 +72,8 @@ class Glass : public Material {
     }
   };
 
-  Real albedo(const SurfaceInteraction& interaction) const {
-    return spd.sample(interaction.lambda);
+  RGB albedoRGB(const SurfaceInteraction& interaction) const {
+    return spd.toRGB();
   };
 
  private:

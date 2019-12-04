@@ -23,8 +23,8 @@ class Diffuse : public Material {
     return INV_PI * spd.sample(interaction.lambda);
   };
 
-  Real albedo(const SurfaceInteraction& interaction) const {
-    return spd.sample(interaction.lambda);
+  RGB albedoRGB(const SurfaceInteraction& interaction) const {
+    return spd.toRGB();
   };
 
  private:

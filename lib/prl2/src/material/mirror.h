@@ -17,8 +17,8 @@ class Mirror : public Material {
     return spd.sample(interaction.lambda) / absCosTheta(wi_local);
   };
 
-  Real albedo(const SurfaceInteraction& interaction) const {
-    return spd.sample(interaction.lambda);
+  RGB albedoRGB(const SurfaceInteraction& interaction) const {
+    return spd.toRGB();
   };
 
  private:

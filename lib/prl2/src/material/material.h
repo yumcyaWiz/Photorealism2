@@ -3,6 +3,7 @@
 
 #include "core/isect.h"
 #include "core/ray.h"
+#include "core/spectrum.h"
 #include "core/type.h"
 #include "core/vec3.h"
 #include "material/surface_interaction.h"
@@ -63,8 +64,8 @@ class Material {
                                Sampler& sampler, Vec3& wi_local,
                                Real& pdf) const = 0;
 
-  // 分光反射率を返す
-  virtual Real albedo(const SurfaceInteraction& interaction) const = 0;
+  // 反射率をRGBで返す
+  virtual RGB albedoRGB(const SurfaceInteraction& interaction) const = 0;
 };
 
 }  // namespace Prl2
