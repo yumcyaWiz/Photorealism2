@@ -56,7 +56,6 @@ std::thread Render::render() {
   std::thread rendering_thread([&] {
     while (true) {
       if (refresh_render) {
-        const auto start_time = std::chrono::system_clock::now();
         renderer.render(cancel_render);
 
         if (cancel_render) {
