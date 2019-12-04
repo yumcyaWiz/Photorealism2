@@ -95,23 +95,27 @@ void GUI::drawRenderLayer(Render& render) {
     bool layer_changed = false;
     layer_changed |= ImGui::RadioButton("Render", &e, 0);
     ImGui::SameLine();
-    layer_changed |= ImGui::RadioButton("Normal", &e, 1);
+    layer_changed |= ImGui::RadioButton("Denoise", &e, 1);
     ImGui::SameLine();
-    layer_changed |= ImGui::RadioButton("Position", &e, 2);
+    layer_changed |= ImGui::RadioButton("Normal", &e, 2);
     ImGui::SameLine();
-    layer_changed |= ImGui::RadioButton("Depth", &e, 3);
+    layer_changed |= ImGui::RadioButton("Position", &e, 3);
     ImGui::SameLine();
-    layer_changed |= ImGui::RadioButton("Sample", &e, 4);
+    layer_changed |= ImGui::RadioButton("Depth", &e, 4);
+    ImGui::SameLine();
+    layer_changed |= ImGui::RadioButton("Sample", &e, 5);
     if (layer_changed) {
       if (e == 0) {
         render.renderer.setOutputLayer(Prl2::LayerType::Render);
       } else if (e == 1) {
-        render.renderer.setOutputLayer(Prl2::LayerType::Normal);
+        render.renderer.setOutputLayer(Prl2::LayerType::Denoise);
       } else if (e == 2) {
-        render.renderer.setOutputLayer(Prl2::LayerType::Position);
+        render.renderer.setOutputLayer(Prl2::LayerType::Normal);
       } else if (e == 3) {
-        render.renderer.setOutputLayer(Prl2::LayerType::Depth);
+        render.renderer.setOutputLayer(Prl2::LayerType::Position);
       } else if (e == 4) {
+        render.renderer.setOutputLayer(Prl2::LayerType::Depth);
+      } else if (e == 5) {
         render.renderer.setOutputLayer(Prl2::LayerType::Sample);
       }
       update_texture = true;

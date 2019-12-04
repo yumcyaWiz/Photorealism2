@@ -458,6 +458,8 @@ void Renderer::setHosekSkyTurbidity(const Real& turbidity) {
 void Renderer::getLayersRGB(std::vector<float>& rgb) const {
   if (config.layer_type == LayerType::Render) {
     getRendersRGB(rgb);
+  } else if (config.layer_type == LayerType::Denoise) {
+    getDenoisesRGB(rgb);
   } else if (config.layer_type == LayerType::Albedo) {
     getAlbedosRGB(rgb);
   } else if (config.layer_type == LayerType::Normal) {
