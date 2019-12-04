@@ -122,9 +122,14 @@ void Renderer::renderPixel(int i, int j, Sampler& sampler) {
 
       // Albedo Layerの計算
       const RGB albedo = info.hitPrimitive->material->albedoRGB(interaction);
-      layer.albedo_sRGB[3 * i + 3 * config.width * j + 0] += albedo.x();
-      layer.albedo_sRGB[3 * i + 3 * config.width * j + 1] += albedo.y();
-      layer.albedo_sRGB[3 * i + 3 * config.width * j + 2] += albedo.z();
+      const Real albedo_max =
+          std::max(std::max(albedo.x(), albedo.y()), albedo.z());
+      layer.albedo_sRGB[3 * i + 3 * config.width * j + 0] +=
+          albedo.x() / albedo_max;
+      layer.albedo_sRGB[3 * i + 3 * config.width * j + 1] +=
+          albedo.y() / albedo_max;
+      layer.albedo_sRGB[3 * i + 3 * config.width * j + 2] +=
+          albedo.z() / albedo_max;
     }
 
     // 分光放射束の計算
@@ -253,7 +258,6 @@ void Renderer::render(const std::atomic<bool>& cancel) {
 
 void Renderer::denoise() {
   // https://github.com/OpenImageDenoise/oidn
-
   // Create an Intel Open Image Denoise device
   OIDNDevice device = oidnNewDevice(OIDN_DEVICE_TYPE_DEFAULT);
   oidnCommitDevice(device);
