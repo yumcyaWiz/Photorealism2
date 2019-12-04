@@ -15,6 +15,8 @@
 #include "sky/ibl_sky.h"
 #include "sky/uniform_sky.h"
 
+#include "OpenImageDenoise/oidn.h"
+
 namespace Prl2 {
 
 void Renderer::loadConfig(const RenderConfig& _config) {
@@ -245,7 +247,44 @@ void Renderer::render(const std::atomic<bool>& cancel) {
                        .count();
 }
 
-void Renderer::denoise() {}
+void Renderer::denoise() {
+  // https://github.com/OpenImageDenoise/oidn
+
+  // Create an Intel Open Image Denoise device
+  OIDNDevice device = oidnNewDevice(OIDN_DEVICE_TYPE_DEFAULT);
+  oidnCommitDevice(device);
+
+  // Create a denoising filter
+  OIDNFilter filter =
+      oidnNewFilter(device, "RT");  // generic ray tracing filter
+  oidnSetSharedFilterImage(filter, "color", layer.render_sRGB.data(),
+                           OIDN_FORMAT_FLOAT3, config.width, config.height, 0,
+                           0, 0);
+  oidnSetSharedFilterImage(filter, "albedo", layer.albedo_sRGB.data(),
+                           OIDN_FORMAT_FLOAT3, config.width, config.height, 0,
+                           0,
+                           0);  // optional
+  oidnSetSharedFilterImage(filter, "normal", layer.normal_sRGB.data(),
+                           OIDN_FORMAT_FLOAT3, config.width, config.height, 0,
+                           0, 0);  // optional
+  oidnSetSharedFilterImage(filter, "output", layer.denoised_sRGB.data(),
+                           OIDN_FORMAT_FLOAT3, config.width, config.height, 0,
+                           0, 0);
+  oidnSetFilter1b(filter, "hdr", true);  // image is HDR
+  oidnCommitFilter(filter);
+
+  // Filter the image
+  oidnExecuteFilter(filter);
+
+  // Check for errors
+  const char* errorMessage;
+  if (oidnGetDeviceError(device, &errorMessage) != OIDN_ERROR_NONE)
+    printf("Error: %s\n", errorMessage);
+
+  // Cleanup
+  oidnReleaseFilter(filter);
+  oidnReleaseDevice(device);
+}
 
 void Renderer::moveCamera(const Vec3& pos_diff) {
   scene.camera->moveCamera(pos_diff);
