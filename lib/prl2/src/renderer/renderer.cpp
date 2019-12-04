@@ -86,8 +86,6 @@ void Renderer::renderPixel(int i, int j, Sampler& sampler) {
     // Primary Rayで計算できるものを計算しておく
     IntersectInfo info;
     if (scene.intersector->intersect(ray, info)) {
-      // TODO: Albedo Layerの計算
-
       // Normal LayerにsRGBを加算
       layer.normal_sRGB[3 * i + 3 * config.width * j + 0] +=
           0.5f * (info.hitNormal.x() + 1.0f);
@@ -121,6 +119,12 @@ void Renderer::renderPixel(int i, int j, Sampler& sampler) {
           0.5f * (wi.y() + 1.0f);
       layer.sample_sRGB[3 * i + 3 * config.width * j + 2] +=
           0.5f * (wi.z() + 1.0f);
+
+      // Albedo Layerの計算
+      const RGB albedo = info.hitPrimitive->material->albedoRGB(interaction);
+      layer.albedo_sRGB[3 * i + 3 * config.width * j + 0] += albedo.x();
+      layer.albedo_sRGB[3 * i + 3 * config.width * j + 1] += albedo.y();
+      layer.albedo_sRGB[3 * i + 3 * config.width * j + 2] += albedo.z();
     }
 
     // 分光放射束の計算
