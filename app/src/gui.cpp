@@ -57,6 +57,10 @@ void GUI::drawRenderSettings(Render& render) {
                       .c_str());
     }
 
+    if (ImGui::Button("Denoise")) {
+      render.renderer.denoise();
+    }
+
     static char filename[32];
     ImGui::InputText("Image Filename", filename, 32);
 
