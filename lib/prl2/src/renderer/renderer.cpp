@@ -245,6 +245,8 @@ void Renderer::render(const std::atomic<bool>& cancel) {
                        .count();
 }
 
+void Renderer::denoise() {}
+
 void Renderer::moveCamera(const Vec3& pos_diff) {
   scene.camera->moveCamera(pos_diff);
   scene.camera->getLookAt(config.camera_position, config.camera_lookat);
