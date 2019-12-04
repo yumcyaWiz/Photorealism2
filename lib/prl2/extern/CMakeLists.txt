@@ -33,8 +33,8 @@ target_include_directories(tinyexr INTERFACE
 )
 
 # tbb
-include(tbb/cmake/TBBBuild.cmake)
-tbb_build(TBB_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/tbb CONFIG_DIR TBB_DIR)
+# include(tbb/cmake/TBBBuild.cmake)
+# tbb_build(TBB_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/tbb CONFIG_DIR TBB_DIR)
 # find_package(TBB REQUIRED)
 
 # Intel Open Image Denoise
