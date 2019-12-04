@@ -9,11 +9,15 @@
 * Multi Importance Sampling
 * OBVH
 
-## Usage
+## Requirements
+* CMake(>= 3.12)
+* [TBB](https://software.intel.com/en-us/tbb)
+
+## Build
+
 ```zsh
 mkdir build
 cd build
 cmake ..
-make
-./main
+cmake --build .
 ```
