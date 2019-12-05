@@ -154,9 +154,6 @@ void Renderer::render(const std::atomic<bool>& cancel) {
   // Progressを初期化
   num_rendered_pixels = 0;
 
-  // レンダリング用のスレッドプールの作成
-  Parallel pool;
-
   // 時間計測
   const auto start_time = std::chrono::system_clock::now();
 

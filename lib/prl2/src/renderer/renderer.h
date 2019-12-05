@@ -8,6 +8,7 @@
 #include "core/primitive.h"
 #include "integrator/integrator.h"
 #include "io/io.h"
+#include "parallel/parallel.h"
 #include "renderer/render_config.h"
 #include "renderer/render_layer.h"
 #include "renderer/scene.h"
@@ -143,6 +144,7 @@ class Renderer {
   RenderLayer layer;                       // RenderLayer
   std::shared_ptr<Sampler> sampler;        // Sampler
   std::shared_ptr<Integrator> integrator;  // Integrator
+  Parallel pool;                           // Rendering Thhread Pool
 
   std::atomic<uint64_t> num_rendered_pixels;  // レンダリング済みのピクセル数
   int rendering_time;  // レンダリングにかかった時間[ms]
