@@ -155,7 +155,7 @@ void Renderer::render(const std::atomic<bool>& cancel) {
   num_rendered_pixels = 0;
 
   // 時間計測
-  const auto start_time = std::chrono::system_clock::now();
+  decltype(std::chrono::system_clock::now()) start_time, finish_time;
 
   // 画素ごとにサンプリングを繰り返す場合
   if (!config.render_realtime) {
@@ -172,6 +172,7 @@ void Renderer::render(const std::atomic<bool>& cancel) {
       }
     }
 
+    start_time = std::chrono::system_clock::now();
     pool.parallelFor2D(
         [&](int i, int j) {
           // Samplerを画素ごとに用意する
@@ -192,6 +193,7 @@ void Renderer::render(const std::atomic<bool>& cancel) {
         },
         config.render_tiles_x, config.render_tiles_y, config.width,
         config.height);
+    finish_time = std::chrono::system_clock::now();
   }
   // 1回のサンプリングで画面全体を描画する場合
   // Interactiveに操作する場合に向いている
@@ -205,6 +207,7 @@ void Renderer::render(const std::atomic<bool>& cancel) {
       }
     }
 
+    start_time = std::chrono::system_clock::now();
     for (int k = 1; k <= config.samples; ++k) {
       pool.parallelFor2D(
           [&](int i, int j) {
@@ -243,9 +246,8 @@ void Renderer::render(const std::atomic<bool>& cancel) {
         break;
       }
     }
+    finish_time = std::chrono::system_clock::now();
   }
-
-  const auto finish_time = std::chrono::system_clock::now();
 
   // レンダリングに要した時間をセット
   rendering_time = std::chrono::duration_cast<std::chrono::milliseconds>(
