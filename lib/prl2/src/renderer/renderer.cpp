@@ -294,7 +294,8 @@ void Renderer::denoise() {
 }
 
 SPD Renderer::getSPD(int i, int j) const {
-  return scene.camera->film->getPixel(i, j);
+  return scene.camera->film->getPixel(i, j) /
+         layer.samples[i + config.width * j];
 }
 
 void Renderer::moveCamera(const Vec3& pos_diff) {

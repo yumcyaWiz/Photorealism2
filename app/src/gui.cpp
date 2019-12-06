@@ -192,8 +192,9 @@ void GUI::drawRenderLayer(Render& render) {
       const int j = ImGui::GetIO().MousePos.y - image_pos.y;
       phi = render.renderer.getSPD(i, j).phi.data();
     }
-    ImGui::PlotHistogram("SPD", phi, Prl2::SPD::LAMBDA_SAMPLES, 0, nullptr, 0,
-                         100, ImVec2(0, 50));
+    ImGui::PlotHistogram(
+        "SPD", phi, Prl2::SPD::LAMBDA_SAMPLES, 0, nullptr, 0,
+        *std::max_element(phi, phi + Prl2::SPD::LAMBDA_SAMPLES), ImVec2(0, 50));
   }
   ImGui::End();
 }
