@@ -143,15 +143,6 @@ void GUI::drawRenderLayer(Render& render) {
 
         render.requestRender();
       }
-      // カメラ移動Z(Ctrl + Mouse)
-      else if (ImGui::IsMouseDragging() && ImGui::IsKeyDown(341)) {
-        const ImVec2 delta = ImGui::GetIO().MouseDelta;
-
-        Prl2::Vec3 pos_diff(0, 0, -1e-2 * delta.y);
-        render.renderer.moveCamera(pos_diff);
-
-        render.requestRender();
-      }
       // カメラ回転
       else if (ImGui::IsMouseDragging()) {
         const ImVec2 delta = ImGui::GetIO().MouseDelta;
@@ -160,6 +151,17 @@ void GUI::drawRenderLayer(Render& render) {
         render.renderer.rotateCamera(rotate);
 
         render.requestRender();
+      }
+
+      // カメラ移動Z(Mouse Scroll)
+      {
+        const float delta = ImGui::GetIO().MouseWheel;
+        if (delta != 0) {
+          Prl2::Vec3 pos_diff(0, 0, -1e-1 * delta);
+          render.renderer.moveCamera(pos_diff);
+
+          render.requestRender();
+        }
       }
     }
   }
