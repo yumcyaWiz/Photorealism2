@@ -149,11 +149,11 @@ void GUI::drawRenderLayer(Render& render) {
 
     // テクスチャの表示
     ImTextureID id = (ImTextureID)(intptr_t)(render_texture_id);
+    const ImVec2 image_pos = ImGui::GetCursorScreenPos();
     ImGui::Image(id, ImVec2(512, 512));
+    bool texture_hovered = ImGui::IsItemHovered();
 
-    if (ImGui::IsItemHovered()) {
-      // TODO: SPDの表示
-
+    if (texture_hovered) {
       // カメラ移動XY(Shift + Mouse)
       if (ImGui::IsMouseDragging() && ImGui::IsKeyDown(340)) {
         const ImVec2 delta = ImGui::GetIO().MouseDelta;
@@ -184,6 +184,19 @@ void GUI::drawRenderLayer(Render& render) {
         }
       }
     }
+
+    // SPDの表示
+    static float phi[Prl2::SPD::LAMBDA_SAMPLES];
+    if (texture_hovered) {
+      const int i = ImGui::GetIO().MousePos.x - image_pos.x;
+      const int j = ImGui::GetIO().MousePos.y - image_pos.y;
+
+      const Prl2::SPD& spd = render.renderer.getSPD(i, j);
+      for (int k = 0; k < Prl2::SPD::LAMBDA_SAMPLES; ++k) {
+        phi[k] = spd.phi[k];
+      }
+    }
+    ImGui::PlotLines("SPD", phi, Prl2::SPD::LAMBDA_SAMPLES);
   }
   ImGui::End();
 }
