@@ -293,6 +293,10 @@ void Renderer::denoise() {
   oidnReleaseDevice(device);
 }
 
+SPD Renderer::getSPD(int i, int j) const {
+  return scene.camera->film->getPixel(i, j);
+}
+
 void Renderer::moveCamera(const Vec3& pos_diff) {
   scene.camera->moveCamera(pos_diff);
   scene.camera->getLookAt(config.camera_position, config.camera_lookat);

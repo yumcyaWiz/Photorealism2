@@ -111,6 +111,9 @@ class Renderer {
   // カメラをLookAtを中心とする球面上に配置する
   void setCameraAroundLookAt(const Real& theta, const Real& phi);
 
+  // FilmにあるSPDを入手する
+  SPD getSPD(int i, int j) const;
+
   // ConfigからCameraを初期化する
   void commitCamera();
 
