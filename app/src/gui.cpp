@@ -149,7 +149,7 @@ void GUI::drawRenderLayer(Render& render) {
 
     // テクスチャの表示
     ImTextureID id = (ImTextureID)(intptr_t)(render_texture_id);
-    ImGui::Image(id, ImVec2(width, height));
+    ImGui::Image(id, ImVec2(512, 512));
 
     if (ImGui::IsItemHovered()) {
       // TODO: SPDの表示
