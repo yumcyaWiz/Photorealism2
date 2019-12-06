@@ -42,21 +42,40 @@ void GUI::drawRenderSettings(Render& render) {
       auto_render = _auto_render;
     }
 
+    // レンダリング中
     if (render.isRendering()) {
+      // キャンセルボタン
       if (ImGui::Button("Cancel")) {
         render.cancelRender();
       }
       ImGui::SameLine();
-      ImGui::ProgressBar(render.renderer.getRenderProgress());
-    } else {
+
+      // Progress Bar
+      const float progress = render.renderer.getRenderProgress();
+      if (render.renderer.getRenderRealtime()) {
+        ImGui::ProgressBar(progress, ImVec2(-1, 0),
+                           (std::to_string(static_cast<int>(
+                                render.renderer.getSamples() * progress)) +
+                            " spp")
+                               .c_str());
+      } else {
+        ImGui::ProgressBar(progress);
+      }
+    }
+    // レンダリングしていない状態
+    else {
+      // Renderボタン
       if (ImGui::Button("Render")) {
         render.requestRender();
       }
       ImGui::SameLine();
+
+      // レンダリングに要した時間
       ImGui::Text((std::to_string(render.renderer.getRenderingTime()) + " [ms]")
                       .c_str());
     }
 
+    // Denoise Button
     if (ImGui::Button("Denoise")) {
       render.renderer.denoise();
     }
@@ -132,8 +151,9 @@ void GUI::drawRenderLayer(Render& render) {
     ImTextureID id = (ImTextureID)(intptr_t)(render_texture_id);
     ImGui::Image(id, ImVec2(width, height));
 
-    // カメラ操作
     if (ImGui::IsItemHovered()) {
+      // TODO: SPDの表示
+
       // カメラ移動XY(Shift + Mouse)
       if (ImGui::IsMouseDragging() && ImGui::IsKeyDown(340)) {
         const ImVec2 delta = ImGui::GetIO().MouseDelta;
