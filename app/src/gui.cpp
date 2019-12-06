@@ -133,7 +133,7 @@ void GUI::drawRenderLayer(Render& render) {
     ImGui::Image(id, ImVec2(width, height));
 
     // カメラ操作
-    if (ImGui::IsWindowFocused()) {
+    if (ImGui::IsItemHovered()) {
       // カメラ移動XY(Shift + Mouse)
       if (ImGui::IsMouseDragging() && ImGui::IsKeyDown(340)) {
         const ImVec2 delta = ImGui::GetIO().MouseDelta;
