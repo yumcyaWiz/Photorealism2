@@ -186,17 +186,14 @@ void GUI::drawRenderLayer(Render& render) {
     }
 
     // SPDの表示
-    static float phi[Prl2::SPD::LAMBDA_SAMPLES];
+    static const float* phi = render.renderer.getSPD(0, 0).phi.data();
     if (texture_hovered) {
       const int i = ImGui::GetIO().MousePos.x - image_pos.x;
       const int j = ImGui::GetIO().MousePos.y - image_pos.y;
-
-      const Prl2::SPD& spd = render.renderer.getSPD(i, j);
-      for (int k = 0; k < Prl2::SPD::LAMBDA_SAMPLES; ++k) {
-        phi[k] = spd.phi[k];
-      }
+      phi = render.renderer.getSPD(i, j).phi.data();
     }
-    ImGui::PlotLines("SPD", phi, Prl2::SPD::LAMBDA_SAMPLES);
+    ImGui::PlotHistogram("SPD", phi, Prl2::SPD::LAMBDA_SAMPLES, 0, nullptr, 0,
+                         100, ImVec2(0, 50));
   }
   ImGui::End();
 }
