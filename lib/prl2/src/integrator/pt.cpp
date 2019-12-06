@@ -23,6 +23,7 @@ Real PT::integrate(const Ray& ray_in, const Scene& scene,
       // 光源に当たったら寄与を追加
       if (info.hitPrimitive->light != nullptr) {
         radiance += throughput * info.hitPrimitive->light->Le(ray, info);
+        break;
       }
 
       // BRDF Sampling
