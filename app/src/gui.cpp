@@ -65,7 +65,7 @@ void GUI::drawRenderSettings(Render& render) {
     ImGui::InputText("Image Filename", filename, 32);
 
     static int image_type = 0;
-    ImGui::Combo("Image Type", &image_type, "PPM\0PNG\0EXR\0HDR\0PFM");
+    ImGui::Combo("Image Type", &image_type, "PPM\0PNG\0EXR\0HDR\0PFM\0\0");
 
     if (ImGui::Button("Save Image")) {
       // Set image type
@@ -98,7 +98,7 @@ void GUI::drawRenderLayer(Render& render) {
     static int e = 0;
     if (ImGui::Combo(
             "Layer", &e,
-            "Render\0Denoise\0Albedo\0Normal\0Position\0Depth\0Sample")) {
+            "Render\0Denoise\0Albedo\0Normal\0Position\0Depth\0Sample\0\0")) {
       if (e == 0) {
         render.renderer.setOutputLayer(Prl2::LayerType::Render);
       } else if (e == 1) {
@@ -266,7 +266,7 @@ void GUI::drawSkyUI(Render& render) const {
   ImGui::Begin("Sky");
   {
     static int sky_type = 0;
-    ImGui::Combo("Sky Type", &sky_type, "Uniform\0Hosek\0");
+    ImGui::Combo("Sky Type", &sky_type, "Uniform\0Hosek\0\0");
 
     if (sky_type == 0) {
       static float color[3];
