@@ -39,6 +39,9 @@ class Camera {
   // CameraをLookAtを中心とした球面上の位置にセットする
   void setCameraAroundLookAt(const Real& theta, const Real& phi);
 
+  // 画素(i, j)内のフィルム上の点をサンプリングする
+  Vec2 sampleFilm(int i, int j, Sampler& sampler) const;
+
   //フィルム上の点pFilmにおけるレイを生成する
   // pFilmはフィルム上の物理的位置である
   virtual bool generateRay(const Vec2& pFilm, Sampler& sampler, Ray& ray,

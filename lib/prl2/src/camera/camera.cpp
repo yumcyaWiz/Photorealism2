@@ -84,4 +84,10 @@ void Camera::setCameraAroundLookAt(const Real& theta, const Real& phi) {
   setLookAt(pos, lookat);
 }
 
+Vec2 Camera::sampleFilm(int i, int j, Sampler& sampler) const {
+  const Real u = (2.0f * (i + sampler.getNext()) - film->width) / film->width;
+  const Real v = (2.0f * (j + sampler.getNext()) - film->height) / film->height;
+  return Vec2(0.5f * film->width_length * u, 0.5f * film->height_length * v);
+}
+
 }  // namespace Prl2
