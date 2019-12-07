@@ -76,13 +76,10 @@ void Renderer::renderPixel(int i, int j, Sampler& sampler) {
   Ray ray;
   ray.lambda = lambda;
 
-  //フィルム面のUV座標
-  const Real u = (2.0f * (i + sampler.getNext()) - config.width) / config.width;
-  const Real v =
-      (2.0f * (j + sampler.getNext()) - config.height) / config.height;
-
   //カメラからレイを生成
-  if (scene.camera->generateRay(u, v, ray)) {
+  const Vec2 pFilm = scene.camera->sampleFilm(i, j, sampler);
+  Real camera_pdf;
+  if (scene.camera->generateRay(pFilm, sampler, ray, camera_pdf)) {
     // Primary Rayで計算できるものを計算しておく
     IntersectInfo info;
     if (scene.intersector->intersect(ray, info)) {
@@ -133,7 +130,8 @@ void Renderer::renderPixel(int i, int j, Sampler& sampler) {
     }
 
     // 分光放射束の計算
-    const Real phi = integrator->integrate(ray, scene, sampler) / lambda_pdf;
+    const Real phi =
+        integrator->integrate(ray, scene, sampler) / (camera_pdf * lambda_pdf);
 
     // フィルムに分光放射束を加算
     if (!std::isnan(phi)) {
