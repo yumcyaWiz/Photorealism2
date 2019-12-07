@@ -74,7 +74,6 @@ int main() {
 
     gui.drawRenderSettings(render);
     gui.drawRenderLayer(render);
-    gui.drawFilmSettings(render);
     gui.drawCameraSettings(render);
     gui.drawToneMappingUI(render);
     gui.drawSkyUI(render);

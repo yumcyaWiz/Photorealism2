@@ -22,9 +22,6 @@ class GUI {
   // RenderLayerを表示
   void drawRenderLayer(Render& render);
 
-  // FilmSettingsを表示
-  void drawFilmSettings(Render& render) const;
-
   // CameraSettingsを表示
   void drawCameraSettings(Render& render) const;
 

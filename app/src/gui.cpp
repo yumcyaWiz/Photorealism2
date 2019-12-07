@@ -80,6 +80,8 @@ void GUI::drawRenderSettings(Render& render) {
       render.renderer.denoise();
     }
 
+    ImGui::Separator();
+
     static char filename[32];
     ImGui::InputText("Image Filename", filename, 32);
 
@@ -199,26 +201,6 @@ void GUI::drawRenderLayer(Render& render) {
   ImGui::End();
 }
 
-void GUI::drawFilmSettings(Render& render) const {
-  bool refresh_render = false;
-
-  ImGui::Begin("Film");
-  {
-    float lx, ly;
-    render.renderer.getFilmLength(lx, ly);
-    static float film_length[2] = {lx, ly};
-    if (ImGui::InputFloat2("Film Length", film_length)) {
-      render.renderer.setFilmLength(film_length[0], film_length[1]);
-      refresh_render = true;
-    }
-  }
-  ImGui::End();
-
-  if (refresh_render && auto_render) {
-    render.requestRender();
-  }
-}
-
 void GUI::drawCameraSettings(Render& render) const {
   bool refresh_render = false;
 
@@ -247,6 +229,15 @@ void GUI::drawCameraSettings(Render& render) const {
                      camera_position[2]),
           Prl2::Vec3(lookat_position[0], lookat_position[1],
                      lookat_position[2]));
+      refresh_render = true;
+    }
+
+    // Film Length
+    float lx, ly;
+    render.renderer.getFilmLength(lx, ly);
+    static float film_length[2] = {lx, ly};
+    if (ImGui::InputFloat2("Film Length", film_length)) {
+      render.renderer.setFilmLength(film_length[0], film_length[1]);
       refresh_render = true;
     }
   }
