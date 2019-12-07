@@ -460,6 +460,9 @@ Real Renderer::getHosekSkyTurbidity() const {
   return config.hosek_sky_turbidity;
 }
 Vec3 Renderer::getHosekSkyAlbedo() const { return config.hosek_sky_albedo; }
+void Renderer::setHosekSkyAlbedo(const Vec3& albedo) {
+  config.hosek_sky_albedo = albedo;
+}
 void Renderer::setHosekSkySunDirection(const Vec3& sun_direction) {
   config.hosek_sky_sun_direciton = sun_direction;
 }
