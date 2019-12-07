@@ -206,6 +206,7 @@ void GUI::drawCameraSettings(Render& render) const {
 
   ImGui::Begin("Camera");
   {
+    // LookAt
     Prl2::Vec3 pos, lookat;
     render.renderer.getCameraLookAt(pos, lookat);
 
@@ -232,11 +233,32 @@ void GUI::drawCameraSettings(Render& render) const {
       refresh_render = true;
     }
 
+    // Camera Type
+    static int camera_type = 0;
+    const Prl2::CameraType prl2_camera_type = render.renderer.getCameraType();
+    switch (prl2_camera_type) {
+      case Prl2::CameraType::Pinhole:
+        camera_type = 0;
+        break;
+      case Prl2::CameraType::Environment:
+        camera_type = 1;
+        break;
+    }
+    if (ImGui::Combo("Camera Type", &camera_type, "Pinhole\0Environment\0\0")) {
+      if (camera_type == 0) {
+        render.renderer.setCameraType(Prl2::CameraType::Pinhole);
+      } else if (camera_type == 1) {
+        render.renderer.setCameraType(Prl2::CameraType::Environment);
+      }
+    }
+
+    ImGui::Separator();
+
     // Film Length
     float lx, ly;
     render.renderer.getFilmLength(lx, ly);
     static float film_length[2] = {lx, ly};
-    if (ImGui::InputFloat2("Film Length", film_length)) {
+    if (ImGui::InputFloat2("Film Length [m]", film_length)) {
       render.renderer.setFilmLength(film_length[0], film_length[1]);
       refresh_render = true;
     }
