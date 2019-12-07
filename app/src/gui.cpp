@@ -331,6 +331,10 @@ void GUI::drawSkyUI(Render& render) const {
             Prl2::Vec3(albedo[0], albedo[1], albedo[2]));
       }
     }
+
+    if (ImGui::Button("Commit Sky")) {
+      render.renderer.commitSky();
+    }
   }
   ImGui::End();
 }
