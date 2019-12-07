@@ -299,7 +299,13 @@ void GUI::drawSkyUI(Render& render) const {
   ImGui::Begin("Sky");
   {
     static int sky_type = 0;
-    ImGui::Combo("Sky Type", &sky_type, "Uniform\0Hosek\0\0");
+    if (ImGui::Combo("Sky Type", &sky_type, "Uniform\0Hosek\0\0")) {
+      if (sky_type == 0) {
+        render.renderer.setSkyType(Prl2::SkyType::Uniform);
+      } else if (sky_type == 1) {
+        render.renderer.setSkyType(Prl2::SkyType::Hosek);
+      }
+    }
 
     if (sky_type == 0) {
       static float color[3];
