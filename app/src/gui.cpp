@@ -252,6 +252,11 @@ void GUI::drawCameraSettings(Render& render) const {
       }
     }
 
+    // Commit Camera
+    if (ImGui::Button("Commit Camera")) {
+      render.renderer.commitCamera();
+    }
+
     ImGui::Separator();
 
     // Film Length
