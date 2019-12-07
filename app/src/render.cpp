@@ -32,7 +32,7 @@ void Render::initScene() {
   const auto geom2 = std::make_shared<Prl2::Geometry>(plane, geom2_trans);
 
   const auto geom3_trans = std::make_shared<Prl2::Transform>(
-      Prl2::scale(Prl2::Vec3(3)) * Prl2::translate(Prl2::Vec3(0, 5, 0)));
+      Prl2::scale(Prl2::Vec3(3)) * Prl2::translate(Prl2::Vec3(0, 3, 0)));
   const auto geom3 = std::make_shared<Prl2::Geometry>(plane, geom3_trans);
 
   const auto light =
