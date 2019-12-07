@@ -252,6 +252,17 @@ void GUI::drawCameraSettings(Render& render) const {
       }
     }
 
+    // Pinhole Camera
+    if (camera_type == 0) {
+      static float fov = render.renderer.getPinholeCameraFOV();
+      if (ImGui::InputFloat("FOV", &fov)) {
+        render.renderer.setPinholeCameraFOV(fov);
+      }
+    }
+    // Environment Camera
+    else if (camera_type == 1) {
+    }
+
     // Commit Camera
     if (ImGui::Button("Commit Camera")) {
       render.renderer.commitCamera();
