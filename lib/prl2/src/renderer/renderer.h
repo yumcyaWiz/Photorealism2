@@ -111,6 +111,9 @@ class Renderer {
   // カメラをLookAtを中心とする球面上に配置する
   void setCameraAroundLookAt(const Real& theta, const Real& phi);
 
+  // カメラの種類を入手
+  CameraType getCameraType() const;
+
   // FilmにあるSPDを入手する
   SPD getSPD(int i, int j) const;
 

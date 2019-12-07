@@ -298,6 +298,8 @@ SPD Renderer::getSPD(int i, int j) const {
          layer.samples[i + config.width * j];
 }
 
+CameraType Renderer::getCameraType() const { return config.camera_type; }
+
 void Renderer::moveCamera(const Vec3& pos_diff) {
   scene.camera->moveCamera(pos_diff);
   scene.camera->getLookAt(config.camera_position, config.camera_lookat);
