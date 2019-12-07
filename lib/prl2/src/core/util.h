@@ -1,5 +1,5 @@
-#ifndef UTIL_H
-#define UTIL_H
+#ifndef _PRL2_UTIL_H
+#define _PRL2_UTIL_H
 
 #include <algorithm>
 #include <fstream>
@@ -7,34 +7,16 @@
 #include <string>
 #include <vector>
 
+#include "core/constant.h"
 #include "core/type.h"
 
 namespace Prl2 {
 
-void RGBArray2PPM(int width, int height, const std::vector<Real>& rgb,
-                  const std::string& filename) {
-  std::ofstream file(filename);
-  file << "P3"
-       << "\n"
-       << width << " " << height << " "
-       << "\n"
-       << "255"
-       << "\n";
+// Degree to Radian
+inline constexpr Real degToRad(const Real& deg) { return deg / 180 * PI }
 
-  for (int j = 0; j < height; ++j) {
-    for (int i = 0; i < width; ++i) {
-      const int r = std::clamp(
-          static_cast<int>(255 * rgb[0 + 3 * i + 3 * width * j]), 0, 255);
-      const int g = std::clamp(
-          static_cast<int>(255 * rgb[1 + 3 * i + 3 * width * j]), 0, 255);
-      const int b = std::clamp(
-          static_cast<int>(255 * rgb[2 + 3 * i + 3 * width * j]), 0, 255);
-      file << r << " " << g << " " << b << "\n";
-    }
-  }
-
-  file.close();
-}
+// Radian to Degree
+inline constexpr Real radToDeg(const Real& rad) { return rad * INV_PI }
 
 }  // namespace Prl2
 
