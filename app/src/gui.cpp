@@ -298,7 +298,16 @@ void GUI::drawToneMappingUI(Render& render) {
 void GUI::drawSkyUI(Render& render) const {
   ImGui::Begin("Sky");
   {
+    // Sky Type
     static int sky_type = 0;
+    switch (render.renderer.getSkyType()) {
+      case Prl2::SkyType::Uniform:
+        sky_type = 0;
+        break;
+      case Prl2::SkyType::Hosek:
+        sky_type = 1;
+        break;
+    }
     if (ImGui::Combo("Sky Type", &sky_type, "Uniform\0Hosek\0\0")) {
       if (sky_type == 0) {
         render.renderer.setSkyType(Prl2::SkyType::Uniform);
@@ -307,25 +316,43 @@ void GUI::drawSkyUI(Render& render) const {
       }
     }
 
+    // Uniform Sky
     if (sky_type == 0) {
       static float color[3];
+      const Prl2::Vec3 prl2_uniform_sky_color =
+          render.renderer.getUniformSkyColor();
+      color[0] = prl2_uniform_sky_color.x();
+      color[1] = prl2_uniform_sky_color.y();
+      color[2] = prl2_uniform_sky_color.z();
       if (ImGui::ColorEdit3("Color", color)) {
         render.renderer.setUniformSkyColor(
             Prl2::Vec3(color[0], color[1], color[2]));
       }
-    } else if (sky_type == 1) {
+    }
+    // Hosek Sky
+    else if (sky_type == 1) {
       static float sunDirection[3];
+      const Prl2::Vec3 prl2_sun_direction =
+          render.renderer.getHosekSkySunDirection();
+      sunDirection[0] = prl2_sun_direction.x();
+      sunDirection[1] = prl2_sun_direction.y();
+      sunDirection[2] = prl2_sun_direction.z();
       if (ImGui::InputFloat3("Sun Direction", sunDirection)) {
         render.renderer.setHosekSkySunDirection(
             Prl2::Vec3(sunDirection[0], sunDirection[1], sunDirection[2]));
       }
 
-      static float turbidity = 0;
+      static float turbidity;
+      turbidity = render.renderer.getHosekSkyTurbidity();
       if (ImGui::InputFloat("Turbidity", &turbidity)) {
         render.renderer.setHosekSkyTurbidity(turbidity);
       }
 
       static float albedo[3];
+      const Prl2::Vec3 prl2_albedo = render.renderer.getHosekSkyAlbedo();
+      albedo[0] = prl2_albedo.x();
+      albedo[1] = prl2_albedo.y();
+      albedo[2] = prl2_albedo.z();
       if (ImGui::ColorEdit3("Albedo", albedo)) {
         render.renderer.setHosekSkyAlbedo(
             Prl2::Vec3(albedo[0], albedo[1], albedo[2]));
