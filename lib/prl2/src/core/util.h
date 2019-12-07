@@ -13,10 +13,10 @@
 namespace Prl2 {
 
 // Degree to Radian
-inline constexpr Real degToRad(const Real& deg) { return deg / 180 * PI }
+inline constexpr Real degToRad(const Real& deg) { return deg / 180 * PI; }
 
 // Radian to Degree
-inline constexpr Real radToDeg(const Real& rad) { return rad * INV_PI }
+inline constexpr Real radToDeg(const Real& rad) { return rad * INV_PI; }
 
 }  // namespace Prl2
 

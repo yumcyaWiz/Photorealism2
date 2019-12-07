@@ -10,10 +10,7 @@ class PinholeCamera : public Camera {
  public:
   PinholeCamera(const std::shared_ptr<Film>& _film,
                 const std::shared_ptr<Transform>& _localToWorld,
-                const Real& _fov)
-      : Camera(_film, _localToWorld), fov(_fov) {
-    pinhole_distance = 0.5f * film->height_length / std::tan(0.5f * fov);
-  };
+                const Real& _fov);
 
   bool generateRay(const Real& u, const Real& v, Ray& ray) const override;
 

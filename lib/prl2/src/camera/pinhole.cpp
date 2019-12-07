@@ -1,6 +1,14 @@
 #include "camera/pinhole.h"
+#include "core/util.h"
 
 namespace Prl2 {
+
+PinholeCamera::PinholeCamera(const std::shared_ptr<Film>& _film,
+                             const std::shared_ptr<Transform>& _localToWorld,
+                             const Real& _fov)
+    : Camera(_film, _localToWorld), fov(degToRad(_fov)) {
+  pinhole_distance = 0.5f * film->width_length / std::tan(0.5f * fov);
+}
 
 bool PinholeCamera::generateRay(const Real& u, const Real& v, Ray& ray) const {
   assert(u >= -1 && u <= 1);
