@@ -10,11 +10,8 @@ PinholeCamera::PinholeCamera(const std::shared_ptr<Film>& _film,
   pinhole_distance = 0.5f * film->width_length / std::tan(0.5f * fov);
 }
 
-bool PinholeCamera::generateRay(const Real& u, const Real& v, Ray& ray) const {
-  assert(u >= -1 && u <= 1);
-  assert(v >= -1 && v <= 1);
-
-  Vec2 pFilm_2d = film->computePosition(u, v);
+bool PinholeCamera::generateRay(const Vec2& pFilm_2d, Sampler& sampler,
+                                Ray& ray, Real& pdf) const {
   Vec3 pFilm(pFilm_2d.x(), pFilm_2d.y(), 0);
   Vec3 pinholePos = Vec3(0, 0, -pinhole_distance);
 
@@ -23,6 +20,8 @@ bool PinholeCamera::generateRay(const Real& u, const Real& v, Ray& ray) const {
   ray.direction = normalize(pinholePos - pFilm);
   //ワールド座標系に変換
   ray = localToWorld->apply(ray);
+
+  pdf = 1;
 
   return true;
 }

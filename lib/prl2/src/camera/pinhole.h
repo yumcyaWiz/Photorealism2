@@ -12,7 +12,8 @@ class PinholeCamera : public Camera {
                 const std::shared_ptr<Transform>& _localToWorld,
                 const Real& _fov);
 
-  bool generateRay(const Real& u, const Real& v, Ray& ray) const override;
+  bool generateRay(const Vec2& pFilm, Sampler& sampler, Ray& ray,
+                   Real& pdf) const override;
 
  private:
   const Real fov;         //横視野角

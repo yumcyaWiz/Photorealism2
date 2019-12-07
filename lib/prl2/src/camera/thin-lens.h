@@ -10,7 +10,8 @@ class ThinLensCamera : public Camera {
   ThinLensCamera(const std::shared_ptr<Film>& _film,
                  const std::shared_ptr<Transform>& _localToWorld);
 
-  bool generateRay(const Real& u, const Real& v, Ray& ray) const override;
+  bool generateRay(const Vec2& pFilm, Sampler& sampler, Ray& ray,
+                   Real& pdf) const override;
 
  private:
   const Real fov;  // 横視野角

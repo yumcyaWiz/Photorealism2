@@ -7,8 +7,12 @@ EnvironmentCamera::EnvironmentCamera(
     const std::shared_ptr<Transform>& _localToWorld)
     : Camera(_film, _localToWorld) {}
 
-bool EnvironmentCamera::generateRay(const Real& u, const Real& v,
-                                    Ray& ray) const {
+bool EnvironmentCamera::generateRay(const Vec2& pFilm, Sampler& sampler,
+                                    Ray& ray, Real& pdf) const {
+  // (u, v)を計算
+  const Real u = pFilm.x() / (0.5f * film->width_length);
+  const Real v = pFilm.y() / (0.5f * film->height_length);
+
   // 球面座標を計算
   const Real phi = 0.5f * (u + 1.0f) * PI_MUL_2;
   const Real theta = 0.5f * (v + 1.0f) * PI;

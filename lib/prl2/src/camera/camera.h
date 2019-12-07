@@ -7,6 +7,8 @@
 #include "core/ray.h"
 #include "core/transform.h"
 #include "core/type.h"
+#include "core/vec2.h"
+#include "sampler/sampler.h"
 
 namespace Prl2 {
 
@@ -37,9 +39,10 @@ class Camera {
   // CameraをLookAtを中心とした球面上の位置にセットする
   void setCameraAroundLookAt(const Real& theta, const Real& phi);
 
-  //(u, v)におけるレイを生成する
-  //(u, v)はフィルム面を[-1, -1] x [1, 1]で表している
-  virtual bool generateRay(const Real& u, const Real& v, Ray& ray) const = 0;
+  //フィルム上の点pFilmにおけるレイを生成する
+  // pFilmはフィルム上の物理的位置である
+  virtual bool generateRay(const Vec2& pFilm, Sampler& sampler, Ray& ray,
+                           Real& pdf) const = 0;
 
  protected:
   std::shared_ptr<Transform>
