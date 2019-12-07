@@ -300,6 +300,10 @@ SPD Renderer::getSPD(int i, int j) const {
 
 CameraType Renderer::getCameraType() const { return config.camera_type; }
 
+void Renderer::setCameraType(const CameraType& type) {
+  config.camera_type = type;
+}
+
 void Renderer::moveCamera(const Vec3& pos_diff) {
   scene.camera->moveCamera(pos_diff);
   scene.camera->getLookAt(config.camera_position, config.camera_lookat);

@@ -113,6 +113,8 @@ class Renderer {
 
   // カメラの種類を入手
   CameraType getCameraType() const;
+  // カメラの種類をセット
+  void setCameraType(const CameraType& type);
 
   // FilmにあるSPDを入手する
   SPD getSPD(int i, int j) const;
