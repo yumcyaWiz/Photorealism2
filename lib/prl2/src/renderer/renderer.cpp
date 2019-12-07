@@ -464,7 +464,7 @@ void Renderer::setHosekSkyAlbedo(const Vec3& albedo) {
   config.hosek_sky_albedo = albedo;
 }
 void Renderer::setHosekSkySunDirection(const Vec3& sun_direction) {
-  config.hosek_sky_sun_direciton = sun_direction;
+  config.hosek_sky_sun_direciton = normalize(sun_direction);
 }
 void Renderer::setHosekSkyTurbidity(const Real& turbidity) {
   config.hosek_sky_turbidity = turbidity;
