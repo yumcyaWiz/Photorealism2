@@ -116,6 +116,11 @@ class Renderer {
   // カメラの種類をセット
   void setCameraType(const CameraType& type);
 
+  // Pinhole Camera
+  // FOVを入手
+  float getPinholeCameraFOV() const;
+  void setPinholeCameraFOV(float fov);
+
   // FilmにあるSPDを入手する
   SPD getSPD(int i, int j) const;
 

@@ -304,6 +304,13 @@ void Renderer::setCameraType(const CameraType& type) {
   config.camera_type = type;
 }
 
+float Renderer::getPinholeCameraFOV() const {
+  return config.camera_pinhole_fov;
+}
+void Renderer::setPinholeCameraFOV(float fov) {
+  config.camera_pinhole_fov = fov;
+}
+
 void Renderer::moveCamera(const Vec3& pos_diff) {
   scene.camera->moveCamera(pos_diff);
   scene.camera->getLookAt(config.camera_position, config.camera_lookat);
