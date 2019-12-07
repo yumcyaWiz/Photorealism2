@@ -324,13 +324,16 @@ void GUI::drawSkyUI(Render& render) const {
       color[0] = prl2_uniform_sky_color.x();
       color[1] = prl2_uniform_sky_color.y();
       color[2] = prl2_uniform_sky_color.z();
-      if (ImGui::ColorEdit3("Color", color)) {
+      if (ImGui::ColorEdit3(
+              "Color", color,
+              ImGuiColorEditFlags_Float | ImGuiColorEditFlags_HDR)) {
         render.renderer.setUniformSkyColor(
             Prl2::Vec3(color[0], color[1], color[2]));
       }
     }
     // Hosek Sky
     else if (sky_type == 1) {
+      // Sun Direction
       static float sunDirection[3];
       const Prl2::Vec3 prl2_sun_direction =
           render.renderer.getHosekSkySunDirection();
@@ -342,23 +345,28 @@ void GUI::drawSkyUI(Render& render) const {
             Prl2::Vec3(sunDirection[0], sunDirection[1], sunDirection[2]));
       }
 
+      // Turbidity
       static float turbidity;
       turbidity = render.renderer.getHosekSkyTurbidity();
       if (ImGui::InputFloat("Turbidity", &turbidity)) {
         render.renderer.setHosekSkyTurbidity(turbidity);
       }
 
+      // Albedo
       static float albedo[3];
       const Prl2::Vec3 prl2_albedo = render.renderer.getHosekSkyAlbedo();
       albedo[0] = prl2_albedo.x();
       albedo[1] = prl2_albedo.y();
       albedo[2] = prl2_albedo.z();
-      if (ImGui::ColorEdit3("Albedo", albedo)) {
+      if (ImGui::ColorEdit3(
+              "Albedo", albedo,
+              ImGuiColorEditFlags_Float | ImGuiColorEditFlags_HDR)) {
         render.renderer.setHosekSkyAlbedo(
             Prl2::Vec3(albedo[0], albedo[1], albedo[2]));
       }
     }
 
+    // Commit Sky
     if (ImGui::Button("Commit Sky")) {
       render.renderer.commitSky();
     }
