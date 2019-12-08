@@ -1,4 +1,4 @@
-#include "renderer/scene_loader.h"
+#include "renderer/scene-loader.h"
 
 namespace Prl2 {
 

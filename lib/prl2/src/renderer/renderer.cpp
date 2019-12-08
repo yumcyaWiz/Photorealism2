@@ -10,7 +10,7 @@
 #include "parallel/parallel.h"
 #include "postprocess/tone_mapping.h"
 #include "renderer/renderer.h"
-#include "renderer/scene_loader.h"
+#include "renderer/scene-loader.h"
 #include "sampler/random.h"
 #include "sky/hosek_sky.h"
 #include "sky/ibl_sky.h"
