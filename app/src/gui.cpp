@@ -244,11 +244,14 @@ void GUI::drawCameraSettings(Render& render) const {
         camera_type = 1;
         break;
     }
-    if (ImGui::Combo("Camera Type", &camera_type, "Pinhole\0Environment\0\0")) {
+    if (ImGui::Combo("Camera Type", &camera_type,
+                     "Pinhole\0Environment\0ThinLens\0\0")) {
       if (camera_type == 0) {
         render.renderer.setCameraType(Prl2::CameraType::Pinhole);
       } else if (camera_type == 1) {
         render.renderer.setCameraType(Prl2::CameraType::Environment);
+      } else if (camera_type == 2) {
+        render.renderer.setCameraType(Prl2::CameraType::ThinLens);
       }
     }
 
