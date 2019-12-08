@@ -11,13 +11,15 @@ PinholeCamera::PinholeCamera(const std::shared_ptr<Film>& _film,
 }
 
 bool PinholeCamera::generateRay(const Vec2& pFilm_2d, Sampler& sampler,
-                                Ray& ray, Real& pdf) const {
+                                Ray& ray, Real& cos, Real& pdf) const {
   Vec3 pFilm(pFilm_2d.x(), pFilm_2d.y(), 0);
   Vec3 pinholePos = Vec3(0, 0, -pinhole_distance);
 
   //ローカル座標系のレイ
   ray.origin = pFilm;
   ray.direction = normalize(pinholePos - pFilm);
+  cos = std::abs(ray.direction.z());
+
   //ワールド座標系に変換
   ray = localToWorld->apply(ray);
 

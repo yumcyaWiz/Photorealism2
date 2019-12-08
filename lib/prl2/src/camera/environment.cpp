@@ -8,7 +8,7 @@ EnvironmentCamera::EnvironmentCamera(
     : Camera(_film, _localToWorld) {}
 
 bool EnvironmentCamera::generateRay(const Vec2& pFilm, Sampler& sampler,
-                                    Ray& ray, Real& pdf) const {
+                                    Ray& ray, Real& cos, Real& pdf) const {
   // (u, v)を計算
   const Real u = pFilm.x() / (0.5f * film->width_length);
   const Real v = pFilm.y() / (0.5f * film->height_length);
@@ -24,6 +24,8 @@ bool EnvironmentCamera::generateRay(const Vec2& pFilm, Sampler& sampler,
 
   //ワールド座標系に変換
   ray = localToWorld->apply(ray);
+  cos = 1;
+  pdf = 1;
 
   return true;
 }

@@ -12,7 +12,7 @@ class ThinLensCamera : public Camera {
                  const Real& _fov, const Real& _thin_lens_radius,
                  const Real& _focus_distance);
 
-  bool generateRay(const Vec2& pFilm, Sampler& sampler, Ray& ray,
+  bool generateRay(const Vec2& pFilm, Sampler& sampler, Ray& ray, Real& cos,
                    Real& pdf) const override;
 
  private:

@@ -45,7 +45,7 @@ class Camera {
   //フィルム上の点pFilmにおけるレイを生成する
   // pFilmはフィルム上の物理的位置である
   virtual bool generateRay(const Vec2& pFilm, Sampler& sampler, Ray& ray,
-                           Real& pdf) const = 0;
+                           Real& cos, Real& pdf) const = 0;
 
  protected:
   std::shared_ptr<Transform>

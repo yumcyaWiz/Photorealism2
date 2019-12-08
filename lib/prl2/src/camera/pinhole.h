@@ -12,7 +12,7 @@ class PinholeCamera : public Camera {
                 const std::shared_ptr<Transform>& _localToWorld,
                 const Real& _fov);
 
-  bool generateRay(const Vec2& pFilm, Sampler& sampler, Ray& ray,
+  bool generateRay(const Vec2& pFilm, Sampler& sampler, Ray& ray, Real& cos,
                    Real& pdf) const override;
 
  private:

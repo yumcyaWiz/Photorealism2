@@ -16,7 +16,7 @@ ThinLensCamera::ThinLensCamera(const std::shared_ptr<Film>& _film,
 }
 
 bool ThinLensCamera::generateRay(const Vec2& pFilm_2d, Sampler& sampler,
-                                 Ray& ray, Real& pdf) const {
+                                 Ray& ray, Real& cos, Real& pdf) const {
   // フィルム上の点
   const Vec3 pFilm(pFilm_2d.x(), pFilm_2d.y(), 0);
 
@@ -28,7 +28,7 @@ bool ThinLensCamera::generateRay(const Vec2& pFilm_2d, Sampler& sampler,
   // ピントの合う位置を計算
   const Vec3 pLensCenter(0, 0, -thin_lens_pos);
   const Vec3 filmToLensCenter = normalize(pLensCenter - pFilm);
-  const Real cos = std::abs(filmToLensCenter.z());
+  cos = std::abs(filmToLensCenter.z());
   const Real r = focus_distance / cos;
   const Vec3 objectPos = pFilm + r * filmToLensCenter;
 
