@@ -243,6 +243,9 @@ void GUI::drawCameraSettings(Render& render) const {
       case Prl2::CameraType::Environment:
         camera_type = 1;
         break;
+      case Prl2::CameraType::ThinLens:
+        camera_type = 2;
+        break;
     }
     if (ImGui::Combo("Camera Type", &camera_type,
                      "Pinhole\0Environment\0ThinLens\0\0")) {
@@ -356,6 +359,9 @@ void GUI::drawSkyUI(Render& render) const {
       case Prl2::SkyType::Hosek:
         sky_type = 1;
         break;
+      case Prl2::SkyType::IBL:
+        sky_type = 2;
+        break;
     }
     if (ImGui::Combo("Sky Type", &sky_type, "Uniform\0Hosek\0\0")) {
       if (sky_type == 0) {
@@ -435,7 +441,7 @@ void GUI::drawSkyUI(Render& render) const {
 
 void GUI::makeTextureFromLayer(GLuint texture_id, int width, int height,
                                const std::vector<float>& rgb) const {
-  if (rgb.size() != 3 * width * height) return;
+  if (rgb.size() != static_cast<unsigned int>(3 * width * height)) return;
 
   // テクスチャの生成
   glBindTexture(GL_TEXTURE_2D, texture_id);
