@@ -13,9 +13,9 @@ class Diffuse : public Material {
   Diffuse(const SPD& _spd);
 
   Real sampleDirection(const SurfaceInteraction& interaction, Sampler& sampler,
-                       Vec3& wi_local, Real& pdf) const;
+                       Vec3& wi_local, Real& pdf) const override;
 
-  RGB albedoRGB(const SurfaceInteraction& interaction) const;
+  RGB albedoRGB(const SurfaceInteraction& interaction) const override;
 
  private:
   SPD spd;  //分光反射率
