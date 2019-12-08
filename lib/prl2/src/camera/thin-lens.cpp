@@ -28,17 +28,22 @@ bool ThinLensCamera::generateRay(const Vec2& pFilm_2d, Sampler& sampler,
   // ピントの合う位置を計算
   const Vec3 pLensCenter(0, 0, -thin_lens_pos);
   const Vec3 filmToLensCenter = normalize(pLensCenter - pFilm);
-  cos = std::abs(filmToLensCenter.z());
-  const Real r = focus_distance / cos;
+  const Real _cos = std::abs(filmToLensCenter.z());
+  const Real r = focus_distance / _cos;
   const Vec3 objectPos = pFilm + r * filmToLensCenter;
 
   // レイの生成
   ray.origin = pLens;
   ray.direction = normalize(objectPos - pLens);
-  pdf = (thin_lens_pos * thin_lens_pos) / (cos * cos * cos) * 1 /
-        (thin_lens_radius * thin_lens_radius);
 
-  return false;
+  pdf = (thin_lens_pos * thin_lens_pos) / (_cos * _cos * _cos) * 1 /
+        (thin_lens_radius * thin_lens_radius);
+  cos = _cos;
+
+  // ワールド座標系に変換
+  ray = localToWorld->apply(ray);
+
+  return true;
 }
 
 }  // namespace Prl2
