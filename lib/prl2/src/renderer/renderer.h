@@ -9,7 +9,7 @@
 #include "integrator/integrator.h"
 #include "io/io.h"
 #include "parallel/parallel.h"
-#include "renderer/render_config.h"
+#include "renderer/render-config.h"
 #include "renderer/render_layer.h"
 #include "renderer/scene.h"
 

@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "core/type.h"
-#include "renderer/render_config.h"
+#include "renderer/render-config.h"
 
 namespace Prl2 {
 

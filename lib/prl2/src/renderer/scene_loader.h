@@ -6,7 +6,7 @@
 
 #include "core/primitive.h"
 #include "material/material.h"
-#include "renderer/render_config.h"
+#include "renderer/render-config.h"
 #include "renderer/scene.h"
 #include "shape/shape.h"
 #include "texture/texture.h"
