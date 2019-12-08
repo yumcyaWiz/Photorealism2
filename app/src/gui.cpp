@@ -265,6 +265,23 @@ void GUI::drawCameraSettings(Render& render) const {
     // Environment Camera
     else if (camera_type == 1) {
     }
+    // Thin Lens Camera
+    else if (camera_type == 2) {
+      static float fov = render.renderer.getThinLensCameraFOV();
+      if (ImGui::InputFloat("FOV", &fov)) {
+        render.renderer.setThinLensCameraFOV(fov);
+      }
+
+      static float radius = render.renderer.getThinLensCameraLensRadius();
+      if (ImGui::InputFloat("Lens Radius", &radius)) {
+        render.renderer.setThinLensCameraLensRadius(radius);
+      }
+
+      static float distance = render.renderer.getThinLensCameraFocusDistance();
+      if (ImGui::InputFloat("Focus Distance", &distance)) {
+        render.renderer.setThinLensCameraFocusDistance(distance);
+      }
+    }
 
     // Commit Camera
     if (ImGui::Button("Commit Camera")) {
