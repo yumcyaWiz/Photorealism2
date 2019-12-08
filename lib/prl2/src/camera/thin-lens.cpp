@@ -1,5 +1,6 @@
 #include "camera/thin-lens.h"
 #include "core/util.h"
+#include "sampler/sampling.h"
 
 namespace Prl2 {
 
@@ -15,6 +16,12 @@ ThinLensCamera::ThinLensCamera(const std::shared_ptr<Film>& _film,
 bool ThinLensCamera::generateRay(const Vec2& pFilm_2d, Sampler& sampler,
                                  Ray& ray, Real& pdf) const {
   const Vec3 pFilm(pFilm_2d.x(), pFilm_2d.y(), 0);
+
+  const Vec2 pDisk = sampleDisk(sampler.getNext2D());
+  const Vec3 pLens(thin_lens_radius * pDisk.x(), thin_lens_radius * pDisk.y(),
+                   -thin_lens_pos);
+  const Vec3 pLensCenter(0, 0, -thin_lens_pos);
+
   return false;
 }
 
