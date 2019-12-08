@@ -10,22 +10,12 @@ namespace Prl2 {
 
 class Diffuse : public Material {
  public:
-  Diffuse(const SPD& _spd) : spd(_spd){};
+  Diffuse(const SPD& _spd);
 
   Real sampleDirection(const SurfaceInteraction& interaction, Sampler& sampler,
-                       Vec3& wi_local, Real& pdf) const {
-    // Cosine Weighted Hemisphere Sampling
-    const Vec2 u = sampler.getNext2D();
-    wi_local = sampleCosineHemisphere(u);
-    pdf = INV_PI * absCosTheta(wi_local);
+                       Vec3& wi_local, Real& pdf) const;
 
-    // BRDFを計算
-    return INV_PI * spd.sample(interaction.lambda);
-  };
-
-  RGB albedoRGB(const SurfaceInteraction& interaction) const {
-    return spd.toRGB();
-  };
+  RGB albedoRGB(const SurfaceInteraction& interaction) const;
 
  private:
   SPD spd;  //分光反射率
