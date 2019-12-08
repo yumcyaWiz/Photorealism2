@@ -362,6 +362,8 @@ void GUI::drawSkyUI(Render& render) const {
         render.renderer.setSkyType(Prl2::SkyType::Uniform);
       } else if (sky_type == 1) {
         render.renderer.setSkyType(Prl2::SkyType::Hosek);
+      } else if (sky_type == 2) {
+        render.renderer.setSkyType(Prl2::SkyType::IBL);
       }
     }
 
@@ -412,6 +414,14 @@ void GUI::drawSkyUI(Render& render) const {
               ImGuiColorEditFlags_Float | ImGuiColorEditFlags_HDR)) {
         render.renderer.setHosekSkyAlbedo(
             Prl2::Vec3(albedo[0], albedo[1], albedo[2]));
+      }
+    }
+    // IBL Sky
+    else if (sky_type == 2) {
+      // IBL filename
+      static char filename[32];
+      if (ImGui::InputText("Filename", filename, 32)) {
+        render.renderer.setIBLSkyFilename(std::string(filename));
       }
     }
 
