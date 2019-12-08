@@ -293,6 +293,8 @@ void Renderer::denoise() {
   oidnReleaseDevice(device);
 }
 
+void Renderer::generatePath(int i, int j, std::vector<Vec3>& origins) const {}
+
 SPD Renderer::getSPD(int i, int j) const {
   return scene.camera->film->getPixel(i, j) /
          layer.samples[i + config.width * j];
