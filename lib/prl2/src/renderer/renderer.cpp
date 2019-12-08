@@ -78,8 +78,9 @@ void Renderer::renderPixel(int i, int j, Sampler& sampler) {
 
   //カメラからレイを生成
   const Vec2 pFilm = scene.camera->sampleFilm(i, j, sampler);
+  Real camera_cos;
   Real camera_pdf;
-  if (scene.camera->generateRay(pFilm, sampler, ray, camera_pdf)) {
+  if (scene.camera->generateRay(pFilm, sampler, ray, camera_cos, camera_pdf)) {
     // Primary Rayで計算できるものを計算しておく
     IntersectInfo info;
     if (scene.intersector->intersect(ray, info)) {
@@ -130,8 +131,8 @@ void Renderer::renderPixel(int i, int j, Sampler& sampler) {
     }
 
     // 分光放射束の計算
-    const Real phi =
-        integrator->integrate(ray, scene, sampler) / (camera_pdf * lambda_pdf);
+    const Real phi = integrator->integrate(ray, scene, sampler) * camera_cos /
+                     (camera_pdf * lambda_pdf);
 
     // フィルムに分光放射束を加算
     if (!std::isnan(phi)) {
