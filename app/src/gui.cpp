@@ -363,7 +363,7 @@ void GUI::drawSkyUI(Render& render) const {
         sky_type = 2;
         break;
     }
-    if (ImGui::Combo("Sky Type", &sky_type, "Uniform\0Hosek\0\0")) {
+    if (ImGui::Combo("Sky Type", &sky_type, "Uniform\0Hosek\0IBL\0\0")) {
       if (sky_type == 0) {
         render.renderer.setSkyType(Prl2::SkyType::Uniform);
       } else if (sky_type == 1) {
@@ -426,6 +426,8 @@ void GUI::drawSkyUI(Render& render) const {
     else if (sky_type == 2) {
       // IBL filename
       static char filename[32];
+      const std::string prl2_filename = render.renderer.getIBLSkyFilename();
+      strcpy(filename, prl2_filename.c_str());
       if (ImGui::InputText("Filename", filename, 32)) {
         render.renderer.setIBLSkyFilename(std::string(filename));
       }
