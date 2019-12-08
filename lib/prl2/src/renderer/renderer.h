@@ -10,7 +10,7 @@
 #include "io/io.h"
 #include "parallel/parallel.h"
 #include "renderer/render-config.h"
-#include "renderer/render_layer.h"
+#include "renderer/render-layer.h"
 #include "renderer/scene.h"
 
 namespace Prl2 {
