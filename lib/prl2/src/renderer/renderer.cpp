@@ -494,6 +494,13 @@ void Renderer::setUniformSkyColor(const Vec3& color) {
   config.uniform_sky_color = color;
 }
 
+std::string Renderer::getIBLSkyFilename() const {
+  return config.ibl_sky_filename;
+}
+void Renderer::setIBLSkyFilename(const std::string& filename) {
+  config.ibl_sky_filename = filename;
+}
+
 Vec3 Renderer::getHosekSkySunDirection() const {
   return config.hosek_sky_sun_direciton;
 }

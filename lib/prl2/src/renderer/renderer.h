@@ -164,6 +164,10 @@ class Renderer {
   void setHosekSkyTurbidity(const Real& turbidity);
   void setHosekSkyAlbedo(const Vec3& albedo);
 
+  // IBL Sky
+  std::string getIBLSkyFilename() const;
+  void setIBLSkyFilename(const std::string& filename);
+
   // LayerをsRGBとして入手
   void getLayersRGB(std::vector<float>& rgb) const;
 
