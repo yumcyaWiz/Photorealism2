@@ -330,6 +330,27 @@ void Renderer::setRenderRealtime(bool realtime) {
   config.render_realtime = realtime;
 }
 
+float Renderer::getThinLensCameraFOV() const {
+  return config.camera_thin_lens_fov;
+}
+void Renderer::setThinLensCameraFOV(float fov) {
+  config.camera_thin_lens_fov = fov;
+}
+
+float Renderer::getThinLensCameraLensRadius() const {
+  return config.camera_thin_lens_radius;
+}
+void Renderer::setThinLensCameraLensRadius(float radius) {
+  config.camera_thin_lens_radius = radius;
+}
+
+float Renderer::getThinLensCameraFocusDistance() const {
+  return config.camera_thin_lens_focus_distance;
+}
+void Renderer::setThinLensCameraFocusDistance(float distance) {
+  config.camera_thin_lens_focus_distance = distance;
+}
+
 Real Renderer::getRenderProgress() const {
   return static_cast<Real>(num_rendered_pixels) /
          (static_cast<Real>(config.width) * config.height * config.samples);

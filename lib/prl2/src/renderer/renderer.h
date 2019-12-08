@@ -121,6 +121,20 @@ class Renderer {
   float getPinholeCameraFOV() const;
   void setPinholeCameraFOV(float fov);
 
+  // Thin Lens Camera
+  // FOVを入手
+  float getThinLensCameraFOV() const;
+  // FOVをセット
+  void setThinLensCameraFOV(float fov);
+  // レンズ半径を入手
+  float getThinLensCameraLensRadius() const;
+  // レンズ半径をセット
+  void setThinLensCameraLensRadius(float radius);
+  // ピントの合う位置までの距離を入手
+  float getThinLensCameraFocusDistance() const;
+  // ピントの合う位置までの距離をセット
+  void setThinLensCameraFocusDistance(float distance);
+
   // FilmにあるSPDを入手する
   SPD getSPD(int i, int j) const;
 
