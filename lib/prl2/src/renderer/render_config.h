@@ -30,7 +30,7 @@ enum class ToneMappingType { Linear, Reinhard };
 enum class SkyType { Uniform, Hosek, IBL };
 
 // Cameraの種類
-enum class CameraType { Pinhole, Environment };
+enum class CameraType { Pinhole, Environment, ThinLens };
 
 // レンダリングの設定を表すクラス
 // 画像のサイズ、サンプル数、カメラの種類、シーンファイルの種類などを設定する
@@ -66,6 +66,12 @@ struct RenderConfig {
 
   // Pinhole Camera
   Real camera_pinhole_fov = 90.0f;  // 対角FOV
+
+  // Thin Lens Camera
+  Real camera_thin_lens_fov = 90.0f;     // 対角FOV
+  Real camera_thin_lens_radius = 0.01f;  // レンズの半径
+  Real camera_thin_lens_focus_distance =
+      1.0f;  // フィルム面からピントが合う面までの距離
 
   // Scene
   std::string scene_file;  //シーンファイル
