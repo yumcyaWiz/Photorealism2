@@ -3,6 +3,7 @@
 
 #include "camera/environment.h"
 #include "camera/pinhole.h"
+#include "camera/thin-lens.h"
 #include "core/transform.h"
 #include "integrator/pt.h"
 #include "light/light.h"
@@ -369,6 +370,11 @@ void Renderer::commitCamera() {
                                                     config.camera_pinhole_fov));
   } else if (config.camera_type == CameraType::Environment) {
     scene.setCamera(std::make_shared<EnvironmentCamera>(film, transform));
+  } else if (config.camera_type == CameraType::ThinLens) {
+    scene.setCamera(std::make_shared<ThinLensCamera>(
+        film, transform, config.camera_thin_lens_fov,
+        config.camera_thin_lens_radius,
+        config.camera_thin_lens_focus_distance));
   } else {
     std::cerr << "Invalid camera type" << std::endl;
     std::exit(EXIT_FAILURE);
