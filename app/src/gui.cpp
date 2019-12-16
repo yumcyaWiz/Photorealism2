@@ -13,6 +13,28 @@ GUI::GUI() {
 
   // FrameBufferの用意
   glGenFramebuffers(1, &framebuffer_id);
+
+  // showPath用のShaderの初期化
+  const char* showpath_vert_shader_source;
+  const char* showpath_frag_shader_source;
+
+  // Vertex Shader
+  GLuint showpath_vert_shader = glCreateShader(GL_VERTEX_SHADER);
+  glShaderSource(showpath_vert_shader, 1, &showpath_vert_shader_source, NULL);
+  glCompileShader(showpath_vert_shader);
+
+  // Fragment Shader
+  GLuint showpath_frag_shader = glCreateShader(GL_FRAGMENT_SHADER);
+  glShaderSource(showpath_frag_shader, 1, &showpath_frag_shader_source, NULL);
+  glCompileShader(showpath_frag_shader);
+
+  // Link Program
+  showpath_program = glCreateProgram();
+  glAttachShader(showpath_program, showpath_vert_shader);
+  glAttachShader(showpath_program, showpath_frag_shader);
+  glLinkProgram(showpath_program);
+  glDeleteShader(showpath_vert_shader);
+  glDeleteShader(showpath_frag_shader);
 }
 
 void GUI::drawRenderSettings(Render& render) {
