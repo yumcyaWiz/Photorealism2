@@ -2,7 +2,8 @@
 
 namespace Prl2 {
 
-Real PT::integrate(int i, int j, const Scene& scene, Sampler& sampler) const {
+bool PT::integrate(int i, int j, const Scene& scene, Sampler& sampler,
+                   IntegratorResult& result) const {
   // フィルム上の点のサンプリング
   Vec2 pFilm = scene.camera->sampleFilm(i, j, sampler);
 
@@ -10,7 +11,7 @@ Real PT::integrate(int i, int j, const Scene& scene, Sampler& sampler) const {
   Ray ray;
   Real camera_cos, camera_pdf;
   if (!scene.camera->generateRay(pFilm, sampler, ray, camera_cos, camera_pdf)) {
-    return 0;
+    return false;
   }
 
   // 波長のサンプリング
@@ -66,7 +67,9 @@ Real PT::integrate(int i, int j, const Scene& scene, Sampler& sampler) const {
     }
   }
 
-  return radiance * camera_cos / (lambda_pdf * camera_pdf);
+  result.lambda = lambda;
+  result.phi = radiance * camera_cos / (lambda_pdf * camera_pdf);
+  return true;
 }
 
 }  // namespace Prl2
