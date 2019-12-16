@@ -185,6 +185,20 @@ void GUI::drawRenderLayer(Render& render) {
           render.requestRender();
         }
       }
+
+      // パスの表示
+      if (ImGui::IsMouseClicked(0)) {
+        // クリックした画素の位置を計算
+        const ImVec2 mouse_pos = ImGui::GetIO().MousePos;
+        const int i = mouse_pos.x - image_pos.x;
+        const int j = mouse_pos.y - image_pos.y;
+
+        // パスの生成
+        std::vector<Prl2::Ray> path;
+        render.renderer.generatePath(i, j, path);
+
+        // パスの表示
+      }
     }
 
     // SPDの表示
