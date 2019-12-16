@@ -46,7 +46,7 @@ class GUI {
                             const std::vector<float>& rgb) const;
 
   // Pathの表示
-  void showPath(const std::vector<Prl2::Ray> path) const;
+  void showPath(int i, int j, const Render& render) const;
 };
 
 #endif

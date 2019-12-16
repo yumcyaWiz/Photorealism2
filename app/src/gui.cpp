@@ -193,12 +193,8 @@ void GUI::drawRenderLayer(Render& render) {
         const int i = mouse_pos.x - image_pos.x;
         const int j = mouse_pos.y - image_pos.y;
 
-        // パスの生成
-        std::vector<Prl2::Ray> path;
-        render.renderer.generatePath(i, j, path);
-
         // パスの表示
-        showPath(path);
+        showPath(i, j, render);
       }
     }
 
@@ -471,7 +467,16 @@ void GUI::makeTextureFromLayer(GLuint texture_id, int width, int height,
   glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void GUI::showPath(const std::vector<Prl2::Ray> path) const {
+void GUI::showPath(int i, int j, const Render& render) const {
+  // パスの生成
+  std::vector<Prl2::Ray> path;
+  render.renderer.generatePath(i, j, path);
+
+  // カメラパラメーターの取得
+  Prl2::Vec3 camera_pos, camera_lookat;
+  render.renderer.getCameraLookAt(camera_pos, camera_lookat);
+
   glBindFramebuffer(GL_FRAMEBUFFER, framebuffer_id);
+
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
