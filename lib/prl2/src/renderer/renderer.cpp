@@ -284,7 +284,17 @@ void Renderer::denoise() {
   oidnReleaseDevice(device);
 }
 
-void Renderer::generatePath(int i, int j, std::vector<Vec3>& origins) const {}
+void Renderer::generatePath(int i, int j, std::vector<Ray>& path) const {
+  // Samplerを画素ごとに用意する
+  const std::unique_ptr<Sampler> pixel_sampler =
+      sampler->clone(i + config.width * j);
+
+  // パスの生成
+  IntegratorResult result;
+  integrator->integrate(i, j, scene, *pixel_sampler, result);
+
+  path = result.rays;
+}
 
 SPD Renderer::getSPD(int i, int j) const {
   return scene.camera->film->getPixel(i, j) /

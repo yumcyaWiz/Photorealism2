@@ -38,7 +38,7 @@ class Renderer {
   void denoise();
 
   // 指定した画素のサンプルパスを生成する
-  void generatePath(int i, int j, std::vector<Vec3>& origins) const;
+  void generatePath(int i, int j, std::vector<Ray>& path) const;
 
   bool getRenderRealtime() const;
   void setRenderRealtime(bool realtime);
