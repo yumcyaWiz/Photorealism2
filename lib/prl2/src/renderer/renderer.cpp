@@ -68,86 +68,77 @@ void Renderer::loadConfig(const RenderConfig& _config) {
 }
 
 void Renderer::renderPixel(int i, int j, Sampler& sampler) {
-  // 波長のサンプリング
-  const Real lambda =
-      SPD::LAMBDA_MIN + sampler.getNext() * (SPD::LAMBDA_MAX - SPD::LAMBDA_MIN);
-  constexpr Real lambda_pdf = 1 / (SPD::LAMBDA_MAX - SPD::LAMBDA_MIN);
+  // Primary Rayで計算できるものを計算
+  {
+    Vec2 pFilm = scene.camera->sampleFilm(i, j, sampler);
+    Ray ray;
+    Real camera_cos, camera_pdf;
+    if (scene.camera->generateRay(pFilm, sampler, ray, camera_cos,
+                                  camera_pdf)) {
+      IntersectInfo info;
+      if (scene.intersector->intersect(ray, info)) {
+        // Normal LayerにsRGBを加算
+        layer.normal_sRGB[3 * i + 3 * config.width * j + 0] +=
+            0.5f * (info.hitNormal.x() + 1.0f);
+        layer.normal_sRGB[3 * i + 3 * config.width * j + 1] +=
+            0.5f * (info.hitNormal.y() + 1.0f);
+        layer.normal_sRGB[3 * i + 3 * config.width * j + 2] +=
+            0.5f * (info.hitNormal.z() + 1.0f);
 
-  // サンプリングされた波長をセット
-  Ray ray;
-  ray.lambda = lambda;
+        // Depth LayerにsRGBを加算
+        layer.depth_sRGB[3 * i + 3 * config.width * j + 0] += info.t;
+        layer.depth_sRGB[3 * i + 3 * config.width * j + 1] += info.t;
+        layer.depth_sRGB[3 * i + 3 * config.width * j + 2] += info.t;
 
-  //カメラからレイを生成
-  const Vec2 pFilm = scene.camera->sampleFilm(i, j, sampler);
-  Real camera_cos;
-  Real camera_pdf;
-  if (scene.camera->generateRay(pFilm, sampler, ray, camera_cos, camera_pdf)) {
-    // Primary Rayで計算できるものを計算しておく
-    IntersectInfo info;
-    if (scene.intersector->intersect(ray, info)) {
-      // Normal LayerにsRGBを加算
-      layer.normal_sRGB[3 * i + 3 * config.width * j + 0] +=
-          0.5f * (info.hitNormal.x() + 1.0f);
-      layer.normal_sRGB[3 * i + 3 * config.width * j + 1] +=
-          0.5f * (info.hitNormal.y() + 1.0f);
-      layer.normal_sRGB[3 * i + 3 * config.width * j + 2] +=
-          0.5f * (info.hitNormal.z() + 1.0f);
+        // Position LayerにsRGBを加算
+        layer.position_sRGB[3 * i + 3 * config.width * j + 0] +=
+            info.hitPos.x();
+        layer.position_sRGB[3 * i + 3 * config.width * j + 1] +=
+            info.hitPos.y();
+        layer.position_sRGB[3 * i + 3 * config.width * j + 2] +=
+            info.hitPos.z();
 
-      // Depth LayerにsRGBを加算
-      layer.depth_sRGB[3 * i + 3 * config.width * j + 0] += info.t;
-      layer.depth_sRGB[3 * i + 3 * config.width * j + 1] += info.t;
-      layer.depth_sRGB[3 * i + 3 * config.width * j + 2] += info.t;
+        // Sample LayerにsRGBを格納
+        const auto material = info.hitPrimitive->material;
+        const Vec3 wo = -ray.direction;
+        const Vec3 wo_local = worldToMaterial(wo, info);
+        const SurfaceInteraction interaction(wo_local, ray.lambda);
+        Vec3 wi_local;
+        Real pdf;
+        material->sampleDirection(interaction, sampler, wi_local, pdf);
+        const Vec3 wi = materialToWorld(wi_local, info);
+        layer.sample_sRGB[3 * i + 3 * config.width * j + 0] +=
+            0.5f * (wi.x() + 1.0f);
+        layer.sample_sRGB[3 * i + 3 * config.width * j + 1] +=
+            0.5f * (wi.y() + 1.0f);
+        layer.sample_sRGB[3 * i + 3 * config.width * j + 2] +=
+            0.5f * (wi.z() + 1.0f);
 
-      // Position LayerにsRGBを加算
-      layer.position_sRGB[3 * i + 3 * config.width * j + 0] += info.hitPos.x();
-      layer.position_sRGB[3 * i + 3 * config.width * j + 1] += info.hitPos.y();
-      layer.position_sRGB[3 * i + 3 * config.width * j + 2] += info.hitPos.z();
-
-      // Sample LayerにsRGBを格納
-      const auto material = info.hitPrimitive->material;
-      const Vec3 wo = -ray.direction;
-      const Vec3 wo_local = worldToMaterial(wo, info);
-      const SurfaceInteraction interaction(wo_local, ray.lambda);
-      Vec3 wi_local;
-      Real pdf;
-      material->sampleDirection(interaction, sampler, wi_local, pdf);
-      const Vec3 wi = materialToWorld(wi_local, info);
-      layer.sample_sRGB[3 * i + 3 * config.width * j + 0] +=
-          0.5f * (wi.x() + 1.0f);
-      layer.sample_sRGB[3 * i + 3 * config.width * j + 1] +=
-          0.5f * (wi.y() + 1.0f);
-      layer.sample_sRGB[3 * i + 3 * config.width * j + 2] +=
-          0.5f * (wi.z() + 1.0f);
-
-      // Albedo Layerの計算
-      const RGB albedo = info.hitPrimitive->material->albedoRGB(interaction);
-      const Real albedo_max =
-          std::max(std::max(albedo.x(), albedo.y()), albedo.z());
-      layer.albedo_sRGB[3 * i + 3 * config.width * j + 0] +=
-          albedo.x() / albedo_max;
-      layer.albedo_sRGB[3 * i + 3 * config.width * j + 1] +=
-          albedo.y() / albedo_max;
-      layer.albedo_sRGB[3 * i + 3 * config.width * j + 2] +=
-          albedo.z() / albedo_max;
+        // Albedo Layerの計算
+        const RGB albedo = info.hitPrimitive->material->albedoRGB(interaction);
+        const Real albedo_max =
+            std::max(std::max(albedo.x(), albedo.y()), albedo.z());
+        layer.albedo_sRGB[3 * i + 3 * config.width * j + 0] +=
+            albedo.x() / albedo_max;
+        layer.albedo_sRGB[3 * i + 3 * config.width * j + 1] +=
+            albedo.y() / albedo_max;
+        layer.albedo_sRGB[3 * i + 3 * config.width * j + 2] +=
+            albedo.z() / albedo_max;
+      }
     }
-
-    // 分光放射束の計算
-    const Real phi = integrator->integrate(ray, scene, sampler) * camera_cos /
-                     (camera_pdf * lambda_pdf);
-
-    // フィルムに分光放射束を加算
-    if (!std::isnan(phi)) {
-      scene.camera->film->addPixel(i, j, lambda, phi);
-    } else {
-      fprintf(stderr, "nan detected at (%d, %d)\n", i, j);
-    }
-
-    // Render LayerにsRGBを書き込み
-    const RGB rgb = scene.camera->film->getPixel(i, j).toRGB();
-    layer.render_sRGB[3 * i + 3 * config.width * j] = rgb.x();
-    layer.render_sRGB[3 * i + 3 * config.width * j + 1] = rgb.y();
-    layer.render_sRGB[3 * i + 3 * config.width * j + 2] = rgb.z();
   }
+
+  IntegratorResult result;
+  if (integrator->integrate(i, j, scene, sampler, result)) {
+    // フィルムに分光放射束を加算
+    scene.camera->film->addPixel(i, j, result.lambda, result.phi);
+  }
+
+  // Render LayerにsRGBを書き込み
+  const RGB rgb = scene.camera->film->getPixel(i, j).toRGB();
+  layer.render_sRGB[3 * i + 3 * config.width * j] = rgb.x();
+  layer.render_sRGB[3 * i + 3 * config.width * j + 1] = rgb.y();
+  layer.render_sRGB[3 * i + 3 * config.width * j + 2] = rgb.z();
 }
 
 void Renderer::render(const std::atomic<bool>& cancel) {
