@@ -14,6 +14,9 @@ class GUI {
   GUI() {
     // Textureの用意
     glGenTextures(1, &render_texture_id);
+
+    // FrameBufferの用意
+    glGenFramebuffers(1, &framebuffer_id);
   };
 
   // RenderSettingsを表示
@@ -33,6 +36,7 @@ class GUI {
 
  private:
   GLuint render_texture_id;  // Render Texture
+  GLuint framebuffer_id;     // FrameBuffer
 
   bool auto_render = true;  // パラメーター変化時に自動で再レンダリングするか
   bool update_texture = false;  // Textureの更新フラグ
@@ -40,6 +44,9 @@ class GUI {
   // LayerからTextureを生成
   void makeTextureFromLayer(GLuint texture_id, int width, int height,
                             const std::vector<float>& rgb) const;
+
+  // Pathの表示
+  void showPath(const std::vector<Prl2::Ray> path) const;
 };
 
 #endif

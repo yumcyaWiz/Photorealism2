@@ -198,6 +198,7 @@ void GUI::drawRenderLayer(Render& render) {
         render.renderer.generatePath(i, j, path);
 
         // パスの表示
+        showPath(path);
       }
     }
 
@@ -468,4 +469,9 @@ void GUI::makeTextureFromLayer(GLuint texture_id, int width, int height,
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_FLOAT,
                rgb.data());
   glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void GUI::showPath(const std::vector<Prl2::Ray> path) const {
+  glBindFramebuffer(GL_FRAMEBUFFER, framebuffer_id);
+  glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
