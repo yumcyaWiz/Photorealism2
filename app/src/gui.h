@@ -43,6 +43,9 @@ class GUI {
 
   // Pathの表示
   void showPath(int i, int j, const Render& render) const;
+
+  // Vertex Shaderの生成
+  GLuint createVertexShader(const std::string& vertex_shader_source) const;
 };
 
 #endif
