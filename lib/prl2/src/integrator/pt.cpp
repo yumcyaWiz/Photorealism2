@@ -2,9 +2,23 @@
 
 namespace Prl2 {
 
-Real PT::integrate(const Ray& ray_in, const Scene& scene,
-                   Sampler& sampler) const {
-  Ray ray = ray_in;                    // 更新していくレイ
+Real PT::integrate(int i, int j, const Scene& scene, Sampler& sampler) const {
+  // フィルム上の点のサンプリング
+  Vec2 pFilm = scene.camera->sampleFilm(i, j, sampler);
+
+  // Primary Rayを生成
+  Ray ray;
+  Real camera_cos, camera_pdf;
+  if (!scene.camera->generateRay(pFilm, sampler, ray, camera_cos, camera_pdf)) {
+    return 0;
+  }
+
+  // 波長のサンプリング
+  const Real lambda =
+      SPD::LAMBDA_MIN + sampler.getNext() * (SPD::LAMBDA_MAX - SPD::LAMBDA_MIN);
+  constexpr Real lambda_pdf = 1 / (SPD::LAMBDA_MAX - SPD::LAMBDA_MIN);
+  ray.lambda = lambda;
+
   Real throughput = 1;                 // Throughput
   Real russian_roulette_prob = 0.99f;  // ロシアンルーレットの確率
   Real radiance = 0;                   // 分光放射輝度
@@ -52,7 +66,7 @@ Real PT::integrate(const Ray& ray_in, const Scene& scene,
     }
   }
 
-  return radiance;
+  return radiance * camera_cos / (lambda_pdf * camera_pdf);
 }
 
 }  // namespace Prl2

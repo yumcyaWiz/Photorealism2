@@ -15,8 +15,8 @@ class Integrator {
  public:
   Integrator(){};
 
-  //与えられたレイとシーンから分光放射輝度を計算して返す
-  virtual Real integrate(const Ray& ray, const Scene& scene,
+  // (i, j)の受け取る分光放射束を計算する
+  virtual Real integrate(int i, int j, const Scene& scene,
                          Sampler& sampler) const = 0;
 };
 

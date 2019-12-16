@@ -10,7 +10,7 @@ class PT : public Integrator {
  public:
   PT(){};
 
-  Real integrate(const Ray& ray, const Scene& scene,
+  Real integrate(int i, int j, const Scene& scene,
                  Sampler& sampler) const override;
 
  private:
