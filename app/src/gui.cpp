@@ -7,6 +7,14 @@
 #include "core/vec3.h"
 #include "renderer/renderer.h"
 
+GUI::GUI() {
+  // Textureの用意
+  glGenTextures(1, &render_texture_id);
+
+  // FrameBufferの用意
+  glGenFramebuffers(1, &framebuffer_id);
+}
+
 void GUI::drawRenderSettings(Render& render) {
   bool refresh_render = false;
 

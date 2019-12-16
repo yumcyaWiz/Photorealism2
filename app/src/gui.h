@@ -11,13 +11,7 @@
 
 class GUI {
  public:
-  GUI() {
-    // Textureの用意
-    glGenTextures(1, &render_texture_id);
-
-    // FrameBufferの用意
-    glGenFramebuffers(1, &framebuffer_id);
-  };
+  GUI();
 
   // RenderSettingsを表示
   void drawRenderSettings(Render& render);
