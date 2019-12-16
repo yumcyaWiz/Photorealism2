@@ -10,8 +10,9 @@
 namespace Prl2 {
 
 struct IntegratorResult {
-  Real lambda;  // サンプリングされた波長
-  Real phi;     // 分光放射輝度
+  Real lambda;            // サンプリングされた波長
+  Real phi;               // 分光放射輝度
+  std::vector<Ray> rays;  // Path
 };
 
 //与えられたレイとシーンから分光放射輝度を計算するクラス

@@ -25,6 +25,8 @@ bool PT::integrate(int i, int j, const Scene& scene, Sampler& sampler,
   Real radiance = 0;                   // 分光放射輝度
 
   for (int depth = 0; depth < MAXDEPTH; ++depth) {
+    result.rays.push_back(ray);
+
     // ロシアンルーレット
     if (sampler.getNext() > russian_roulette_prob) {
       break;
