@@ -36,6 +36,10 @@ GUI::GUI() {
 
   // FrameBufferの用意
   glGenFramebuffers(1, &framebuffer_id);
+  glBindFramebuffer(GL_FRAMEBUFFER, framebuffer_id);
+  glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, render_texture_id,
+                       0);
+  glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
   // Vertex Shader
   GLuint showpath_vert_shader =
@@ -608,6 +612,7 @@ void GUI::showPath(int i, int j, const Render& render) const {
   glBindVertexArray(0);
 
   // Draw
+  glViewport(0, 0, 512, 512);
   glUseProgram(showpath_program);
   glBindFramebuffer(GL_FRAMEBUFFER, framebuffer_id);
   glDrawArrays(GL_LINE, 0, vertices.size());
