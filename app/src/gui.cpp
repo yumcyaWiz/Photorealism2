@@ -51,6 +51,15 @@ GUI::GUI() {
                        0);
   GLenum draw_buffers[1] = {GL_COLOR_ATTACHMENT0};
   glDrawBuffers(1, draw_buffers);
+
+  // Depth Buffer
+  GLuint depth_buffer;
+  glGenRenderbuffers(1, &depth_buffer);
+  glBindRenderbuffer(GL_RENDERBUFFER, depth_buffer);
+  glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, 512, 512);
+  glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
+                            GL_RENDERBUFFER, depth_buffer);
+
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
   // Vertex Shader
@@ -593,12 +602,9 @@ void GUI::showPath(int i, int j, const Render& render) const {
   const glm::mat4x4 mvp_matrix = projection_matrix * view_matrix;
 
   // パスの頂点データをシェーダーに渡す
-  /*
-  std::vector<float> vertices = {-1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-                                 0.0f,  0.0f, 1.0f, 0.0f};
-                                 */
   std::vector<float> vertices;
-  for (const auto& ray : path) {
+  for (int i = 0; i < path.size(); ++i) {
+    const Prl2::Ray& ray = path[i];
     vertices.push_back(ray.origin.x());
     vertices.push_back(ray.origin.y());
     vertices.push_back(ray.origin.z());
