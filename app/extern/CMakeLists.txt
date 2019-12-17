@@ -29,3 +29,6 @@ target_compile_definitions(imgui_impl PUBLIC IMGUI_IMPL_OPENGL_LOADER_GLAD)
 target_link_libraries(imgui_impl PUBLIC imgui)
 target_link_libraries(imgui_impl PUBLIC glfw)
 target_link_libraries(imgui_impl PUBLIC glad)
+
+# glm
+add_subdirectory(glm)

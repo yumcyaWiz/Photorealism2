@@ -23,3 +23,6 @@
 	path = lib/prl2/extern/tbb
 	url = git@github.com:intel/tbb.git
   ignore = dirty
+[submodule "app/extern/glm"]
+	path = app/extern/glm
+	url = git@github.com:g-truc/glm.git
