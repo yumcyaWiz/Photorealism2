@@ -578,6 +578,33 @@ void GUI::showPath(int i, int j, const Render& render) const {
   glUniformMatrix4fv(glGetUniformLocation(showpath_program, "MVP"), 1, GL_FALSE,
                      glm::value_ptr(mvp_matrix));
 
+  // パスの頂点データをシェーダーに渡す
+  std::vector<float> vertices;
+  for (const auto& ray : path) {
+    vertices.push_back(ray.origin.x());
+    vertices.push_back(ray.origin.y());
+    vertices.push_back(ray.origin.z());
+  }
+
+  // Vertex VBO
+  GLuint vertex_vbo;
+  glGenBuffers(1, &vertex_vbo);
+  glBindBuffer(GL_ARRAY_BUFFER, vertex_vbo);
+  glBufferData(GL_ARRAY_BUFFER, vertices.size(), vertices.data(),
+               GL_STATIC_DRAW);
+
+  // VAO
+  GLuint vao;
+  glGenVertexArrays(1, &vao);
+  glBindVertexArray(vao);
+
+  // Vertex Attribute
+  glBindBuffer(GL_ARRAY_BUFFER, vertex_vbo);
+  glEnableVertexAttribArray(0);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GL_FLOAT),
+                        (GLvoid*)0);
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
+
   glBindFramebuffer(GL_FRAMEBUFFER, framebuffer_id);
 
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
