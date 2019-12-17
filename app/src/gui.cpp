@@ -593,16 +593,16 @@ void GUI::showPath(int i, int j, const Render& render) const {
   const glm::mat4x4 mvp_matrix = projection_matrix * view_matrix;
 
   // パスの頂点データをシェーダーに渡す
+  /*
   std::vector<float> vertices = {-1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
                                  0.0f,  0.0f, 1.0f, 0.0f};
-  /*
-std::vector<float> vertices;
-for (const auto& ray : path) {
-vertices.push_back(ray.origin.x());
-vertices.push_back(ray.origin.y());
-vertices.push_back(ray.origin.z());
-}
-*/
+                                 */
+  std::vector<float> vertices;
+  for (const auto& ray : path) {
+    vertices.push_back(ray.origin.x());
+    vertices.push_back(ray.origin.y());
+    vertices.push_back(ray.origin.z());
+  }
 
   // Vertex VBO
   GLuint vertex_vbo;
@@ -619,8 +619,8 @@ vertices.push_back(ray.origin.z());
   // Vertex Attribute
   glBindBuffer(GL_ARRAY_BUFFER, vertex_vbo);
   glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GL_FLOAT),
-                        (GLvoid*)0);
+  glVertexAttribPointer(0, vertices.size() / 3, GL_FLOAT, GL_FALSE,
+                        3 * sizeof(GL_FLOAT), (GLvoid*)0);
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   glBindVertexArray(0);
@@ -636,7 +636,7 @@ vertices.push_back(ray.origin.z());
                      glm::value_ptr(mvp_matrix));
 
   glBindVertexArray(vao);
-  glDrawArrays(GL_TRIANGLES, 0, 3);
+  glDrawArrays(GL_LINES, 0, vertices.size() / 3);
   glBindVertexArray(0);
 
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
