@@ -24,9 +24,10 @@ const std::string GUI::showpath_vertex_shader_source = R"(
 
 const std::string GUI::showpath_fragment_shader_source = R"(
   #version 330 core
+  layout(location = 0) out vec3 color;
 
   void main() {
-    gl_FragColor = vec4(1.0f, 1.0f, 0.0f, 1.0f);
+    color = vec3(1.0f, 1.0f, 0.0f);
   }
 )";
 
