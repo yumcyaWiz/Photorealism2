@@ -51,6 +51,8 @@ GLuint GUI::createVertexShader(const std::string& vertex_shader_source) const {
     glGetShaderInfoLog(shader, 512, NULL, infolog);
     std::cerr << infolog << std::endl;
   }
+
+  return shader;
 }
 
 void GUI::drawRenderSettings(Render& render) {
