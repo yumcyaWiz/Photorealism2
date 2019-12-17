@@ -7,6 +7,10 @@
 #include "core/vec3.h"
 #include "renderer/renderer.h"
 
+#include "glm/glm.hpp"
+#include "glm/gtc/type_ptr.hpp"
+#include "glm/gtx/transform.hpp"
+
 const std::string GUI::showpath_vertex_shader_source = R"(
   #version 330 core
   layout(location = 0) in vec3 vPos;
@@ -555,6 +559,24 @@ void GUI::showPath(int i, int j, const Render& render) const {
   // カメラパラメーターの取得
   Prl2::Vec3 camera_pos, camera_lookat;
   render.renderer.getCameraLookAt(camera_pos, camera_lookat);
+
+  const float fov = render.renderer.getPinholeCameraFOV();
+
+  // MVP行列をセット
+  // View Matrix
+  const glm::mat4x4 view_matrix = glm::lookAt(
+      glm::vec3(camera_pos.x(), camera_pos.y(), camera_pos.z()),
+      glm::vec3(camera_lookat.x(), camera_lookat.y(), camera_lookat.z()),
+      glm::vec3(0.0f, 1.0f, 0.0f));
+
+  // Projection Matrix
+  const glm::mat4x4 projection_matrix =
+      glm::perspective(glm::radians(fov), 1.0f, 0.001f, 100.0f);
+
+  // MVP Matrix
+  const glm::mat4x4 mvp_matrix = projection_matrix * view_matrix;
+  glUniformMatrix4fv(glGetUniformLocation(showpath_program, "MVP"), 1, GL_FALSE,
+                     glm::value_ptr(mvp_matrix));
 
   glBindFramebuffer(GL_FRAMEBUFFER, framebuffer_id);
 
