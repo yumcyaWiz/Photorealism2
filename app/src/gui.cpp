@@ -18,6 +18,14 @@ const std::string GUI::showpath_vertex_shader_source = R"(
   }
 )";
 
+const std::string GUI::showpath_fragment_shader_source = R"(
+  #version 330 core
+
+  void main() {
+    gl_FragColor = vec4(1.0f, 1.0f, 0.0f, 1.0f);
+  }
+)";
+
 GUI::GUI() {
   // Textureの用意
   glGenTextures(1, &render_texture_id);
@@ -25,16 +33,13 @@ GUI::GUI() {
   // FrameBufferの用意
   glGenFramebuffers(1, &framebuffer_id);
 
-  // showPath用のShaderの初期化
-  const std::string showpath_frag_shader_source;
-
   // Vertex Shader
   GLuint showpath_vert_shader =
       createVertexShader(showpath_vertex_shader_source);
 
   // Fragment Shader
   GLuint showpath_frag_shader =
-      createFragmentShader(showpath_frag_shader_source);
+      createFragmentShader(showpath_fragment_shader_source);
 
   // Link Program
   showpath_program = glCreateProgram();
