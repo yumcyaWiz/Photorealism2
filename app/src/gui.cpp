@@ -7,6 +7,17 @@
 #include "core/vec3.h"
 #include "renderer/renderer.h"
 
+const std::string GUI::showpath_vertex_shader_source = R"(
+  #version 330 core
+  layout(location = 0) in vec3 vPos;
+
+  uniform mat4 MVP;
+
+  void main() {
+    gl_Position = MVP * vec4(vPos, 1.0f);
+  }
+)";
+
 GUI::GUI() {
   // Textureの用意
   glGenTextures(1, &render_texture_id);
@@ -15,11 +26,11 @@ GUI::GUI() {
   glGenFramebuffers(1, &framebuffer_id);
 
   // showPath用のShaderの初期化
-  const std::string showpath_vert_shader_source;
   const std::string showpath_frag_shader_source;
 
   // Vertex Shader
-  GLuint showpath_vert_shader = createVertexShader(showpath_vert_shader_source);
+  GLuint showpath_vert_shader =
+      createVertexShader(showpath_vertex_shader_source);
 
   // Fragment Shader
   GLuint showpath_frag_shader =
