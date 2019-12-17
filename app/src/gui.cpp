@@ -259,7 +259,7 @@ void GUI::drawRenderLayer(Render& render) {
     }
 
     // テクスチャの表示
-    ImTextureID id = (ImTextureID)(intptr_t)(path_texture_id);
+    ImTextureID id = (ImTextureID)(intptr_t)(render_texture_id);
     const ImVec2 image_pos = ImGui::GetCursorScreenPos();
     ImGui::Image(id, ImVec2(512, 512));
     bool texture_hovered = ImGui::IsItemHovered();
@@ -301,7 +301,6 @@ void GUI::drawRenderLayer(Render& render) {
         const ImVec2 mouse_pos = ImGui::GetIO().MousePos;
         const int i = mouse_pos.x - image_pos.x;
         const int j = mouse_pos.y - image_pos.y;
-        std::cout << i << ", " << j << std::endl;
 
         // パスの表示
         showPath(i, j, render);
@@ -586,6 +585,9 @@ void GUI::showPath(int i, int j, const Render& render) const {
   Prl2::Vec3 camera_pos, camera_lookat;
   render.renderer.getCameraLookAt(camera_pos, camera_lookat);
 
+  Prl2::Mat4 mat;
+  render.renderer.getCameraMatrix(mat);
+
   const float fov = render.renderer.getPinholeCameraFOV();
 
   // MVP行列をセット
@@ -594,6 +596,14 @@ void GUI::showPath(int i, int j, const Render& render) const {
       glm::vec3(camera_pos.x(), camera_pos.y(), camera_pos.z()),
       glm::vec3(camera_lookat.x(), camera_lookat.y(), camera_lookat.z()),
       glm::vec3(0.0f, 1.0f, 0.0f));
+  /*
+const glm::mat4x4 view_matrix = glm::mat4x4(
+   glm::vec4(mat.m[0][0], mat.m[1][0], mat.m[2][0], mat.m[3][0]),
+   glm::vec4(mat.m[0][1], mat.m[1][1], mat.m[2][1], mat.m[3][1]),
+   glm::vec4(mat.m[0][2], mat.m[1][2], mat.m[2][2], mat.m[3][2]),
+   glm::vec4(mat.m[0][3], mat.m[1][3], mat.m[2][3], mat.m[3][3]));
+std::cout << view_matrix[3][3] << std::endl;
+*/
 
   // Projection Matrix
   const glm::mat4x4 projection_matrix =
