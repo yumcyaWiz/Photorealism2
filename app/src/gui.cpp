@@ -40,6 +40,8 @@ GUI::GUI() {
   glBindFramebuffer(GL_FRAMEBUFFER, framebuffer_id);
   glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, render_texture_id,
                        0);
+  GLenum draw_buffers[1] = {GL_COLOR_ATTACHMENT0};
+  glDrawBuffers(1, draw_buffers);
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
   // Vertex Shader
@@ -584,12 +586,15 @@ void GUI::showPath(int i, int j, const Render& render) const {
                      glm::value_ptr(mvp_matrix));
 
   // パスの頂点データをシェーダーに渡す
-  std::vector<float> vertices;
+  std::vector<float> vertices = {-0.1f, 0.0f, 0.0f, 0.1f, 0.0f,
+                                 0.0f,  0.0f, 0.1f, 0.0f};
+  /*
   for (const auto& ray : path) {
     vertices.push_back(ray.origin.x());
     vertices.push_back(ray.origin.y());
     vertices.push_back(ray.origin.z());
   }
+  */
 
   // Vertex VBO
   GLuint vertex_vbo;
@@ -614,9 +619,11 @@ void GUI::showPath(int i, int j, const Render& render) const {
 
   // Draw
   glViewport(0, 0, 512, 512);
-  glUseProgram(showpath_program);
   glBindFramebuffer(GL_FRAMEBUFFER, framebuffer_id);
-  glDrawArrays(GL_LINE, 0, vertices.size());
+  glUseProgram(showpath_program);
+  glBindVertexArray(vao);
+  glDrawArrays(GL_TRIANGLES, 0, 3);
+  glBindVertexArray(0);
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
   // Delete Buffers
