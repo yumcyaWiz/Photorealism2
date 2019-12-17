@@ -105,6 +105,8 @@ class Renderer {
   // Camera
   // カメラの位置、向きを入手する
   void getCameraLookAt(Vec3& pos, Vec3& lookat) const;
+  // カメラのTransform Matrixを入手
+  void getCameraMatrix(Mat4& mat) const;
   // カメラの位置、向きを設定する
   void setCameraLookAt(const Vec3& pos, const Vec3& lookat);
   // カメラを移動する

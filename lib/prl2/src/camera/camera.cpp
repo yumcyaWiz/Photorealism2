@@ -90,4 +90,6 @@ Vec2 Camera::sampleFilm(int i, int j, Sampler& sampler) const {
   return Vec2(0.5f * film->width_length * u, 0.5f * film->height_length * v);
 }
 
+void Camera::getTransformMatrix(Mat4& mat) const { mat = localToWorld->mat; }
+
 }  // namespace Prl2

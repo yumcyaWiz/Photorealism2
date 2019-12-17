@@ -301,6 +301,7 @@ void GUI::drawRenderLayer(Render& render) {
         const ImVec2 mouse_pos = ImGui::GetIO().MousePos;
         const int i = mouse_pos.x - image_pos.x;
         const int j = mouse_pos.y - image_pos.y;
+        std::cout << i << ", " << j << std::endl;
 
         // パスの表示
         showPath(i, j, render);

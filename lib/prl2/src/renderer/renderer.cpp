@@ -689,4 +689,8 @@ void Renderer::getSamplesRGB(std::vector<float>& rgb) const {
   }
 }
 
+void Renderer::getCameraMatrix(Mat4& mat) const {
+  scene.camera->getTransformMatrix(mat);
+}
+
 }  // namespace Prl2
