@@ -250,7 +250,7 @@ void GUI::drawRenderLayer(Render& render) {
     }
 
     // テクスチャの表示
-    ImTextureID id = (ImTextureID)(intptr_t)(render_texture_id);
+    ImTextureID id = (ImTextureID)(intptr_t)(path_texture_id);
     const ImVec2 image_pos = ImGui::GetCursorScreenPos();
     ImGui::Image(id, ImVec2(512, 512));
     bool texture_hovered = ImGui::IsItemHovered();
@@ -591,12 +591,10 @@ void GUI::showPath(int i, int j, const Render& render) const {
 
   // MVP Matrix
   const glm::mat4x4 mvp_matrix = projection_matrix * view_matrix;
-  glUniformMatrix4fv(glGetUniformLocation(showpath_program, "MVP"), 1, GL_FALSE,
-                     glm::value_ptr(mvp_matrix));
 
   // パスの頂点データをシェーダーに渡す
-  std::vector<float> vertices = {-0.1f, 0.0f, 0.0f, 0.1f, 0.0f,
-                                 0.0f,  0.0f, 0.1f, 0.0f};
+  std::vector<float> vertices = {-1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+                                 0.0f,  0.0f, 1.0f, 0.0f};
   /*
   for (const auto& ray : path) {
     vertices.push_back(ray.origin.x());
@@ -609,8 +607,8 @@ void GUI::showPath(int i, int j, const Render& render) const {
   GLuint vertex_vbo;
   glGenBuffers(1, &vertex_vbo);
   glBindBuffer(GL_ARRAY_BUFFER, vertex_vbo);
-  glBufferData(GL_ARRAY_BUFFER, vertices.size(), vertices.data(),
-               GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertices.size(),
+               vertices.data(), GL_STATIC_DRAW);
 
   // VAO
   GLuint vao;
@@ -627,12 +625,17 @@ void GUI::showPath(int i, int j, const Render& render) const {
   glBindVertexArray(0);
 
   // Draw
-  glViewport(0, 0, 512, 512);
   glBindFramebuffer(GL_FRAMEBUFFER, framebuffer_id);
+
+  glViewport(0, 0, 512, 512);
   glUseProgram(showpath_program);
+  glUniformMatrix4fv(glGetUniformLocation(showpath_program, "MVP"), 1, GL_FALSE,
+                     glm::value_ptr(mvp_matrix));
+
   glBindVertexArray(vao);
   glDrawArrays(GL_TRIANGLES, 0, 3);
   glBindVertexArray(0);
+
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
   // Delete Buffers
