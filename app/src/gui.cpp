@@ -53,6 +53,25 @@ GLuint GUI::createVertexShader(const std::string& vertex_shader_source) const {
   return shader;
 }
 
+GLuint GUI::createFragmentShader(
+    const std::string& fragment_shader_source) const {
+  GLuint shader = glCreateShader(GL_FRAGMENT_SHADER);
+
+  const char* source = fragment_shader_source.c_str();
+  glShaderSource(shader, 1, &source, NULL);
+  glCompileShader(shader);
+
+  int success;
+  char infolog[512];
+  glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+  if (!success) {
+    glGetShaderInfoLog(shader, 512, NULL, infolog);
+    std::cerr << infolog << std::endl;
+  }
+
+  return shader;
+}
+
 void GUI::drawRenderSettings(Render& render) {
   bool refresh_render = false;
 

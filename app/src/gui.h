@@ -46,6 +46,9 @@ class GUI {
 
   // Vertex Shaderの生成
   GLuint createVertexShader(const std::string& vertex_shader_source) const;
+
+  // Fragment Shaderの生成
+  GLuint createFragmentShader(const std::string& fragment_shader_source) const;
 };
 
 #endif
