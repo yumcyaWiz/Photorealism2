@@ -596,12 +596,13 @@ void GUI::showPath(int i, int j, const Render& render) const {
   std::vector<float> vertices = {-1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
                                  0.0f,  0.0f, 1.0f, 0.0f};
   /*
-  for (const auto& ray : path) {
-    vertices.push_back(ray.origin.x());
-    vertices.push_back(ray.origin.y());
-    vertices.push_back(ray.origin.z());
-  }
-  */
+std::vector<float> vertices;
+for (const auto& ray : path) {
+vertices.push_back(ray.origin.x());
+vertices.push_back(ray.origin.y());
+vertices.push_back(ray.origin.z());
+}
+*/
 
   // Vertex VBO
   GLuint vertex_vbo;
@@ -628,6 +629,8 @@ void GUI::showPath(int i, int j, const Render& render) const {
   glBindFramebuffer(GL_FRAMEBUFFER, framebuffer_id);
 
   glViewport(0, 0, 512, 512);
+  glClear(GL_COLOR_BUFFER_BIT);
+
   glUseProgram(showpath_program);
   glUniformMatrix4fv(glGetUniformLocation(showpath_program, "MVP"), 1, GL_FALSE,
                      glm::value_ptr(mvp_matrix));
