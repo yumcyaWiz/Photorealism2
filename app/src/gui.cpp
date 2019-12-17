@@ -16,15 +16,14 @@ GUI::GUI() {
 
   // showPath用のShaderの初期化
   const std::string showpath_vert_shader_source;
-  const char* showpath_frag_shader_source;
+  const std::string showpath_frag_shader_source;
 
   // Vertex Shader
   GLuint showpath_vert_shader = createVertexShader(showpath_vert_shader_source);
 
   // Fragment Shader
-  GLuint showpath_frag_shader = glCreateShader(GL_FRAGMENT_SHADER);
-  glShaderSource(showpath_frag_shader, 1, &showpath_frag_shader_source, NULL);
-  glCompileShader(showpath_frag_shader);
+  GLuint showpath_frag_shader =
+      createFragmentShader(showpath_frag_shader_source);
 
   // Link Program
   showpath_program = glCreateProgram();
