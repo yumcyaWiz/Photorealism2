@@ -32,13 +32,22 @@ const std::string GUI::showpath_fragment_shader_source = R"(
 )";
 
 GUI::GUI() {
-  // Textureの用意
+  // Render Textureの用意
   glGenTextures(1, &render_texture_id);
+
+  // Path Textureの用意
+  glGenTextures(1, &path_texture_id);
+  glBindTexture(GL_TEXTURE_2D, path_texture_id);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 512, 512, 0, GL_RGB, GL_UNSIGNED_BYTE,
+               0);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+  glBindTexture(GL_TEXTURE_2D, 0);
 
   // FrameBufferの用意
   glGenFramebuffers(1, &framebuffer_id);
   glBindFramebuffer(GL_FRAMEBUFFER, framebuffer_id);
-  glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, render_texture_id,
+  glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, path_texture_id,
                        0);
   GLenum draw_buffers[1] = {GL_COLOR_ATTACHMENT0};
   glDrawBuffers(1, draw_buffers);

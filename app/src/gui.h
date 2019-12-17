@@ -30,9 +30,10 @@ class GUI {
 
  private:
   GLuint render_texture_id;  // Render Texture
-  GLuint framebuffer_id;     // FrameBuffer
 
-  GLuint showpath_program;
+  GLuint path_texture_id;   // Path Texture
+  GLuint framebuffer_id;    // FrameBuffer
+  GLuint showpath_program;  // Show Path Shader Program
 
   bool auto_render = true;  // パラメーター変化時に自動で再レンダリングするか
   bool update_texture = false;  // Textureの更新フラグ
