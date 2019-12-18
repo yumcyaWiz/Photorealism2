@@ -58,6 +58,7 @@ class GUI {
   const static std::string showpath_vertex_shader_source;
   const static std::string showpath_fragment_shader_source;
 
+  const static std::string image_vertex_shader_source;
   const static std::string image_fragment_shader_source;
 };
 
