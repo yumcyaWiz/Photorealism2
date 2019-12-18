@@ -43,9 +43,10 @@ GUI::GUI() {
   // Render Textureの用意
   glGenTextures(1, &render_texture_id);
 
+  // Show Path
   // Path Textureの用意
-  glGenTextures(1, &path_texture_id);
-  glBindTexture(GL_TEXTURE_2D, path_texture_id);
+  glGenTextures(1, &showpath_texture);
+  glBindTexture(GL_TEXTURE_2D, showpath_texture);
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 512, 512, 0, GL_RGB, GL_UNSIGNED_BYTE,
                0);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -53,9 +54,9 @@ GUI::GUI() {
   glBindTexture(GL_TEXTURE_2D, 0);
 
   // FrameBufferの用意
-  glGenFramebuffers(1, &framebuffer_id);
-  glBindFramebuffer(GL_FRAMEBUFFER, framebuffer_id);
-  glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, path_texture_id,
+  glGenFramebuffers(1, &showpath_framebuffer);
+  glBindFramebuffer(GL_FRAMEBUFFER, showpath_framebuffer);
+  glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, showpath_texture,
                        0);
   GLenum draw_buffers[1] = {GL_COLOR_ATTACHMENT0};
   glDrawBuffers(1, draw_buffers);
@@ -86,6 +87,7 @@ GUI::GUI() {
   glDeleteShader(showpath_vert_shader);
   glDeleteShader(showpath_frag_shader);
 
+  // Image
   // Image Textureの用意
   glGenTextures(1, &image_texture_id);
 
@@ -268,7 +270,7 @@ void GUI::drawRenderLayer(Render& render) {
       update_texture = true;
     }
 
-    // テクスチャの生成
+    // Render Texture生成
     int width, height;
     render.renderer.getImageSize(width, height);
 
@@ -278,6 +280,8 @@ void GUI::drawRenderLayer(Render& render) {
       makeTextureFromLayer(render_texture_id, width, height, image);
       update_texture = false;
     }
+
+    // Image Textureの生成
 
     // テクスチャの表示
     ImTextureID id = (ImTextureID)(intptr_t)(render_texture_id);
@@ -664,7 +668,7 @@ std::cout << view_matrix[3][3] << std::endl;
   glBindVertexArray(0);
 
   // Draw
-  glBindFramebuffer(GL_FRAMEBUFFER, framebuffer_id);
+  glBindFramebuffer(GL_FRAMEBUFFER, showpath_framebuffer);
 
   glViewport(0, 0, 512, 512);
   glClear(GL_COLOR_BUFFER_BIT);

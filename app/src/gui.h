@@ -31,9 +31,9 @@ class GUI {
  private:
   GLuint render_texture_id;  // Render Texture
 
-  GLuint path_texture_id;   // Path Texture
-  GLuint framebuffer_id;    // FrameBuffer
-  GLuint showpath_program;  // Show Path Shader Program
+  GLuint showpath_texture;      // Path Texture
+  GLuint showpath_framebuffer;  // FrameBuffer
+  GLuint showpath_program;      // Show Path Shader Program
 
   GLuint image_texture_id;
   GLuint image_program;
