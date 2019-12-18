@@ -36,6 +36,7 @@ class GUI {
   GLuint showpath_program;  // Show Path Shader Program
 
   GLuint image_texture_id;
+  GLuint image_program;
 
   bool auto_render = true;  // パラメーター変化時に自動で再レンダリングするか
   bool update_texture = false;  // Textureの更新フラグ

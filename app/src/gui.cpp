@@ -92,6 +92,12 @@ GUI::GUI() {
   // Fragment Shader
   GLuint image_fragment_shader =
       createFragmentShader(image_fragment_shader_source);
+
+  // Link Program
+  GLuint image_program = glCreateProgram();
+  glAttachShader(image_program, image_fragment_shader);
+  glLinkProgram(image_program);
+  glDeleteShader(image_fragment_shader);
 }
 
 GLuint GUI::createVertexShader(const std::string& vertex_shader_source) const {
