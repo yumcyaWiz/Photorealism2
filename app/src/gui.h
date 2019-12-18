@@ -29,7 +29,7 @@ class GUI {
   void drawSkyUI(Render& render) const;
 
  private:
-  GLuint render_texture_id;  // Render Texture
+  GLuint render_texture;  // Render Texture
 
   GLuint showpath_texture;      // Path Texture
   GLuint showpath_framebuffer;  // FrameBuffer

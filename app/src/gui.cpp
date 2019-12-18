@@ -41,7 +41,7 @@ const std::string GUI::image_fragment_shader_source = R"(
 
 GUI::GUI() {
   // Render Textureの用意
-  glGenTextures(1, &render_texture_id);
+  glGenTextures(1, &render_texture);
 
   // Show Path
   // Path Textureの用意
@@ -277,14 +277,14 @@ void GUI::drawRenderLayer(Render& render) {
     if (update_texture || render.isRendering()) {
       std::vector<float> image;
       render.renderer.getLayersRGB(image);
-      makeTextureFromLayer(render_texture_id, width, height, image);
+      makeTextureFromLayer(render_texture, width, height, image);
       update_texture = false;
     }
 
     // Image Textureの生成
 
     // テクスチャの表示
-    ImTextureID id = (ImTextureID)(intptr_t)(render_texture_id);
+    ImTextureID id = (ImTextureID)(intptr_t)(render_texture);
     const ImVec2 image_pos = ImGui::GetCursorScreenPos();
     ImGui::Image(id, ImVec2(512, 512));
     bool texture_hovered = ImGui::IsItemHovered();
