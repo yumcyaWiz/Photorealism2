@@ -89,7 +89,7 @@ GUI::GUI() {
 
   // Image
   // Image Textureの用意
-  glGenTextures(1, &image_texture_id);
+  glGenTextures(1, &image_texture);
 
   // Fragment Shader
   GLuint image_fragment_shader =
