@@ -55,6 +55,9 @@ class GUI {
   // Fragment Shaderの生成
   GLuint createFragmentShader(const std::string& fragment_shader_source) const;
 
+  // Image Textureの生成
+  void renderImageTexture() const;
+
   const static std::string showpath_vertex_shader_source;
   const static std::string showpath_fragment_shader_source;
 

@@ -311,10 +311,7 @@ void GUI::drawRenderLayer(Render& render) {
     }
 
     // Image Textureの生成
-    glBindFramebuffer(GL_FRAMEBUFFER, image_framebuffer);
-    glUseProgram(image_program);
-    glViewport(0, 0, 512, 512);
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    renderImageTexture();
 
     // テクスチャの表示
     ImTextureID id = (ImTextureID)(intptr_t)(image_texture);
@@ -377,6 +374,13 @@ void GUI::drawRenderLayer(Render& render) {
         *std::max_element(phi, phi + Prl2::SPD::LAMBDA_SAMPLES), ImVec2(0, 50));
   }
   ImGui::End();
+}
+
+void GUI::renderImageTexture() const {
+  glBindFramebuffer(GL_FRAMEBUFFER, image_framebuffer);
+  glUseProgram(image_program);
+  glViewport(0, 0, 512, 512);
+  glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void GUI::drawCameraSettings(Render& render) const {
