@@ -35,6 +35,8 @@ class GUI {
   GLuint framebuffer_id;    // FrameBuffer
   GLuint showpath_program;  // Show Path Shader Program
 
+  GLuint image_texture_id;
+
   bool auto_render = true;  // パラメーター変化時に自動で再レンダリングするか
   bool update_texture = false;  // Textureの更新フラグ
 

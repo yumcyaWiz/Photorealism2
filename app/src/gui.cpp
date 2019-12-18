@@ -77,6 +77,9 @@ GUI::GUI() {
   glLinkProgram(showpath_program);
   glDeleteShader(showpath_vert_shader);
   glDeleteShader(showpath_frag_shader);
+
+  // Image Textureの用意
+  glGenTextures(1, &image_texture_id);
 }
 
 GLuint GUI::createVertexShader(const std::string& vertex_shader_source) const {
