@@ -296,9 +296,13 @@ void GUI::drawRenderLayer(Render& render) {
     }
 
     // Image Textureの生成
+    glBindFramebuffer(GL_FRAMEBUFFER, image_framebuffer);
+    glUseProgram(image_program);
+    glViewport(0, 0, 512, 512);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     // テクスチャの表示
-    ImTextureID id = (ImTextureID)(intptr_t)(render_texture);
+    ImTextureID id = (ImTextureID)(intptr_t)(image_texture);
     const ImVec2 image_pos = ImGui::GetCursorScreenPos();
     ImGui::Image(id, ImVec2(512, 512));
     bool texture_hovered = ImGui::IsItemHovered();
