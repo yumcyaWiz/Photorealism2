@@ -88,6 +88,10 @@ GUI::GUI() {
 
   // Image Textureの用意
   glGenTextures(1, &image_texture_id);
+
+  // Fragment Shader
+  GLuint image_fragment_shader =
+      createFragmentShader(image_fragment_shader_source);
 }
 
 GLuint GUI::createVertexShader(const std::string& vertex_shader_source) const {
