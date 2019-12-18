@@ -115,14 +115,19 @@ GUI::GUI() {
   glDrawBuffers(1, image_drawbuffers);
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
+  // Vertex Shader
+  GLuint image_vertex_shader = createVertexShader(image_vertex_shader_source);
+
   // Fragment Shader
   GLuint image_fragment_shader =
       createFragmentShader(image_fragment_shader_source);
 
   // Link Program
   GLuint image_program = glCreateProgram();
+  glAttachShader(image_program, image_vertex_shader);
   glAttachShader(image_program, image_fragment_shader);
   glLinkProgram(image_program);
+  glDeleteShader(image_vertex_shader);
   glDeleteShader(image_fragment_shader);
 }
 
