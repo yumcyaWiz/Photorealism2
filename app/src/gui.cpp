@@ -31,6 +31,14 @@ const std::string GUI::showpath_fragment_shader_source = R"(
   }
 )";
 
+const std::string GUI::image_fragment_shader_source = R"(
+  #version 330 core
+
+  void main() {
+    gl_FragColor = vec4(1.0f);
+  }
+)";
+
 GUI::GUI() {
   // Render Textureの用意
   glGenTextures(1, &render_texture_id);
