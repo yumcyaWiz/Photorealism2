@@ -129,6 +129,27 @@ GUI::GUI() {
   glLinkProgram(image_program);
   glDeleteShader(image_vertex_shader);
   glDeleteShader(image_fragment_shader);
+
+  static constexpr float vertices[12] = {-0.5f, -0.5f, 0.0f, 0.5f,
+                                         -0.5f, 0.0f,  0.5f, 0.5f,
+                                         0.0f,  -0.5f, 0.5f, 0.0f};
+
+  // Vertex VBO
+  glGenBuffers(1, &image_vertex_vbo);
+  glBindBuffer(GL_ARRAY_BUFFER, image_vertex_vbo);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 12, vertices, GL_STATIC_DRAW);
+
+  // VAO
+  glGenVertexArrays(1, &image_vao);
+  glBindVertexArray(image_vao);
+
+  // Vertex Attribute
+  glBindBuffer(GL_ARRAY_BUFFER, image_vertex_vbo);
+  glEnableVertexAttribArray(0);
+  glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 3 * sizeof(GL_FLOAT),
+                        (GLvoid*)0);
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
+  glBindVertexArray(0);
 }
 
 GLuint GUI::createVertexShader(const std::string& vertex_shader_source) const {
@@ -377,43 +398,17 @@ void GUI::drawRenderLayer(Render& render) {
 }
 
 void GUI::renderImageTexture() const {
-  const float vertices[12] = {-0.5f, -0.5f, 0.0f, 0.5f,  -0.5f, 0.0f,
-                              0.5f,  0.5f,  0.0f, -0.5f, 0.5f,  0.0f};
-
-  // Vertex VBO
-  GLuint vertex_vbo;
-  glGenBuffers(1, &vertex_vbo);
-  glBindBuffer(GL_ARRAY_BUFFER, vertex_vbo);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 12, vertices, GL_STATIC_DRAW);
-
-  // VAO
-  GLuint vao;
-  glGenVertexArrays(1, &vao);
-  glBindVertexArray(vao);
-
-  // Vertex Attribute
-  glBindBuffer(GL_ARRAY_BUFFER, vertex_vbo);
-  glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 3 * sizeof(GL_FLOAT),
-                        (GLvoid*)0);
-
-  glBindBuffer(GL_ARRAY_BUFFER, 0);
-  glBindVertexArray(0);
-
   // draw
   glBindFramebuffer(GL_FRAMEBUFFER, image_framebuffer);
 
   glUseProgram(image_program);
   glViewport(0, 0, 512, 512);
 
-  glBindVertexArray(vao);
+  glBindVertexArray(image_vao);
   glDrawArrays(GL_TRIANGLES, 0, 4);
   glBindVertexArray(0);
 
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-  // glDeleteBuffers(1, &vertex_vbo);
-  // glDeleteBuffers(1, &vao);
 }
 
 void GUI::drawCameraSettings(Render& render) const {
