@@ -130,24 +130,30 @@ GUI::GUI() {
   glDeleteShader(image_vertex_shader);
   glDeleteShader(image_fragment_shader);
 
-  static constexpr float vertices[12] = {-0.5f, -0.5f, 0.0f, 0.5f,
-                                         -0.5f, 0.0f,  0.5f, 0.5f,
-                                         0.0f,  -0.5f, 0.5f, 0.0f};
+  static constexpr float vertices[] = {-0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 0.5f,
+                                       -0.5f, 0.0f,  1.0f,  0.0f, 0.5f, 0.5f,
+                                       1.0f,  1.0f,  -0.5f, 0.5f, 0.0f, 0.0f};
 
   // Vertex VBO
-  glGenBuffers(1, &image_vertex_vbo);
-  glBindBuffer(GL_ARRAY_BUFFER, image_vertex_vbo);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 12, vertices, GL_STATIC_DRAW);
+  glGenBuffers(1, &image_vbo);
+  glBindBuffer(GL_ARRAY_BUFFER, image_vbo);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 18, vertices, GL_STATIC_DRAW);
 
   // VAO
   glGenVertexArrays(1, &image_vao);
   glBindVertexArray(image_vao);
 
   // Vertex Attribute
-  glBindBuffer(GL_ARRAY_BUFFER, image_vertex_vbo);
+  glBindBuffer(GL_ARRAY_BUFFER, image_vbo);
+  // Position
   glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 3 * sizeof(GL_FLOAT),
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GL_FLOAT),
                         (GLvoid*)0);
+  // Texture Coordinate
+  glEnableVertexAttribArray(1);
+  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float),
+                        (GLvoid*)(3 * sizeof(float)));
+
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   glBindVertexArray(0);
 }
@@ -743,7 +749,7 @@ std::cout << view_matrix[3][3] << std::endl;
                      glm::value_ptr(mvp_matrix));
 
   glBindVertexArray(vao);
-  glDrawArrays(GL_LINES, 0, vertices.size() / 3);
+  glDrawElements(GL_TRIANGLES, 4, GL_UNSIGNED_INT, 0);
   glBindVertexArray(0);
 
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
