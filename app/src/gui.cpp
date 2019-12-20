@@ -88,6 +88,8 @@ GUI::GUI() {
 
   // Link Program
   showpath_program = createProgram(showpath_vert_shader, showpath_frag_shader);
+  glDeleteShader(showpath_vert_shader);
+  glDeleteShader(showpath_frag_shader);
 
   // VBO
   glGenBuffers(1, &showpath_vbo);
@@ -131,8 +133,9 @@ GUI::GUI() {
       createShader(GL_FRAGMENT_SHADER, image_fragment_shader_source);
 
   // Link Program
-  GLuint image_program =
-      createProgram(image_vertex_shader, image_fragment_shader);
+  image_program = createProgram(image_vertex_shader, image_fragment_shader);
+  glDeleteShader(image_vertex_shader);
+  glDeleteShader(image_fragment_shader);
 
   static constexpr float vertices[] = {
       0.5f,  0.5f,  0.0f, 1.0f, 1.0f, 0.5f,  -0.5f, 0.0f, 1.0f, 0.0f,
