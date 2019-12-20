@@ -51,11 +51,8 @@ class GUI {
   // Pathの表示
   void showPath(int i, int j, const Render& render) const;
 
-  // Vertex Shaderの生成
-  GLuint createVertexShader(const std::string& vertex_shader_source) const;
-
-  // Fragment Shaderの生成
-  GLuint createFragmentShader(const std::string& fragment_shader_source) const;
+  // Shaderの生成
+  GLuint createShader(GLenum shader_type, const std::string& source) const;
 
   // Image Textureの生成
   void renderImageTexture() const;

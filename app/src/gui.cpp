@@ -34,18 +34,24 @@ const std::string GUI::showpath_fragment_shader_source = R"(
 const std::string GUI::image_vertex_shader_source = R"(
   #version 330 core
   layout(location = 0) in vec3 vPos;
+  layout(location = 1) in vec2 vTexCoord;
+
+  out vec2 texCoord;
 
   void main() {
     gl_Position = vec4(vPos, 1.0f);
+    texCoord = vTexCoord;
   }
 )";
 
 const std::string GUI::image_fragment_shader_source = R"(
   #version 330 core
+  in vec2 texCoord;
+
   layout(location = 0) out vec3 color;
 
   void main() {
-    color = vec3(1.0f);
+    color = vec3(texCoord.x, texCoord.y, 0.0f);
   }
 )";
 
@@ -83,11 +89,11 @@ GUI::GUI() {
 
   // Vertex Shader
   GLuint showpath_vert_shader =
-      createVertexShader(showpath_vertex_shader_source);
+      createShader(GL_VERTEX_SHADER, showpath_vertex_shader_source);
 
   // Fragment Shader
   GLuint showpath_frag_shader =
-      createFragmentShader(showpath_fragment_shader_source);
+      createShader(GL_FRAGMENT_SHADER, showpath_fragment_shader_source);
 
   // Link Program
   showpath_program = glCreateProgram();
@@ -116,11 +122,12 @@ GUI::GUI() {
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
   // Vertex Shader
-  GLuint image_vertex_shader = createVertexShader(image_vertex_shader_source);
+  GLuint image_vertex_shader =
+      createShader(GL_VERTEX_SHADER, image_vertex_shader_source);
 
   // Fragment Shader
   GLuint image_fragment_shader =
-      createFragmentShader(image_fragment_shader_source);
+      createShader(GL_FRAGMENT_SHADER, image_fragment_shader_source);
 
   // Link Program
   GLuint image_program = glCreateProgram();
@@ -151,36 +158,18 @@ GUI::GUI() {
                         (GLvoid*)0);
   // Texture Coordinate
   glEnableVertexAttribArray(1);
-  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float),
-                        (GLvoid*)(3 * sizeof(float)));
+  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GL_FLOAT),
+                        (GLvoid*)(3 * sizeof(GL_FLOAT)));
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   glBindVertexArray(0);
 }
 
-GLuint GUI::createVertexShader(const std::string& vertex_shader_source) const {
-  GLuint shader = glCreateShader(GL_VERTEX_SHADER);
+GLuint GUI::createShader(GLenum shader_type,
+                         const std::string& source_str) const {
+  GLuint shader = glCreateShader(shader_type);
 
-  const char* source = vertex_shader_source.c_str();
-  glShaderSource(shader, 1, &source, NULL);
-  glCompileShader(shader);
-
-  int success;
-  char infolog[512];
-  glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
-  if (!success) {
-    glGetShaderInfoLog(shader, 512, NULL, infolog);
-    std::cerr << infolog << std::endl;
-  }
-
-  return shader;
-}
-
-GLuint GUI::createFragmentShader(
-    const std::string& fragment_shader_source) const {
-  GLuint shader = glCreateShader(GL_FRAGMENT_SHADER);
-
-  const char* source = fragment_shader_source.c_str();
+  const char* source = source_str.c_str();
   glShaderSource(shader, 1, &source, NULL);
   glCompileShader(shader);
 
@@ -411,7 +400,7 @@ void GUI::renderImageTexture() const {
   glViewport(0, 0, 512, 512);
 
   glBindVertexArray(image_vao);
-  glDrawArrays(GL_TRIANGLES, 0, 4);
+  glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
   glBindVertexArray(0);
 
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
