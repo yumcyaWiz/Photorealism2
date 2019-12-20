@@ -76,15 +76,6 @@ GUI::GUI() {
                        0);
   constexpr static GLenum draw_buffers[1] = {GL_COLOR_ATTACHMENT0};
   glDrawBuffers(1, draw_buffers);
-
-  // Depth Buffer
-  GLuint depth_buffer;
-  glGenRenderbuffers(1, &depth_buffer);
-  glBindRenderbuffer(GL_RENDERBUFFER, depth_buffer);
-  glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, 512, 512);
-  glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,
-                            GL_RENDERBUFFER, depth_buffer);
-
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
   // Vertex Shader
@@ -750,7 +741,7 @@ std::cout << view_matrix[3][3] << std::endl;
   glUseProgram(showpath_program);
 
   glViewport(0, 0, 512, 512);
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT);
 
   glUniformMatrix4fv(glGetUniformLocation(showpath_program, "MVP"), 1, GL_FALSE,
                      glm::value_ptr(mvp_matrix));
