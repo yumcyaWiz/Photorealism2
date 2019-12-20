@@ -51,7 +51,7 @@ const std::string GUI::image_fragment_shader_source = R"(
   layout(location = 0) out vec3 color;
 
   void main() {
-    color = vec3(1.0f);
+    color = vec3(texCoord.x, texCoord.y, 1.0f);
   }
 )";
 
@@ -418,11 +418,11 @@ void GUI::drawRenderLayer(Render& render) {
 void GUI::renderImageTexture() const {
   glBindFramebuffer(GL_FRAMEBUFFER, image_framebuffer);
 
-  glUseProgram(image_program);
   glViewport(0, 0, 512, 512);
 
   glBindVertexArray(image_vao);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, image_ebo);
+  glUseProgram(image_program);
   glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
   glBindVertexArray(0);
