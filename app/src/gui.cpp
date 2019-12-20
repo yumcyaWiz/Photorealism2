@@ -136,6 +136,15 @@ GUI::GUI() {
   glGenBuffers(1, &image_vbo);
   glBindBuffer(GL_ARRAY_BUFFER, image_vbo);
   glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 20, vertices, GL_STATIC_DRAW);
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+  // EBO
+  static constexpr unsigned int indices[] = {0, 1, 3, 1, 2, 3};
+  glGenBuffers(1, &image_ebo);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, image_ebo);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * 6, indices,
+               GL_STATIC_DRAW);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
   // VAO
   glGenVertexArrays(1, &image_vao);

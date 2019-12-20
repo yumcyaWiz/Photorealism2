@@ -39,6 +39,7 @@ class GUI {
   GLuint image_framebuffer;
   GLuint image_program;
   GLuint image_vbo;
+  GLuint image_ebo;
   GLuint image_vao;
 
   bool auto_render = true;  // パラメーター変化時に自動で再レンダリングするか
