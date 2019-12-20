@@ -98,6 +98,21 @@ GUI::GUI() {
   // Link Program
   showpath_program = createProgram(showpath_vert_shader, showpath_frag_shader);
 
+  // VBO
+  glGenBuffers(1, &showpath_vbo);
+
+  // VAO
+  glGenVertexArrays(1, &showpath_vao);
+  glBindVertexArray(showpath_vao);
+  // Vertex Positions
+  glBindBuffer(GL_ARRAY_BUFFER, showpath_vbo);
+  glEnableVertexAttribArray(0);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GL_FLOAT),
+                        (GLvoid*)0);
+
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
+  glBindVertexArray(0);
+
   // Image
   // Image Textureの用意
   glGenTextures(1, &image_texture);
@@ -727,25 +742,9 @@ std::cout << view_matrix[3][3] << std::endl;
   }
 
   // Vertex VBO
-  GLuint vertex_vbo;
-  glGenBuffers(1, &vertex_vbo);
-  glBindBuffer(GL_ARRAY_BUFFER, vertex_vbo);
+  glBindBuffer(GL_ARRAY_BUFFER, showpath_vbo);
   glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertices.size(),
-               vertices.data(), GL_STATIC_DRAW);
-
-  // VAO
-  GLuint vao;
-  glGenVertexArrays(1, &vao);
-  glBindVertexArray(vao);
-
-  // Vertex Attribute
-  glBindBuffer(GL_ARRAY_BUFFER, vertex_vbo);
-  glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GL_FLOAT),
-                        (GLvoid*)0);
-
-  glBindBuffer(GL_ARRAY_BUFFER, 0);
-  glBindVertexArray(0);
+               vertices.data(), GL_DYNAMIC_DRAW);
 
   // Draw
   glBindFramebuffer(GL_FRAMEBUFFER, showpath_framebuffer);
@@ -757,10 +756,7 @@ std::cout << view_matrix[3][3] << std::endl;
   glUniformMatrix4fv(glGetUniformLocation(showpath_program, "MVP"), 1, GL_FALSE,
                      glm::value_ptr(mvp_matrix));
 
-  glBindVertexArray(vao);
+  glBindVertexArray(showpath_vao);
   glDrawArrays(GL_LINES, 0, vertices.size() / 3);
-
-  // Delete Buffers
-  glDeleteBuffers(1, &vertex_vbo);
-  glDeleteBuffers(1, &vao);
+  glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

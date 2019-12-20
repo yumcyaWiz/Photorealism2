@@ -34,6 +34,8 @@ class GUI {
   GLuint showpath_texture;      // Path Texture
   GLuint showpath_framebuffer;  // FrameBuffer
   GLuint showpath_program;      // Show Path Shader Program
+  GLuint showpath_vbo;
+  GLuint showpath_vao;
 
   GLuint image_texture;
   GLuint image_framebuffer;
