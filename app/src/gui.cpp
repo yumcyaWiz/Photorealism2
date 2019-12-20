@@ -128,14 +128,14 @@ GUI::GUI() {
   GLuint image_program =
       createProgram(image_vertex_shader, image_fragment_shader);
 
-  static constexpr float vertices[] = {-0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 0.5f,
-                                       -0.5f, 0.0f,  1.0f,  0.0f, 0.5f, 0.5f,
-                                       1.0f,  1.0f,  -0.5f, 0.5f, 0.0f, 0.0f};
+  static constexpr float vertices[] = {
+      0.5f,  0.5f,  0.0f, 1.0f, 1.0f, 0.5f,  -0.5f, 0.0f, 1.0f, 0.0f,
+      -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, -0.5f, 0.5f,  0.0f, 0.0f, 1.0f};
 
   // Vertex VBO
   glGenBuffers(1, &image_vbo);
   glBindBuffer(GL_ARRAY_BUFFER, image_vbo);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 18, vertices, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 20, vertices, GL_STATIC_DRAW);
 
   // VAO
   glGenVertexArrays(1, &image_vao);
