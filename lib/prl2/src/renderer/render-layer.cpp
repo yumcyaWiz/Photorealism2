@@ -3,25 +3,25 @@
 namespace Prl2 {
 
 RenderLayer::RenderLayer(const RenderConfig& config) {
-  render_sRGB.resize(3 * config.width * config.height);
-  denoised_sRGB.resize(3 * config.width * config.height);
-  albedo_sRGB.resize(3 * config.width * config.height);
-  normal_sRGB.resize(3 * config.width * config.height);
-  depth_sRGB.resize(3 * config.width * config.height);
-  position_sRGB.resize(3 * config.width * config.height);
-  samples.resize(config.width * config.height);
-  sample_sRGB.resize(3 * config.width * config.height);
+  render_sRGB.resize(3 * config.width * config.height, 0);
+  denoised_sRGB.resize(3 * config.width * config.height, 0);
+  albedo_sRGB.resize(3 * config.width * config.height, 0);
+  normal_sRGB.resize(3 * config.width * config.height, 0);
+  depth_sRGB.resize(3 * config.width * config.height, 0);
+  position_sRGB.resize(3 * config.width * config.height, 0);
+  samples.resize(config.width * config.height, 1);
+  sample_sRGB.resize(3 * config.width * config.height, 0);
 }
 
 void RenderLayer::resize(int width, int height) {
-  render_sRGB.resize(3 * width * height);
-  denoised_sRGB.resize(3 * width * height);
-  albedo_sRGB.resize(3 * width * height);
-  normal_sRGB.resize(3 * width * height);
-  depth_sRGB.resize(3 * width * height);
-  position_sRGB.resize(3 * width * height);
-  samples.resize(width * height);
-  sample_sRGB.resize(3 * width * height);
+  render_sRGB.resize(3 * width * height, 0);
+  denoised_sRGB.resize(3 * width * height, 0);
+  albedo_sRGB.resize(3 * width * height, 0);
+  normal_sRGB.resize(3 * width * height, 0);
+  depth_sRGB.resize(3 * width * height, 0);
+  position_sRGB.resize(3 * width * height, 0);
+  samples.resize(width * height, 1);
+  sample_sRGB.resize(3 * width * height, 0);
 }
 
 void RenderLayer::clear() {
