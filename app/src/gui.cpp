@@ -417,7 +417,7 @@ void GUI::drawRenderLayer(Render& render) {
 
 void GUI::renderImageTexture() const {
   glBindFramebuffer(GL_FRAMEBUFFER, image_framebuffer);
-
+  glClear(GL_COLOR_BUFFER_BIT);
   glViewport(0, 0, 512, 512);
 
   glBindVertexArray(image_vao);
