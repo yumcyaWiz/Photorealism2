@@ -72,6 +72,7 @@ void Renderer::renderPixel(int i, int j, Sampler& sampler) {
   {
     Vec2 pFilm = scene.camera->sampleFilm(i, j, sampler);
     Ray ray;
+    ray.lambda = 550;
     Real camera_cos, camera_pdf;
     if (scene.camera->generateRay(pFilm, sampler, ray, camera_cos,
                                   camera_pdf)) {
