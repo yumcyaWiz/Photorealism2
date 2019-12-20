@@ -51,7 +51,7 @@ const std::string GUI::image_fragment_shader_source = R"(
   layout(location = 0) out vec3 color;
 
   void main() {
-    color = vec3(texCoord.x, texCoord.y, 1.0f);
+    color = vec3(1.0f);
   }
 )";
 
@@ -74,7 +74,7 @@ GUI::GUI() {
   glBindFramebuffer(GL_FRAMEBUFFER, showpath_framebuffer);
   glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, showpath_texture,
                        0);
-  GLenum draw_buffers[1] = {GL_COLOR_ATTACHMENT0};
+  constexpr static GLenum draw_buffers[1] = {GL_COLOR_ATTACHMENT0};
   glDrawBuffers(1, draw_buffers);
 
   // Depth Buffer
@@ -127,7 +127,7 @@ GUI::GUI() {
   glGenFramebuffers(1, &image_framebuffer);
   glBindFramebuffer(GL_FRAMEBUFFER, image_framebuffer);
   glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, image_texture, 0);
-  GLenum image_drawbuffers[1] = {GL_COLOR_ATTACHMENT0};
+  static constexpr GLenum image_drawbuffers[] = {GL_COLOR_ATTACHMENT0};
   glDrawBuffers(1, image_drawbuffers);
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
@@ -204,8 +204,6 @@ GLuint GUI::createProgram(GLuint vertex_shader, GLuint fragment_shader) const {
   glAttachShader(program, vertex_shader);
   glAttachShader(program, fragment_shader);
   glLinkProgram(program);
-  glDeleteShader(vertex_shader);
-  glDeleteShader(fragment_shader);
 
   int success;
   glGetProgramiv(program, GL_LINK_STATUS, &success);
@@ -745,18 +743,20 @@ std::cout << view_matrix[3][3] << std::endl;
   glBindBuffer(GL_ARRAY_BUFFER, showpath_vbo);
   glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertices.size(),
                vertices.data(), GL_DYNAMIC_DRAW);
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
 
   // Draw
   glBindFramebuffer(GL_FRAMEBUFFER, showpath_framebuffer);
   glUseProgram(showpath_program);
 
   glViewport(0, 0, 512, 512);
-  glClear(GL_COLOR_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   glUniformMatrix4fv(glGetUniformLocation(showpath_program, "MVP"), 1, GL_FALSE,
                      glm::value_ptr(mvp_matrix));
 
   glBindVertexArray(showpath_vao);
   glDrawArrays(GL_LINES, 0, vertices.size() / 3);
+  glBindVertexArray(0);
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
