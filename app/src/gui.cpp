@@ -51,7 +51,7 @@ const std::string GUI::image_fragment_shader_source = R"(
   layout(location = 0) out vec3 color;
 
   void main() {
-    color = vec3(texCoord.x, texCoord.y, 0.0f);
+    color = vec3(texCoord.x, texCoord.y, 1.0f);
   }
 )";
 
@@ -96,12 +96,7 @@ GUI::GUI() {
       createShader(GL_FRAGMENT_SHADER, showpath_fragment_shader_source);
 
   // Link Program
-  showpath_program = glCreateProgram();
-  glAttachShader(showpath_program, showpath_vert_shader);
-  glAttachShader(showpath_program, showpath_frag_shader);
-  glLinkProgram(showpath_program);
-  glDeleteShader(showpath_vert_shader);
-  glDeleteShader(showpath_frag_shader);
+  showpath_program = createProgram(showpath_vert_shader, showpath_frag_shader);
 
   // Image
   // Image Textureの用意
@@ -130,12 +125,8 @@ GUI::GUI() {
       createShader(GL_FRAGMENT_SHADER, image_fragment_shader_source);
 
   // Link Program
-  GLuint image_program = glCreateProgram();
-  glAttachShader(image_program, image_vertex_shader);
-  glAttachShader(image_program, image_fragment_shader);
-  glLinkProgram(image_program);
-  glDeleteShader(image_vertex_shader);
-  glDeleteShader(image_fragment_shader);
+  GLuint image_program =
+      createProgram(image_vertex_shader, image_fragment_shader);
 
   static constexpr float vertices[] = {-0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 0.5f,
                                        -0.5f, 0.0f,  1.0f,  0.0f, 0.5f, 0.5f,
@@ -182,6 +173,25 @@ GLuint GUI::createShader(GLenum shader_type,
   }
 
   return shader;
+}
+
+GLuint GUI::createProgram(GLuint vertex_shader, GLuint fragment_shader) const {
+  GLuint program = glCreateProgram();
+  glAttachShader(program, vertex_shader);
+  glAttachShader(program, fragment_shader);
+  glLinkProgram(program);
+  glDeleteShader(vertex_shader);
+  glDeleteShader(fragment_shader);
+
+  int success;
+  glGetProgramiv(program, GL_LINK_STATUS, &success);
+  if (!success) {
+    char infolog[512];
+    glGetProgramInfoLog(program, 512, NULL, infolog);
+    std::cerr << infolog << std::endl;
+  }
+
+  return program;
 }
 
 void GUI::drawRenderSettings(Render& render) {

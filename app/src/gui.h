@@ -54,6 +54,9 @@ class GUI {
   // Shaderの生成
   GLuint createShader(GLenum shader_type, const std::string& source) const;
 
+  // Shader Programの生成
+  GLuint createProgram(GLuint vertex_shader, GLuint fragment_shader) const;
+
   // Image Textureの生成
   void renderImageTexture() const;
 
