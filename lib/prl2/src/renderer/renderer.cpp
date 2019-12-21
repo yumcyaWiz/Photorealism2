@@ -131,8 +131,12 @@ void Renderer::renderPixel(int i, int j, Sampler& sampler) {
 
   IntegratorResult result;
   if (integrator->integrate(i, j, scene, sampler, result)) {
-    // フィルムに分光放射束を加算
-    scene.camera->film->addPixel(i, j, result.lambda, result.phi);
+    if (!std::isnan(result.phi)) {
+      // フィルムに分光放射束を加算
+      scene.camera->film->addPixel(i, j, result.lambda, result.phi);
+    } else {
+      std::cerr << "nan detected at (" << i << ", " << j << ")" << std::endl;
+    }
   }
 
   // Render LayerにsRGBを書き込み
