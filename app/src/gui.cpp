@@ -54,7 +54,7 @@ const std::string GUI::image_fragment_shader_source = R"(
   layout(location = 0) out vec3 color;
 
   void main() {
-    color = texture(renderTexture, texCoord).rgb;
+    color = texture(renderTexture, texCoord).rgb + texture(showPathTexture, texCoord).rgb;
   }
 )";
 
@@ -141,6 +141,7 @@ GUI::GUI() {
   glDeleteShader(image_fragment_shader);
 
   // Uniform Variables
+  glUseProgram(image_program);
   glUniform1i(glGetUniformLocation(image_program, "renderTexture"), 0);
   glUniform1i(glGetUniformLocation(image_program, "showPathTexture"), 1);
 
