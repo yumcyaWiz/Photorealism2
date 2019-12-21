@@ -48,12 +48,13 @@ const std::string GUI::image_fragment_shader_source = R"(
   #version 330 core
   in vec2 texCoord;
 
-  uniform sampler2D tex;
+  uniform sampler2D renderTexture;
+  uniform sampler2D showPathTexture;
 
   layout(location = 0) out vec3 color;
 
   void main() {
-    color = texture(tex, texCoord).rgb;
+    color = texture(renderTexture, texCoord).rgb;
   }
 )";
 
@@ -139,11 +140,14 @@ GUI::GUI() {
   glDeleteShader(image_vertex_shader);
   glDeleteShader(image_fragment_shader);
 
+  // Uniform Variables
+  glUniform1i(glGetUniformLocation(image_program, "renderTexture"), 0);
+  glUniform1i(glGetUniformLocation(image_program, "showPathTexture"), 1);
+
+  // Vertex VBO
   static constexpr float vertices[] = {
       1.0f,  1.0f,  0.0f, 1.0f, 1.0f, 1.0f,  -1.0f, 0.0f, 1.0f, 0.0f,
       -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f,  0.0f, 0.0f, 1.0f};
-
-  // Vertex VBO
   glGenBuffers(1, &image_vbo);
   glBindBuffer(GL_ARRAY_BUFFER, image_vbo);
   glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 20, vertices, GL_STATIC_DRAW);
@@ -429,9 +433,14 @@ void GUI::renderImageTexture() const {
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, image_ebo);
 
   glUseProgram(image_program);
+
+  glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, render_texture);
+
+  glActiveTexture(GL_TEXTURE1);
+  glBindTexture(GL_TEXTURE_2D, showpath_texture);
+
   glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-  glBindTexture(GL_TEXTURE_2D, 0);
 
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
   glBindVertexArray(0);
