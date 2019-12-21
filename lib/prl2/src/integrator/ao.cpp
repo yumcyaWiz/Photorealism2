@@ -24,6 +24,8 @@ bool AO::integrate(int i, int j, const Scene& scene, Sampler& sampler,
   ray.lambda = lambda;
   result.lambda = lambda;
 
+  const Real white_phi = white.sample(ray.lambda);
+
   IntersectInfo info;
   if (scene.intersect(ray, info)) {
     // Sample Ray Direction
@@ -41,10 +43,10 @@ bool AO::integrate(int i, int j, const Scene& scene, Sampler& sampler,
     }
 
     if (hitDistance > 1) {
-      result.phi = 1;
+      result.phi = white_phi;
     }
   } else {
-    result.phi = 1;
+    result.phi = white_phi;
   }
 
   return true;

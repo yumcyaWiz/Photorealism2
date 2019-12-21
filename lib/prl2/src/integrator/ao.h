@@ -7,10 +7,13 @@ namespace Prl2 {
 
 class AO : public Integrator {
  public:
-  AO(){};
+  AO() : white(10 * D65Light()){};
 
   bool integrate(int i, int j, const Scene& scene, Sampler& sampler,
                  IntegratorResult& result) const override;
+
+ private:
+  const SPD white;
 };
 
 }  // namespace Prl2
