@@ -10,7 +10,7 @@ class LinearIntersector : public Intersector {
  public:
   LinearIntersector(){};
 
-  bool intersect(const Ray& ray, IntersectInfo& info) const {
+  bool intersect(const Ray& ray, IntersectInfo& info) const override {
     bool hit = false;
 
     Real t = ray.tmax;
