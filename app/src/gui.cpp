@@ -720,22 +720,22 @@ void GUI::showPath(int i, int j, const Render& render) const {
 
   // MVP行列をセット
   // View Matrix
+  /*
   const glm::mat4x4 view_matrix = glm::lookAt(
       glm::vec3(camera_pos.x(), camera_pos.y(), camera_pos.z()),
       glm::vec3(camera_lookat.x(), camera_lookat.y(), camera_lookat.z()),
       glm::vec3(0.0f, 1.0f, 0.0f));
-  /*
-const glm::mat4x4 view_matrix = glm::mat4x4(
-   glm::vec4(mat.m[0][0], mat.m[1][0], mat.m[2][0], mat.m[3][0]),
-   glm::vec4(mat.m[0][1], mat.m[1][1], mat.m[2][1], mat.m[3][1]),
-   glm::vec4(mat.m[0][2], mat.m[1][2], mat.m[2][2], mat.m[3][2]),
-   glm::vec4(mat.m[0][3], mat.m[1][3], mat.m[2][3], mat.m[3][3]));
-std::cout << view_matrix[3][3] << std::endl;
-*/
+      */
+  const glm::mat4x4 view_matrix = glm::mat4x4(
+      glm::vec4(mat.m[0][0], mat.m[1][0], mat.m[2][0], mat.m[3][0]),
+      glm::vec4(mat.m[0][1], mat.m[1][1], mat.m[2][1], mat.m[3][1]),
+      glm::vec4(mat.m[0][2], mat.m[1][2], mat.m[2][2], mat.m[3][2]),
+      glm::vec4(mat.m[0][3], mat.m[1][3], mat.m[2][3], mat.m[3][3]));
+  std::cout << view_matrix[3][3] << std::endl;
 
   // Projection Matrix
   const glm::mat4x4 projection_matrix =
-      glm::perspective(glm::radians(fov), 1.0f, 0.001f, 100.0f);
+      glm::infinitePerspective(glm::radians(fov), 1.0f, 0.000001f);
 
   // MVP Matrix
   const glm::mat4x4 mvp_matrix = projection_matrix * view_matrix;
