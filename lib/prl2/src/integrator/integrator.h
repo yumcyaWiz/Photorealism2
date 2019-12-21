@@ -13,6 +13,8 @@ struct IntegratorResult {
   Real lambda;            // サンプリングされた波長
   Real phi;               // 分光放射輝度
   std::vector<Ray> rays;  // Path
+
+  IntegratorResult() : lambda(0), phi(0) {};
 };
 
 //与えられたレイとシーンから分光放射輝度を計算するクラス
