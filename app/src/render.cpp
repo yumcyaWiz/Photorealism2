@@ -32,7 +32,7 @@ void Render::initScene() {
   const auto geom2 = std::make_shared<Prl2::Geometry>(plane, geom2_trans);
 
   const auto geom3_trans = std::make_shared<Prl2::Transform>(
-      Prl2::scale(Prl2::Vec3(3)) * Prl2::translate(Prl2::Vec3(0, 3, 0)));
+      Prl2::scale(Prl2::Vec3(4)) * Prl2::translate(Prl2::Vec3(0, 4, 0)));
   const auto geom3 = std::make_shared<Prl2::Geometry>(plane, geom3_trans);
 
   const auto geom4_trans = std::make_shared<Prl2::Transform>(
@@ -40,14 +40,25 @@ void Render::initScene() {
       Prl2::translate(Prl2::Vec3(2, 2, 0)));
   const auto geom4 = std::make_shared<Prl2::Geometry>(plane, geom4_trans);
 
+  const auto geom5_trans = std::make_shared<Prl2::Transform>(
+      Prl2::rotateZ(Prl2::PI_DIV_2) * Prl2::scale(Prl2::Vec3(4)) *
+      Prl2::translate(Prl2::Vec3(-2, 2, 0)));
+  const auto geom5 = std::make_shared<Prl2::Geometry>(plane, geom5_trans);
+
+  const auto geom6_trans = std::make_shared<Prl2::Transform>(
+      Prl2::rotateX(-Prl2::PI_DIV_2) * Prl2::scale(Prl2::Vec3(4)) *
+      Prl2::translate(Prl2::Vec3(0, 2, -2)));
+  const auto geom6 = std::make_shared<Prl2::Geometry>(plane, geom6_trans);
+
   const auto light =
       std::make_shared<Prl2::AreaLight>(0.1 * Prl2::D65Light(), geom3);
 
   const auto prim1 = std::make_shared<Prl2::Primitive>(geom1, diffuse_white);
   const auto prim2 = std::make_shared<Prl2::Primitive>(geom2, diffuse_white);
-  const auto prim3 =
-      std::make_shared<Prl2::Primitive>(geom3, diffuse_white, light);
+  const auto prim3 = std::make_shared<Prl2::Primitive>(geom3, diffuse_white);
   const auto prim4 = std::make_shared<Prl2::Primitive>(geom4, diffuse_white);
+  const auto prim5 = std::make_shared<Prl2::Primitive>(geom5, diffuse_white);
+  const auto prim6 = std::make_shared<Prl2::Primitive>(geom6, diffuse_white);
 
   std::shared_ptr<Prl2::LinearIntersector> intersector =
       std::make_shared<Prl2::LinearIntersector>();
@@ -55,6 +66,8 @@ void Render::initScene() {
   intersector->addPrimitive(prim2);
   intersector->addPrimitive(prim3);
   intersector->addPrimitive(prim4);
+  intersector->addPrimitive(prim5);
+  intersector->addPrimitive(prim6);
 
   renderer.scene.intersector = intersector;
 }
