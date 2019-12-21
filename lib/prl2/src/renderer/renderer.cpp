@@ -5,6 +5,7 @@
 #include "camera/pinhole.h"
 #include "camera/thin-lens.h"
 #include "core/transform.h"
+#include "integrator/ao.h"
 #include "integrator/pt.h"
 #include "light/light.h"
 #include "parallel/parallel.h"
@@ -55,6 +56,7 @@ void Renderer::loadConfig(const RenderConfig& _config) {
   }
 
   // Integratorの設定
+  /*
   if (!config.integrator_type.empty()) {
     if (config.integrator_type == "PT") {
       integrator = std::make_shared<PT>();
@@ -65,6 +67,8 @@ void Renderer::loadConfig(const RenderConfig& _config) {
   } else {
     integrator = std::make_shared<PT>();
   }
+  */
+  integrator = std::make_shared<AO>();
 }
 
 void Renderer::renderPixel(int i, int j, Sampler& sampler) {
