@@ -38,5 +38,6 @@ target_include_directories(tinyexr INTERFACE
 # find_package(TBB REQUIRED)
 
 # Intel Open Image Denoise
-set(OIDN_STATIC_LIB ON CACHE BOOL "" FORCE)
-add_subdirectory(oidn)
+# set(OIDN_STATIC_LIB ON CACHE BOOL "" FORCE)
+# add_subdirectory(oidn)
+find_package(OpenImageDenoise REQUIRED)
