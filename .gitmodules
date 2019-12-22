@@ -16,9 +16,6 @@
 [submodule "lib/prl2/extern/tinyexr"]
 	path = lib/prl2/extern/tinyexr
 	url = git@github.com:syoyo/tinyexr.git
-[submodule "lib/prl2/extern/oidn"]
-	path = lib/prl2/extern/oidn
-	url = git@github.com:OpenImageDenoise/oidn.git
 [submodule "lib/prl2/extern/tbb"]
 	path = lib/prl2/extern/tbb
 	url = git@github.com:intel/tbb.git
