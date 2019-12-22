@@ -20,7 +20,7 @@ class Transform {
   Transform(const Transform& t) : mat(t.mat), invmat(t.invmat){};
 
   Transform operator*(const Transform& t) const {
-    const auto t2 = Transform(mat * t.mat, invmat * t.invmat);
+    const auto t2 = Transform(mat * t.mat, t.invmat * invmat);
     return t2;
   };
 
