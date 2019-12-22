@@ -20,11 +20,9 @@ bool AO::integrate(int i, int j, const Scene& scene, Sampler& sampler,
   // 波長のサンプリング
   const Real lambda =
       SPD::LAMBDA_MIN + sampler.getNext() * (SPD::LAMBDA_MAX - SPD::LAMBDA_MIN);
-  constexpr Real lambda_pdf = 1 / (SPD::LAMBDA_MAX - SPD::LAMBDA_MIN);
-  ray.lambda = lambda;
   result.lambda = lambda;
 
-  const Real white_phi = white.sample(ray.lambda);
+  const Real white_phi = white.sample(lambda);
 
   IntersectInfo info;
   if (scene.intersect(ray, info)) {
@@ -35,18 +33,14 @@ bool AO::integrate(int i, int j, const Scene& scene, Sampler& sampler,
 
     // Compute Hit Distance
     IntersectInfo shadow_info;
-    Real hitDistance = 0;
+    Real hitDistance = ray.tmax;
     if (scene.intersect(shadow_ray, shadow_info)) {
       hitDistance = shadow_info.t;
-    } else {
-      hitDistance = ray.tmax;
     }
 
-    if (hitDistance > 1) {
-      result.phi = white_phi;
-    }
+    result.phi = hitDistance > 1 ? white_phi : 0;
   } else {
-    result.phi = white_phi;
+    result.phi = 0;
   }
 
   return true;
