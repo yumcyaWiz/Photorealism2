@@ -15,8 +15,10 @@ void Render::initScene() {
 
   const auto diffuse_white =
       std::make_shared<Prl2::Diffuse>(Prl2::RGB2Spectrum(Prl2::RGB(0.8)));
-  const auto diffuse_blue = std::make_shared<Prl2::Diffuse>(
-      Prl2::RGB2Spectrum(Prl2::RGB(0.0, 0.2, 0.8)));
+  const auto diffuse_green = std::make_shared<Prl2::Diffuse>(
+      Prl2::RGB2Spectrum(Prl2::RGB(0.0, 0.8, 0.0)));
+  const auto diffuse_red = std::make_shared<Prl2::Diffuse>(
+      Prl2::RGB2Spectrum(Prl2::RGB(0.8, 0.0, 0.0)));
   const auto mirror =
       std::make_shared<Prl2::Mirror>(Prl2::RGB2Spectrum(Prl2::RGB(0.8)));
   const auto glass = std::make_shared<Prl2::Glass>(
@@ -50,15 +52,21 @@ void Render::initScene() {
       Prl2::rotateX(-Prl2::PI_DIV_2));
   const auto geom6 = std::make_shared<Prl2::Geometry>(plane, geom6_trans);
 
-  const auto light =
-      std::make_shared<Prl2::AreaLight>(0.1 * Prl2::D65Light(), geom3);
+  const auto geom7_trans = std::make_shared<Prl2::Transform>(
+      Prl2::translate(Prl2::Vec3(0, 3.9, 0)) * Prl2::scale(Prl2::Vec3(2)));
+  const auto geom7 = std::make_shared<Prl2::Geometry>(plane, geom7_trans);
+
+  const Prl2::SPD light_spd({400, 500, 600, 700}, {0, 8, 15.6, 18.4});
+  const auto light = std::make_shared<Prl2::AreaLight>(0.01 * light_spd, geom7);
 
   const auto prim1 = std::make_shared<Prl2::Primitive>(geom1, diffuse_white);
   const auto prim2 = std::make_shared<Prl2::Primitive>(geom2, diffuse_white);
   const auto prim3 = std::make_shared<Prl2::Primitive>(geom3, diffuse_white);
-  const auto prim4 = std::make_shared<Prl2::Primitive>(geom4, diffuse_white);
-  const auto prim5 = std::make_shared<Prl2::Primitive>(geom5, diffuse_white);
+  const auto prim4 = std::make_shared<Prl2::Primitive>(geom4, diffuse_green);
+  const auto prim5 = std::make_shared<Prl2::Primitive>(geom5, diffuse_red);
   const auto prim6 = std::make_shared<Prl2::Primitive>(geom6, diffuse_white);
+  const auto prim7 =
+      std::make_shared<Prl2::Primitive>(geom7, diffuse_white, light);
 
   std::shared_ptr<Prl2::LinearIntersector> intersector =
       std::make_shared<Prl2::LinearIntersector>();
@@ -68,6 +76,7 @@ void Render::initScene() {
   intersector->addPrimitive(prim4);
   intersector->addPrimitive(prim5);
   intersector->addPrimitive(prim6);
+  intersector->addPrimitive(prim7);
 
   renderer.scene.intersector = intersector;
 }

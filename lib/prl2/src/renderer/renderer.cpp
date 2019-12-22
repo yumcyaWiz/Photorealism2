@@ -68,7 +68,7 @@ void Renderer::loadConfig(const RenderConfig& _config) {
     integrator = std::make_shared<PT>();
   }
   */
-  integrator = std::make_shared<AO>();
+  integrator = std::make_shared<PT>();
 }
 
 void Renderer::renderPixel(int i, int j, Sampler& sampler) {
