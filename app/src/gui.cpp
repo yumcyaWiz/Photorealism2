@@ -731,7 +731,6 @@ void GUI::showPath(int i, int j, const Render& render) const {
       glm::vec4(mat.m[0][1], mat.m[1][1], mat.m[2][1], mat.m[3][1]),
       glm::vec4(mat.m[0][2], mat.m[1][2], mat.m[2][2], mat.m[3][2]),
       glm::vec4(mat.m[0][3], mat.m[1][3], mat.m[2][3], mat.m[3][3]));
-  std::cout << view_matrix[3][3] << std::endl;
 
   // Projection Matrix
   const glm::mat4x4 projection_matrix =
