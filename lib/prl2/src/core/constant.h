@@ -18,6 +18,8 @@ static constexpr Real INV_PI_MUL_2 = 1 / PI_MUL_2;
 static constexpr Real ONE_MINUS_EPS =
     static_cast<Real>(1) - std::numeric_limits<Real>::epsilon();
 
+static constexpr Real INF = std::numeric_limits<Real>::infinity();
+
 }  // namespace Prl2
 
 #endif
