@@ -331,7 +331,8 @@ Vec3 Renderer::getNormal(int i, int j) const {
 }
 
 Real Renderer::getDepth(int i, int j) const {
-  return layer.depth_sRGB[3 * i + 3 * config.width * j];
+  return layer.depth_sRGB[3 * i + 3 * config.width * j] /
+         layer.samples[i + config.width * j];
 }
 
 CameraType Renderer::getCameraType() const { return config.camera_type; }
