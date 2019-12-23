@@ -41,3 +41,6 @@ target_include_directories(tinyexr INTERFACE
 # set(OIDN_STATIC_LIB ON CACHE BOOL "" FORCE)
 # add_subdirectory(oidn)
 find_package(OpenImageDenoise REQUIRED)
+
+# Embree3
+find_package(Embree 3.6.1 REQUIRED)
