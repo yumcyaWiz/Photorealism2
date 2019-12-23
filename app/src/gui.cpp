@@ -436,6 +436,15 @@ void GUI::drawRenderLayer(Render& render) {
     }
     ImGui::InputFloat3("Hit Normal", hit_normal);
 
+    // Depthの表示
+    static float hit_depth;
+    if (texture_hovered) {
+      const int i = ImGui::GetIO().MousePos.x - image_pos.x;
+      const int j = ImGui::GetIO().MousePos.y - image_pos.y;
+      hit_depth = render.renderer.getDepth(i, j);
+    }
+    ImGui::InputFloat("Depth", &hit_depth);
+
     // SPDの表示
     static const float* phi = render.renderer.getSPD(0, 0).phi.data();
     if (texture_hovered) {
