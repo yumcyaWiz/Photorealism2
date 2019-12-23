@@ -18,6 +18,8 @@ struct Scene {
   std::shared_ptr<Camera> camera;              // Camera
   std::shared_ptr<Intersector> intersector;    // Intersector
   std::shared_ptr<Sky> sky;                    // Sky
+
+  std::vector<std::shared_ptr<Primitive>> primitives; // Primitive Array
   std::vector<std::shared_ptr<Light>> lights;  // Light Array
 
   Scene();
@@ -26,7 +28,7 @@ struct Scene {
         const std::shared_ptr<Sky> _sky);
 
   // シーンの初期化を行う
-  void initScene() const;
+  void initScene();
 
   // レイとシーンの衝突計算を行う
   bool intersect(const Ray& ray, IntersectInfo& info) const {
