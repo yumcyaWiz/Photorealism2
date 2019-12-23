@@ -6,6 +6,7 @@
 #include "camera/camera.h"
 #include "core/isect.h"
 #include "intersector/intersector.h"
+#include "light/light.h"
 #include "sky/sky.h"
 
 namespace Prl2 {
@@ -14,15 +15,18 @@ namespace Prl2 {
 // Camera, Intersectorを保持する
 struct Scene {
  public:
-  std::shared_ptr<Camera> camera;            // Camera
-  std::shared_ptr<Intersector> intersector;  // Intersector
-  std::shared_ptr<Sky> sky;                  // Sky
+  std::shared_ptr<Camera> camera;              // Camera
+  std::shared_ptr<Intersector> intersector;    // Intersector
+  std::shared_ptr<Sky> sky;                    // Sky
+  std::vector<std::shared_ptr<Light>> lights;  // Light Array
 
-  Scene() : camera(nullptr), intersector(nullptr), sky(nullptr){};
+  Scene();
   Scene(const std::shared_ptr<Camera> _camera,
         const std::shared_ptr<Intersector> _intersector,
-        const std::shared_ptr<Sky> _sky)
-      : camera(_camera), intersector(_intersector), sky(_sky){};
+        const std::shared_ptr<Sky> _sky);
+
+  // シーンの初期化を行う
+  void initScene() const;
 
   // レイとシーンの衝突計算を行う
   bool intersect(const Ray& ray, IntersectInfo& info) const {

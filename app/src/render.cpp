@@ -60,7 +60,7 @@ void Render::initScene() {
   const Prl2::SPD light_spd({400, 500, 600, 700}, {0, 8, 15.6, 18.4});
   const auto light = std::make_shared<Prl2::AreaLight>(0.01 * light_spd, geom7);
 
-  const auto prim1 = std::make_shared<Prl2::Primitive>(geom1, diffuse_white);
+  const auto prim1 = std::make_shared<Prl2::Primitive>(geom1, glass);
   const auto prim2 = std::make_shared<Prl2::Primitive>(geom2, diffuse_white);
   const auto prim3 = std::make_shared<Prl2::Primitive>(geom3, diffuse_white);
   const auto prim4 = std::make_shared<Prl2::Primitive>(geom4, diffuse_green);
