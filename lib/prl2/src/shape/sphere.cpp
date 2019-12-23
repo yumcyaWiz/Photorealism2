@@ -1,7 +1,9 @@
+#include "shape/sphere.h"
+
 #include <algorithm>
 
 #include "core/constant.h"
-#include "shape/sphere.h"
+#include "sampler/sampling.h"
 
 namespace Prl2 {
 

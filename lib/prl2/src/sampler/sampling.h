@@ -17,6 +17,13 @@ inline Vec2 sampleDisk(const Vec2& u) {
   return Vec2(r * std::cos(theta), r * std::sin(theta));
 }
 
+inline Vec3 sampleSphere(const Vec2& u) {
+  const Real z = 1 - 2 * u.x();
+  const Real r = std::sqrt(std::max(0.0f, 1.0f - z * z));
+  const Real phi = 2 * M_PI * u.y();
+  return Vec3(r * std::cos(phi), z, r * std::sin(phi));
+}
+
 inline Vec3 sampleHemisphere(const Vec2& u) {
   const Real z = u.x();
   const Real r = std::sqrt(std::max(0.0f, 1.0f - z * z));
