@@ -101,7 +101,8 @@ class SPD {
   // http://www.brucelindbloom.com/index.html?Eqn_RGB_XYZ_Matrix.html
   RGB toRGB() const {
     XYZ xyz = this->toXYZ();
-    return XYZ2RGB(xyz);
+    RGB rgb = XYZ2RGB(xyz);
+    return clamp(rgb, Vec3(0), Vec3(INF));
   };
 
   //演算
