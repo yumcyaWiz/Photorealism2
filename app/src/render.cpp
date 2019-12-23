@@ -71,15 +71,16 @@ void Render::initScene() {
 
   std::shared_ptr<Prl2::LinearIntersector> intersector =
       std::make_shared<Prl2::LinearIntersector>();
-  intersector->addPrimitive(prim1);
-  intersector->addPrimitive(prim2);
-  intersector->addPrimitive(prim3);
-  intersector->addPrimitive(prim4);
-  intersector->addPrimitive(prim5);
-  intersector->addPrimitive(prim6);
-  intersector->addPrimitive(prim7);
-
   renderer.scene.intersector = intersector;
+
+  renderer.scene.addPrimitive(prim1);
+  renderer.scene.addPrimitive(prim2);
+  renderer.scene.addPrimitive(prim3);
+  renderer.scene.addPrimitive(prim4);
+  renderer.scene.addPrimitive(prim5);
+  renderer.scene.addPrimitive(prim6);
+  renderer.scene.addPrimitive(prim7);
+  renderer.scene.initScene();
 }
 
 std::thread Render::render() {
