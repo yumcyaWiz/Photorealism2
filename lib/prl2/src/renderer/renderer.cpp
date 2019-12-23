@@ -318,12 +318,15 @@ RGB Renderer::getsRGB(int i, int j) const {
 }
 
 Vec3 Renderer::getNormal(int i, int j) const {
+  const int samples = layer.samples[i + config.width * j];
   const Real x =
-      2.0f * (layer.normal_sRGB[3 * i + 3 * config.width * j] - 0.5f);
+      2.0f * (layer.normal_sRGB[3 * i + 3 * config.width * j] / samples - 0.5f);
   const Real y =
-      2.0f * (layer.normal_sRGB[3 * i + 3 * config.width * j + 1] - 0.5f);
+      2.0f *
+      (layer.normal_sRGB[3 * i + 3 * config.width * j + 1] / samples - 0.5f);
   const Real z =
-      2.0f * (layer.normal_sRGB[3 * i + 3 * config.width * j + 2] - 0.5f);
+      2.0f *
+      (layer.normal_sRGB[3 * i + 3 * config.width * j + 2] / samples - 0.5f);
   return Vec3(x, y, z);
 }
 
