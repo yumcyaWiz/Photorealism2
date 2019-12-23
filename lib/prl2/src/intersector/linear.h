@@ -10,9 +10,7 @@ class LinearIntersector : public Intersector {
  public:
   LinearIntersector(){};
 
-  bool initialize() const override {
-    return true;
-  };
+  bool initialize() const override { return true; };
 
   bool intersect(const Ray& ray, IntersectInfo& info) const override {
     bool hit = false;

@@ -14,9 +14,8 @@ class Intersector {
  public:
   Intersector(){};
 
-  // Primitiveを追加する
-  void addPrimitive(const std::shared_ptr<Primitive>& _prim) {
-    primitives.push_back(_prim);
+  void setPrimitives(const std::vector<std::shared_ptr<Primitive>>& _prims) {
+    primitives = _prims;
   };
 
   // 初期化
