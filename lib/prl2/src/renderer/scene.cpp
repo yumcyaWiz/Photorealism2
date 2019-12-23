@@ -9,6 +9,10 @@ Scene::Scene(const std::shared_ptr<Camera> _camera,
              const std::shared_ptr<Sky> _sky)
     : camera(_camera), intersector(_intersector), sky(_sky) {}
 
-void Scene::initScene() {}
+void Scene::initScene() {
+  // Initialize Intersector
+  intersector->setPrimitives(primitives);
+  intersector->initialize();
+}
 
 }  // namespace Prl2
