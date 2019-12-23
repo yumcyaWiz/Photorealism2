@@ -17,4 +17,6 @@ bool Plane::intersect(const Ray& ray, IntersectInfo& info) const {
   return true;
 }
 
+void Plane::samplePoint(Sampler& sampler, Vec3& p, Real& pdf_area) const {}
+
 }  // namespace Prl2

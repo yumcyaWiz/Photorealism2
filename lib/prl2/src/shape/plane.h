@@ -10,6 +10,8 @@ class Plane : public Shape {
   Plane(){};
 
   bool intersect(const Ray& ray, IntersectInfo& info) const override;
+
+  void samplePoint(Sampler& sampler, Vec3& p, Real& pdf_area) const override;
 };
 
 }  // namespace Prl2
