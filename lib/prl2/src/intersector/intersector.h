@@ -19,6 +19,9 @@ class Intersector {
     primitives.push_back(_prim);
   };
 
+  // 初期化
+  virtual bool initialize() const = 0;
+
   //与えられたレイとの衝突計算を行う
   virtual bool intersect(const Ray& ray, IntersectInfo& info) const = 0;
 
