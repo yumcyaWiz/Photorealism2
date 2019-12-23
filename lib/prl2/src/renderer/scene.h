@@ -30,6 +30,11 @@ struct Scene {
   // シーンの初期化を行う
   void initScene();
 
+  // Primitiveを追加する
+  void addPrimitive(const std::shared_ptr<Primitive>& prim) {
+    primitives.push_back(prim);
+  };
+
   // レイとシーンの衝突計算を行う
   bool intersect(const Ray& ray, IntersectInfo& info) const {
     return intersector->intersect(ray, info);
