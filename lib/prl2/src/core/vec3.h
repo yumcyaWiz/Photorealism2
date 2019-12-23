@@ -176,5 +176,13 @@ inline Real radianBetween(const Vec3& v1, const Vec3& v2) {
   return std::acos(cos);
 }
 
+inline Vec3 clamp(const Vec3& v, const Vec3& vmin, const Vec3& vmax) {
+  Vec3 ret;
+  ret[0] = std::clamp(v.x(), vmin.x(), vmax.x());
+  ret[1] = std::clamp(v.y(), vmin.y(), vmax.y());
+  ret[2] = std::clamp(v.z(), vmin.z(), vmax.z());
+  return ret;
+}
+
 }  // namespace Prl2
 #endif
