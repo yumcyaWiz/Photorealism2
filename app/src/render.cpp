@@ -1,6 +1,7 @@
 #include "render.h"
 
 #include "camera/pinhole.h"
+#include "intersector/embree.h"
 #include "intersector/linear.h"
 #include "light/area-light.h"
 #include "material/diffuse.h"

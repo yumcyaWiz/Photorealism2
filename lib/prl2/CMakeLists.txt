@@ -11,7 +11,6 @@ add_subdirectory(extern)
 
 # Include
 target_include_directories(prl2 PUBLIC src)
-target_include_directories(prl2 PUBLIC ${EMBREE_INCLUDE_DIRS})
 
 # Link
 target_link_libraries(prl2 PUBLIC Threads::Threads)
@@ -20,7 +19,6 @@ target_link_libraries(prl2 PUBLIC hosek)
 target_link_libraries(prl2 PUBLIC stb)
 target_link_libraries(prl2 PUBLIC tinyexr)
 target_link_libraries(prl2 PUBLIC OpenImageDenoise)
-target_link_libraries(prl2 PUBLIC ${EMBREE_LIBRARIES})
 
 #compile settings
 target_compile_features(prl2 PUBLIC cxx_std_17)

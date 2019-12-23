@@ -43,4 +43,6 @@ target_include_directories(tinyexr INTERFACE
 find_package(OpenImageDenoise REQUIRED)
 
 # Embree3
-find_package(Embree 3.6.1 REQUIRED)
+find_package(embree 3.6.1 REQUIRED)
+target_include_directories(prl2 PUBLIC ${EMBREE_INCLUDE_DIRS})
+target_link_libraries(prl2 PUBLIC ${EMBREE_LIBRARY})
