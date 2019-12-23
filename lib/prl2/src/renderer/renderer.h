@@ -65,6 +65,13 @@ class Renderer {
   // レンダリングタイル数をセットする
   void setRenderTiles(int x, int y);
 
+  // (i, j)のsRGBを入手する
+  RGB getsRGB(int i, int j) const;
+  // (i, j)のNormalを入手する
+  Vec3 getNormal(int i, int j) const;
+  // (i, j)のDepthを入手する
+  Real getDepth(int i, int j) const;
+
   // 出力レイヤーを入手する
   LayerType getOutputLayer() const;
   // 出力レイヤーを指定する

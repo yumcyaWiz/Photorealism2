@@ -310,6 +310,27 @@ SPD Renderer::getSPD(int i, int j) const {
          layer.samples[i + config.width * j];
 }
 
+RGB Renderer::getsRGB(int i, int j) const {
+  const Real r = layer.render_sRGB[3 * i + 3 * config.width * j];
+  const Real g = layer.render_sRGB[3 * i + 3 * config.width * j + 1];
+  const Real b = layer.render_sRGB[3 * i + 3 * config.width * j + 2];
+  return RGB(r, g, b);
+}
+
+Vec3 Renderer::getNormal(int i, int j) const {
+  const Real x =
+      2.0f * (layer.normal_sRGB[3 * i + 3 * config.width * j] - 0.5f);
+  const Real y =
+      2.0f * (layer.normal_sRGB[3 * i + 3 * config.width * j + 1] - 0.5f);
+  const Real z =
+      2.0f * (layer.normal_sRGB[3 * i + 3 * config.width * j + 2] - 0.5f);
+  return Vec3(x, y, z);
+}
+
+Real Renderer::getDepth(int i, int j) const {
+  return layer.depth_sRGB[3 * i + 3 * config.width * j];
+}
+
 CameraType Renderer::getCameraType() const { return config.camera_type; }
 
 void Renderer::setCameraType(const CameraType& type) {
