@@ -57,6 +57,9 @@ bool Sphere::intersect(const Ray& ray, IntersectInfo& info) const {
   return true;
 }
 
-void Sphere::samplePoint(Sampler& sampler, Vec3& p, Real& pdf_area) const {}
+void Sphere::samplePoint(Sampler& sampler, Vec3& p, Real& pdf_area) const {
+  p = sampleSphere(sampler.getNext2D());
+  pdf_area = INV_PI_MUL_4;
+}
 
 }  // namespace Prl2
