@@ -411,6 +411,20 @@ void GUI::drawRenderLayer(Render& render) {
       }
     }
 
+    // sRGBの表示
+    Prl2::Vec3 rgb;
+    static float render_color[3];
+    if (texture_hovered) {
+      const int i = ImGui::GetIO().MousePos.x - image_pos.x;
+      const int j = ImGui::GetIO().MousePos.y - image_pos.y;
+      rgb = render.renderer.getsRGB(i, j);
+      render_color[0] = rgb.x();
+      render_color[1] = rgb.y();
+      render_color[2] = rgb.z();
+    }
+    ImGui::ColorEdit3("sRGB", render_color,
+                      ImGuiColorEditFlags_Float | ImGuiColorEditFlags_HDR);
+
     // SPDの表示
     static const float* phi = render.renderer.getSPD(0, 0).phi.data();
     if (texture_hovered) {
