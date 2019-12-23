@@ -13,6 +13,13 @@ void Scene::initScene() {
   // Initialize Intersector
   intersector->setPrimitives(primitives);
   intersector->initialize();
+
+  // Initialize Light Array
+  for (const auto& prim : primitives) {
+    if (prim->light != nullptr) {
+      lights.push_back(prim->light);
+    }
+  }
 }
 
 }  // namespace Prl2
