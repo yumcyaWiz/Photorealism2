@@ -17,6 +17,12 @@ bool Plane::intersect(const Ray& ray, IntersectInfo& info) const {
   return true;
 }
 
-void Plane::samplePoint(Sampler& sampler, Vec3& p, Real& pdf_area) const {}
+void Plane::samplePoint(Sampler& sampler, Vec3& p, Real& pdf_area) const {
+  const Vec2 u = sampler.getNext2D();
+  p[0] = u.x() - 0.5f;
+  p[1] = 0;
+  p[2] = u.y() - 0.5f;
+  pdf_area = 1;
+}
 
 }  // namespace Prl2
