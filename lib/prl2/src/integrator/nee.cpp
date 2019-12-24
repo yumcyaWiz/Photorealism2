@@ -52,7 +52,8 @@ bool NEE::integrate(int i, int j, const Scene& scene, Sampler& sampler,
       light->samplePoint(info, sampler, light_pos, light_pdf);
 
       // Visibility Test
-      Ray shadow_ray(info.hitPos, normalize(light_pos - info.hitPos));
+      Ray shadow_ray(info.hitPos, normalize(light_pos - info.hitPos),
+                     ray.lambda);
       IntersectInfo shadow_info;
       if (scene.intersect(shadow_ray, shadow_info)) {
         if (shadow_info.hitPrimitive->light == light) {
