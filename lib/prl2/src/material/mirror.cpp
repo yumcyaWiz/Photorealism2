@@ -4,12 +4,11 @@ namespace Prl2 {
 
 Mirror::Mirror(const SPD& _spd) : spd(_spd) {}
 
-Real Mirror::sampleDirection(const SurfaceInteraction& interaction,
-                             Sampler& sampler, Vec3& wi_local,
+Real Mirror::sampleDirection(SurfaceInteraction& interaction, Sampler& sampler,
                              Real& pdf) const {
-  wi_local = reflect(interaction.wo_local, Vec3(0, 1, 0));
+  interaction.wi_local = reflect(interaction.wo_local, Vec3(0, 1, 0));
   pdf = 1;
-  return spd.sample(interaction.lambda) / absCosTheta(wi_local);
+  return spd.sample(interaction.lambda) / absCosTheta(interaction.wi_local);
 }
 
 Real Mirror::BRDF(const SurfaceInteraction& interaction) const { return 0; }

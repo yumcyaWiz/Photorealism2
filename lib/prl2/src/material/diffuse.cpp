@@ -4,13 +4,12 @@ namespace Prl2 {
 
 Diffuse::Diffuse(const SPD& _spd) : spd(_spd) {}
 
-Real Diffuse::sampleDirection(const SurfaceInteraction& interaction,
-                              Sampler& sampler, Vec3& wi_local,
+Real Diffuse::sampleDirection(SurfaceInteraction& interaction, Sampler& sampler,
                               Real& pdf) const {
   // Cosine Weighted Hemisphere Sampling
   const Vec2 u = sampler.getNext2D();
-  wi_local = sampleCosineHemisphere(u);
-  pdf = INV_PI * absCosTheta(wi_local);
+  interaction.wi_local = sampleCosineHemisphere(u);
+  pdf = INV_PI * absCosTheta(interaction.wi_local);
 
   // BRDFを計算
   return INV_PI * spd.sample(interaction.lambda);

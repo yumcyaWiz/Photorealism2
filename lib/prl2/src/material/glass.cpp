@@ -5,8 +5,8 @@ namespace Prl2 {
 Glass::Glass(const SellmeierEquation& _sellmeier, const SPD& _spd)
     : sellmeier(_sellmeier), spd(_spd) {}
 
-Real Glass::sampleDirection(const SurfaceInteraction& interaction,
-                            Sampler& sampler, Vec3& wi_local, Real& pdf) const {
+Real Glass::sampleDirection(SurfaceInteraction& interaction, Sampler& sampler,
+                            Real& pdf) const {
   const bool is_entering = cosTheta(interaction.wo_local) > 0;
   const Real glass_ior = sellmeier.ior(interaction.lambda);
 
@@ -19,23 +19,26 @@ Real Glass::sampleDirection(const SurfaceInteraction& interaction,
 
   // Reflection
   if (sampler.getNext() < fr) {
-    wi_local = reflect(interaction.wo_local, normal);
+    interaction.wi_local = reflect(interaction.wo_local, normal);
     pdf = fr;
-    return fr * spd.sample(interaction.lambda) / absCosTheta(wi_local);
+    return fr * spd.sample(interaction.lambda) /
+           absCosTheta(interaction.wi_local);
   }
   // Refract
   else {
     Vec3 wt;
     if (refract(interaction.wo_local, wt, normal, ior1, ior2)) {
-      wi_local = wt;
+      interaction.wi_local = wt;
       pdf = 1 - fr;
-      return (1 - fr) * spd.sample(interaction.lambda) / absCosTheta(wi_local);
+      return (1 - fr) * spd.sample(interaction.lambda) /
+             absCosTheta(interaction.wi_local);
     }
     // Total Refrection
     else {
-      wi_local = reflect(interaction.wo_local, normal);
+      interaction.wi_local = reflect(interaction.wo_local, normal);
       pdf = 1 - fr;
-      return (1 - fr) * spd.sample(interaction.lambda) / absCosTheta(wi_local);
+      return (1 - fr) * spd.sample(interaction.lambda) /
+             absCosTheta(interaction.wi_local);
     }
   }
 }

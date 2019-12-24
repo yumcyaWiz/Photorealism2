@@ -47,18 +47,16 @@ bool PT::integrate(int i, int j, const Scene& scene, Sampler& sampler,
       const auto material = info.hitPrimitive->material;
       const Vec3 wo = -ray.direction;
       const Vec3 wo_local = worldToMaterial(wo, info);
-      const SurfaceInteraction interaction(wo_local, ray.lambda);
-      Vec3 wi_local;
+      SurfaceInteraction interaction(wo_local, ray.lambda);
       Real pdf_w;
-      const Real bsdf =
-          material->sampleDirection(interaction, sampler, wi_local, pdf_w);
+      const Real bsdf = material->sampleDirection(interaction, sampler, pdf_w);
 
       // Throughputを更新
-      const Real cos = absCosTheta(wi_local);
+      const Real cos = absCosTheta(interaction.wi_local);
       throughput *= bsdf * cos / pdf_w;
 
       // レイを更新
-      const Vec3 wi_world = materialToWorld(wi_local, info);
+      const Vec3 wi_world = materialToWorld(interaction.wi_local, info);
       ray.origin = info.hitPos;
       ray.direction = wi_world;
     }

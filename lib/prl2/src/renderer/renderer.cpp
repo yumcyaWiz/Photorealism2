@@ -107,11 +107,10 @@ void Renderer::renderPixel(int i, int j, Sampler& sampler) {
         const auto material = info.hitPrimitive->material;
         const Vec3 wo = -ray.direction;
         const Vec3 wo_local = worldToMaterial(wo, info);
-        const SurfaceInteraction interaction(wo_local, ray.lambda);
-        Vec3 wi_local;
+        SurfaceInteraction interaction(wo_local, ray.lambda);
         Real pdf;
-        material->sampleDirection(interaction, sampler, wi_local, pdf);
-        const Vec3 wi = materialToWorld(wi_local, info);
+        material->sampleDirection(interaction, sampler, pdf);
+        const Vec3 wi = materialToWorld(interaction.wi_local, info);
         layer.sample_sRGB[3 * i + 3 * config.width * j + 0] +=
             0.5f * (wi.x() + 1.0f);
         layer.sample_sRGB[3 * i + 3 * config.width * j + 1] +=

@@ -10,8 +10,8 @@ class Mirror : public Material {
  public:
   Mirror(const SPD& _spd);
 
-  Real sampleDirection(const SurfaceInteraction& interaction, Sampler& sampler,
-                       Vec3& wi_local, Real& pdf) const override;
+  Real sampleDirection(SurfaceInteraction& interaction, Sampler& sampler,
+                       Real& pdf) const override;
 
   Real BRDF(const SurfaceInteraction& interaction) const override;
 
