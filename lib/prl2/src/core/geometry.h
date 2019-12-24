@@ -6,6 +6,7 @@
 #include "core/isect.h"
 #include "core/ray.h"
 #include "core/transform.h"
+#include "sampler/sampling.h"
 #include "shape/shape.h"
 
 namespace Prl2 {
@@ -30,6 +31,15 @@ class Geometry {
     } else {
       return false;
     }
+  };
+
+  void samplePoint(Sampler& sampler, Vec3& p, Real& pdf_area) const {
+    // ローカル座標系でサンプリング
+    Vec3 p_local;
+    shape->samplePoint(sampler, p_local, pdf_area);
+
+    // ワールド座標系に変換
+    p = localToWorld->applyPoint(p_local);
   };
 
  private:
