@@ -32,6 +32,9 @@ enum class SkyType { Uniform, Hosek, IBL };
 // Cameraの種類
 enum class CameraType { Pinhole, Environment, ThinLens };
 
+// Integratorの種類
+enum class IntegratorType { PT, NEE };
+
 // レンダリングの設定を表すクラス
 // 画像のサイズ、サンプル数、カメラの種類、シーンファイルの種類などを設定する
 struct RenderConfig {
@@ -94,7 +97,7 @@ struct RenderConfig {
   std::string sampler_type;  // Samplerの種類
 
   // Integrator
-  std::string integrator_type;  // Integratorの種類
+  IntegratorType integrator_type;  // Integratorの種類
 
   // Renderer
   int samples = 10;  //サンプル数
