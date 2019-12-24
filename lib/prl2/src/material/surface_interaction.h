@@ -7,12 +7,11 @@
 namespace Prl2 {
 
 struct SurfaceInteraction {
-  SurfaceInteraction(const Vec3& _wo_local, const Real& _lambda)
-      : wo_local(_wo_local), lambda(_lambda){};
+  SurfaceInteraction(){};
 
-  const Vec3 wo_local;  // マテリアル座標系の出射ベクトル
-  Vec3 wi_local;        // マテリアル座標系の入射ベクトル
-  const Real lambda;    // 波長
+  Vec3 wo_local;  // マテリアル座標系の出射ベクトル
+  Vec3 wi_local;  // マテリアル座標系の入射ベクトル
+  Real lambda;    // 波長
 };
 
 }  // namespace Prl2

@@ -42,6 +42,8 @@ bool NEE::integrate(int i, int j, const Scene& scene, Sampler& sampler,
       }
 
       const auto material = info.hitPrimitive->material;
+      const Vec3 wo = -ray.direction;
+      const Vec3 wo_local = worldToMaterial(wo, info);
 
       // Light Sampling
       const auto light = sampleLight(scene, sampler);
@@ -54,15 +56,21 @@ bool NEE::integrate(int i, int j, const Scene& scene, Sampler& sampler,
       IntersectInfo shadow_info;
       if (scene.intersect(shadow_ray, shadow_info)) {
         if (shadow_info.hitPrimitive->light == light) {
-          radiance +=
-              throughput * light->Le(shadow_ray, shadow_info) / light_pdf;
+          SurfaceInteraction interaction;
+          interaction.wo_local = wo_local;
+          interaction.lambda = ray.lambda;
+
+          const Real brdf = material->BRDF(interaction);
+          const Real cos = std::abs(dot(shadow_ray.direction, info.hitNormal));
+          radiance += throughput * brdf * cos *
+                      light->Le(shadow_ray, shadow_info) / light_pdf;
         }
       }
 
       // BRDF Sampling
-      const Vec3 wo = -ray.direction;
-      const Vec3 wo_local = worldToMaterial(wo, info);
-      SurfaceInteraction interaction(wo_local, ray.lambda);
+      SurfaceInteraction interaction;
+      interaction.wo_local = wo_local;
+      interaction.lambda = ray.lambda;
       Real pdf_w;
       const Real bsdf = material->sampleDirection(interaction, sampler, pdf_w);
 

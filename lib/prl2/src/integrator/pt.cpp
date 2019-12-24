@@ -47,7 +47,9 @@ bool PT::integrate(int i, int j, const Scene& scene, Sampler& sampler,
       const auto material = info.hitPrimitive->material;
       const Vec3 wo = -ray.direction;
       const Vec3 wo_local = worldToMaterial(wo, info);
-      SurfaceInteraction interaction(wo_local, ray.lambda);
+      SurfaceInteraction interaction;
+      interaction.wo_local = wo_local;
+      interaction.lambda = ray.lambda;
       Real pdf_w;
       const Real bsdf = material->sampleDirection(interaction, sampler, pdf_w);
 
