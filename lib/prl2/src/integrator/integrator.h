@@ -14,7 +14,7 @@ struct IntegratorResult {
   Real phi;               // 分光放射輝度
   std::vector<Ray> rays;  // Path
 
-  IntegratorResult() : lambda(0), phi(0) {};
+  IntegratorResult() : lambda(0), phi(0){};
 };
 
 //与えられたレイとシーンから分光放射輝度を計算するクラス
@@ -26,6 +26,16 @@ class Integrator {
   // (i, j)の受け取る分光放射束を計算する
   virtual bool integrate(int i, int j, const Scene& scene, Sampler& sampler,
                          IntegratorResult& result) const = 0;
+
+ protected:
+  std::shared_ptr<Light> sampleLight(const Scene& scene,
+                                     Sampler& sampler) const {
+    int i = sampler.getNext() * scene.lights.size();
+    if (i == scene.lights.size()) {
+      i--;
+    }
+    return scene.lights[i];
+  };
 };
 
 }  // namespace Prl2
