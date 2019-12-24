@@ -35,22 +35,23 @@ void Render::initScene() {
   const auto geom2 = std::make_shared<Prl2::Geometry>(plane, geom2_trans);
 
   const auto geom3_trans = std::make_shared<Prl2::Transform>(
-      Prl2::translate(Prl2::Vec3(0, 4, 0)) * Prl2::scale(Prl2::Vec3(4)));
+      Prl2::translate(Prl2::Vec3(0, 4, 0)) * Prl2::scale(Prl2::Vec3(4)) *
+      Prl2::rotateX(Prl2::PI));
   const auto geom3 = std::make_shared<Prl2::Geometry>(plane, geom3_trans);
 
   const auto geom4_trans = std::make_shared<Prl2::Transform>(
       Prl2::translate(Prl2::Vec3(2, 2, 0)) * Prl2::scale(Prl2::Vec3(4)) *
-      Prl2::rotateZ(-Prl2::PI_DIV_2));
+      Prl2::rotateZ(Prl2::PI_DIV_2));
   const auto geom4 = std::make_shared<Prl2::Geometry>(plane, geom4_trans);
 
   const auto geom5_trans = std::make_shared<Prl2::Transform>(
       Prl2::translate(Prl2::Vec3(-2, 2, 0)) * Prl2::scale(Prl2::Vec3(4)) *
-      Prl2::rotateZ(Prl2::PI_DIV_2));
+      Prl2::rotateZ(-Prl2::PI_DIV_2));
   const auto geom5 = std::make_shared<Prl2::Geometry>(plane, geom5_trans);
 
   const auto geom6_trans = std::make_shared<Prl2::Transform>(
       Prl2::translate(Prl2::Vec3(0, 2, -2)) * Prl2::scale(Prl2::Vec3(4)) *
-      Prl2::rotateX(-Prl2::PI_DIV_2));
+      Prl2::rotateX(Prl2::PI_DIV_2));
   const auto geom6 = std::make_shared<Prl2::Geometry>(plane, geom6_trans);
 
   const auto geom7_trans = std::make_shared<Prl2::Transform>(
