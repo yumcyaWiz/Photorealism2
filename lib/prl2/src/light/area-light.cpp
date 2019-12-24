@@ -23,7 +23,7 @@ void AreaLight::samplePoint(const IntersectInfo& info, Sampler& sampler,
 
   // 面積に関するpdfを立体角に関するpdfに変換
   const Real r_2 = length2(p - info.hitPos);
-  const Real cos = dot(normalize(info.hitPos - p), n);
+  const Real cos = std::abs(dot(normalize(info.hitPos - p), n));
   pdf = r_2 / cos * pdf_area;
 }
 
