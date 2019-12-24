@@ -30,7 +30,7 @@ class Integrator {
  protected:
   std::shared_ptr<Light> sampleLight(const Scene& scene,
                                      Sampler& sampler) const {
-    int i = sampler.getNext() * scene.lights.size();
+    unsigned int i = sampler.getNext() * scene.lights.size();
     if (i == scene.lights.size()) {
       i--;
     }
