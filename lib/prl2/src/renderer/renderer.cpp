@@ -295,6 +295,13 @@ void Renderer::denoise() {
   oidnReleaseDevice(device);
 }
 
+IntegratorType Renderer::getIntegratorType() const {
+  return config.integrator_type;
+}
+void Renderer::setIntegratorType(const IntegratorType& type) {
+  config.integrator_type = type;
+}
+
 void Renderer::generatePath(int i, int j, std::vector<Ray>& path) const {
   // Samplerを画素ごとに用意する
   const std::unique_ptr<Sampler> pixel_sampler =

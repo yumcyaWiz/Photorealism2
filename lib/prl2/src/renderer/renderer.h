@@ -177,6 +177,10 @@ class Renderer {
   std::string getIBLSkyFilename() const;
   void setIBLSkyFilename(const std::string& filename);
 
+  // Integrator
+  IntegratorType getIntegratorType() const;
+  void setIntegratorType(const IntegratorType& type);
+
   // LayerをsRGBとして入手
   void getLayersRGB(std::vector<float>& rgb) const;
 
