@@ -461,7 +461,22 @@ void GUI::drawRenderLayer(Render& render) {
 
 void GUI::drawIntegratorUI(Render& render) {
   ImGui::Begin("Integrator");
-  {}
+  {
+    static int e = 0;
+    Prl2::IntegratorType type = render.renderer.getIntegratorType();
+    if (type == Prl2::IntegratorType::PT) {
+      e = 0;
+    } else if (type == Prl2::IntegratorType::NEE) {
+      e = 1;
+    }
+    if (ImGui::Combo("Integrator Type", &e, "PT\0NEE\0\0")) {
+      if (e == 0) {
+        render.renderer.setIntegratorType(Prl2::IntegratorType::PT);
+      } else if (e == 1) {
+        render.renderer.setIntegratorType(Prl2::IntegratorType::NEE);
+      }
+    }
+  }
   ImGui::End();
 }
 
