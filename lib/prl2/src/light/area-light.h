@@ -15,6 +15,9 @@ class AreaLight : public Light {
 
   Real Le(const Ray& ray, const IntersectInfo& info) const override;
 
+  void samplePoint(const IntersectInfo& info, Sampler& sampler, Vec3& p,
+                   Real& pdf) const override;
+
  private:
   std::shared_ptr<Geometry> geometry;  // Geometry
 };
