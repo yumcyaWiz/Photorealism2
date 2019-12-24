@@ -6,6 +6,7 @@
 #include "camera/thin-lens.h"
 #include "core/transform.h"
 #include "integrator/ao.h"
+#include "integrator/nee.h"
 #include "integrator/pt.h"
 #include "light/light.h"
 #include "parallel/parallel.h"
@@ -68,7 +69,7 @@ void Renderer::loadConfig(const RenderConfig& _config) {
     integrator = std::make_shared<PT>();
   }
   */
-  integrator = std::make_shared<PT>();
+  integrator = std::make_shared<NEE>();
 }
 
 void Renderer::renderPixel(int i, int j, Sampler& sampler) {
