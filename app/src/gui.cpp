@@ -459,6 +459,12 @@ void GUI::drawRenderLayer(Render& render) {
   ImGui::End();
 }
 
+void GUI::drawIntegratorUI(Render& render) {
+  ImGui::Begin("Integrator");
+  {}
+  ImGui::End();
+}
+
 void GUI::renderImageTexture() const {
   glBindFramebuffer(GL_FRAMEBUFFER, image_framebuffer);
   glClear(GL_COLOR_BUFFER_BIT);

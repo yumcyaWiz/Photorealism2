@@ -28,6 +28,9 @@ class GUI {
   // SkyUIを表示
   void drawSkyUI(Render& render) const;
 
+  // Integratorを表示
+  void drawIntegratorUI(Render& render);
+
  private:
   GLuint render_texture;  // Render Texture
 

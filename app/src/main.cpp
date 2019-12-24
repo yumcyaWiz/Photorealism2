@@ -77,6 +77,7 @@ int main() {
     gui.drawCameraSettings(render);
     gui.drawToneMappingUI(render);
     gui.drawSkyUI(render);
+    gui.drawIntegratorUI(render);
 
     ImGui::Render();
     int display_w, display_h;
