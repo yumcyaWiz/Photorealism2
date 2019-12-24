@@ -300,6 +300,12 @@ IntegratorType Renderer::getIntegratorType() const {
 }
 void Renderer::setIntegratorType(const IntegratorType& type) {
   config.integrator_type = type;
+
+  if (type == IntegratorType::PT) {
+    integrator = std::make_shared<PT>();
+  } else if (type == IntegratorType::NEE) {
+    integrator = std::make_shared<NEE>();
+  }
 }
 
 void Renderer::generatePath(int i, int j, std::vector<Ray>& path) const {

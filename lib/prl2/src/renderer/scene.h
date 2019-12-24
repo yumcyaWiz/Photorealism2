@@ -15,12 +15,12 @@ namespace Prl2 {
 // Camera, Intersectorを保持する
 struct Scene {
  public:
-  std::shared_ptr<Camera> camera;              // Camera
-  std::shared_ptr<Intersector> intersector;    // Intersector
-  std::shared_ptr<Sky> sky;                    // Sky
+  std::shared_ptr<Camera> camera;            // Camera
+  std::shared_ptr<Intersector> intersector;  // Intersector
+  std::shared_ptr<Sky> sky;                  // Sky
 
-  std::vector<std::shared_ptr<Primitive>> primitives; // Primitive Array
-  std::vector<std::shared_ptr<Light>> lights;  // Light Array
+  std::vector<std::shared_ptr<Primitive>> primitives;  // Primitive Array
+  std::vector<std::shared_ptr<Light>> lights;          // Light Array
 
   Scene();
   Scene(const std::shared_ptr<Camera> _camera,
