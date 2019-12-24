@@ -41,6 +41,8 @@ bool NEE::integrate(int i, int j, const Scene& scene, Sampler& sampler,
         break;
       }
 
+      const auto material = info.hitPrimitive->material;
+
       // Light Sampling
       const auto light = sampleLight(scene, sampler);
       Vec3 light_pos;
@@ -58,7 +60,6 @@ bool NEE::integrate(int i, int j, const Scene& scene, Sampler& sampler,
       }
 
       // BRDF Sampling
-      const auto material = info.hitPrimitive->material;
       const Vec3 wo = -ray.direction;
       const Vec3 wo_local = worldToMaterial(wo, info);
       const SurfaceInteraction interaction(wo_local, ray.lambda);
