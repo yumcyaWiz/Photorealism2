@@ -55,7 +55,8 @@ void Render::initScene() {
   const auto geom6 = std::make_shared<Prl2::Geometry>(plane, geom6_trans);
 
   const auto geom7_trans = std::make_shared<Prl2::Transform>(
-      Prl2::translate(Prl2::Vec3(0, 3.9, 0)) * Prl2::scale(Prl2::Vec3(2)));
+      Prl2::translate(Prl2::Vec3(0, 3.9, 0)) * Prl2::scale(Prl2::Vec3(2)) *
+      Prl2::rotateX(Prl2::PI));
   const auto geom7 = std::make_shared<Prl2::Geometry>(plane, geom7_trans);
 
   const Prl2::SPD light_spd({400, 500, 600, 700}, {0, 8, 15.6, 18.4});
