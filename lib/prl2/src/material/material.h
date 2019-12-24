@@ -64,8 +64,7 @@ class Material {
                                Sampler& sampler, Vec3& wi_local,
                                Real& pdf) const = 0;
 
-  virtual Real BRDF(const SurfaceInteraction& interaction,
-                    const Vec3& wi) const = 0;
+  virtual Real BRDF(const SurfaceInteraction& interaction) const = 0;
 
   // 反射率をRGBで返す
   virtual RGB albedoRGB(const SurfaceInteraction& interaction) const = 0;

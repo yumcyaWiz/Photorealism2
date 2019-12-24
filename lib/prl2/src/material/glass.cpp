@@ -40,6 +40,8 @@ Real Glass::sampleDirection(const SurfaceInteraction& interaction,
   }
 }
 
+Real Glass::BRDF(const SurfaceInteraction& interaction) const { return 0; }
+
 RGB Glass::albedoRGB(const SurfaceInteraction& interaction) const {
   return spd.toRGB();
 }

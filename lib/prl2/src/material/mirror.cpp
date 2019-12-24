@@ -12,7 +12,10 @@ Real Mirror::sampleDirection(const SurfaceInteraction& interaction,
   return spd.sample(interaction.lambda) / absCosTheta(wi_local);
 }
 
+Real Mirror::BRDF(const SurfaceInteraction& interaction) const { return 0; }
+
 RGB Mirror::albedoRGB(const SurfaceInteraction& interaction) const {
   return spd.toRGB();
 }
+
 }  // namespace Prl2

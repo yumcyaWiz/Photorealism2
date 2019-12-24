@@ -16,6 +16,8 @@ Real Diffuse::sampleDirection(const SurfaceInteraction& interaction,
   return INV_PI * spd.sample(interaction.lambda);
 }
 
+Real Diffuse::BRDF(const SurfaceInteraction& interaction) const { return 0; }
+
 RGB Diffuse::albedoRGB(const SurfaceInteraction& interaction) const {
   return spd.toRGB();
 }
