@@ -24,7 +24,8 @@ class Shape {
   virtual bool intersect(const Ray& ray, IntersectInfo& info) const = 0;
 
   // 表面上の点をサンプリングする
-  virtual void samplePoint(Sampler& sampler, Vec3& p, Real& pdf_area) const = 0;
+  virtual void samplePoint(Sampler& sampler, Vec3& p, Vec3& n,
+                           Real& pdf_area) const = 0;
 };
 
 }  // namespace Prl2

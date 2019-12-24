@@ -33,13 +33,14 @@ class Geometry {
     }
   };
 
-  void samplePoint(Sampler& sampler, Vec3& p, Real& pdf_area) const {
+  void samplePoint(Sampler& sampler, Vec3& p, Vec3& n, Real& pdf_area) const {
     // ローカル座標系でサンプリング
-    Vec3 p_local;
-    shape->samplePoint(sampler, p_local, pdf_area);
+    Vec3 p_local, n_local;
+    shape->samplePoint(sampler, p_local, n_local, pdf_area);
 
     // ワールド座標系に変換
     p = localToWorld->applyPoint(p_local);
+    n = localToWorld->applyNormal(n_local);
   };
 
  private:
