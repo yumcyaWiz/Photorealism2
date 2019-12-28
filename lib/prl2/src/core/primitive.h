@@ -21,6 +21,8 @@ class Primitive {
   // ワールド座標系のレイを受け取り、Geometryとの衝突計算を行う。結果をinfoに保存する。
   bool intersect(const Ray& ray, IntersectInfo& info) const;
 
+  bool isLight() const;
+
  private:
   const std::shared_ptr<Geometry> geometry;  // Geometry
   const std::shared_ptr<Material> material;  // Material

@@ -17,4 +17,6 @@ bool Primitive::intersect(const Ray& ray, IntersectInfo& info) const {
   }
 }
 
+bool Primitive::isLight() const { return light != nullptr; }
+
 }  // namespace Prl2
