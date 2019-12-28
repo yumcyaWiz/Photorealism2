@@ -17,7 +17,6 @@ class EmbreeIntersector : public Intersector {
  private:
   RTCDevice device;
   RTCScene scene;
-  std::vector<RTCGeometry> geometries;
 };
 
 }  // namespace Prl2
