@@ -9,6 +9,7 @@ namespace Prl2 {
 class EmbreeIntersector : public Intersector {
  public:
   EmbreeIntersector();
+  ~EmbreeIntersector();
 
   virtual bool initialize() const override;
   virtual bool intersect(const Ray& ray, IntersectInfo& info) const override;
