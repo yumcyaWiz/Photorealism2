@@ -64,4 +64,6 @@ void Sphere::samplePoint(Sampler& sampler, Vec3& p, Vec3& n,
   pdf_area = INV_PI_MUL_4;
 }
 
+Bounds3 Sphere::getBounds() const { return Bounds3(Vec3(-1), Vec3(1)); }
+
 }  // namespace Prl2

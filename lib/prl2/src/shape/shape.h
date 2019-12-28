@@ -3,6 +3,7 @@
 
 #include <memory>
 
+#include "core/bounds3.h"
 #include "core/isect.h"
 #include "core/ray.h"
 #include "core/transform.h"
@@ -22,6 +23,9 @@ class Shape {
   // ray : ローカル座標系のレイ
   // info : ローカル座標系の衝突情報
   virtual bool intersect(const Ray& ray, IntersectInfo& info) const = 0;
+
+  // ローカル座標系のバウンディングボックスを返す
+  virtual Bounds3 getBounds() const = 0;
 
   // 表面上の点をサンプリングする
   virtual void samplePoint(Sampler& sampler, Vec3& p, Vec3& n,
