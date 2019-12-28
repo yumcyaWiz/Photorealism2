@@ -184,5 +184,19 @@ inline Vec3 clamp(const Vec3& v, const Vec3& vmin, const Vec3& vmax) {
   return ret;
 }
 
+// 正規直交基底を作る
+inline void orthonormalBasis(const Vec3& n, Vec3& s, Vec3& t) {
+  if (n.z() < -0.9999999f) {
+    s = Vec3(0, -1, 0);
+    t = Vec3(-1, 0, 0);
+    return;
+  }
+
+  const Real a = 1.0f / (1.0f + n.z());
+  const Real b = -n.x() * n.y() * a;
+  s = Vec3(1.0f - n.x() * n.x() * a, b, -n.x());
+  t = Vec3(b, 1.0f - n.y() * n.y() * a, -n.y());
+}
+
 }  // namespace Prl2
 #endif
