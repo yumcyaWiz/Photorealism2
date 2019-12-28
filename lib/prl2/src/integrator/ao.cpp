@@ -28,7 +28,9 @@ bool AO::integrate(int i, int j, const Scene& scene, Sampler& sampler,
   if (scene.intersect(ray, info)) {
     // Sample Ray Direction
     const Vec3 wi_local = sampleHemisphere(sampler.getNext2D());
-    const Vec3 wi = materialToWorld(wi_local, info);
+    Vec3 s, t;
+    orthonormalBasis(info.hitNormal, s, t);
+    const Vec3 wi = materialToWorld(wi_local, s, info.hitNormal, t);
     Ray shadow_ray(info.hitPos, wi);
 
     // Compute Hit Distance

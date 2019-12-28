@@ -105,15 +105,10 @@ void Renderer::renderPixel(int i, int j, Sampler& sampler) {
             info.hitPos.z();
 
         // Sample LayerにsRGBを格納
-        const auto material = info.hitPrimitive->getMaterial();
-        const Vec3 wo = -ray.direction;
-        const Vec3 wo_local = worldToMaterial(wo, info);
-        MaterialArgs interaction;
-        interaction.wo_local = wo_local;
-        interaction.lambda = ray.lambda;
-        Real pdf;
-        material->sampleDirection(interaction, sampler, pdf);
-        const Vec3 wi = materialToWorld(interaction.wi_local, info);
+        Vec3 wi;
+        Real cos, pdf;
+        info.hitPrimitive->sampleBRDF(-ray.direction, info.hitNormal,
+                                      ray.lambda, sampler, wi, cos, pdf);
         layer.sample_sRGB[3 * i + 3 * config.width * j + 0] +=
             0.5f * (wi.x() + 1.0f);
         layer.sample_sRGB[3 * i + 3 * config.width * j + 1] +=
@@ -122,7 +117,9 @@ void Renderer::renderPixel(int i, int j, Sampler& sampler) {
             0.5f * (wi.z() + 1.0f);
 
         // Albedo Layerの計算
-        const RGB albedo = material->albedoRGB(interaction);
+        MaterialArgs args;
+        args.lambda = ray.lambda;
+        const RGB albedo = info.hitPrimitive->getMaterial()->albedoRGB(args);
         const Real albedo_max =
             std::max(std::max(albedo.x(), albedo.y()), albedo.z());
         layer.albedo_sRGB[3 * i + 3 * config.width * j + 0] +=

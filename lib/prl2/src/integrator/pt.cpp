@@ -44,23 +44,17 @@ bool PT::integrate(int i, int j, const Scene& scene, Sampler& sampler,
       }
 
       // BRDF Sampling
-      const auto material = info.hitPrimitive->getMaterial();
-      const Vec3 wo = -ray.direction;
-      const Vec3 wo_local = worldToMaterial(wo, info);
-      MaterialArgs interaction;
-      interaction.wo_local = wo_local;
-      interaction.lambda = ray.lambda;
-      Real pdf_w;
-      const Real bsdf = material->sampleDirection(interaction, sampler, pdf_w);
+      Vec3 wi;
+      Real cos, pdf;
+      Real brdf = info.hitPrimitive->sampleBRDF(
+          -ray.direction, info.hitNormal, ray.lambda, sampler, wi, cos, pdf);
 
       // Throughputを更新
-      const Real cos = absCosTheta(interaction.wi_local);
-      throughput *= bsdf * cos / pdf_w;
+      throughput *= brdf * cos / pdf;
 
       // レイを更新
-      const Vec3 wi_world = materialToWorld(interaction.wi_local, info);
       ray.origin = info.hitPos;
-      ray.direction = wi_world;
+      ray.direction = wi;
     }
     // レイが空に飛んでいったら
     else {
