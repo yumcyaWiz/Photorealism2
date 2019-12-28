@@ -1,6 +1,7 @@
 #ifndef TRANSFORM_H
 #define TRANSFORM_H
 
+#include "core/bounds3.h"
 #include "core/isect.h"
 #include "core/mat4.h"
 #include "core/ray.h"
@@ -144,6 +145,11 @@ class Transform {
     ret.dpdv = normalize(applyDirection(isect.dpdv));
     ret.hitNormal = normalize(applyNormal(isect.hitNormal));
     return ret;
+  };
+
+  // Bounds3に対して変換を施す
+  Bounds3 apply(const Bounds3& bounds) const {
+    return Bounds3(applyPoint(bounds.p1), applyPoint(bounds.p2));
   };
 };
 
