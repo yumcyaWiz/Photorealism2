@@ -38,13 +38,13 @@ bool PT::integrate(int i, int j, const Scene& scene, Sampler& sampler,
     IntersectInfo info;
     if (scene.intersect(ray, info)) {
       // 光源に当たったら寄与を追加
-      if (info.hitPrimitive->light != nullptr) {
-        radiance += throughput * info.hitPrimitive->light->Le(ray, info);
+      if (info.hitPrimitive->isLight()) {
+        radiance += throughput * info.hitPrimitive->getLight()->Le(ray, info);
         break;
       }
 
       // BRDF Sampling
-      const auto material = info.hitPrimitive->material;
+      const auto material = info.hitPrimitive->getMaterial();
       const Vec3 wo = -ray.direction;
       const Vec3 wo_local = worldToMaterial(wo, info);
       SurfaceInteraction interaction;

@@ -16,8 +16,8 @@ void Scene::initScene() {
 
   // Initialize Light Array
   for (const auto& prim : primitives) {
-    if (prim->light != nullptr) {
-      lights.push_back(prim->light);
+    if (prim->isLight()) {
+      lights.push_back(prim->getLight());
     }
   }
 }

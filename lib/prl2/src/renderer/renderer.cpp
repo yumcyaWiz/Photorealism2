@@ -105,7 +105,7 @@ void Renderer::renderPixel(int i, int j, Sampler& sampler) {
             info.hitPos.z();
 
         // Sample LayerにsRGBを格納
-        const auto material = info.hitPrimitive->material;
+        const auto material = info.hitPrimitive->getMaterial();
         const Vec3 wo = -ray.direction;
         const Vec3 wo_local = worldToMaterial(wo, info);
         SurfaceInteraction interaction;
@@ -122,7 +122,7 @@ void Renderer::renderPixel(int i, int j, Sampler& sampler) {
             0.5f * (wi.z() + 1.0f);
 
         // Albedo Layerの計算
-        const RGB albedo = info.hitPrimitive->material->albedoRGB(interaction);
+        const RGB albedo = material->albedoRGB(interaction);
         const Real albedo_max =
             std::max(std::max(albedo.x(), albedo.y()), albedo.z());
         layer.albedo_sRGB[3 * i + 3 * config.width * j + 0] +=

@@ -37,11 +37,11 @@ bool NEE::integrate(int i, int j, const Scene& scene, Sampler& sampler,
     IntersectInfo info;
     if (scene.intersect(ray, info)) {
       // 光源に当たったら終了
-      if (info.hitPrimitive->light != nullptr) {
+      if (info.hitPrimitive->isLight()) {
         break;
       }
 
-      const auto material = info.hitPrimitive->material;
+      const auto material = info.hitPrimitive->getMaterial();
       const Vec3 wo = -ray.direction;
       const Vec3 wo_local = worldToMaterial(wo, info);
 
@@ -56,7 +56,7 @@ bool NEE::integrate(int i, int j, const Scene& scene, Sampler& sampler,
                      ray.lambda);
       IntersectInfo shadow_info;
       if (scene.intersect(shadow_ray, shadow_info)) {
-        if (shadow_info.hitPrimitive->light == light) {
+        if (shadow_info.hitPrimitive->getLight() == light) {
           SurfaceInteraction interaction;
           interaction.wo_local = wo_local;
           interaction.lambda = ray.lambda;
