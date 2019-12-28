@@ -25,8 +25,6 @@ EmbreeIntersector::~EmbreeIntersector() {
 
 bool EmbreeIntersector::initialize() const {
   for (const auto& p : primitives) {
-    RTCGeometry geometry = rtcNewGeometry(device, RTC_GEOMETRY_TYPE_USER);
-    rtcSetGeometryUserPrimitiveCount(geometry, 1);
   }
 }
 

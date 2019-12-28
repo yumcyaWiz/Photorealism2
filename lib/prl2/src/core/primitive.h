@@ -23,6 +23,7 @@ class Primitive {
 
   bool isLight() const;
 
+  const std::shared_ptr<Geometry>& getGeometry() const;
   const std::shared_ptr<Material>& getMaterial() const;
   const std::shared_ptr<Light>& getLight() const;
 

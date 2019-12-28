@@ -19,6 +19,10 @@ bool Primitive::intersect(const Ray& ray, IntersectInfo& info) const {
 
 bool Primitive::isLight() const { return light != nullptr; }
 
+const std::shared_ptr<Geometry>& Primitive::getGeometry() const {
+  return geometry;
+}
+
 const std::shared_ptr<Material>& Primitive::getMaterial() const {
   return material;
 }
