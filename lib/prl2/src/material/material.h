@@ -6,7 +6,6 @@
 #include "core/spectrum.h"
 #include "core/type.h"
 #include "core/vec3.h"
-#include "material/surface_interaction.h"
 #include "sampler/sampler.h"
 
 namespace Prl2 {
@@ -17,17 +16,15 @@ inline Real cosTheta(const Vec3& w) { return w.y(); }
 inline Real absCosTheta(const Vec3& w) { return std::abs(w.y()); }
 
 //ワールド座標系の方向ベクトルをマテリアル座標系の方向ベクトルに変換する
-inline Vec3 worldToMaterial(const Vec3& v, const IntersectInfo& info) {
-  Vec3 s, t;
-  orthonormalBasis(info.hitNormal, s, t);
-  return Vec3(dot(v, s), dot(v, info.hitNormal), dot(v, t));
+inline Vec3 worldToMaterial(const Vec3& v, const Vec3& s, const Vec3& n,
+                            const Vec3& t) {
+  return Vec3(dot(v, s), dot(v, n), dot(v, t));
 }
 
 //マテリアル座標系の方向ベクトルをワールド座標系に変換する
-inline Vec3 materialToWorld(const Vec3& v, const IntersectInfo& info) {
-  Vec3 s, t;
-  orthonormalBasis(info.hitNormal, s, t);
-  return v.x() * s + v.y() * info.hitNormal + v.z() * t;
+inline Vec3 materialToWorld(const Vec3& v, const Vec3& s, const Vec3& n,
+                            const Vec3& t) {
+  return v.x() * s + v.y() * n + v.z() * t;
 }
 
 // 反射ベクトルを返す
@@ -55,6 +52,12 @@ inline bool refract(const Vec3& wi, Vec3& wt, const Vec3& n, const Real& ior1,
   return true;
 }
 
+struct MaterialArgs {
+  Vec3 wo_local;  // マテリアル座標系の出射ベクトル
+  Vec3 wi_local;  // マテリアル座標系の入射ベクトル
+  Real lambda;    // 波長
+};
+
 // Materialを表現するクラス
 // マテリアル座標系は原点を衝突点、+Xを接線, +Yを法線
 // -Zを陪法線とする座標系で定義される
@@ -64,13 +67,13 @@ class Material {
 
   //マテリアル座標系で次のレイの方向をサンプリングする
   //評価した分光反射率を返り値とする
-  virtual Real sampleDirection(SurfaceInteraction& interaction,
-                               Sampler& sampler, Real& pdf) const = 0;
+  virtual Real sampleDirection(MaterialArgs& interaction, Sampler& sampler,
+                               Real& pdf) const = 0;
 
-  virtual Real BRDF(const SurfaceInteraction& interaction) const = 0;
+  virtual Real BRDF(const MaterialArgs& interaction) const = 0;
 
   // 反射率をRGBで返す
-  virtual RGB albedoRGB(const SurfaceInteraction& interaction) const = 0;
+  virtual RGB albedoRGB(const MaterialArgs& interaction) const = 0;
 };
 
 }  // namespace Prl2

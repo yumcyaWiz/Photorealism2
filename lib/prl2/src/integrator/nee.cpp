@@ -57,7 +57,7 @@ bool NEE::integrate(int i, int j, const Scene& scene, Sampler& sampler,
       IntersectInfo shadow_info;
       if (scene.intersect(shadow_ray, shadow_info)) {
         if (shadow_info.hitPrimitive->getLight() == light) {
-          SurfaceInteraction interaction;
+          MaterialArgs interaction;
           interaction.wo_local = wo_local;
           interaction.lambda = ray.lambda;
 
@@ -69,7 +69,7 @@ bool NEE::integrate(int i, int j, const Scene& scene, Sampler& sampler,
       }
 
       // BRDF Sampling
-      SurfaceInteraction interaction;
+      MaterialArgs interaction;
       interaction.wo_local = wo_local;
       interaction.lambda = ray.lambda;
       Real pdf_w;

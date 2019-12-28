@@ -5,7 +5,7 @@ namespace Prl2 {
 Glass::Glass(const SellmeierEquation& _sellmeier, const SPD& _spd)
     : sellmeier(_sellmeier), spd(_spd) {}
 
-Real Glass::sampleDirection(SurfaceInteraction& interaction, Sampler& sampler,
+Real Glass::sampleDirection(MaterialArgs& interaction, Sampler& sampler,
                             Real& pdf) const {
   const bool is_entering = cosTheta(interaction.wo_local) > 0;
   const Real glass_ior = sellmeier.ior(interaction.lambda);
@@ -43,9 +43,9 @@ Real Glass::sampleDirection(SurfaceInteraction& interaction, Sampler& sampler,
   }
 }
 
-Real Glass::BRDF(const SurfaceInteraction& interaction) const { return 0; }
+Real Glass::BRDF(const MaterialArgs& interaction) const { return 0; }
 
-RGB Glass::albedoRGB(const SurfaceInteraction& interaction) const {
+RGB Glass::albedoRGB(const MaterialArgs& interaction) const {
   return spd.toRGB();
 }
 

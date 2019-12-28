@@ -34,12 +34,12 @@ class Glass : public Material {
  public:
   Glass(const SellmeierEquation& _sellmeier, const SPD& _spd);
 
-  Real sampleDirection(SurfaceInteraction& interaction, Sampler& sampler,
+  Real sampleDirection(MaterialArgs& interaction, Sampler& sampler,
                        Real& pdf) const override;
 
-  Real BRDF(const SurfaceInteraction& interaction) const override;
+  Real BRDF(const MaterialArgs& interaction) const override;
 
-  RGB albedoRGB(const SurfaceInteraction& interaction) const override;
+  RGB albedoRGB(const MaterialArgs& interaction) const override;
 
  private:
   const SellmeierEquation sellmeier;  //セルマイヤーの式

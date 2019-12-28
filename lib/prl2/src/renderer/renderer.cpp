@@ -108,7 +108,7 @@ void Renderer::renderPixel(int i, int j, Sampler& sampler) {
         const auto material = info.hitPrimitive->getMaterial();
         const Vec3 wo = -ray.direction;
         const Vec3 wo_local = worldToMaterial(wo, info);
-        SurfaceInteraction interaction;
+        MaterialArgs interaction;
         interaction.wo_local = wo_local;
         interaction.lambda = ray.lambda;
         Real pdf;
