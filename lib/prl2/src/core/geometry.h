@@ -3,6 +3,7 @@
 
 #include <memory>
 
+#include "core/bounds3.h"
 #include "core/isect.h"
 #include "core/ray.h"
 #include "core/transform.h"
@@ -18,6 +19,7 @@ class Geometry {
            const std::shared_ptr<Transform>& _localToWorld)
       : shape(_shape), localToWorld(_localToWorld){};
 
+  // ワールド座標系のレイを受け取り、衝突計算を行う
   bool intersect(const Ray& ray, IntersectInfo& info) const {
     //レイをローカル座標系に変換
     const Ray ray_local = localToWorld->applyInverse(ray);
@@ -33,6 +35,7 @@ class Geometry {
     }
   };
 
+  // Geometry上の点をサンプリングする
   void samplePoint(Sampler& sampler, Vec3& p, Vec3& n, Real& pdf_area) const {
     // ローカル座標系でサンプリング
     Vec3 p_local, n_local;
@@ -44,6 +47,9 @@ class Geometry {
   };
 
   const std::shared_ptr<Shape>& getShape() const { return shape; };
+
+  // ワールド座標系のバウンディングボックスを計算する
+  Bounds3 getBounds() const { return localToWorld->apply(shape->getBounds()); };
 
  private:
   const std::shared_ptr<Shape> shape;  // Shape
