@@ -29,4 +29,34 @@ const std::shared_ptr<Material>& Primitive::getMaterial() const {
 
 const std::shared_ptr<Light>& Primitive::getLight() const { return light; }
 
+Real Primitive::sampleBRDF(const Vec3& wo, const Vec3& n, Real lambda,
+                           Sampler& sampler, Vec3& wi, Real& cos,
+                           Real& pdf) const {
+  Vec3 s, t;
+  orthonormalBasis(n, s, t);
+
+  MaterialArgs args;
+  args.lambda = lambda;
+  args.wo_local = worldToMaterial(wo, s, n, t);
+
+  const Real brdf = material->sampleDirection(args, sampler, pdf);
+  cos = absCosTheta(args.wi_local);
+  wi = materialToWorld(args.wi_local, s, n, t);
+
+  return brdf;
+}
+
+Real Primitive::BRDF(const Vec3& wo, const Vec3& n, Real lambda,
+                     const Vec3& wi) const {
+  Vec3 s, t;
+  orthonormalBasis(n, s, t);
+
+  MaterialArgs args;
+  args.lambda = lambda;
+  args.wo_local = worldToMaterial(wo, s, n, t);
+  args.wi_local = worldToMaterial(wi, s, n, t);
+
+  return material->BRDF(args);
+}
+
 }  // namespace Prl2

@@ -23,6 +23,10 @@ class Primitive {
 
   bool isLight() const;
 
+  Real sampleBRDF(const Vec3& wo, const Vec3& n, Real lambda, Sampler& sampler,
+                  Vec3& wi, Real& cos, Real& pdf) const;
+  Real BRDF(const Vec3& wo, const Vec3& n, Real lambda, const Vec3& wi) const;
+
   const std::shared_ptr<Geometry>& getGeometry() const;
   const std::shared_ptr<Material>& getMaterial() const;
   const std::shared_ptr<Light>& getLight() const;
