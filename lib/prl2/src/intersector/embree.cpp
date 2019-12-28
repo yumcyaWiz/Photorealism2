@@ -29,6 +29,9 @@ void RTCUserGeometryIntersect(const RTCIntersectFunctionNArguments* args) {
   if (is_hit) {
     RTCHitN_geomID(hitn, args->N, 0) = 0;
 
+    // hit distance
+    RTCRayN_tfar(rayn, args->N, 0) = info.t;
+
     // hit normal
     RTCHitN_Ng_x(hitn, args->N, 0) = info.hitNormal.x();
     RTCHitN_Ng_y(hitn, args->N, 0) = info.hitNormal.y();
@@ -37,8 +40,6 @@ void RTCUserGeometryIntersect(const RTCIntersectFunctionNArguments* args) {
     // uv
     RTCHitN_u(hitn, args->N, 0) = 0;
     RTCHitN_v(hitn, args->N, 0) = 0;
-  } else {
-    RTCHitN_geomID(hitn, args->N, 0) = RTC_INVALID_GEOMETRY_ID;
   }
 }
 
@@ -77,6 +78,35 @@ bool EmbreeIntersector::initialize() const {
   rtcCommitScene(scene);
 
   return true;
+}
+
+bool EmbreeIntersector::intersect(const Ray& ray, IntersectInfo& info) const {
+  // init ray hit
+  RTCRayHit rayhit;
+  rayhit.ray.org_x = ray.origin.x();
+  rayhit.ray.org_y = ray.origin.y();
+  rayhit.ray.org_z = ray.origin.z();
+  rayhit.ray.dir_x = ray.direction.x();
+  rayhit.ray.dir_y = ray.direction.y();
+  rayhit.ray.dir_z = ray.direction.z();
+  rayhit.ray.tnear = ray.tmin;
+  rayhit.ray.tfar = ray.tmax;
+  rayhit.ray.mask = 0;
+  rayhit.ray.flags = 0;
+  rayhit.hit.geomID = RTC_INVALID_GEOMETRY_ID;
+  rayhit.hit.instID[0] = RTC_INVALID_GEOMETRY_ID;
+
+  // intersect
+  RTCIntersectContext context;
+  rtcIntersect1(scene, &context, &rayhit);
+
+  if (rayhit.hit.geomID != RTC_INVALID_GEOMETRY_ID) {
+    info.t = rayhit.ray.tfar;
+    info.hitPos = ray(info.t);
+    info.hitNormal = Vec3(rayhit.hit.Ng_x, rayhit.hit.Ng_y, rayhit.hit.Ng_z);
+  } else {
+    return false;
+  }
 }
 
 }  // namespace Prl2
