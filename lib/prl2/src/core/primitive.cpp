@@ -19,4 +19,10 @@ bool Primitive::intersect(const Ray& ray, IntersectInfo& info) const {
 
 bool Primitive::isLight() const { return light != nullptr; }
 
+const std::shared_ptr<Material>& Primitive::getMaterial() const {
+  return material;
+}
+
+const std::shared_ptr<Light>& Primitive::getLight() const { return light; }
+
 }  // namespace Prl2
