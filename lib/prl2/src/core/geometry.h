@@ -43,6 +43,8 @@ class Geometry {
     n = localToWorld->applyNormal(n_local);
   };
 
+  const std::shared_ptr<Shape>& getShape() const { return shape; };
+
  private:
   const std::shared_ptr<Shape> shape;  // Shape
   const std::shared_ptr<Transform>
