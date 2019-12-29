@@ -3,10 +3,10 @@
 
 #include <memory>
 
+#include "core/bounds3.h"
+#include "core/geometry.h"
 #include "core/isect.h"
 #include "core/ray.h"
-
-#include "core/geometry.h"
 #include "light/light.h"
 #include "material/material.h"
 
@@ -20,6 +20,8 @@ class Primitive {
 
   // ワールド座標系のレイを受け取り、Geometryとの衝突計算を行う。結果をinfoに保存する。
   bool intersect(const Ray& ray, IntersectInfo& info) const;
+
+  Bounds3 getBounds() const;
 
   bool isLight() const;
 
