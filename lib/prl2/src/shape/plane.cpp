@@ -26,6 +26,8 @@ void Plane::samplePoint(Sampler& sampler, Vec3& p, Vec3& n,
   pdf_area = 1;
 }
 
-Bounds3 Plane::getBounds() const { return Bounds3(Vec3(-0.5), Vec3(0.5)); }
+Bounds3 Plane::getBounds() const {
+  return Bounds3(Vec3(-0.5, -EPS, -0.5), Vec3(0.5, EPS, 0.5));
+}
 
 }  // namespace Prl2
