@@ -52,6 +52,23 @@ void RTCUserGeometryIntersect(const RTCIntersectFunctionNArguments* args) {
   }
 }
 
+void RTCUserGeometryBound(const RTCBoundsFunctionArguments* args) {
+  const Primitive* prim =
+      reinterpret_cast<const Primitive*>(args->geometryUserPtr);
+
+  // compute bounds
+  const Bounds3 bounds = prim->getBounds();
+
+  // set bounds
+  RTCBounds* bounds_o = args->bounds_o;
+  bounds_o->lower_x = bounds.p1.x();
+  bounds_o->lower_y = bounds.p1.y();
+  bounds_o->lower_z = bounds.p1.z();
+  bounds_o->upper_x = bounds.p2.x();
+  bounds_o->upper_y = bounds.p2.y();
+  bounds_o->upper_z = bounds.p2.z();
+}
+
 EmbreeIntersector::EmbreeIntersector() {
   device = rtcNewDevice(nullptr);
   if (!device) {
@@ -75,6 +92,7 @@ bool EmbreeIntersector::initialize() const {
     rtcSetGeometryUserPrimitiveCount(rtc_geometry, 1);
     rtcSetGeometryUserData(rtc_geometry, prim.get());
     rtcSetGeometryIntersectFunction(rtc_geometry, RTCUserGeometryIntersect);
+    rtcSetGeometryBoundsFunction(rtc_geometry, RTCUserGeometryBound, nullptr);
 
     rtcCommitGeometry(rtc_geometry);
     rtcAttachGeometry(scene, rtc_geometry);
