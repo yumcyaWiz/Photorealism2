@@ -45,7 +45,7 @@ void RTCUserGeometryIntersect(const RTCIntersectFunctionNArguments* args) {
     RTCHitN_v(hitn, args->N, 0) = 0;
 
     // geom_id and prim_id
-    RTCHitN_geomID(hitn, args->N, 0) = 0;
+    RTCHitN_geomID(hitn, args->N, 0) = prim->getID();
     RTCHitN_primID(hitn, args->N, 0) = args->primID;
   } else {
     RTCHitN_geomID(hitn, args->N, 0) = RTC_INVALID_GEOMETRY_ID;
@@ -86,8 +86,10 @@ EmbreeIntersector::~EmbreeIntersector() {
   rtcReleaseScene(scene);
 }
 
-bool EmbreeIntersector::initialize() const {
+bool EmbreeIntersector::initialize() {
+  unsigned int geom_id = 0;
   for (const auto& prim : primitives) {
+    // create user defined geometry
     RTCGeometry rtc_geometry = rtcNewGeometry(device, RTC_GEOMETRY_TYPE_USER);
     rtcSetGeometryUserPrimitiveCount(rtc_geometry, 1);
     rtcSetGeometryUserData(rtc_geometry, prim.get());
@@ -95,8 +97,13 @@ bool EmbreeIntersector::initialize() const {
     rtcSetGeometryBoundsFunction(rtc_geometry, RTCUserGeometryBound, nullptr);
 
     rtcCommitGeometry(rtc_geometry);
+
+    // set geometry id
     rtcAttachGeometry(scene, rtc_geometry);
+    prim->setID(geom_id);
+
     rtcReleaseGeometry(rtc_geometry);
+    geom_id++;
   }
 
   rtcCommitScene(scene);
@@ -128,7 +135,7 @@ bool EmbreeIntersector::intersect(const Ray& ray, IntersectInfo& info) const {
     info.t = rayhit.ray.tfar;
     info.hitPos = ray(info.t);
     info.hitNormal = Vec3(rayhit.hit.Ng_x, rayhit.hit.Ng_y, rayhit.hit.Ng_z);
-    info.hitPrimitive = primitives[rayhit.hit.primID].get();
+    info.hitPrimitive = primitives[rayhit.hit.geomID].get();
     return true;
   } else {
     return false;

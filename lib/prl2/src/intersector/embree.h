@@ -11,7 +11,7 @@ class EmbreeIntersector : public Intersector {
   EmbreeIntersector();
   ~EmbreeIntersector();
 
-  virtual bool initialize() const override;
+  virtual bool initialize() override;
   virtual bool intersect(const Ray& ray, IntersectInfo& info) const override;
 
  private:
