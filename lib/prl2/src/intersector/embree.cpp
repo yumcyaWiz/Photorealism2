@@ -7,8 +7,13 @@ void RTCErrorFunction(void* userPtr, RTCError code, const char* str) {
 }
 
 void RTCUserGeometryIntersect(const RTCIntersectFunctionNArguments* args) {
-  const Geometry* geometry =
-      reinterpret_cast<const Geometry*>(args->geometryUserPtr);
+  const Primitive* prim =
+      reinterpret_cast<const Primitive*>(args->geometryUserPtr);
+
+  assert(args->N == 1);
+  if (!args->valid[0]) {
+    return;
+  }
 
   // compute ray
   RTCRayN* rayn = RTCRayHitN_RayN(args->rayhit, args->N);
@@ -22,13 +27,11 @@ void RTCUserGeometryIntersect(const RTCIntersectFunctionNArguments* args) {
 
   // intersect
   IntersectInfo info;
-  bool is_hit = geometry->intersect(ray, info);
+  bool is_hit = prim->intersect(ray, info);
 
   // set intersect info
   RTCHitN* hitn = RTCRayHitN_HitN(args->rayhit, args->N);
   if (is_hit) {
-    RTCHitN_geomID(hitn, args->N, 0) = 0;
-
     // hit distance
     RTCRayN_tfar(rayn, args->N, 0) = info.t;
 
@@ -62,12 +65,9 @@ EmbreeIntersector::~EmbreeIntersector() {
 
 bool EmbreeIntersector::initialize() const {
   for (const auto& prim : primitives) {
-    const auto geometry = prim->getGeometry();
-    const auto shape = geometry->getShape();
-
     RTCGeometry rtc_geometry = rtcNewGeometry(device, RTC_GEOMETRY_TYPE_USER);
     rtcSetGeometryUserPrimitiveCount(rtc_geometry, 1);
-    rtcSetGeometryUserData(rtc_geometry, geometry.get());
+    rtcSetGeometryUserData(rtc_geometry, prim.get());
     rtcSetGeometryIntersectFunction(rtc_geometry, RTCUserGeometryIntersect);
 
     rtcCommitGeometry(rtc_geometry);
