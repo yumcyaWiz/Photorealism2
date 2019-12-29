@@ -128,6 +128,8 @@ bool EmbreeIntersector::intersect(const Ray& ray, IntersectInfo& info) const {
     info.t = rayhit.ray.tfar;
     info.hitPos = ray(info.t);
     info.hitNormal = Vec3(rayhit.hit.Ng_x, rayhit.hit.Ng_y, rayhit.hit.Ng_z);
+    info.hitPrimitive = primitives[rayhit.hit.primID].get();
+    return true;
   } else {
     return false;
   }

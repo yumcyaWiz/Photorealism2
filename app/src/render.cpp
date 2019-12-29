@@ -70,8 +70,8 @@ void Render::initScene() {
   const auto prim7 =
       std::make_shared<Prl2::Primitive>(geom7, diffuse_white, light);
 
-  std::shared_ptr<Prl2::LinearIntersector> intersector =
-      std::make_shared<Prl2::LinearIntersector>();
+  std::shared_ptr<Prl2::EmbreeIntersector> intersector =
+      std::make_shared<Prl2::EmbreeIntersector>();
   renderer.scene.intersector = intersector;
 
   renderer.scene.addPrimitive(prim1);
