@@ -15,8 +15,10 @@ void RTCUserGeometryIntersect(const RTCIntersectFunctionNArguments* args) {
     return;
   }
 
-  // compute ray
   RTCRayN* rayn = RTCRayHitN_RayN(args->rayhit, args->N);
+  RTCHitN* hitn = RTCRayHitN_HitN(args->rayhit, args->N);
+
+  // compute ray
   const float ox = RTCRayN_org_x(rayn, args->N, 0);
   const float oy = RTCRayN_org_y(rayn, args->N, 0);
   const float oz = RTCRayN_org_z(rayn, args->N, 0);
@@ -30,10 +32,8 @@ void RTCUserGeometryIntersect(const RTCIntersectFunctionNArguments* args) {
   bool is_hit = prim->intersect(ray, info);
 
   // set intersect info
-  RTCHitN* hitn = RTCRayHitN_HitN(args->rayhit, args->N);
   if (is_hit) {
-    // hit distance
-    RTCRayN_tfar(rayn, args->N, 0) = info.t;
+    RTCRayN_tfar(rayn, args->N, 0) = info.t;  // hit distance
 
     // hit normal
     RTCHitN_Ng_x(hitn, args->N, 0) = info.hitNormal.x();
@@ -43,6 +43,12 @@ void RTCUserGeometryIntersect(const RTCIntersectFunctionNArguments* args) {
     // uv
     RTCHitN_u(hitn, args->N, 0) = 0;
     RTCHitN_v(hitn, args->N, 0) = 0;
+
+    // geom_id and prim_id
+    RTCHitN_geomID(hitn, args->N, 0) = 0;
+    RTCHitN_primID(hitn, args->N, 0) = args->primID;
+  } else {
+    RTCHitN_geomID(hitn, args->N, 0) = RTC_INVALID_GEOMETRY_ID;
   }
 }
 
