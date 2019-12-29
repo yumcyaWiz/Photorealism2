@@ -31,6 +31,10 @@ const std::shared_ptr<Material>& Primitive::getMaterial() const {
 
 const std::shared_ptr<Light>& Primitive::getLight() const { return light; }
 
+unsigned int Primitive::getID() const { return id; }
+
+void Primitive::setID(unsigned int _id) { id = _id; }
+
 Real Primitive::sampleBRDF(const Vec3& wo, const Vec3& n, Real lambda,
                            Sampler& sampler, Vec3& wi, Real& cos,
                            Real& pdf) const {

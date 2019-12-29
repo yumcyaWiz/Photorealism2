@@ -33,10 +33,15 @@ class Primitive {
   const std::shared_ptr<Material>& getMaterial() const;
   const std::shared_ptr<Light>& getLight() const;
 
+  unsigned int getID() const;
+  void setID(unsigned int _id);
+
  private:
   const std::shared_ptr<Geometry> geometry;  // Geometry
   const std::shared_ptr<Material> material;  // Material
   const std::shared_ptr<Light> light;        // Light
+
+  unsigned int id;
 };
 
 }  // namespace Prl2
