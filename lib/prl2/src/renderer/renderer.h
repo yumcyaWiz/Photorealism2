@@ -40,8 +40,8 @@ class Renderer {
   // 指定した画素のサンプルパスを生成する
   void generatePath(int i, int j, std::vector<Ray>& path) const;
 
-  bool getRenderRealtime() const;
-  void setRenderRealtime(bool realtime);
+  bool getRenderInteractive() const;
+  void setRenderInteractive(bool realtime);
 
   // レンダリングの進捗を入手する
   Real getRenderProgress() const;

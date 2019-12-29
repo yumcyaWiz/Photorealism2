@@ -43,7 +43,8 @@ struct RenderConfig {
   int render_tiles_x = 16;  // X方向のレンダリングタイルの数
   int render_tiles_y = 16;  // Y方向のレンダリングタイルの数
 
-  bool render_realtime = false;  // 画面全体を描画してからサンプルを蓄積するか
+  bool render_interactive =
+      false;  // 画面全体を描画してからサンプルを蓄積するか
 
   // Output
   LayerType layer_type = LayerType::Render;  // 出力レイヤーの種類

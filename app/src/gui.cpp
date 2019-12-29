@@ -241,9 +241,9 @@ void GUI::drawRenderSettings(Render& render) {
       render.renderer.setRenderTiles(render_tiles[0], render_tiles[1]);
     }
 
-    static bool _realtime = render.renderer.getRenderRealtime();
-    if (ImGui::Checkbox("Realtime", &_realtime)) {
-      render.renderer.setRenderRealtime(_realtime);
+    static bool _interactive = render.renderer.getRenderInteractive();
+    if (ImGui::Checkbox("Interactive", &_interactive)) {
+      render.renderer.setRenderInteractive(_interactive);
     }
     ImGui::SameLine();
 
@@ -262,7 +262,7 @@ void GUI::drawRenderSettings(Render& render) {
 
       // Progress Bar
       const float progress = render.renderer.getRenderProgress();
-      if (render.renderer.getRenderRealtime()) {
+      if (render.renderer.getRenderInteractive()) {
         ImGui::ProgressBar(progress, ImVec2(-1, 0),
                            (std::to_string(static_cast<int>(
                                 render.renderer.getSamples() * progress)) +

@@ -157,7 +157,7 @@ void Renderer::render(const std::atomic<bool>& cancel) {
   decltype(std::chrono::system_clock::now()) start_time, finish_time;
 
   // 画素ごとにサンプリングを繰り返す場合
-  if (!config.render_realtime) {
+  if (!config.render_interactive) {
     // レイヤーを初期化
     layer.clear();
 
@@ -374,10 +374,12 @@ void Renderer::rotateCamera(const Vec3& r) {
   scene.camera->getLookAt(config.camera_position, config.camera_lookat);
 }
 
-bool Renderer::getRenderRealtime() const { return config.render_realtime; }
+bool Renderer::getRenderInteractive() const {
+  return config.render_interactive;
+}
 
-void Renderer::setRenderRealtime(bool realtime) {
-  config.render_realtime = realtime;
+void Renderer::setRenderInteractive(bool realtime) {
+  config.render_interactive = realtime;
 }
 
 float Renderer::getThinLensCameraFOV() const {
