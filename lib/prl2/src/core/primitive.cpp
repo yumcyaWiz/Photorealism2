@@ -17,6 +17,16 @@ bool Primitive::intersect(const Ray& ray, IntersectInfo& info) const {
   }
 }
 
+bool Primitive::occluded(const Ray& ray, IntersectInfo& info) const {
+  if (geometry->occluded(ray)) {
+    // 衝突Primitiveをセット
+    info.hitPrimitive = this;
+    return true;
+  } else {
+    return false;
+  }
+}
+
 Bounds3 Primitive::getBounds() const { return geometry->getBounds(); }
 
 bool Primitive::isLight() const { return light != nullptr; }

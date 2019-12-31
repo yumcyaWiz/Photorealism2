@@ -21,6 +21,10 @@ class Primitive {
   // ワールド座標系のレイを受け取り、Geometryとの衝突計算を行う。結果をinfoに保存する。
   bool intersect(const Ray& ray, IntersectInfo& info) const;
 
+  // ワールド座標系のレイを受け取り、Geometryとの衝突判定を行う
+  // 衝突Primitiveのみがセットされる
+  bool occluded(const Ray& ray, IntersectInfo& info) const;
+
   Bounds3 getBounds() const;
 
   bool isLight() const;
