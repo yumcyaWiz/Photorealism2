@@ -25,19 +25,26 @@ class Primitive {
   // 衝突Primitiveのみがセットされる
   bool occluded(const Ray& ray, IntersectInfo& info) const;
 
+  // ワールド座標系のバウンディングボックスを取得する
   Bounds3 getBounds() const;
 
+  // 光源かどうか
   bool isLight() const;
 
+  // BRDFから方向をサンプリングする
   Real sampleBRDF(const Vec3& wo, const Vec3& n, Real lambda, Sampler& sampler,
                   Vec3& wi, Real& cos, Real& pdf) const;
+
+  // BRDFを計算する
   Real BRDF(const Vec3& wo, const Vec3& n, Real lambda, const Vec3& wi) const;
 
   const std::shared_ptr<Geometry>& getGeometry() const;
   const std::shared_ptr<Material>& getMaterial() const;
   const std::shared_ptr<Light>& getLight() const;
 
+  // Primitive IDを取得する (for embree intersector)
   unsigned int getID() const;
+  // Primitive IDをセットする (for embree intersector)
   void setID(unsigned int _id);
 
  private:
