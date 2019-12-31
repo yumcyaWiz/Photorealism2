@@ -16,6 +16,16 @@ bool Plane::intersect(const Ray& ray, IntersectInfo& info) const {
   return true;
 }
 
+bool Plane::occluded(const Ray& ray) const {
+  const Real t = -ray.origin[1] / ray.direction[1];
+  if (t < ray.tmin || t > ray.tmax || std::isnan(t)) return false;
+
+  const Vec3 hitPos = ray(t);
+  if (std::abs(hitPos.x()) > 0.5 || std::abs(hitPos.z()) > 0.5) return false;
+
+  return true;
+}
+
 void Plane::samplePoint(Sampler& sampler, Vec3& p, Vec3& n,
                         Real& pdf_area) const {
   const Vec2 u = sampler.getNext2D();

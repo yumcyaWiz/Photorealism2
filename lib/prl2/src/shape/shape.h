@@ -24,6 +24,9 @@ class Shape {
   // info : ローカル座標系の衝突情報
   virtual bool intersect(const Ray& ray, IntersectInfo& info) const = 0;
 
+  // 受け取ったレイとの衝突判定を行う
+  virtual bool occluded(const Ray& ray) const = 0;
+
   // ローカル座標系のバウンディングボックスを返す
   virtual Bounds3 getBounds() const = 0;
 

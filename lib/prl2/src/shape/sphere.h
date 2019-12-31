@@ -13,6 +13,8 @@ class Sphere : public Shape {
 
   bool intersect(const Ray& ray, IntersectInfo& info) const override;
 
+  bool occluded(const Ray& ray) const override;
+
   Bounds3 getBounds() const override;
 
   void samplePoint(Sampler& sampler, Vec3& p, Vec3& n,
