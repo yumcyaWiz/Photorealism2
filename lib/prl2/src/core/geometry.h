@@ -35,6 +35,9 @@ class Geometry {
     }
   };
 
+  // ワールド座標系のレイを受け取り、衝突判定を行う
+  bool occluded(const Ray& ray) const { return shape->occluded(ray); };
+
   // Geometry上の点をサンプリングする
   void samplePoint(Sampler& sampler, Vec3& p, Vec3& n, Real& pdf_area) const {
     // ローカル座標系でサンプリング
