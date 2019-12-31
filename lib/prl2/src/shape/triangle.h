@@ -17,10 +17,10 @@ struct TriangleMesh {
 
 class Triangle {
  public:
-  Triangle(unsigned int _face_index);
+  Triangle(TriangleMesh* _mesh, unsigned int _face_index);
 
  private:
-  TriangleMesh* mesh;             // TriangleMesh
+  const TriangleMesh* mesh;       // TriangleMesh
   const unsigned int face_index;  // TriangleMesh中の面インデックス
 };
 

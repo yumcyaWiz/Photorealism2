@@ -2,6 +2,7 @@
 
 namespace Prl2 {
 
-Triangle::Triangle(unsigned int _face_index) : face_index(_face_index) {}
+Triangle::Triangle(TriangleMesh* _mesh, unsigned int _face_index)
+    : mesh(_mesh), face_index(_face_index) {}
 
 }  // namespace Prl2
