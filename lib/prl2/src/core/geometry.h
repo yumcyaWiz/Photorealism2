@@ -36,7 +36,12 @@ class Geometry {
   };
 
   // ワールド座標系のレイを受け取り、衝突判定を行う
-  bool occluded(const Ray& ray) const { return shape->occluded(ray); };
+  bool occluded(const Ray& ray) const {
+    //レイをローカル座標系に変換
+    const Ray ray_local = localToWorld->applyInverse(ray);
+
+    return shape->occluded(ray_local);
+  }
 
   // Geometry上の点をサンプリングする
   void samplePoint(Sampler& sampler, Vec3& p, Vec3& n, Real& pdf_area) const {
