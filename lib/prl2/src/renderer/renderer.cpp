@@ -582,6 +582,8 @@ void Renderer::getLayersRGB(std::vector<float>& rgb) const {
     getAlbedosRGB(rgb);
   } else if (config.layer_type == LayerType::Normal) {
     getNormalsRGB(rgb);
+  } else if (config.layer_type == LayerType::UV) {
+    getUVsRGB(rgb);
   } else if (config.layer_type == LayerType::Position) {
     getPositionsRGB(rgb);
   } else if (config.layer_type == LayerType::Depth) {
