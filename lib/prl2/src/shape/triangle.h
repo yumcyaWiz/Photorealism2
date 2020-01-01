@@ -10,7 +10,7 @@ namespace Prl2 {
 struct TriangleMesh {
   unsigned int num_vertices;  // 頂点数
   unsigned int num_faces;     // 面の数
-  Real* vertices;             // 頂点配列
+  Real* vertices;             // 頂点座標
   Real* indices;              // 頂点インデックス配列
   Real* normals;              // 頂点法線
   Real* uvs;                  // 頂点UV
@@ -18,7 +18,7 @@ struct TriangleMesh {
 
 class Triangle : public Shape {
  public:
-  Triangle(TriangleMesh* _mesh, unsigned int _face_index);
+  Triangle(const TriangleMesh* _mesh, unsigned int _face_index);
 
   bool intersect(const Ray& ray, IntersectInfo& info) const override;
 
