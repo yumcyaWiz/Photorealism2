@@ -24,6 +24,11 @@ inline Vec3 sampleSphere(const Vec2& u) {
   return Vec3(r * std::cos(phi), z, r * std::sin(phi));
 }
 
+inline Vec2 sampleTriangle(const Vec2& u) {
+  const Real su = std::sqrt(u.x());
+  return Vec2(1 - su, u.y() * su);
+}
+
 inline Vec3 sampleHemisphere(const Vec2& u) {
   const Real z = u.x();
   const Real r = std::sqrt(std::max(0.0f, 1.0f - z * z));
