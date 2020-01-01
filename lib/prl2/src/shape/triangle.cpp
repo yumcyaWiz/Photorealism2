@@ -2,7 +2,8 @@
 
 namespace Prl2 {
 
-Triangle::Triangle(const TriangleMesh* _mesh, unsigned int _face_index)
+Triangle::Triangle(const std::shared_ptr<TriangleMesh>& _mesh,
+                   unsigned int _face_index)
     : mesh(_mesh), face_index(_face_index) {}
 
 bool Triangle::intersect(const Ray& ray, IntersectInfo& info) const {}

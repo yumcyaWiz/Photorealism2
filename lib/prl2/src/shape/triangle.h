@@ -1,6 +1,8 @@
 #ifndef _PRL2_TRIANGLE_H
 #define _PRL2_TRIANGLE_H
 
+#include <memory>
+
 #include "core/type.h"
 #include "shape/shape.h"
 
@@ -18,7 +20,8 @@ struct TriangleMesh {
 
 class Triangle : public Shape {
  public:
-  Triangle(const TriangleMesh* _mesh, unsigned int _face_index);
+  Triangle(const std::shared_ptr<TriangleMesh>& _mesh,
+           unsigned int _face_index);
 
   bool intersect(const Ray& ray, IntersectInfo& info) const override;
 
@@ -30,7 +33,7 @@ class Triangle : public Shape {
                    Real& pdf_area) const override;
 
  private:
-  const TriangleMesh* mesh;       // TriangleMesh
+  const std::shared_ptr<TriangleMesh> mesh;
   const unsigned int face_index;  // TriangleMesh中の面インデックス
 };
 
