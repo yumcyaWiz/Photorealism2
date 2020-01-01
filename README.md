@@ -11,7 +11,8 @@
 
 ## Requirements
 * CMake(>= 3.12)
-* [TBB](https://software.intel.com/en-us/tbb)
+* [Intel Open Image Denoise](https://openimagedenoise.github.io/) 
+* [Embree 3.6.1](https://www.embree.org/)
 
 ## Build
 
