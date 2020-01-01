@@ -3,22 +3,21 @@
 namespace Prl2 {
 
 Triangle::Triangle(const std::shared_ptr<TriangleMesh>& _mesh,
-                   unsigned int _face_index)
-    : mesh(_mesh), face_index(_face_index) {}
+                   unsigned int face_index)
+    : mesh(_mesh),
+      v0(_mesh->indices[3 * face_index]),
+      v1(_mesh->indices[3 * face_index + 1]),
+      v2(_mesh->indices[3 * face_index + 2]) {}
 
 // Möller–Trumbore intersection algorithm
 // https://www.wikiwand.com/en/M%C3%B6ller%E2%80%93Trumbore_intersection_algorithm
 bool Triangle::intersect(const Ray& ray, IntersectInfo& info) const {
-  const unsigned int f0 = mesh->indices[3 * face_index];
-  const unsigned int f1 = mesh->indices[3 * face_index + 1];
-  const unsigned int f2 = mesh->indices[3 * face_index + 2];
+  const Vec3& p0 = mesh->vertices[v0];
+  const Vec3& p1 = mesh->vertices[v1];
+  const Vec3& p2 = mesh->vertices[v2];
 
-  const Vec3& v0 = mesh->vertices[f0];
-  const Vec3& v1 = mesh->vertices[f1];
-  const Vec3& v2 = mesh->vertices[f2];
-
-  const Vec3 edge1 = v1 - v0;
-  const Vec3 edge2 = v2 - v0;
+  const Vec3 edge1 = p1 - p0;
+  const Vec3 edge2 = p2 - p0;
   const Vec3 h = cross(ray.direction, edge2);
 
   const Real a = dot(edge1, h);
@@ -52,9 +51,9 @@ bool Triangle::intersect(const Ray& ray, IntersectInfo& info) const {
 
   // compute normal
   if (mesh->normals) {
-    const Vec3& n0 = mesh->normals[f0];
-    const Vec3& n1 = mesh->normals[f1];
-    const Vec3& n2 = mesh->normals[f2];
+    const Vec3& n0 = mesh->normals[v0];
+    const Vec3& n1 = mesh->normals[v1];
+    const Vec3& n2 = mesh->normals[v2];
     info.hitNormal = lerp3(u, v, n0, n1, n2);
   } else {
     info.hitNormal = normalize(cross(edge1, edge2));
@@ -62,9 +61,9 @@ bool Triangle::intersect(const Ray& ray, IntersectInfo& info) const {
 
   // compute uv
   if (mesh->uvs) {
-    const Vec2& uv0 = mesh->uvs[f0];
-    const Vec2& uv1 = mesh->uvs[f1];
-    const Vec2& uv2 = mesh->uvs[f2];
+    const Vec2& uv0 = mesh->uvs[v0];
+    const Vec2& uv1 = mesh->uvs[v1];
+    const Vec2& uv2 = mesh->uvs[v2];
     info.uv = lerp3(u, v, uv0, uv1, uv2);
   } else {
     info.uv = Vec2(u, v);
@@ -74,16 +73,12 @@ bool Triangle::intersect(const Ray& ray, IntersectInfo& info) const {
 }
 
 bool Triangle::occluded(const Ray& ray) const {
-  const unsigned int f0 = mesh->indices[3 * face_index];
-  const unsigned int f1 = mesh->indices[3 * face_index + 1];
-  const unsigned int f2 = mesh->indices[3 * face_index + 2];
+  const Vec3& p0 = mesh->vertices[v0];
+  const Vec3& p1 = mesh->vertices[v1];
+  const Vec3& p2 = mesh->vertices[v2];
 
-  const Vec3& v0 = mesh->vertices[f0];
-  const Vec3& v1 = mesh->vertices[f1];
-  const Vec3& v2 = mesh->vertices[f2];
-
-  const Vec3 edge1 = v1 - v0;
-  const Vec3 edge2 = v2 - v0;
+  const Vec3 edge1 = p1 - p0;
+  const Vec3 edge2 = p2 - p0;
   const Vec3 h = cross(ray.direction, edge2);
 
   const Real a = dot(edge1, h);

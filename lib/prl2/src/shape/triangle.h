@@ -29,8 +29,8 @@ struct TriangleMesh {
 
 class Triangle : public Shape {
  public:
-  Triangle(const std::shared_ptr<TriangleMesh>& _mesh,
-           unsigned int _face_index);
+  // face_index: 面のインデックス
+  Triangle(const std::shared_ptr<TriangleMesh>& _mesh, unsigned int face_index);
 
   bool intersect(const Ray& ray, IntersectInfo& info) const override;
 
@@ -42,8 +42,10 @@ class Triangle : public Shape {
                    Real& pdf_area) const override;
 
  private:
-  const std::shared_ptr<TriangleMesh> mesh;
-  const unsigned int face_index;  // TriangleMesh中の面インデックス
+  const std::shared_ptr<TriangleMesh> mesh;  // Triangle Mesh
+  const unsigned int v0;                     // 頂点0のインデックス
+  const unsigned int v1;                     // 頂点1のインデックス
+  const unsigned int v2;                     // 頂点2のインデックス
 };
 
 }  // namespace Prl2
