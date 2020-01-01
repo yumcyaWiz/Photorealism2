@@ -34,6 +34,7 @@ inline std::ostream& operator<<(std::ostream& stream,
   stream << "t: " << info.t << std::endl;
   stream << "hitPos: " << info.hitPos << std::endl;
   stream << "hitNormal: " << info.hitNormal << std::endl;
+  stream << "uv: " << info.uv << std::endl;
   return stream;
 }
 
