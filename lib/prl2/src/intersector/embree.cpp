@@ -41,8 +41,8 @@ void RTCUserGeometryIntersect(const RTCIntersectFunctionNArguments* args) {
     RTCHitN_Ng_z(hitn, args->N, 0) = info.hitNormal.z();
 
     // uv
-    RTCHitN_u(hitn, args->N, 0) = 0;
-    RTCHitN_v(hitn, args->N, 0) = 0;
+    RTCHitN_u(hitn, args->N, 0) = info.uv.x();
+    RTCHitN_v(hitn, args->N, 0) = info.uv.y();
 
     // geom_id and prim_id
     RTCHitN_geomID(hitn, args->N, 0) = prim->getID();
@@ -135,6 +135,7 @@ bool EmbreeIntersector::intersect(const Ray& ray, IntersectInfo& info) const {
     info.t = rayhit.ray.tfar;
     info.hitPos = ray(info.t);
     info.hitNormal = Vec3(rayhit.hit.Ng_x, rayhit.hit.Ng_y, rayhit.hit.Ng_z);
+    info.uv = Vec2(rayhit.hit.u, rayhit.hit.v);
     info.hitPrimitive = primitives[rayhit.hit.geomID].get();
     return true;
   } else {
