@@ -91,6 +91,11 @@ void Renderer::renderPixel(int i, int j, Sampler& sampler) {
         layer.normal_sRGB[3 * i + 3 * config.width * j + 2] +=
             0.5f * (info.hitNormal.z() + 1.0f);
 
+        // UV LayerにsRGBを加算
+        layer.uv_sRGB[3 * i + 3 * config.width * j + 0] += info.uv.x();
+        layer.uv_sRGB[3 * i + 3 * config.width * j + 1] += info.uv.y();
+        layer.uv_sRGB[3 * i + 3 * config.width * j + 2] += 0;
+
         // Depth LayerにsRGBを加算
         layer.depth_sRGB[3 * i + 3 * config.width * j + 0] += info.t;
         layer.depth_sRGB[3 * i + 3 * config.width * j + 1] += info.t;
