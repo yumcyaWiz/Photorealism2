@@ -700,6 +700,20 @@ void Renderer::getNormalsRGB(std::vector<float>& rgb) const {
   }
 }
 
+void Renderer::getUVsRGB(std::vector<float>& rgb) const {
+  rgb.resize(3 * config.width * config.height);
+
+  for (int j = 0; j < config.height; ++j) {
+    for (int i = 0; i < config.width; ++i) {
+      const int index = 3 * i + 3 * config.width * j;
+      const int current_samples = layer.samples[i + config.width * j];
+      rgb[index + 0] = layer.uv_sRGB[index + 0] / current_samples;
+      rgb[index + 1] = layer.uv_sRGB[index + 1] / current_samples;
+      rgb[index + 2] = layer.uv_sRGB[index + 2] / current_samples;
+    }
+  }
+}
+
 void Renderer::getPositionsRGB(std::vector<float>& rgb) const {
   rgb.resize(3 * config.width * config.height);
 

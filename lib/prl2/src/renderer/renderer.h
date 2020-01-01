@@ -211,6 +211,9 @@ class Renderer {
   // Normal LayerをsRGBとして入手
   void getNormalsRGB(std::vector<float>& rgb) const;
 
+  // UV LayerをsRGBとして入手
+  void getUVsRGB(std::vector<float>& rgb) const;
+
   // Position LayerをsRGBとして入手
   void getPositionsRGB(std::vector<float>& rgb) const;
 
