@@ -15,6 +15,7 @@ enum class LayerType {
   Denoise,
   Albedo,
   Normal,
+  UV,
   Position,
   Depth,
   Sample
