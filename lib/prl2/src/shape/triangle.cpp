@@ -40,6 +40,7 @@ bool Triangle::intersect(const Ray& ray, IntersectInfo& info) const {
     return false;
   }
 
+  // compute hit distance
   const Real t = f * dot(edge2, q);
   if (t < ray.tmin || t > ray.tmax) {
     return false;
@@ -47,6 +48,13 @@ bool Triangle::intersect(const Ray& ray, IntersectInfo& info) const {
 
   info.t = t;
   info.hitPos = ray(t);
+
+  // compute normal
+  if (mesh->normals) {
+    const Vec3& n0 = mesh->normals[f0];
+    const Vec3& n1 = mesh->normals[f1];
+    const Vec3& n2 = mesh->normals[f2];
+  }
 
   return false;
 }

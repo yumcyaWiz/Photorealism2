@@ -44,14 +44,11 @@ bool Sphere::intersect(const Ray& ray, IntersectInfo& info) const {
   if (phi < 0) phi += PI_MUL_2;
   const Real theta = std::acos(std::clamp(hitPos.y(), -1.0f, 1.0f));
 
-  const Vec3 dpdu = Vec3(-PI_MUL_2 * hitPos.z(), 0, PI_MUL_2 * hitPos.x());
-  const Vec3 dpdv = PI * Vec3(hitPos.y() * std::cos(phi), -std::sin(theta),
-                              hitPos.y() * std::sin(phi));
-
   //衝突情報を格納
   info.t = t;
   info.hitPos = hitPos;
   info.hitNormal = normalize(info.hitPos);
+  info.uv = Vec2(phi * INV_PI_MUL_2, theta * INV_PI);
   return true;
 }
 

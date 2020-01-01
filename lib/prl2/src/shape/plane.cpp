@@ -11,8 +11,8 @@ bool Plane::intersect(const Ray& ray, IntersectInfo& info) const {
 
   info.t = t;
   info.hitPos = hitPos;
-  // info.hitNormal = -ray.direction.y() > 0 ? Vec3(0, 1, 0) : Vec3(0, -1, 0);
   info.hitNormal = Vec3(0, 1, 0);
+  info.uv = Vec2(hitPos.x() + 0.5f, hitPos.z() + 0.5f);
   return true;
 }
 
