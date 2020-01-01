@@ -16,6 +16,15 @@ struct TriangleMesh {
   unsigned int* indices;      // 頂点インデックス配列
   Vec3* normals;              // 頂点法線
   Vec2* uvs;                  // 頂点UV
+
+  TriangleMesh() {
+    num_vertices = 0;
+    num_faces = 0;
+    vertices = nullptr;
+    indices = nullptr;
+    normals = nullptr;
+    uvs = nullptr;
+  };
 };
 
 class Triangle : public Shape {
