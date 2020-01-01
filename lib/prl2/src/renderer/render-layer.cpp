@@ -7,6 +7,7 @@ RenderLayer::RenderLayer(const RenderConfig& config) {
   denoised_sRGB.resize(3 * config.width * config.height, 0);
   albedo_sRGB.resize(3 * config.width * config.height, 0);
   normal_sRGB.resize(3 * config.width * config.height, 0);
+  uv_sRGB.resize(3 * config.width * config.height, 0);
   depth_sRGB.resize(3 * config.width * config.height, 0);
   position_sRGB.resize(3 * config.width * config.height, 0);
   samples.resize(config.width * config.height, 1);
@@ -18,6 +19,7 @@ void RenderLayer::resize(int width, int height) {
   denoised_sRGB.resize(3 * width * height, 0);
   albedo_sRGB.resize(3 * width * height, 0);
   normal_sRGB.resize(3 * width * height, 0);
+  uv_sRGB.resize(3 * width * height, 0);
   depth_sRGB.resize(3 * width * height, 0);
   position_sRGB.resize(3 * width * height, 0);
   samples.resize(width * height, 1);
@@ -29,6 +31,7 @@ void RenderLayer::clear() {
   std::fill(denoised_sRGB.begin(), denoised_sRGB.end(), 0);
   std::fill(albedo_sRGB.begin(), albedo_sRGB.end(), 0);
   std::fill(normal_sRGB.begin(), normal_sRGB.end(), 0);
+  std::fill(uv_sRGB.begin(), uv_sRGB.end(), 0);
   std::fill(depth_sRGB.begin(), depth_sRGB.end(), 0);
   std::fill(position_sRGB.begin(), position_sRGB.end(), 0);
   std::fill(samples.begin(), samples.end(), 1);
@@ -51,6 +54,10 @@ void RenderLayer::clearPixel(int i, int j, int width, int height) {
   normal_sRGB[3 * i + 3 * width * j] = 0;
   normal_sRGB[3 * i + 3 * width * j + 1] = 0;
   normal_sRGB[3 * i + 3 * width * j + 2] = 0;
+
+  uv_sRGB[3 * i + 3 * width * j] = 0;
+  uv_sRGB[3 * i + 3 * width * j + 1] = 0;
+  uv_sRGB[3 * i + 3 * width * j + 2] = 0;
 
   depth_sRGB[3 * i + 3 * width * j] = 0;
   depth_sRGB[3 * i + 3 * width * j + 1] = 0;
