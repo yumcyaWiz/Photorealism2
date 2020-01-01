@@ -109,7 +109,21 @@ bool Triangle::occluded(const Ray& ray) const {
   return true;
 }
 
-Bounds3 Triangle::getBounds() const { return Bounds3(); }
+Bounds3 Triangle::getBounds() const {
+  const Vec3& p0 = mesh->vertices[v0];
+  const Vec3& p1 = mesh->vertices[v1];
+  const Vec3& p2 = mesh->vertices[v2];
+
+  const Real p0x = std::min(p0.x(), std::min(p1.x(), p2.x()));
+  const Real p0y = std::min(p0.y(), std::min(p1.y(), p2.y()));
+  const Real p0z = std::min(p0.z(), std::min(p1.z(), p2.z()));
+
+  const Real p1x = std::max(p0.x(), std::max(p1.x(), p2.x()));
+  const Real p1y = std::max(p0.y(), std::max(p1.y(), p2.y()));
+  const Real p1z = std::max(p0.z(), std::max(p1.z(), p2.z()));
+
+  return Bounds3(Vec3(p0x, p0y, p0z), Vec3(p1x, p1y, p1z));
+}
 
 void Triangle::samplePoint(Sampler& sampler, Vec3& p, Vec3& n,
                            Real& pdf_area) const {}
