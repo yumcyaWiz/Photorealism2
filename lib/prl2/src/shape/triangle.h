@@ -10,10 +10,10 @@ namespace Prl2 {
 struct TriangleMesh {
   unsigned int num_vertices;  // 頂点数
   unsigned int num_faces;     // 面の数
-  Real* vertices;             // 頂点座標
-  Real* indices;              // 頂点インデックス配列
-  Real* normals;              // 頂点法線
-  Real* uvs;                  // 頂点UV
+  Vec3* vertices;             // 頂点座標
+  unsigned int* indices;      // 頂点インデックス配列
+  Vec3* normals;              // 頂点法線
+  Vec2* uvs;                  // 頂点UV
 };
 
 class Triangle : public Shape {
