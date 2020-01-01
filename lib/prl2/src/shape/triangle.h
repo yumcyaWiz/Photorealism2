@@ -46,6 +46,8 @@ class Triangle : public Shape {
   const unsigned int v0;                     // 頂点0のインデックス
   const unsigned int v1;                     // 頂点1のインデックス
   const unsigned int v2;                     // 頂点2のインデックス
+
+  Real face_area;
 };
 
 }  // namespace Prl2

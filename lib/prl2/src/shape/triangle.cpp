@@ -1,5 +1,7 @@
 #include "shape/triangle.h"
 
+#include "sampler/sampling.h"
+
 namespace Prl2 {
 
 Triangle::Triangle(const std::shared_ptr<TriangleMesh>& _mesh,
@@ -7,7 +9,12 @@ Triangle::Triangle(const std::shared_ptr<TriangleMesh>& _mesh,
     : mesh(_mesh),
       v0(_mesh->indices[3 * face_index]),
       v1(_mesh->indices[3 * face_index + 1]),
-      v2(_mesh->indices[3 * face_index + 2]) {}
+      v2(_mesh->indices[3 * face_index + 2]) {
+  const Vec3& p0 = mesh->vertices[v0];
+  const Vec3& p1 = mesh->vertices[v0];
+  const Vec3& p2 = mesh->vertices[v0];
+  face_area = 0.5f * length(cross(p1 - p0, p2 - p0));
+}
 
 // Möller–Trumbore intersection algorithm
 // https://www.wikiwand.com/en/M%C3%B6ller%E2%80%93Trumbore_intersection_algorithm
@@ -126,6 +133,25 @@ Bounds3 Triangle::getBounds() const {
 }
 
 void Triangle::samplePoint(Sampler& sampler, Vec3& p, Vec3& n,
-                           Real& pdf_area) const {}
+                           Real& pdf_area) const {
+  const Vec3& p0 = mesh->vertices[v0];
+  const Vec3& p1 = mesh->vertices[v1];
+  const Vec3& p2 = mesh->vertices[v2];
+
+  const Vec2 uv = sampleTriangle(sampler.getNext2D());
+
+  p = lerp3(uv.x(), uv.y(), p0, p1, p2);
+
+  if (mesh->normals) {
+    const Vec3& n0 = mesh->normals[v0];
+    const Vec3& n1 = mesh->normals[v1];
+    const Vec3& n2 = mesh->normals[v2];
+    n = lerp3(uv.x(), uv.y(), n0, n1, n2);
+  } else {
+    n = normalize(cross(p1 - p0, p2 - p0));
+  }
+
+  pdf_area = 1 / face_area;
+}
 
 }  // namespace Prl2
