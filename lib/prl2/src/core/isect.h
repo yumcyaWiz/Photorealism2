@@ -6,6 +6,7 @@
 
 #include "core/ray.h"
 #include "core/type.h"
+#include "core/vec2.h"
 #include "core/vec3.h"
 
 namespace Prl2 {
@@ -17,14 +18,15 @@ struct IntersectInfo {
   Real t;                         // 衝突距離
   Vec3 hitPos;                    // 衝突位置
   Vec3 hitNormal;                 // 法線
+  Vec2 uv;                        // UV座標
   const Primitive* hitPrimitive;  // 衝突Primitiveへのポインタ
 
   IntersectInfo()
       : t(std::numeric_limits<Real>::max()),
         hitPos(Vec3()),
-        hitNormal(Vec3()){};
-  IntersectInfo(const Real& _t, const Vec3& _hitPos, const Vec3& _hitNormal)
-      : t(_t), hitPos(_hitPos), hitNormal(_hitNormal){};
+        hitNormal(Vec3()),
+        uv(Vec2()),
+        hitPrimitive(nullptr){};
 };
 
 inline std::ostream& operator<<(std::ostream& stream,
