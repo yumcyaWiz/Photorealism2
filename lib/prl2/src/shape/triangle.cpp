@@ -45,8 +45,9 @@ bool Triangle::intersect(const Ray& ray, IntersectInfo& info) const {
   if (t < ray.tmin || t > ray.tmax) {
     return false;
   }
-
   info.t = t;
+
+  // compute hit position
   info.hitPos = ray(t);
 
   // compute normal
@@ -54,9 +55,22 @@ bool Triangle::intersect(const Ray& ray, IntersectInfo& info) const {
     const Vec3& n0 = mesh->normals[f0];
     const Vec3& n1 = mesh->normals[f1];
     const Vec3& n2 = mesh->normals[f2];
+    info.hitNormal = lerp3(u, v, n0, n1, n2);
+  } else {
+    info.hitNormal = normalize(cross(edge1, edge2));
   }
 
-  return false;
+  // compute uv
+  if (mesh->uvs) {
+    const Vec2& uv0 = mesh->uvs[f0];
+    const Vec2& uv1 = mesh->uvs[f1];
+    const Vec2& uv2 = mesh->uvs[f2];
+    info.uv = lerp3(u, v, uv0, uv1, uv2);
+  } else {
+    info.uv = Vec2(u, v);
+  }
+
+  return true;
 }
 
 bool Triangle::occluded(const Ray& ray) const { return false; }
