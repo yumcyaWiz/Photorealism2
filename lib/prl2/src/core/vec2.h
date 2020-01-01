@@ -85,6 +85,11 @@ inline Real dot(const Vec2& v1, const Vec2& v2) {
 
 inline Vec2 normalize(const Vec2& v) { return v / length(v); }
 
+inline Vec2 lerp3(const Real& u, const Real& v, const Vec2& p0, const Vec2& p1,
+                  const Vec2& p2) {
+  return (1.0f - u - v) * p0 + u * p1 + v * p2;
+}
+
 inline std::ostream& operator<<(std::ostream& stream, const Vec2& v) {
   stream << "(" << v.x() << ", " << v.y() << ")";
   return stream;
