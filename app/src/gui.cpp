@@ -327,9 +327,9 @@ void GUI::drawRenderLayer(Render& render) {
   {
     // Layer選択ボタン
     static int e = 0;
-    if (ImGui::Combo(
-            "Layer", &e,
-            "Render\0Denoise\0Albedo\0Normal\0Position\0Depth\0Sample\0\0")) {
+    if (ImGui::Combo("Layer", &e,
+                     "Render\0Denoise\0Albedo\0Normal\0UV\0Position\0Depth\0Sam"
+                     "ple\0\0")) {
       if (e == 0) {
         render.renderer.setOutputLayer(Prl2::LayerType::Render);
       } else if (e == 1) {
@@ -339,10 +339,12 @@ void GUI::drawRenderLayer(Render& render) {
       } else if (e == 3) {
         render.renderer.setOutputLayer(Prl2::LayerType::Normal);
       } else if (e == 4) {
-        render.renderer.setOutputLayer(Prl2::LayerType::Position);
+        render.renderer.setOutputLayer(Prl2::LayerType::UV);
       } else if (e == 5) {
-        render.renderer.setOutputLayer(Prl2::LayerType::Depth);
+        render.renderer.setOutputLayer(Prl2::LayerType::Position);
       } else if (e == 6) {
+        render.renderer.setOutputLayer(Prl2::LayerType::Depth);
+      } else if (e == 7) {
         render.renderer.setOutputLayer(Prl2::LayerType::Sample);
       }
       update_texture = true;
