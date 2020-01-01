@@ -12,7 +12,7 @@
 ## Requirements
 * CMake(>= 3.12)
 * [Intel Open Image Denoise](https://openimagedenoise.github.io/) 
-* [Embree 3.6.1](https://www.embree.org/)
+* [Embree(3.6.1)](https://www.embree.org/)
 
 ## Build
 
