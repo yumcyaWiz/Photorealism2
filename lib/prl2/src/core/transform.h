@@ -147,7 +147,7 @@ class Transform {
 
   // Bounds3に対して変換を施す
   Bounds3 apply(const Bounds3& bounds) const {
-    return Bounds3(applyPoint(bounds.p1), applyPoint(bounds.p2));
+    return Bounds3(applyPoint(bounds.p0), applyPoint(bounds.p1));
   };
 };
 

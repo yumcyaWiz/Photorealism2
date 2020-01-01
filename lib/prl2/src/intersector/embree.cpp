@@ -61,12 +61,12 @@ void RTCUserGeometryBound(const RTCBoundsFunctionArguments* args) {
 
   // set bounds
   RTCBounds* bounds_o = args->bounds_o;
-  bounds_o->lower_x = bounds.p1.x();
-  bounds_o->lower_y = bounds.p1.y();
-  bounds_o->lower_z = bounds.p1.z();
-  bounds_o->upper_x = bounds.p2.x();
-  bounds_o->upper_y = bounds.p2.y();
-  bounds_o->upper_z = bounds.p2.z();
+  bounds_o->lower_x = bounds.p0.x();
+  bounds_o->lower_y = bounds.p0.y();
+  bounds_o->lower_z = bounds.p0.z();
+  bounds_o->upper_x = bounds.p1.x();
+  bounds_o->upper_y = bounds.p1.y();
+  bounds_o->upper_z = bounds.p1.z();
 }
 
 EmbreeIntersector::EmbreeIntersector() {
