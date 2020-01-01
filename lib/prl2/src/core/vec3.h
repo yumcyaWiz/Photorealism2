@@ -185,17 +185,14 @@ inline Vec3 clamp(const Vec3& v, const Vec3& vmin, const Vec3& vmax) {
 }
 
 // 正規直交基底を作る
+// Duff et al.
+// https://shikihuiku.wordpress.com/2018/07/09/%E6%AD%A3%E8%A6%8F%E7%9B%B4%E4%BA%A4%E5%9F%BA%E5%BA%95%E3%81%AE%E4%BD%9C%E3%82%8A%E6%96%B9%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E3%80%81%E6%94%B9%E3%82%81%E3%81%A6%E5%8B%89%E5%BC%B7%E3%81%97%E3%81%BE/
 inline void orthonormalBasis(const Vec3& n, Vec3& s, Vec3& t) {
-  if (n.z() < -0.9999999f) {
-    s = Vec3(0, -1, 0);
-    t = Vec3(-1, 0, 0);
-    return;
-  }
-
-  const Real a = 1.0f / (1.0f + n.z());
-  const Real b = -n.x() * n.y() * a;
-  s = Vec3(1.0f - n.x() * n.x() * a, b, -n.x());
-  t = Vec3(b, 1.0f - n.y() * n.y() * a, -n.y());
+  const Real sign = std::copysign(1.0f, n.z());
+  const Real a = -1.0f / (sign + n.z());
+  const Real b = n.x() * n.y() * a;
+  s = Vec3(1.0f + sign * n.x() * n.x() * a, sign * b, -sign * n.x());
+  t = Vec3(b, sign + n.y() * n.y() * a, -n.y());
 }
 
 }  // namespace Prl2
