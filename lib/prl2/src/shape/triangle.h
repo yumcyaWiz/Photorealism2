@@ -2,6 +2,7 @@
 #define _PRL2_TRIANGLE_H
 
 #include "core/type.h"
+#include "shape/shape.h"
 
 namespace Prl2 {
 
@@ -15,9 +16,18 @@ struct TriangleMesh {
   Real* uvs;                  // 頂点UV
 };
 
-class Triangle {
+class Triangle : public Shape {
  public:
   Triangle(TriangleMesh* _mesh, unsigned int _face_index);
+
+  bool intersect(const Ray& ray, IntersectInfo& info) const override;
+
+  bool occluded(const Ray& ray) const override;
+
+  Bounds3 getBounds() const override;
+
+  void samplePoint(Sampler& sampler, Vec3& p, Vec3& n,
+                   Real& pdf_area) const override;
 
  private:
   const TriangleMesh* mesh;       // TriangleMesh
