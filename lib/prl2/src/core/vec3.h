@@ -195,5 +195,10 @@ inline void orthonormalBasis(const Vec3& n, Vec3& s, Vec3& t) {
   t = Vec3(b, sign + n.y() * n.y() * a, -n.y());
 }
 
+inline Vec3 lerp3(const Real& u, const Real& v, const Vec3& p0, const Vec3& p1,
+                  const Vec3& p2) {
+  return (1.0f - u - v) * p0 + u * p1 + v * p2;
+}
+
 }  // namespace Prl2
 #endif
