@@ -23,3 +23,6 @@
 [submodule "app/extern/glm"]
 	path = app/extern/glm
 	url = git@github.com:g-truc/glm.git
+[submodule "lib/prl2/extern/tinyobjloader"]
+	path = lib/prl2/extern/tinyobjloader
+	url = git@github.com:syoyo/tinyobjloader.git
