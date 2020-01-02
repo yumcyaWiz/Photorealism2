@@ -46,3 +46,8 @@ find_package(OpenImageDenoise REQUIRED)
 find_package(embree 3.6.1 REQUIRED)
 target_include_directories(prl2 PUBLIC ${EMBREE_INCLUDE_DIRS})
 target_link_libraries(prl2 PUBLIC ${EMBREE_LIBRARY})
+
+# tinyobjloader
+add_library(tinyobjloader INTERFACE)
+target_compile_definitions(tinyobjloader INTERFACE TINYOBJLOADER_IMPLEMENTATION)
+target_include_directories(tinyobjloader INTERFACE tinyobjloader)
