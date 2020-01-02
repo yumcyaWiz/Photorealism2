@@ -52,7 +52,7 @@ class Primitive {
   const std::shared_ptr<Material> material;  // Material
   const std::shared_ptr<Light> light;        // Light
 
-  unsigned int id;
+  unsigned int id;  // (for embree intersector)
 };
 
 }  // namespace Prl2
