@@ -13,6 +13,8 @@
 
 namespace Prl2 {
 
+bool loadTriangleMeshFromObj(const std::string& filename);
+
 // シーンファイルを読み込み、Sceneクラスを作成する
 class SceneLoader {
  public:
