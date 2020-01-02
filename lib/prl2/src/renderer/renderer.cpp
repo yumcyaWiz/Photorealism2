@@ -31,8 +31,6 @@ void Renderer::loadConfig(const RenderConfig& _config) {
 
   // シーンファイルの読み込み
   if (!config.scene_file.empty()) {
-    SceneLoader sceneLoader;
-    sceneLoader.loadSceneFromToml(config.scene_file, scene);
   }
 
   // Skyの設定

@@ -18,10 +18,6 @@ class SceneLoader {
  public:
   SceneLoader(){};
 
-  // TomlからSceneを初期化する
-  // Shape, Material, Textureはこの中で生成される
-  void loadSceneFromToml(const std::string& filename, Scene& scene);
-
  private:
   //名前をキーとしてそれぞれのオブジェクトのポインタを格納する
   std::map<std::string, std::shared_ptr<Shape>> shape;         // Shapeの配列
