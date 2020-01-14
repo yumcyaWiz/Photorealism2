@@ -8,7 +8,7 @@ namespace Prl2 {
 
 class UniformSky : public Sky {
  public:
-  UniformSky(const SPD& spd) : spd(spd){};
+  UniformSky(const SPD& _spd) : spd(_spd) {}
 
   Real getRadiance(const Ray& ray) const override {
     return spd.sample(ray.lambda);
