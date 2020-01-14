@@ -9,14 +9,14 @@ HosekSky::HosekSky(const Vec3& _sunDirection, const Real& turbidity,
   cartesianToSpherical(sunDirection, solarElevation, _tmp);
   solarElevation = PI_DIV_2 - solarElevation;
 
-  for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
+  for (unsigned int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
     state[i] =
         arhosekskymodelstate_alloc_init(solarElevation, turbidity, albedo[i]);
   }
 }
 
 HosekSky::~HosekSky() {
-  for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
+  for (unsigned int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
     arhosekskymodelstate_free(state[i]);
   }
 }
