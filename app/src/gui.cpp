@@ -222,9 +222,9 @@ void GUI::drawRenderSettings(Render& render) {
 
   ImGui::Begin("Render Settings");
   {
-    int sx, sy;
+    unsigned int sx, sy;
     render.renderer.getImageSize(sx, sy);
-    static int size[2] = {sx, sy};
+    static int size[2] = {static_cast<int>(sx), static_cast<int>(sy)};
     if (ImGui::InputInt2("Image Size", size)) {
       render.renderer.setImageSize(size[0], size[1]);
       refresh_render = true;
@@ -351,7 +351,7 @@ void GUI::drawRenderLayer(Render& render) {
     }
 
     // Render Texture生成
-    int width, height;
+    unsigned int width, height;
     render.renderer.getImageSize(width, height);
 
     if (update_texture || render.isRendering()) {
