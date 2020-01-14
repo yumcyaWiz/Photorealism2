@@ -48,7 +48,7 @@ class Renderer {
   Real getRenderProgress() const;
 
   // レンダリングに要した時間を入手する
-  int getRenderingTime() const;
+  unsigned int getRenderingTime() const;
 
   // Render Settings
   // 出力サイズを入手する

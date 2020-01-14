@@ -335,7 +335,7 @@ RGB Renderer::getsRGB(unsigned int i, unsigned int j) const {
 }
 
 Vec3 Renderer::getNormal(unsigned int i, unsigned int j) const {
-  const int samples = layer.samples[i + config.width * j];
+  const unsigned int samples = layer.samples[i + config.width * j];
   const Real x =
       2.0f * (layer.normal_sRGB[3 * i + 3 * config.width * j] / samples - 0.5f);
   const Real y =
@@ -413,7 +413,7 @@ Real Renderer::getRenderProgress() const {
          (static_cast<Real>(config.width) * config.height * config.samples);
 }
 
-int Renderer::getRenderingTime() const { return rendering_time; }
+unsigned int Renderer::getRenderingTime() const { return rendering_time; }
 
 void Renderer::commitCamera() {
   const auto film = std::make_shared<Film>(
