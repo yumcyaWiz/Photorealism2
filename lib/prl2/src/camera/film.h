@@ -18,12 +18,12 @@ namespace Prl2 {
 // 0.5*height_length]で表される
 class Film {
  public:
-  unsigned int width;    //横幅
-  unsigned int height;   //縦幅
-  Real width_length;     //横の物理的長さ[m]
-  Real height_length;    //縦の物理的長さ[m]
-  Real diagonal_length;  //対角線の物理的長さ[m]
-  std::vector<SPD> pixels;
+  unsigned int width;       //横幅
+  unsigned int height;      //縦幅
+  Real width_length;        //横の物理的長さ[m]
+  Real height_length;       //縦の物理的長さ[m]
+  Real diagonal_length;     //対角線の物理的長さ[m]
+  std::vector<SPD> pixels;  //画素
 
   Film(unsigned int _width, unsigned int _height,
        const Real& _width_length = 0.0251f,
