@@ -7,23 +7,23 @@
 namespace Prl2 {
 
 // RGBの配列からPPM画像を保存する
-void writePPM(const std::string& filename, int width, int height,
+void writePPM(const std::string& filename, size_t width, size_t height,
               const std::vector<float>& rgb);
 
 // RGBの配列からPNG画像を保存する
-void writePNG(const std::string& filename, int width, int height,
+void writePNG(const std::string& filename, size_t width, size_t height,
               const std::vector<float>& rgb);
 
 // RGBの配列からEXR画像を保存する
-void writeEXR(const std::string& filename, int width, int height,
+void writeEXR(const std::string& filename, size_t width, size_t height,
               const std::vector<float>& rgb);
 
 // RGBの配列からHDR画像を保存する
-void writeHDR(const std::string& filename, int width, int height,
+void writeHDR(const std::string& filename, size_t width, size_t height,
               const std::vector<float>& rgb);
 
 // RGBの配列からPFM画像を保存する
-void writePFM(const std::string& filename, int width, int height,
+void writePFM(const std::string& filename, size_t width, size_t height,
               const std::vector<float>& rgb);
 
 }  // namespace Prl2

@@ -9,7 +9,7 @@
 
 namespace Prl2 {
 
-void writePPM(const std::string& filename, int width, int height,
+void writePPM(const std::string& filename, size_t width, size_t height,
               const std::vector<float>& rgb) {
   std::ofstream file(filename);
 
@@ -17,8 +17,8 @@ void writePPM(const std::string& filename, int width, int height,
   file << width << " " << height << std::endl;
   file << "255" << std::endl;
 
-  for (int j = 0; j < height; ++j) {
-    for (int i = 0; i < width; ++i) {
+  for (size_t j = 0; j < height; ++j) {
+    for (size_t i = 0; i < width; ++i) {
       const int r = std::clamp(
           static_cast<int>(255 * rgb[3 * i + 3 * width * j + 0]), 0, 255);
       const int g = std::clamp(
@@ -34,12 +34,12 @@ void writePPM(const std::string& filename, int width, int height,
   file.close();
 }
 
-void writePNG(const std::string& filename, int width, int height,
+void writePNG(const std::string& filename, size_t width, size_t height,
               const std::vector<float>& rgb) {
   // RGBを0-255に直す
   std::vector<unsigned char> image(3 * width * height);
-  for (int j = 0; j < height; ++j) {
-    for (int i = 0; i < width; ++i) {
+  for (size_t j = 0; j < height; ++j) {
+    for (size_t i = 0; i < width; ++i) {
       // R
       image[3 * i + 3 * width * j] = std::clamp(
           static_cast<unsigned char>(255 * rgb[3 * i + 3 * width * j]),
@@ -66,7 +66,7 @@ void writePNG(const std::string& filename, int width, int height,
 }
 
 // https://github.com/syoyo/tinyexr
-void writeEXR(const std::string& filename, int width, int height,
+void writeEXR(const std::string& filename, size_t width, size_t height,
               const std::vector<float>& rgb) {
   EXRHeader header;
   InitEXRHeader(&header);
@@ -81,7 +81,7 @@ void writeEXR(const std::string& filename, int width, int height,
   images[1].resize(width * height);
   images[2].resize(width * height);
 
-  for (int i = 0; i < width * height; ++i) {
+  for (size_t i = 0; i < width * height; ++i) {
     images[0][i] = rgb[3 * i + 0];
     images[1][i] = rgb[3 * i + 1];
     images[2][i] = rgb[3 * i + 2];
@@ -92,7 +92,7 @@ void writeEXR(const std::string& filename, int width, int height,
   image_ptr[1] = &(images[1].at(0));
   image_ptr[2] = &(images[0].at(0));
 
-  image.images = (unsigned char**)image_ptr;
+  image.images = reinterpret_cast<unsigned char**>(image_ptr);
   image.width = width;
   image.height = height;
 
@@ -126,7 +126,7 @@ void writeEXR(const std::string& filename, int width, int height,
   delete[] header.requested_pixel_types;
 }
 
-void writeHDR(const std::string& filename, int width, int height,
+void writeHDR(const std::string& filename, size_t width, size_t height,
               const std::vector<float>& rgb) {
   if (!stbi_write_hdr(filename.c_str(), width, height, 3, rgb.data())) {
     std::cerr << "Failed to save HDR file" << std::endl;
@@ -135,13 +135,13 @@ void writeHDR(const std::string& filename, int width, int height,
   }
 }
 
-void writePFM(const std::string& filename, int width, int height,
+void writePFM(const std::string& filename, size_t width, size_t height,
               const std::vector<float>& rgb) {
   // 逆さにした画像を生成
   std::vector<float> image(3 * width * height);
-  for (int j = 0; j < height; ++j) {
-    const int j2 = height - (j + 1);
-    for (int i = 0; i < width; ++i) {
+  for (size_t j = 0; j < height; ++j) {
+    const size_t j2 = height - (j + 1);
+    for (size_t i = 0; i < width; ++i) {
       image[3 * i + 3 * width * j] = rgb[3 * i + 3 * width * j2];
       image[3 * i + 3 * width * j + 1] = rgb[3 * i + 3 * width * j2 + 1];
       image[3 * i + 3 * width * j + 2] = rgb[3 * i + 3 * width * j2 + 2];
@@ -154,7 +154,7 @@ void writePFM(const std::string& filename, int width, int height,
   file << width << " " << height << std::endl;
   file << "-1.0" << std::endl;
   file.write(reinterpret_cast<const char*>(image.data()),
-             sizeof(float) * image.size());
+             static_cast<std::streamsize>(sizeof(float) * image.size()));
 
   std::cout << filename << " has been written out" << std::endl;
 
