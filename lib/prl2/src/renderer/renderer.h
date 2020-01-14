@@ -198,7 +198,7 @@ class Renderer {
   unsigned int rendering_time;  // レンダリングにかかった時間[ms]
 
   // (i, j)のレンダリングを行う
-  void renderPixel(unsigned int i, unsigned int j);
+  void renderPixel(unsigned int i, unsigned int j, Sampler& pixel_sampler);
 
   // Render LayerをsRGBとして入手
   void getRendersRGB(std::vector<float>& rgb) const;
