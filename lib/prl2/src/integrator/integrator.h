@@ -24,8 +24,8 @@ class Integrator {
   Integrator(){};
 
   // (i, j)の受け取る分光放射束を計算する
-  virtual bool integrate(int i, int j, const Scene& scene, Sampler& sampler,
-                         IntegratorResult& result) const = 0;
+  virtual bool integrate(unsigned int i, unsigned int j, const Scene& scene,
+                         Sampler& sampler, IntegratorResult& result) const = 0;
 
  protected:
   std::shared_ptr<Light> sampleLight(const Scene& scene,

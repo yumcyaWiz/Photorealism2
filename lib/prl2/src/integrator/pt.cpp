@@ -2,8 +2,8 @@
 
 namespace Prl2 {
 
-bool PT::integrate(int i, int j, const Scene& scene, Sampler& sampler,
-                   IntegratorResult& result) const {
+bool PT::integrate(unsigned int i, unsigned int j, const Scene& scene,
+                   Sampler& sampler, IntegratorResult& result) const {
   // フィルム上の点のサンプリング
   Vec2 pFilm = scene.camera->sampleFilm(i, j, sampler);
 

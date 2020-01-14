@@ -2,8 +2,8 @@
 
 namespace Prl2 {
 
-bool NEE::integrate(int i, int j, const Scene& scene, Sampler& sampler,
-                    IntegratorResult& result) const {
+bool NEE::integrate(unsigned int i, unsigned int j, const Scene& scene,
+                    Sampler& sampler, IntegratorResult& result) const {
   // フィルム上の点のサンプリング
   Vec2 pFilm = scene.camera->sampleFilm(i, j, sampler);
 

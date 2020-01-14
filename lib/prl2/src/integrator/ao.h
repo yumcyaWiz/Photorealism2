@@ -9,8 +9,8 @@ class AO : public Integrator {
  public:
   AO() : white(10 * D65Light()){};
 
-  bool integrate(int i, int j, const Scene& scene, Sampler& sampler,
-                 IntegratorResult& result) const override;
+  bool integrate(unsigned int i, unsigned int j, const Scene& scene,
+                 Sampler& sampler, IntegratorResult& result) const override;
 
  private:
   const SPD white;

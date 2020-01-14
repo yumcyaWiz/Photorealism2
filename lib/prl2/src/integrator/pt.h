@@ -8,10 +8,10 @@ namespace Prl2 {
 //純粋なPath Tracingを実装するクラス
 class PT : public Integrator {
  public:
-  PT(){};
+  PT() {}
 
-  bool integrate(int i, int j, const Scene& scene, Sampler& sampler,
-                 IntegratorResult& result) const override;
+  bool integrate(unsigned int i, unsigned int j, const Scene& scene,
+                 Sampler& sampler, IntegratorResult& result) const override;
 
  private:
   static constexpr int MAXDEPTH = 100;  // 最大反射回数
