@@ -15,7 +15,8 @@ class Parallel {
   // job: 並列化する対象の関数
   // nChunks: ループ分割数
   // n: ループ数
-  void parallelFor1D(const std::function<void(int)>& job, int nChunks, int n);
+  void parallelFor1D(const std::function<void(unsigned int)>& job,
+                     unsigned int nChunks, unsigned int n);
 
   // 二重For文を並列実行する
   // job: 並列化する対象の関数
@@ -23,8 +24,9 @@ class Parallel {
   // nChunks_y: Y方向のループ分割数
   // nx: X方向のループ数
   // ny: Y方向のループ数
-  void parallelFor2D(const std::function<void(int, int)>& job, int nChunks_x,
-                     int nChunks_y, int nx, int ny);
+  void parallelFor2D(const std::function<void(unsigned int, unsigned int)>& job,
+                     unsigned int nChunks_x, unsigned int nChunks_y,
+                     unsigned int nx, unsigned int ny);
 
  private:
   ThreadPool pool;
