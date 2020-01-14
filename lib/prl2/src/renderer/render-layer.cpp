@@ -14,7 +14,7 @@ RenderLayer::RenderLayer(const RenderConfig& config) {
   sample_sRGB.resize(3 * config.width * config.height, 0);
 }
 
-void RenderLayer::resize(int width, int height) {
+void RenderLayer::resize(unsigned int width, unsigned int height) {
   render_sRGB.resize(3 * width * height, 0);
   denoised_sRGB.resize(3 * width * height, 0);
   albedo_sRGB.resize(3 * width * height, 0);
@@ -38,7 +38,8 @@ void RenderLayer::clear() {
   std::fill(sample_sRGB.begin(), sample_sRGB.end(), 0);
 }
 
-void RenderLayer::clearPixel(int i, int j, int width, int height) {
+void RenderLayer::clearPixel(unsigned int i, unsigned int j, unsigned int width,
+                             unsigned int height) {
   render_sRGB[3 * i + 3 * width * j] = 0;
   render_sRGB[3 * i + 3 * width * j + 1] = 0;
   render_sRGB[3 * i + 3 * width * j + 2] = 0;

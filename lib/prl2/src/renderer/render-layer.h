@@ -17,13 +17,14 @@ struct RenderLayer {
   RenderLayer(const RenderConfig& config);
 
   // リサイズする
-  void resize(int width, int height);
+  void resize(unsigned int width, unsigned int height);
 
   // クリアする
   void clear();
 
   // 指定したピクセルのデータだけクリアする
-  void clearPixel(int i, int j, int width, int height);
+  void clearPixel(unsigned int i, unsigned int j, unsigned int width,
+                  unsigned int height);
 
   std::vector<Real> render_sRGB;  // レンダリング結果をsRGBにしたものを格納する
   std::vector<Real> denoised_sRGB;  // デノイズされたsRGBを格納する
