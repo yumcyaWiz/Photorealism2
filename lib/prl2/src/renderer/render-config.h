@@ -41,8 +41,8 @@ enum class IntegratorType { PT, NEE };
 struct RenderConfig {
   RenderConfig(){};
   // Render
-  int render_tiles_x = 16;  // X方向のレンダリングタイルの数
-  int render_tiles_y = 16;  // Y方向のレンダリングタイルの数
+  unsigned int render_tiles_x = 16;  // X方向のレンダリングタイルの数
+  unsigned int render_tiles_y = 16;  // Y方向のレンダリングタイルの数
 
   bool render_interactive =
       false;  // 画面全体を描画してからサンプルを蓄積するか
@@ -59,8 +59,8 @@ struct RenderConfig {
       1;  // https://docs.substance3d.com/spdoc/tone-mapping-162005358.html
 
   // Film
-  int width = 512;               //画像の横幅[px]
-  int height = 512;              //画像の縦幅[px]
+  unsigned int width = 512;      //画像の横幅[px]
+  unsigned int height = 512;     //画像の縦幅[px]
   Real width_length = 0.0251f;   //フィルムの横幅[m]
   Real height_length = 0.0251f;  //フィルムの縦幅[m]
 
@@ -102,7 +102,7 @@ struct RenderConfig {
   IntegratorType integrator_type;  // Integratorの種類
 
   // Renderer
-  int samples = 10;  //サンプル数
+  unsigned int samples = 10;  //サンプル数
 };
 
 }  // namespace Prl2
