@@ -38,7 +38,8 @@ class Renderer {
   void denoise();
 
   // 指定した画素のサンプルパスを生成する
-  void generatePath(int i, int j, std::vector<Ray>& path) const;
+  void generatePath(unsigned int i, unsigned int j,
+                    std::vector<Ray>& path) const;
 
   bool getRenderInteractive() const;
   void setRenderInteractive(bool realtime);
@@ -51,7 +52,7 @@ class Renderer {
 
   // Render Settings
   // 出力サイズを入手する
-  void getImageSize(int& sx, int& sy) const;
+  void getImageSize(unsigned int& sx, unsigned int& sy) const;
   // 出力サイズを変更する
   void setImageSize(unsigned int width, unsigned int height);
 
@@ -61,16 +62,16 @@ class Renderer {
   void setSamples(unsigned int samples);
 
   // レンダリングタイル数を入手する
-  void getRenderTiles(int& x, int& y) const;
+  void getRenderTiles(unsigned int& x, unsigned int& y) const;
   // レンダリングタイル数をセットする
-  void setRenderTiles(int x, int y);
+  void setRenderTiles(unsigned int x, unsigned int y);
 
   // (i, j)のsRGBを入手する
-  RGB getsRGB(int i, int j) const;
+  RGB getsRGB(unsigned int i, unsigned int j) const;
   // (i, j)のNormalを入手する
-  Vec3 getNormal(int i, int j) const;
+  Vec3 getNormal(unsigned int i, unsigned int j) const;
   // (i, j)のDepthを入手する
-  Real getDepth(int i, int j) const;
+  Real getDepth(unsigned int i, unsigned int j) const;
 
   // 出力レイヤーを入手する
   LayerType getOutputLayer() const;
@@ -148,7 +149,7 @@ class Renderer {
   void setThinLensCameraFocusDistance(float distance);
 
   // FilmにあるSPDを入手する
-  SPD getSPD(int i, int j) const;
+  SPD getSPD(unsigned int i, unsigned int j) const;
 
   // ConfigからCameraを初期化する
   void commitCamera();
@@ -194,10 +195,10 @@ class Renderer {
   Parallel pool;                           // Rendering Thhread Pool
 
   std::atomic<uint64_t> num_rendered_pixels;  // レンダリング済みのピクセル数
-  int rendering_time;  // レンダリングにかかった時間[ms]
+  unsigned int rendering_time;  // レンダリングにかかった時間[ms]
 
   // (i, j)のレンダリングを行う
-  void renderPixel(int i, int j, Sampler& sampler);
+  void renderPixel(unsigned int i, unsigned int j, Sampler& sampler);
 
   // Render LayerをsRGBとして入手
   void getRendersRGB(std::vector<float>& rgb) const;

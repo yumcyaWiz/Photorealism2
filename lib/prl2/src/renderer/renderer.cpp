@@ -70,7 +70,7 @@ void Renderer::loadConfig(const RenderConfig& _config) {
   integrator = std::make_shared<PT>();
 }
 
-void Renderer::renderPixel(int i, int j, Sampler& sampler) {
+void Renderer::renderPixel(unsigned int i, unsigned int j, Sampler& sampler) {
   // Primary Rayで計算できるものを計算
   {
     Vec2 pFilm = scene.camera->sampleFilm(i, j, sampler);
@@ -168,15 +168,15 @@ void Renderer::render(const std::atomic<bool>& cancel) {
     scene.camera->film->clear();
 
     // サンプル数のセット
-    for (int j = 0; j < config.height; ++j) {
-      for (int i = 0; i < config.width; ++i) {
+    for (unsigned int j = 0; j < config.height; ++j) {
+      for (unsigned int i = 0; i < config.width; ++i) {
         layer.samples[i + config.width * j] = config.samples;
       }
     }
 
     start_time = std::chrono::system_clock::now();
     pool.parallelFor2D(
-        [&](int i, int j) {
+        [&](unsigned int i, unsigned int j) {
           // Samplerを画素ごとに用意する
           const std::unique_ptr<Sampler> pixel_sampler =
               sampler->clone(i + config.width * j);
@@ -203,16 +203,16 @@ void Renderer::render(const std::atomic<bool>& cancel) {
     // Samplerを画素ごとに用意する
     std::vector<std::unique_ptr<Sampler>> samplers(config.width *
                                                    config.height);
-    for (int j = 0; j < config.height; ++j) {
-      for (int i = 0; i < config.width; ++i) {
+    for (unsigned int j = 0; j < config.height; ++j) {
+      for (unsigned int i = 0; i < config.width; ++i) {
         samplers[i + config.width * j] = sampler->clone(i + config.width * j);
       }
     }
 
     start_time = std::chrono::system_clock::now();
-    for (int k = 1; k <= config.samples; ++k) {
+    for (unsigned int k = 1; k <= config.samples; ++k) {
       pool.parallelFor2D(
-          [&](int i, int j) {
+          [&](unsigned int i, unsigned int j) {
             // Layer, Filmの初期化
             // 各スレッドでkが異なる可能性があるので、ここで初期化処理を行うと見た目が綺麗になる
             if (k == 1) {
@@ -308,7 +308,8 @@ void Renderer::setIntegratorType(const IntegratorType& type) {
   }
 }
 
-void Renderer::generatePath(int i, int j, std::vector<Ray>& path) const {
+void Renderer::generatePath(unsigned int i, unsigned int j,
+                            std::vector<Ray>& path) const {
   // Samplerを画素ごとに用意する
   const std::unique_ptr<Sampler> pixel_sampler =
       sampler->clone(i + config.width * j);
@@ -320,19 +321,19 @@ void Renderer::generatePath(int i, int j, std::vector<Ray>& path) const {
   path = result.rays;
 }
 
-SPD Renderer::getSPD(int i, int j) const {
+SPD Renderer::getSPD(unsigned int i, unsigned int j) const {
   return scene.camera->film->getPixel(i, j) /
          layer.samples[i + config.width * j];
 }
 
-RGB Renderer::getsRGB(int i, int j) const {
+RGB Renderer::getsRGB(unsigned int i, unsigned int j) const {
   const Real r = layer.render_sRGB[3 * i + 3 * config.width * j];
   const Real g = layer.render_sRGB[3 * i + 3 * config.width * j + 1];
   const Real b = layer.render_sRGB[3 * i + 3 * config.width * j + 2];
   return RGB(r, g, b);
 }
 
-Vec3 Renderer::getNormal(int i, int j) const {
+Vec3 Renderer::getNormal(unsigned int i, unsigned int j) const {
   const int samples = layer.samples[i + config.width * j];
   const Real x =
       2.0f * (layer.normal_sRGB[3 * i + 3 * config.width * j] / samples - 0.5f);
@@ -345,7 +346,7 @@ Vec3 Renderer::getNormal(int i, int j) const {
   return Vec3(x, y, z);
 }
 
-Real Renderer::getDepth(int i, int j) const {
+Real Renderer::getDepth(unsigned int i, unsigned int j) const {
   return layer.depth_sRGB[3 * i + 3 * config.width * j] /
          layer.samples[i + config.width * j];
 }
@@ -435,7 +436,7 @@ void Renderer::commitCamera() {
   }
 }
 
-void Renderer::getImageSize(int& sx, int& sy) const {
+void Renderer::getImageSize(unsigned int& sx, unsigned int& sy) const {
   sx = config.width;
   sy = config.height;
 }
@@ -451,12 +452,12 @@ unsigned int Renderer::getSamples() const { return config.samples; }
 
 void Renderer::setSamples(unsigned int samples) { config.samples = samples; }
 
-void Renderer::getRenderTiles(int& x, int& y) const {
+void Renderer::getRenderTiles(unsigned int& x, unsigned int& y) const {
   x = config.render_tiles_y;
   y = config.render_tiles_x;
 }
 
-void Renderer::setRenderTiles(int x, int y) {
+void Renderer::setRenderTiles(unsigned int x, unsigned int y) {
   config.render_tiles_x = x;
   config.render_tiles_y = y;
 }
@@ -613,8 +614,8 @@ void Renderer::saveLayer(const std::string& filename) const {
 void Renderer::getRendersRGB(std::vector<float>& rgb) const {
   rgb.resize(3 * config.width * config.height);
 
-  for (int j = 0; j < config.height; ++j) {
-    for (int i = 0; i < config.width; ++i) {
+  for (unsigned int j = 0; j < config.height; ++j) {
+    for (unsigned int i = 0; i < config.width; ++i) {
       RGB rgb_vec = RGB(layer.render_sRGB[3 * i + 3 * config.width * j],
                         layer.render_sRGB[3 * i + 3 * config.width * j + 1],
                         layer.render_sRGB[3 * i + 3 * config.width * j + 2]) /
@@ -644,8 +645,8 @@ void Renderer::getRendersRGB(std::vector<float>& rgb) const {
 void Renderer::getDenoisesRGB(std::vector<float>& rgb) const {
   rgb.resize(3 * config.width * config.height);
 
-  for (int j = 0; j < config.height; ++j) {
-    for (int i = 0; i < config.width; ++i) {
+  for (unsigned int j = 0; j < config.height; ++j) {
+    for (unsigned int i = 0; i < config.width; ++i) {
       RGB rgb_vec = RGB(layer.denoised_sRGB[3 * i + 3 * config.width * j],
                         layer.denoised_sRGB[3 * i + 3 * config.width * j + 1],
                         layer.denoised_sRGB[3 * i + 3 * config.width * j + 2]) /
@@ -675,10 +676,10 @@ void Renderer::getDenoisesRGB(std::vector<float>& rgb) const {
 void Renderer::getAlbedosRGB(std::vector<float>& rgb) const {
   rgb.resize(3 * config.width * config.height);
 
-  for (int j = 0; j < config.height; ++j) {
-    for (int i = 0; i < config.width; ++i) {
-      const int index = 3 * i + 3 * config.width * j;
-      const int current_samples = layer.samples[i + config.width * j];
+  for (unsigned int j = 0; j < config.height; ++j) {
+    for (unsigned int i = 0; i < config.width; ++i) {
+      const unsigned int index = 3 * i + 3 * config.width * j;
+      const unsigned int current_samples = layer.samples[i + config.width * j];
       rgb[index + 0] = layer.albedo_sRGB[index + 0] / current_samples;
       rgb[index + 1] = layer.albedo_sRGB[index + 1] / current_samples;
       rgb[index + 2] = layer.albedo_sRGB[index + 2] / current_samples;
@@ -689,10 +690,10 @@ void Renderer::getAlbedosRGB(std::vector<float>& rgb) const {
 void Renderer::getNormalsRGB(std::vector<float>& rgb) const {
   rgb.resize(3 * config.width * config.height);
 
-  for (int j = 0; j < config.height; ++j) {
-    for (int i = 0; i < config.width; ++i) {
-      const int index = 3 * i + 3 * config.width * j;
-      const int current_samples = layer.samples[i + config.width * j];
+  for (unsigned int j = 0; j < config.height; ++j) {
+    for (unsigned int i = 0; i < config.width; ++i) {
+      const unsigned int index = 3 * i + 3 * config.width * j;
+      const unsigned int current_samples = layer.samples[i + config.width * j];
       rgb[index + 0] = layer.normal_sRGB[index + 0] / current_samples;
       rgb[index + 1] = layer.normal_sRGB[index + 1] / current_samples;
       rgb[index + 2] = layer.normal_sRGB[index + 2] / current_samples;
@@ -703,10 +704,10 @@ void Renderer::getNormalsRGB(std::vector<float>& rgb) const {
 void Renderer::getUVsRGB(std::vector<float>& rgb) const {
   rgb.resize(3 * config.width * config.height);
 
-  for (int j = 0; j < config.height; ++j) {
-    for (int i = 0; i < config.width; ++i) {
-      const int index = 3 * i + 3 * config.width * j;
-      const int current_samples = layer.samples[i + config.width * j];
+  for (unsigned int j = 0; j < config.height; ++j) {
+    for (unsigned int i = 0; i < config.width; ++i) {
+      const unsigned int index = 3 * i + 3 * config.width * j;
+      const unsigned int current_samples = layer.samples[i + config.width * j];
       rgb[index + 0] = layer.uv_sRGB[index + 0] / current_samples;
       rgb[index + 1] = layer.uv_sRGB[index + 1] / current_samples;
       rgb[index + 2] = layer.uv_sRGB[index + 2] / current_samples;
@@ -717,10 +718,10 @@ void Renderer::getUVsRGB(std::vector<float>& rgb) const {
 void Renderer::getPositionsRGB(std::vector<float>& rgb) const {
   rgb.resize(3 * config.width * config.height);
 
-  for (int j = 0; j < config.height; ++j) {
-    for (int i = 0; i < config.width; ++i) {
-      const int index = 3 * i + 3 * config.width * j;
-      const int current_samples = layer.samples[i + config.width * j];
+  for (unsigned int j = 0; j < config.height; ++j) {
+    for (unsigned int i = 0; i < config.width; ++i) {
+      const unsigned int index = 3 * i + 3 * config.width * j;
+      const unsigned int current_samples = layer.samples[i + config.width * j];
       rgb[index + 0] = layer.position_sRGB[index + 0] / current_samples;
       rgb[index + 1] = layer.position_sRGB[index + 1] / current_samples;
       rgb[index + 2] = layer.position_sRGB[index + 2] / current_samples;
@@ -731,10 +732,10 @@ void Renderer::getPositionsRGB(std::vector<float>& rgb) const {
 void Renderer::getDepthsRGB(std::vector<float>& rgb) const {
   rgb.resize(3 * config.width * config.height);
 
-  for (int j = 0; j < config.height; ++j) {
-    for (int i = 0; i < config.width; ++i) {
-      const int index = 3 * i + 3 * config.width * j;
-      const int current_samples = layer.samples[i + config.width * j];
+  for (unsigned int j = 0; j < config.height; ++j) {
+    for (unsigned int i = 0; i < config.width; ++i) {
+      const unsigned int index = 3 * i + 3 * config.width * j;
+      const unsigned int current_samples = layer.samples[i + config.width * j];
       rgb[index + 0] = layer.depth_sRGB[index + 0] / current_samples;
       rgb[index + 1] = layer.depth_sRGB[index + 1] / current_samples;
       rgb[index + 2] = layer.depth_sRGB[index + 2] / current_samples;
@@ -745,10 +746,10 @@ void Renderer::getDepthsRGB(std::vector<float>& rgb) const {
 void Renderer::getSamplesRGB(std::vector<float>& rgb) const {
   rgb.resize(3 * config.width * config.height);
 
-  for (int j = 0; j < config.height; ++j) {
-    for (int i = 0; i < config.width; ++i) {
-      const int index = 3 * i + 3 * config.width * j;
-      const int current_samples = layer.samples[i + config.width * j];
+  for (unsigned int j = 0; j < config.height; ++j) {
+    for (unsigned int i = 0; i < config.width; ++i) {
+      const unsigned int index = 3 * i + 3 * config.width * j;
+      const unsigned int current_samples = layer.samples[i + config.width * j];
       rgb[index + 0] = layer.sample_sRGB[index + 0] / current_samples;
       rgb[index + 1] = layer.sample_sRGB[index + 1] / current_samples;
       rgb[index + 2] = layer.sample_sRGB[index + 2] / current_samples;
