@@ -119,7 +119,7 @@ inline Mat4 transpose(const Mat4& m) {
 
 inline std::ostream& operator<<(std::ostream& stream, const Mat4& m) {
   stream << "(";
-  for (int i = 0; i < 4; ++i) {
+  for (size_t i = 0; i < 4; ++i) {
     if (i != 3) {
       stream << m[i] << "," << std::endl;
     } else {
