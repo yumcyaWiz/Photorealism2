@@ -35,4 +35,8 @@ target_compile_options(prl2 PRIVATE
     $<$<CONFIG:Debug>: -g3 -O0 -pg -Werror -Weverything -Wno-c++98-compat -Wno-c++98-compat-pedantic>
     $<$<CONFIG:Release>: -O2 -ftree-vectorize -s -DNDEBUG -march=native -mtune=native>
   >
+  $<$<CXX_COMPILER_ID:MSVC>:
+    $<$<CONFIG:Debug>: /W4>
+    $<$<CONFIG:Release>: /O2>
+  >
 )
