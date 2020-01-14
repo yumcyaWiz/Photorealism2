@@ -38,62 +38,63 @@ class Film {
   };
 
   // (i, j)のSPDを入手
-  SPD getPixel(int i, int j) const {
-    assert(i >= 0 && i < static_cast<int>(width));
-    assert(j >= 0 && j < static_cast<int>(height));
+  SPD getPixel(unsigned int i, unsigned int j) const {
+    assert(i < width);
+    assert(j < height);
     return pixels[i + width * j];
   };
   //物理的位置からSPDを入手
   SPD getpixel(const Vec2& v) const {
-    int i, j;
+    unsigned int i, j;
     computeIndex(v, i, j);
-    assert(i >= 0 && i < static_cast<int>(width));
-    assert(j >= 0 && j < static_cast<int>(height));
+    assert(i < width);
+    assert(j < height);
     return pixels[i + width * j];
   };
 
   //(i, j)にSPDをセット
-  void setPixel(int i, int j, const SPD& spd) {
-    assert(i >= 0 && i < static_cast<int>(width));
-    assert(j >= 0 && j < static_cast<int>(height));
+  void setPixel(unsigned int i, unsigned int j, const SPD& spd) {
+    assert(i < width);
+    assert(j < height);
     pixels[i + width * j] = spd;
   };
   //物理的位置にSPDをセット
   void setPixel(const Vec2& v, const SPD& spd) {
-    int i, j;
+    unsigned int i, j;
     computeIndex(v, i, j);
-    assert(i >= 0 && i < static_cast<int>(width));
-    assert(j >= 0 && j < static_cast<int>(height));
+    assert(i < width);
+    assert(j < height);
     pixels[i + width * j] = spd;
   };
 
   //(i, j)にSPDを加算
-  void addPixel(int i, int j, const SPD& spd) {
-    assert(i >= 0 && i < static_cast<int>(width));
-    assert(j >= 0 && j < static_cast<int>(height));
+  void addPixel(unsigned int i, unsigned int j, const SPD& spd) {
+    assert(i < width);
+    assert(j < height);
     pixels[i + width * j] += spd;
   };
   //物理的位置にSPDを加算
   void addPixel(const Vec2& v, const SPD& spd) {
-    int i, j;
+    unsigned int i, j;
     computeIndex(v, i, j);
-    assert(i >= 0 && i < static_cast<int>(width));
-    assert(j >= 0 && j < static_cast<int>(height));
+    assert(i < width);
+    assert(j < height);
     pixels[i + width * j] += spd;
   }
 
   //(i, j)に分光放射束を加算
-  void addPixel(int i, int j, const Real& _lambda, const Real& _phi) {
-    assert(i >= 0 && i < static_cast<int>(width));
-    assert(j >= 0 && j < static_cast<int>(height));
+  void addPixel(unsigned int i, unsigned int j, const Real& _lambda,
+                const Real& _phi) {
+    assert(i < width);
+    assert(j < height);
     pixels[i + width * j].addPhi(_lambda, _phi);
   };
   //物理的位置に分光放射束を加算
   void addPixel(const Vec2& v, const Real& _lambda, const Real& _phi) {
-    int i, j;
+    unsigned int i, j;
     computeIndex(v, i, j);
-    assert(i >= 0 && i < static_cast<int>(width));
-    assert(j >= 0 && j < static_cast<int>(height));
+    assert(i < width);
+    assert(j < height);
     pixels[i + width * j].addPhi(_lambda, _phi);
   };
 
@@ -103,9 +104,9 @@ class Film {
   };
 
   //(i, j)をある値で割る
-  void divide(int i, int j, const Real& k) {
-    assert(i >= 0 && i < static_cast<int>(width));
-    assert(j >= 0 && j < static_cast<int>(height));
+  void divide(unsigned int i, unsigned int j, const Real& k) {
+    assert(i < width);
+    assert(j < height);
     pixels[i + width * j] /= k;
   };
   // フィルム全体をある値で割る
@@ -127,7 +128,9 @@ class Film {
   };
 
   // 指定したピクセルをクリア
-  void clearPixel(int i, int j) { pixels[i + width * j].clear(); }
+  void clearPixel(unsigned int i, unsigned int j) {
+    pixels[i + width * j].clear();
+  }
 
   // フィルムをリサイズ
   void resize(unsigned int _width, unsigned int _height) {
@@ -149,7 +152,7 @@ class Film {
 
  private:
   //物理的位置からインデックスを計算
-  void computeIndex(const Vec2& v, int& i, int& j) const {
+  void computeIndex(const Vec2& v, unsigned int& i, unsigned int& j) const {
     i = (v.x() + 0.5f * width_length) / width_length * width;
     j = (v.y() + 0.5f * height_length) / height_length * height;
   };
