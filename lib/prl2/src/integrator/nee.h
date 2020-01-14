@@ -4,7 +4,7 @@ namespace Prl2 {
 
 class NEE : public Integrator {
  public:
-  NEE() {}
+  NEE() noexcept {}
 
   bool integrate(unsigned int i, unsigned int j, const Scene& scene,
                  Sampler& sampler, IntegratorResult& result) const override;

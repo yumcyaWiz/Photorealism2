@@ -8,7 +8,7 @@ namespace Prl2 {
 //純粋なPath Tracingを実装するクラス
 class PT : public Integrator {
  public:
-  PT() {}
+  PT() noexcept {}
 
   bool integrate(unsigned int i, unsigned int j, const Scene& scene,
                  Sampler& sampler, IntegratorResult& result) const override;
