@@ -7,7 +7,7 @@
 namespace Prl2 {
 
 // Reinhard Tone Mapping
-float reinhardToneMapping(float luminance, float exposure) {
+inline float reinhardToneMapping(float luminance, float exposure) {
   return luminance * (1 + luminance / (exposure * exposure)) / (1 + luminance);
 }
 
