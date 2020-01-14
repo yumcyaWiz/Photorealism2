@@ -33,7 +33,7 @@ struct RenderLayer {
   std::vector<Real> uv_sRGB;  // UV座標をsRGBにしたものを格納する
   std::vector<Real> depth_sRGB;  // 深度をsRGBにしたものを格納する
   std::vector<Real> position_sRGB;  // 位置をsRGBにしたものを格納する
-  std::vector<int> samples;         // サンプル数を格納する
+  std::vector<unsigned int> samples;  // サンプル数を格納する
   std::vector<Real>
       sample_sRGB;  // 最初のサンプリング方向をsRGBにしたものを格納する
 };
