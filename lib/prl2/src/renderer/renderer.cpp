@@ -70,14 +70,14 @@ void Renderer::loadConfig(const RenderConfig& _config) {
   integrator = std::make_shared<PT>();
 }
 
-void Renderer::renderPixel(unsigned int i, unsigned int j, Sampler& sampler) {
+void Renderer::renderPixel(unsigned int i, unsigned int j) {
   // Primary Rayで計算できるものを計算
   {
-    Vec2 pFilm = scene.camera->sampleFilm(i, j, sampler);
+    Vec2 pFilm = scene.camera->sampleFilm(i, j, *sampler);
     Ray ray;
     ray.lambda = 550;
     Real camera_cos, camera_pdf;
-    if (scene.camera->generateRay(pFilm, sampler, ray, camera_cos,
+    if (scene.camera->generateRay(pFilm, *sampler, ray, camera_cos,
                                   camera_pdf)) {
       IntersectInfo info;
       if (scene.intersector->intersect(ray, info)) {
@@ -111,7 +111,7 @@ void Renderer::renderPixel(unsigned int i, unsigned int j, Sampler& sampler) {
         Vec3 wi;
         Real cos, pdf;
         info.hitPrimitive->sampleBRDF(-ray.direction, info.hitNormal,
-                                      ray.lambda, sampler, wi, cos, pdf);
+                                      ray.lambda, *sampler, wi, cos, pdf);
         layer.sample_sRGB[3 * i + 3 * config.width * j + 0] +=
             0.5f * (wi.x() + 1.0f);
         layer.sample_sRGB[3 * i + 3 * config.width * j + 1] +=
@@ -136,7 +136,7 @@ void Renderer::renderPixel(unsigned int i, unsigned int j, Sampler& sampler) {
   }
 
   IntegratorResult result;
-  if (integrator->integrate(i, j, scene, sampler, result)) {
+  if (integrator->integrate(i, j, scene, *sampler, result)) {
     if (!std::isnan(result.phi)) {
       // フィルムに分光放射束を加算
       scene.camera->film->addPixel(i, j, result.lambda, result.phi);
