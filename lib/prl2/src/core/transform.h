@@ -17,8 +17,8 @@ class Transform {
 
   Transform() : mat(identity()), invmat(identity()){};
   Transform(const Mat4& _mat, const Mat4& _invmat)
-      : mat(_mat), invmat(_invmat){};
-  Transform(const Transform& t) : mat(t.mat), invmat(t.invmat){};
+      : mat(_mat), invmat(_invmat) {}
+  Transform(const Transform& t) noexcept : mat(t.mat), invmat(t.invmat) {}
 
   Transform operator*(const Transform& t) const {
     const auto t2 = Transform(mat * t.mat, t.invmat * invmat);
