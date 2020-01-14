@@ -43,7 +43,7 @@ class Camera {
   void setCameraAroundLookAt(const Real& theta, const Real& phi);
 
   // 画素(i, j)内のフィルム上の点をサンプリングする
-  Vec2 sampleFilm(int i, int j, Sampler& sampler) const;
+  Vec2 sampleFilm(unsigned int i, unsigned int j, Sampler& sampler) const;
 
   //フィルム上の点pFilmにおけるレイを生成する
   // pFilmはフィルム上の物理的位置である
