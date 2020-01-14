@@ -37,7 +37,7 @@ class SPD {
   static constexpr Real LAMBDA_MAX = 780;
 
   //波長の分割数
-  static constexpr int LAMBDA_SAMPLES = 80;
+  static constexpr size_t LAMBDA_SAMPLES = 80;
 
   //分割された波長幅
   static constexpr Real LAMBDA_INTERVAL =
@@ -47,41 +47,41 @@ class SPD {
 
   // 0で初期化
   SPD() {
-    for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
+    for (size_t i = 0; i < LAMBDA_SAMPLES; ++i) {
       phi[i] = 0;
     }
-  };
+  }
 
   // ある値で初期化
   SPD(const Real& v) {
-    for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
+    for (size_t i = 0; i < LAMBDA_SAMPLES; ++i) {
       phi[i] = v;
     }
-  };
+  }
 
   //任意の波長と放射束のサンプリング列から等間隔のSPDを構築
   //波長と対応する放射束は昇順で並んでいると仮定している
   SPD(const std::vector<Real>& _lambda, const std::vector<Real>& _phi);
 
   // i番目の放射束を返す
-  Real operator[](int i) const {
-    assert(i >= 0 && i < SPD::LAMBDA_SAMPLES);
+  Real operator[](size_t i) const {
+    assert(i < SPD::LAMBDA_SAMPLES);
     return phi[i];
-  };
+  }
 
   // クリアする
   void clear() {
-    for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
+    for (size_t i = 0; i < LAMBDA_SAMPLES; ++i) {
       phi[i] = 0;
     }
-  };
+  }
 
   //分光放射束を加算する
   void addPhi(const Real& _lambda, const Real& _phi);
 
   //黒色か返す
   bool isBlack() const {
-    for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
+    for (size_t i = 0; i < LAMBDA_SAMPLES; ++i) {
       if (phi[i] != 0.0f) {
         return false;
       }
@@ -107,53 +107,53 @@ class SPD {
 
   //演算
   SPD& operator+=(const SPD& spd) {
-    for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
+    for (size_t i = 0; i < LAMBDA_SAMPLES; ++i) {
       phi[i] += spd.phi[i];
     }
     return *this;
-  };
+  }
   SPD& operator+=(const Real& k) {
-    for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
+    for (size_t i = 0; i < LAMBDA_SAMPLES; ++i) {
       phi[i] += k;
     }
     return *this;
-  };
+  }
   SPD& operator-=(const SPD& spd) {
-    for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
+    for (size_t i = 0; i < LAMBDA_SAMPLES; ++i) {
       phi[i] -= spd.phi[i];
     }
     return *this;
-  };
+  }
   SPD& operator-=(const Real& k) {
-    for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
+    for (size_t i = 0; i < LAMBDA_SAMPLES; ++i) {
       phi[i] -= k;
     }
     return *this;
-  };
+  }
   SPD& operator*=(const SPD& spd) {
-    for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
+    for (size_t i = 0; i < LAMBDA_SAMPLES; ++i) {
       phi[i] *= spd.phi[i];
     }
     return *this;
-  };
+  }
   SPD& operator*=(const Real& k) {
-    for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
+    for (size_t i = 0; i < LAMBDA_SAMPLES; ++i) {
       phi[i] *= k;
     }
     return *this;
-  };
+  }
   SPD& operator/=(const SPD& spd) {
-    for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
+    for (size_t i = 0; i < LAMBDA_SAMPLES; ++i) {
       phi[i] /= spd.phi[i];
     }
     return *this;
-  };
+  }
   SPD& operator/=(const Real& k) {
-    for (int i = 0; i < LAMBDA_SAMPLES; ++i) {
+    for (size_t i = 0; i < LAMBDA_SAMPLES; ++i) {
       phi[i] /= k;
     }
     return *this;
-  };
+  }
 
  private:
   //等色関数(CIE1931)
@@ -231,28 +231,28 @@ class SPD {
 //要素ごとに演算を行う
 inline SPD operator+(const SPD& spd1, const SPD& spd2) {
   SPD ret;
-  for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
+  for (size_t i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
     ret.phi[i] = spd1.phi[i] + spd2.phi[i];
   }
   return ret;
 }
 inline SPD operator-(const SPD& spd1, const SPD& spd2) {
   SPD ret;
-  for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
+  for (size_t i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
     ret.phi[i] = spd1.phi[i] - spd2.phi[i];
   }
   return ret;
 }
 inline SPD operator*(const SPD& spd1, const SPD& spd2) {
   SPD ret;
-  for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
+  for (size_t i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
     ret.phi[i] = spd1.phi[i] * spd2.phi[i];
   }
   return ret;
 }
 inline SPD operator/(const SPD& spd1, const SPD& spd2) {
   SPD ret;
-  for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
+  for (size_t i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
     ret.phi[i] = spd1.phi[i] / spd2.phi[i];
   }
   return ret;
@@ -261,44 +261,56 @@ inline SPD operator/(const SPD& spd1, const SPD& spd2) {
 // SPDとRealの演算
 inline SPD operator+(const SPD& spd, const Real& k) {
   SPD ret;
-  for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
+  for (size_t i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
     ret.phi[i] = spd.phi[i] + k;
   }
   return ret;
 }
-inline SPD operator+(const Real& k, const SPD& spd) { return spd + k; }
+inline SPD operator+(const Real& k, const SPD& spd) {
+  SPD ret;
+  for (size_t i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
+    ret.phi[i] = spd.phi[i] + k;
+  }
+  return ret;
+}
 inline SPD operator-(const SPD& spd, const Real& k) {
   SPD ret;
-  for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
+  for (size_t i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
     ret.phi[i] = spd.phi[i] - k;
   }
   return ret;
 }
 inline SPD operator-(const Real& k, const SPD& spd) {
   SPD ret;
-  for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
+  for (size_t i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
     ret.phi[i] = k - spd.phi[i];
   }
   return ret;
 }
 inline SPD operator*(const SPD& spd, const Real& k) {
   SPD ret;
-  for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
+  for (size_t i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
     ret.phi[i] = spd.phi[i] * k;
   }
   return ret;
 }
-inline SPD operator*(const Real& k, const SPD& spd) { return spd * k; }
+inline SPD operator*(const Real& k, const SPD& spd) {
+  SPD ret;
+  for (size_t i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
+    ret.phi[i] = spd.phi[i] * k;
+  }
+  return ret;
+}
 inline SPD operator/(const SPD& spd, const Real& k) {
   SPD ret;
-  for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
+  for (size_t i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
     ret.phi[i] = spd.phi[i] / k;
   }
   return ret;
 }
 inline SPD operator/(const Real& k, const SPD& spd) {
   SPD ret;
-  for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
+  for (size_t i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
     ret.phi[i] = k / spd.phi[i];
   }
   return ret;
@@ -313,7 +325,7 @@ inline SPD normalize(const SPD& spd) {
 // SPDの出力
 inline std::ostream& operator<<(std::ostream& stream, const SPD& spd) {
   stream << std::setw(12) << "lambda" << std::setw(12) << "phi" << std::endl;
-  for (int i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
+  for (size_t i = 0; i < SPD::LAMBDA_SAMPLES; ++i) {
     const Real lambda = SPD::LAMBDA_MIN + i * SPD::LAMBDA_INTERVAL;
     stream << std::setw(12) << lambda << std::setw(12) << spd.phi[i]
            << std::endl;
