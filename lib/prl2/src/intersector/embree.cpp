@@ -2,11 +2,12 @@
 
 namespace Prl2 {
 
-void RTCErrorFunction(void* userPtr, RTCError code, const char* str) {
+static void RTCErrorFunction(void* userPtr, RTCError code, const char* str) {
   fprintf(stderr, "error %d: %s", code, str);
 }
 
-void RTCUserGeometryIntersect(const RTCIntersectFunctionNArguments* args) {
+static void RTCUserGeometryIntersect(
+    const RTCIntersectFunctionNArguments* args) {
   const Primitive* prim =
       reinterpret_cast<const Primitive*>(args->geometryUserPtr);
 
@@ -52,7 +53,7 @@ void RTCUserGeometryIntersect(const RTCIntersectFunctionNArguments* args) {
   }
 }
 
-void RTCUserGeometryBound(const RTCBoundsFunctionArguments* args) {
+static void RTCUserGeometryBound(const RTCBoundsFunctionArguments* args) {
   const Primitive* prim =
       reinterpret_cast<const Primitive*>(args->geometryUserPtr);
 
