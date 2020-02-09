@@ -2,14 +2,14 @@
 #include <thread>
 
 #include "glad/glad.h"
-
+//
 #include "GLFW/glfw3.h"
+//
 
+#include "gui.h"
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
-
-#include "gui.h"
 #include "render.h"
 
 static void glfw_error_callback(int error, const char* desc) {
@@ -40,7 +40,7 @@ int main() {
   glfwSwapInterval(1);
 
   // GLADの初期化
-  if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+  if (!gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress))) {
     std::cerr << "failed to initialize glad" << std::endl;
     glfwTerminate();
     std::exit(EXIT_FAILURE);
