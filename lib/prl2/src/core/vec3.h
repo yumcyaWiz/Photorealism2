@@ -13,81 +13,81 @@ namespace Prl2 {
 
 class alignas(16) Vec3 {
  public:
-  explicit Vec3() { v[0] = v[1] = v[2] = 0; };
+  explicit Vec3() { v[0] = v[1] = v[2] = 0; }
   explicit Vec3(const Real& _x) {
     assert(!std::isnan(_x));
     v[0] = v[1] = v[2] = _x;
-  };
+  }
   explicit Vec3(const Real& _x, const Real& _y, const Real& _z) {
     assert(!std::isnan(_x) && !std::isnan(_y) && !std::isnan(_z));
     v[0] = _x;
     v[1] = _y;
     v[2] = _z;
-  };
+  }
 
   Real operator[](int i) const {
     assert(i >= 0 && i < 3);
     return v[i];
-  };
+  }
   Real& operator[](int i) {
     assert(i >= 0 && i < 3);
     return v[i];
-  };
+  }
 
-  Real x() const { return v[0]; };
-  Real y() const { return v[1]; };
-  Real z() const { return v[2]; };
+  Real x() const { return v[0]; }
+  Real y() const { return v[1]; }
+  Real z() const { return v[2]; }
 
-  Vec3 operator-() const { return Vec3(-x(), -y(), -z()); };
+  Vec3 operator-() const { return Vec3(-x(), -y(), -z()); }
 
   Vec3& operator+=(const Vec3& v2) {
     v[0] += v2.x();
     v[1] += v2.y();
     v[2] += v2.z();
     return *this;
-  };
+  }
   Vec3& operator+=(const Real& k) {
     v[0] += k;
     v[1] += k;
     v[2] += k;
     return *this;
-  };
+  }
   Vec3& operator-=(const Vec3& v2) {
     v[0] -= v2.x();
     v[1] -= v2.y();
     v[2] -= v2.z();
     return *this;
-  };
+  }
   Vec3& operator-=(const Real& k) {
     v[0] -= k;
     v[1] -= k;
     v[2] -= k;
     return *this;
-  };
+  }
   Vec3& operator*=(const Vec3& v2) {
     v[0] *= v2.x();
     v[1] *= v2.y();
     v[2] *= v2.z();
     return *this;
-  };
+  }
   Vec3& operator*=(const Real& k) {
     v[0] *= k;
     v[1] *= k;
     v[2] *= k;
     return *this;
-  };
+  }
   Vec3& operator/=(const Vec3& v2) {
     v[0] /= v2.x();
     v[1] /= v2.y();
     v[2] /= v2.z();
     return *this;
-  };
+  }
   Vec3& operator/=(const Real& k) {
     v[0] /= k;
     v[1] /= k;
     v[2] /= k;
     return *this;
-  };
+  }
 
  private:
   Real v[3];
