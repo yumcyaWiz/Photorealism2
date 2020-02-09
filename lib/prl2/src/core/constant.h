@@ -8,7 +8,7 @@
 
 namespace Prl2 {
 
-static constexpr Real PI = 3.141592653589793238462643383279;
+static constexpr Real PI = static_cast<Real>(3.141592653589793238462643383279);
 static constexpr Real PI_MUL_2 = PI * 2;
 static constexpr Real PI_MUL_4 = PI * 4;
 static constexpr Real PI_DIV_2 = PI / 2;
