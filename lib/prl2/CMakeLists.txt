@@ -32,7 +32,7 @@ target_compile_options(prl2 PRIVATE
     $<$<CONFIG:Release>: -O2 -ftree-vectorize -s -DNDEBUG -march=native -mtune=native>
   >
   $<$<CXX_COMPILER_ID:Clang>:
-    $<$<CONFIG:Debug>: -g3 -O0 -pg -Werror -Weverything -Wno-c++98-compat -Wno-c++98-compat-pedantic>
+    $<$<CONFIG:Debug>: -g3 -O0 -pg -Werror -Weverything -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-newline-eof>
     $<$<CONFIG:Release>: -O2 -ftree-vectorize -s -DNDEBUG -march=native -mtune=native>
   >
   $<$<CXX_COMPILER_ID:MSVC>:
