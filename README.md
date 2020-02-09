@@ -7,7 +7,8 @@
 * Realistic Camera Model
 * Path Tracing
 * Multi Importance Sampling
-* OBVH
+* OBVH Intersector
+* Embree Intersector
 
 ## Requirements
 * CMake(>= 3.12)
