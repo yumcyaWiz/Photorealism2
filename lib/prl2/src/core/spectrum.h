@@ -103,7 +103,7 @@ class SPD {
     XYZ xyz = this->toXYZ();
     RGB rgb = XYZ2RGB(xyz);
     return clamp(rgb, Vec3(0), Vec3(INF));
-  };
+  }
 
   //演算
   SPD& operator+=(const SPD& spd) {
