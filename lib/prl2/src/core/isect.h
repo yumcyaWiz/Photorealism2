@@ -26,7 +26,7 @@ struct IntersectInfo {
         hitPos(Vec3()),
         hitNormal(Vec3()),
         uv(Vec2()),
-        hitPrimitive(nullptr){};
+        hitPrimitive(nullptr) {}
 };
 
 inline std::ostream& operator<<(std::ostream& stream,
