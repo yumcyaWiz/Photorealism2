@@ -17,7 +17,7 @@ struct alignas(64) Mat4 {
         m[i][j] = 0;
       }
     }
-  };
+  }
   explicit Mat4(const Real& _x) {
     for (int i = 0; i < 4; ++i) {
       for (int j = 0; j < 4; ++j) {
@@ -54,7 +54,7 @@ struct alignas(64) Mat4 {
     m[3][1] = m31;
     m[3][2] = m32;
     m[3][3] = m33;
-  };
+  }
 
   Vec4 operator[](std::size_t i) const {
     if (i >= 4) {
@@ -63,7 +63,7 @@ struct alignas(64) Mat4 {
     } else {
       return Vec4(m[i][0], m[i][1], m[i][2], m[i][3]);
     }
-  };
+  }
 };
 
 inline Mat4 operator+(const Mat4& m1, const Mat4& m2) {
