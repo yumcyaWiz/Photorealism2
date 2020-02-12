@@ -15,7 +15,7 @@ class Transform {
   Mat4 mat;     //変換行列
   Mat4 invmat;  //逆変換行列
 
-  Transform() : mat(identity()), invmat(identity()){};
+  Transform() : mat(identity()), invmat(identity()) {}
   Transform(const Mat4& _mat, const Mat4& _invmat)
       : mat(_mat), invmat(_invmat) {}
   Transform(const Transform& t) noexcept : mat(t.mat), invmat(t.invmat) {}
@@ -23,13 +23,13 @@ class Transform {
   Transform operator*(const Transform& t) const {
     const auto t2 = Transform(mat * t.mat, t.invmat * invmat);
     return t2;
-  };
+  }
 
   Transform& operator=(const Transform& t) {
     mat = t.mat;
     invmat = t.invmat;
     return *this;
-  };
+  }
 
   // 方向ベクトルに対して変換を施す
   Vec3 applyDirection(const Vec3& v) const {
@@ -38,7 +38,7 @@ class Transform {
     ret[1] = mat.m[1][0] * v.x() + mat.m[1][1] * v.y() + mat.m[1][2] * v.z();
     ret[2] = mat.m[2][0] * v.x() + mat.m[2][1] * v.y() + mat.m[2][2] * v.z();
     return ret;
-  };
+  }
 
   // 方向ベクトルに対して逆変換を施す
   Vec3 applyDirectionInverse(const Vec3& v) const {
@@ -50,7 +50,7 @@ class Transform {
     ret[2] = invmat.m[2][0] * v.x() + invmat.m[2][1] * v.y() +
              invmat.m[2][2] * v.z();
     return ret;
-  };
+  }
 
   // 点ベクトルに対して変換を施す
   Vec3 applyPoint(const Vec3& v) const {
@@ -75,7 +75,7 @@ class Transform {
     }
 
     return ret;
-  };
+  }
   // 点ベクトルに対して逆変換を施す
   Vec3 applyPointInverse(const Vec3& v) const {
     Vec3 ret;
@@ -99,7 +99,7 @@ class Transform {
     }
 
     return ret;
-  };
+  }
 
   // 法線ベクトルに対して変換を施す
   Vec3 applyNormal(const Vec3& n) const {
@@ -112,7 +112,7 @@ class Transform {
              invmat.m[2][2] * n.z();
 
     return ret;
-  };
+  }
   // 法線ベクトルに対して逆変換を施す
   Vec3 applyNormalInverse(const Vec3& n) const {
     Vec3 ret;
@@ -120,7 +120,7 @@ class Transform {
     ret[1] = mat.m[0][1] * n.x() + mat.m[1][1] * n.y() + mat.m[2][1] * n.z();
     ret[2] = mat.m[0][2] * n.x() + mat.m[1][2] * n.y() + mat.m[2][2] * n.z();
     return ret;
-  };
+  }
 
   //レイに対して変換を施す
   Ray apply(const Ray& ray) const {
@@ -128,14 +128,14 @@ class Transform {
     ret.origin = applyPoint(ray.origin);
     ret.direction = applyDirection(ray.direction);
     return ret;
-  };
+  }
   //レイに対して逆変換を施す
   Ray applyInverse(const Ray& ray) const {
     Ray ret = ray;
     ret.origin = applyPointInverse(ray.origin);
     ret.direction = applyDirectionInverse(ray.direction);
     return ret;
-  };
+  }
 
   // IntersectInfoに対して変換を施す
   IntersectInfo apply(const IntersectInfo& isect) const {
@@ -143,12 +143,12 @@ class Transform {
     ret.hitPos = applyPoint(isect.hitPos);
     ret.hitNormal = normalize(applyNormal(isect.hitNormal));
     return ret;
-  };
+  }
 
   // Bounds3に対して変換を施す
   Bounds3 apply(const Bounds3& bounds) const {
     return Bounds3(applyPoint(bounds.p0), applyPoint(bounds.p1));
-  };
+  }
 };
 
 //移動変換を表す行列を返す
