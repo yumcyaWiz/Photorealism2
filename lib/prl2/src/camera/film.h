@@ -153,8 +153,10 @@ class Film {
  private:
   //物理的位置からインデックスを計算
   void computeIndex(const Vec2& v, unsigned int& i, unsigned int& j) const {
-    i = (v.x() + 0.5f * width_length) / width_length * width;
-    j = (v.y() + 0.5f * height_length) / height_length * height;
+    i = static_cast<unsigned int>((v.x() + 0.5f * width_length) / width_length *
+                                  width);
+    j = static_cast<unsigned int>((v.y() + 0.5f * height_length) /
+                                  height_length * height);
   }
 };
 
