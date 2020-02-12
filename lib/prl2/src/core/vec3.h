@@ -1,5 +1,5 @@
-#ifndef VEC3_H
-#define VEC3_H
+#ifndef PRL2_VEC3_H
+#define PRL2_VEC3_H
 
 #include <algorithm>
 #include <cassert>
