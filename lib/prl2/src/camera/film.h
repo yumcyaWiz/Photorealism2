@@ -35,14 +35,14 @@ class Film {
         diagonal_length(std::sqrt(width_length * width_length +
                                   height_length * height_length)) {
     pixels.resize(width * height);
-  };
+  }
 
   // (i, j)のSPDを入手
   SPD getPixel(unsigned int i, unsigned int j) const {
     assert(i < width);
     assert(j < height);
     return pixels[i + width * j];
-  };
+  }
   //物理的位置からSPDを入手
   SPD getpixel(const Vec2& v) const {
     unsigned int i, j;
@@ -50,14 +50,14 @@ class Film {
     assert(i < width);
     assert(j < height);
     return pixels[i + width * j];
-  };
+  }
 
   //(i, j)にSPDをセット
   void setPixel(unsigned int i, unsigned int j, const SPD& spd) {
     assert(i < width);
     assert(j < height);
     pixels[i + width * j] = spd;
-  };
+  }
   //物理的位置にSPDをセット
   void setPixel(const Vec2& v, const SPD& spd) {
     unsigned int i, j;
@@ -65,14 +65,14 @@ class Film {
     assert(i < width);
     assert(j < height);
     pixels[i + width * j] = spd;
-  };
+  }
 
   //(i, j)にSPDを加算
   void addPixel(unsigned int i, unsigned int j, const SPD& spd) {
     assert(i < width);
     assert(j < height);
     pixels[i + width * j] += spd;
-  };
+  }
   //物理的位置にSPDを加算
   void addPixel(const Vec2& v, const SPD& spd) {
     unsigned int i, j;
@@ -88,7 +88,7 @@ class Film {
     assert(i < width);
     assert(j < height);
     pixels[i + width * j].addPhi(_lambda, _phi);
-  };
+  }
   //物理的位置に分光放射束を加算
   void addPixel(const Vec2& v, const Real& _lambda, const Real& _phi) {
     unsigned int i, j;
@@ -96,19 +96,19 @@ class Film {
     assert(i < width);
     assert(j < height);
     pixels[i + width * j].addPhi(_lambda, _phi);
-  };
+  }
 
   //(u, v)の物理的な位置を計算
   Vec2 computePosition(const Real& u, const Real& v) const {
     return Vec2(u * 0.5f * width_length, v * 0.5f * height_length);
-  };
+  }
 
   //(i, j)をある値で割る
   void divide(unsigned int i, unsigned int j, const Real& k) {
     assert(i < width);
     assert(j < height);
     pixels[i + width * j] /= k;
-  };
+  }
   // フィルム全体をある値で割る
   void divide(const Real& k) {
     for (unsigned int j = 0; j < height; ++j) {
@@ -116,7 +116,7 @@ class Film {
         divide(i, j, k);
       }
     }
-  };
+  }
 
   // フィルム全体をクリア
   void clear() {
@@ -125,7 +125,7 @@ class Film {
         pixels[i + width * j].clear();
       }
     }
-  };
+  }
 
   // 指定したピクセルをクリア
   void clearPixel(unsigned int i, unsigned int j) {
@@ -137,7 +137,7 @@ class Film {
     width = _width;
     height = _height;
     pixels.resize(_width * _height);
-  };
+  }
 
   // フィルムの物理的長さをリサイズ
   void resizeLength(const Real& _width_length, const Real& _height_length) {
@@ -145,7 +145,7 @@ class Film {
     height_length = _height_length;
     diagonal_length =
         std::sqrt(width_length * width_length + height_length * height_length);
-  };
+  }
 
   // PPMを出力
   void writePPM(const std::string& filename) const;
@@ -155,7 +155,7 @@ class Film {
   void computeIndex(const Vec2& v, unsigned int& i, unsigned int& j) const {
     i = (v.x() + 0.5f * width_length) / width_length * width;
     j = (v.y() + 0.5f * height_length) / height_length * height;
-  };
+  }
 };
 
 }  // namespace Prl2
