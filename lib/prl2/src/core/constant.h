@@ -1,5 +1,5 @@
-#ifndef CONSTANT_H
-#define CONSTANT_H
+#ifndef PRL2_CONSTANT_H
+#define PRL2_CONSTANT_H
 
 #include <cmath>
 #include <limits>

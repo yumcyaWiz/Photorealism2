@@ -1,5 +1,5 @@
-#ifndef TRANSFORM_H
-#define TRANSFORM_H
+#ifndef PRL2_TRANSFORM_H
+#define PRL2_TRANSFORM_H
 
 #include "core/bounds3.h"
 #include "core/isect.h"

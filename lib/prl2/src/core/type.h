@@ -1,5 +1,5 @@
-#ifndef TYPE_H
-#define TYPE_H
+#ifndef PRL2_TYPE_H
+#define PRL2_TYPE_H
 
 namespace Prl2 {
 

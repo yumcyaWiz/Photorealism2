@@ -1,5 +1,5 @@
-#ifndef _PRL2_UTIL_H
-#define _PRL2_UTIL_H
+#ifndef PRL2_UTIL_H
+#define PRL2_UTIL_H
 
 #include <algorithm>
 #include <fstream>

@@ -1,5 +1,5 @@
-#ifndef _PRL2_BOUNDS3_H
-#define _PRL2_BOUNDS3_H
+#ifndef PRL2_BOUNDS3_H
+#define PRL2_BOUNDS3_H
 
 #include <iostream>
 

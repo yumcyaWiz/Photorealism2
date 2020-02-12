@@ -1,5 +1,5 @@
-#ifndef ISECT_H
-#define ISECT_H
+#ifndef PRL2_ISECT_H
+#define PRL2_ISECT_H
 
 #include <iostream>
 #include <limits>

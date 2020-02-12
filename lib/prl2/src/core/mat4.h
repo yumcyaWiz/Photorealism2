@@ -1,5 +1,5 @@
-#ifndef MAT4_H
-#define MAT4_H
+#ifndef PRL2_MAT4_H
+#define PRL2_MAT4_H
 
 #include <iostream>
 

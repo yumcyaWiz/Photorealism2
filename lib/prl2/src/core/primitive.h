@@ -1,5 +1,5 @@
-#ifndef PRIMITIVE_H
-#define PRIMITIVE_H
+#ifndef PRL2_PRIMITIVE_H
+#define PRL2_PRIMITIVE_H
 
 #include <memory>
 

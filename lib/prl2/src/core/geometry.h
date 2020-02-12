@@ -1,5 +1,5 @@
-#ifndef _PRL2_GEOMETRY_H
-#define _PRL2_GEOMETRY_H
+#ifndef PRL2_GEOMETRY_H
+#define PRL2_GEOMETRY_H
 
 #include <memory>
 

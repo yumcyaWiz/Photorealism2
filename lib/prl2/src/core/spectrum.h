@@ -1,5 +1,5 @@
-#ifndef SPECTRUM_H
-#define SPECTRUM_H
+#ifndef PRL2_SPECTRUM_H
+#define PRL2_SPECTRUM_H
 
 #include <algorithm>
 #include <array>

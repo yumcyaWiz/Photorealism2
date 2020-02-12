@@ -1,5 +1,5 @@
-#ifndef RAY_H
-#define RAY_H
+#ifndef PRL2_RAY_H
+#define PRL2_RAY_H
 
 #include <iostream>
 

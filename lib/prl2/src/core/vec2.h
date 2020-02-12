@@ -1,5 +1,5 @@
-#ifndef VEC2_H
-#define VEC2_H
+#ifndef PRL2_VEC2_H
+#define PRL2_VEC2_H
 
 #include <cassert>
 #include <cmath>
