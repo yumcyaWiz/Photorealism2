@@ -5,6 +5,7 @@
 #include "core/isect.h"
 #include "core/mat4.h"
 #include "core/ray.h"
+#include "core/util.h"
 #include "core/vec3.h"
 
 namespace Prl2 {
@@ -64,7 +65,7 @@ class Transform {
     const Real w = mat.m[3][0] * v.x() + mat.m[3][1] * v.y() +
                    mat.m[3][2] * v.z() + mat.m[3][3];
 
-    if (w == 1) {
+    if (equalf(w, 1)) {
       ret[0] = x;
       ret[1] = y;
       ret[2] = z;
@@ -88,7 +89,7 @@ class Transform {
     const Real w = invmat.m[3][0] * v.x() + invmat.m[3][1] * v.y() +
                    invmat.m[3][2] * v.z() + invmat.m[3][3];
 
-    if (w == 1) {
+    if (equalf(w, 1)) {
       ret[0] = x;
       ret[1] = y;
       ret[2] = z;
