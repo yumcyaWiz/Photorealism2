@@ -5,3 +5,4 @@ build/
 *.ini
 ext/*
 !ext/glad
+!img.png
