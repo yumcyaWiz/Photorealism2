@@ -15,9 +15,25 @@ Full-Spectral Physically Based Renderer with GUI.
 * Embree Intersector
 
 ## Requirements
+
 * CMake(>= 3.12)
 * [Intel Open Image Denoise](https://openimagedenoise.github.io/) 
-* [Embree(3.6.1)](https://www.embree.org/)
+* [Embree(>= 3.0)](https://www.embree.org/)
+
+## Setup Externals
+
+```zsh
+git submodule update --init
+```
+
+## Configure CMake
+
+If you use manually installed Intel Open Image Denoise and Embree, you need to set `OpenImageDenoise_DIR` and `embree_DIR` to path of manually installed libraries.
+
+Below is an example.
+```zsh
+cmake -Dembree_DIR=/opt/embree -DOpenImageDenoise_DIR=/opt/oidn/lib/cmake/OpenImageDenoise ..
+```
 
 ## Build
 
