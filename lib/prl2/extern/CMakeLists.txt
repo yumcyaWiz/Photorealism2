@@ -1,17 +1,11 @@
 # HosekWilkie
-add_library(hosek
-  HosekWilkie/ArHosekSkyModel.c
-)
-target_include_directories(hosek SYSTEM PUBLIC
-  HosekWilkie
-)
+add_library(hosek HosekWilkie/ArHosekSkyModel.c)
+target_include_directories(hosek SYSTEM PUBLIC HosekWilkie)
 target_compile_features(hosek PRIVATE c_std_99)
 
 # ThreadPool
 add_library(pool INTERFACE)
-target_include_directories(pool SYSTEM INTERFACE
-  ThreadPool
-)
+target_include_directories(pool SYSTEM INTERFACE ThreadPool)
 
 # stb
 add_library(stb INTERFACE)
@@ -19,33 +13,12 @@ target_compile_definitions(stb INTERFACE
   STB_IMAGE_IMPLEMENTATION
   STB_IMAGE_WRITE_IMPLEMENTATION
 )
-target_include_directories(stb SYSTEM INTERFACE
-  stb
-)
+target_include_directories(stb SYSTEM INTERFACE stb)
 
 # tinyexr
 add_library(tinyexr INTERFACE)
-target_compile_definitions(tinyexr INTERFACE
-  TINYEXR_IMPLEMENTATION
-)
-target_include_directories(tinyexr SYSTEM INTERFACE
-  tinyexr
-)
-
-# tbb
-# include(tbb/cmake/TBBBuild.cmake)
-# tbb_build(TBB_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/tbb CONFIG_DIR TBB_DIR)
-# find_package(TBB REQUIRED)
-
-# Intel Open Image Denoise
-# set(OIDN_STATIC_LIB ON CACHE BOOL "" FORCE)
-# add_subdirectory(oidn)
-find_package(OpenImageDenoise REQUIRED)
-
-# Embree3
-find_package(embree 3 REQUIRED)
-target_include_directories(prl2 SYSTEM PUBLIC ${EMBREE_INCLUDE_DIRS})
-target_link_libraries(prl2 PUBLIC ${EMBREE_LIBRARY})
+target_compile_definitions(tinyexr INTERFACE TINYEXR_IMPLEMENTATION)
+target_include_directories(tinyexr SYSTEM INTERFACE tinyexr)
 
 # tinyobjloader
 add_library(tinyobjloader INTERFACE)

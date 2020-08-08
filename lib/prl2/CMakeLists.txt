@@ -1,13 +1,31 @@
 cmake_minimum_required(VERSION 3.13..3.15)
 cmake_policy(SET CMP0076 NEW)
 
-#pthread
+# pthread
 find_package(Threads REQUIRED)
 
-#prl2
+# prl2
 add_library(prl2)
 add_subdirectory(src)
+
+# externals
 add_subdirectory(extern)
+
+# OpenImageDenoise
+find_package(OpenImageDenoise REQUIRED)
+if (${OpenImageDenoise_FOUND})
+  message(STATUS "Found OpenImageDenoise")
+else()
+  message(FATAL_ERROR "Could not find OpenImageDenoise")
+endif()
+
+# Embree3
+find_package(embree 3.0 REQUIRED)
+if (${embree_FOUND})
+  message(STATUS "Found Embree")
+else()
+  message(FATAL_ERROR "Could not find Embree")
+endif()
 
 # Include
 target_include_directories(prl2 PUBLIC src)
@@ -19,6 +37,7 @@ target_link_libraries(prl2 PUBLIC hosek)
 target_link_libraries(prl2 PUBLIC stb)
 target_link_libraries(prl2 PUBLIC tinyexr)
 target_link_libraries(prl2 PUBLIC OpenImageDenoise)
+target_link_libraries(prl2 PUBLIC embree)
 target_link_libraries(prl2 PUBLIC tinyobjloader)
 
 #compile settings
